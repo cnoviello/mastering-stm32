@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file      startup_stm32f302x8.s
+  * @file      startup_stm32f334x8.s
   * @author    MCD Application Team
   * @version   V2.2.0
   * @date      13-November-2015
-  * @brief     STM32F302x6/STM32F302x8 devices vector table for 
+  * @brief     STM32F334x4/STM32F334x6/STM32F334x8 devices vector table for 
   *            Atollic TrueSTUDIO toolchain.
   *            This module performs:
   *                - Set the initial SP
@@ -171,9 +171,9 @@ g_pfnVectors:
 	.word	DMA1_Channel5_IRQHandler
 	.word	DMA1_Channel6_IRQHandler
 	.word	DMA1_Channel7_IRQHandler
-	.word	ADC1_IRQHandler
-	.word	USB_HP_CAN_TX_IRQHandler
-	.word	USB_LP_CAN_RX0_IRQHandler
+	.word	ADC1_2_IRQHandler
+	.word	CAN_TX_IRQHandler
+	.word	CAN_RX0_IRQHandler
 	.word	CAN_RX1_IRQHandler
 	.word	CAN_SCE_IRQHandler
 	.word	EXTI9_5_IRQHandler
@@ -182,20 +182,19 @@ g_pfnVectors:
 	.word	TIM1_TRG_COM_TIM17_IRQHandler
 	.word	TIM1_CC_IRQHandler
 	.word	TIM2_IRQHandler
-	.word	0
+	.word	TIM3_IRQHandler
 	.word	0
 	.word	I2C1_EV_IRQHandler
 	.word	I2C1_ER_IRQHandler
-	.word	I2C2_EV_IRQHandler
-	.word	I2C2_ER_IRQHandler
 	.word	0
-	.word	SPI2_IRQHandler
+	.word	0
+	.word	SPI1_IRQHandler
+	.word	0
 	.word	USART1_IRQHandler
 	.word	USART2_IRQHandler
 	.word	USART3_IRQHandler
 	.word	EXTI15_10_IRQHandler
 	.word	RTC_Alarm_IRQHandler
-	.word	USBWakeUp_IRQHandler
 	.word	0
 	.word	0
 	.word	0
@@ -204,11 +203,12 @@ g_pfnVectors:
 	.word	0
 	.word	0
 	.word	0
-	.word	SPI3_IRQHandler
 	.word	0
 	.word	0
-	.word	TIM6_DAC_IRQHandler
 	.word	0
+	.word	0
+	.word	TIM6_DAC1_IRQHandler
+	.word	TIM7_DAC2_IRQHandler
 	.word	0
 	.word	0
 	.word	0
@@ -220,16 +220,16 @@ g_pfnVectors:
 	.word	COMP2_IRQHandler
 	.word	COMP4_6_IRQHandler
 	.word	0
+	.word	HRTIM1_Master_IRQHandler
+	.word	HRTIM1_TIMA_IRQHandler
+	.word	HRTIM1_TIMB_IRQHandler
+	.word	HRTIM1_TIMC_IRQHandler
+	.word	HRTIM1_TIMD_IRQHandler
+	.word	HRTIM1_TIME_IRQHandler
+	.word	HRTIM1_FLT_IRQHandler
 	.word	0
 	.word	0
 	.word	0
-	.word	0
-	.word	0
-	.word	I2C3_EV_IRQHandler
-	.word	I2C3_ER_IRQHandler
-	.word	USB_HP_IRQHandler
-	.word	USB_LP_IRQHandler
-	.word	USBWakeUp_RMP_IRQHandler
 	.word	0
 	.word	0
 	.word	0
@@ -325,14 +325,14 @@ g_pfnVectors:
 	.weak	DMA1_Channel7_IRQHandler
 	.thumb_set DMA1_Channel7_IRQHandler,Default_Handler
 
-	.weak	ADC1_IRQHandler
-	.thumb_set ADC1_IRQHandler,Default_Handler
+	.weak	ADC1_2_IRQHandler
+	.thumb_set ADC1_2_IRQHandler,Default_Handler
 
-	.weak	USB_HP_CAN_TX_IRQHandler
-	.thumb_set USB_HP_CAN_TX_IRQHandler,Default_Handler
+	.weak	CAN_TX_IRQHandler
+	.thumb_set CAN_TX_IRQHandler,Default_Handler
 
-	.weak	USB_LP_CAN_RX0_IRQHandler
-	.thumb_set USB_LP_CAN_RX0_IRQHandler,Default_Handler
+	.weak	CAN_RX0_IRQHandler
+	.thumb_set CAN_RX0_IRQHandler,Default_Handler
 
 	.weak	CAN_RX1_IRQHandler
 	.thumb_set CAN_RX1_IRQHandler,Default_Handler
@@ -358,20 +358,17 @@ g_pfnVectors:
 	.weak	TIM2_IRQHandler
 	.thumb_set TIM2_IRQHandler,Default_Handler
 
+	.weak	TIM3_IRQHandler
+	.thumb_set TIM3_IRQHandler,Default_Handler
+
 	.weak	I2C1_EV_IRQHandler
 	.thumb_set I2C1_EV_IRQHandler,Default_Handler
 
 	.weak	I2C1_ER_IRQHandler
 	.thumb_set I2C1_ER_IRQHandler,Default_Handler
 
-	.weak	I2C2_EV_IRQHandler
-	.thumb_set I2C2_EV_IRQHandler,Default_Handler
-
-	.weak	I2C2_ER_IRQHandler
-	.thumb_set I2C2_ER_IRQHandler,Default_Handler
-
-	.weak	SPI2_IRQHandler
-	.thumb_set SPI2_IRQHandler,Default_Handler
+	.weak	SPI1_IRQHandler
+	.thumb_set SPI1_IRQHandler,Default_Handler
 
 	.weak	USART1_IRQHandler
 	.thumb_set USART1_IRQHandler,Default_Handler
@@ -388,35 +385,38 @@ g_pfnVectors:
 	.weak	RTC_Alarm_IRQHandler
 	.thumb_set RTC_Alarm_IRQHandler,Default_Handler
 
-	.weak	USBWakeUp_IRQHandler
-	.thumb_set USBWakeUp_IRQHandler,Default_Handler
+	.weak	TIM6_DAC1_IRQHandler
+	.thumb_set TIM6_DAC1_IRQHandler,Default_Handler
 
-	.weak	SPI3_IRQHandler
-	.thumb_set SPI3_IRQHandler,Default_Handler
-
-	.weak	TIM6_DAC_IRQHandler
-	.thumb_set TIM6_DAC_IRQHandler,Default_Handler
+	.weak	TIM7_DAC2_IRQHandler
+	.thumb_set TIM7_DAC2_IRQHandler,Default_Handler
 	
 	.weak	COMP2_IRQHandler
 	.thumb_set COMP2_IRQHandler,Default_Handler
 	
 	.weak	COMP4_6_IRQHandler
 	.thumb_set COMP4_6_IRQHandler,Default_Handler
+	
+	.weak	HRTIM1_Master_IRQHandler
+	.thumb_set HRTIM1_Master_IRQHandler,Default_Handler
+	
+	.weak	HRTIM1_TIMA_IRQHandler
+	.thumb_set HRTIM1_TIMA_IRQHandler,Default_Handler
+	
+	.weak	HRTIM1_TIMB_IRQHandler
+	.thumb_set HRTIM1_TIMB_IRQHandler,Default_Handler  
   
-	.weak	I2C3_EV_IRQHandler
-	.thumb_set I2C3_EV_IRQHandler,Default_Handler  
+	.weak	HRTIM1_TIMC_IRQHandler
+	.thumb_set HRTIM1_TIMC_IRQHandler,Default_Handler	
 	
-	.weak	I2C3_ER_IRQHandler
-	.thumb_set I2C3_ER_IRQHandler,Default_Handler	
+	.weak	HRTIM1_TIMD_IRQHandler
+	.thumb_set HRTIM1_TIMD_IRQHandler,Default_Handler
 	
-	.weak	USB_HP_IRQHandler
-	.thumb_set USB_HP_IRQHandler,Default_Handler
+	.weak	HRTIM1_TIME_IRQHandler
+	.thumb_set HRTIM1_TIME_IRQHandler,Default_Handler
 	
-	.weak	USB_LP_IRQHandler
-	.thumb_set USB_LP_IRQHandler,Default_Handler
-	
-	.weak	USBWakeUp_RMP_IRQHandler
-	.thumb_set USBWakeUp_RMP_IRQHandler,Default_Handler
+	.weak	HRTIM1_FLT_IRQHandler
+	.thumb_set HRTIM1_FLT_IRQHandler,Default_Handler
 	
 	.weak	FPU_IRQHandler
 	.thumb_set FPU_IRQHandler,Default_Handler
