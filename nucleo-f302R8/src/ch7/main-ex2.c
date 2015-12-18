@@ -67,6 +67,7 @@ int main(void) {
   /* GPIO Ports Clock Enable */
   __GPIOC_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
+  __GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PC12 and PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13 | GPIO_PIN_12;
@@ -74,12 +75,12 @@ int main(void) {
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pin : PB13 */
+  GPIO_InitStruct.Pin = LD2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
@@ -93,9 +94,9 @@ void EXTI15_10_IRQHandler(void) {
 
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
   if(GPIO_Pin == GPIO_PIN_13)
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, SET);
+    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, SET);
   else
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, RESET);
+    HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, RESET);
 }
 
 /** System Clock Configuration

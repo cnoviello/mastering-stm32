@@ -76,7 +76,7 @@ uint8_t processUserInput(int8_t opt) {
 
   switch(opt) {
   case 1:
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     break;
   case 2:
     sprintf(msg, "\r\nUSER BUTTON status: %s",

@@ -88,7 +88,7 @@ uint8_t processUserInput(int8_t opt) {
 
   switch(opt) {
   case 1:
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     break;
   case 2:
     sprintf(msg, "\r\nUSER BUTTON status: %s",
@@ -200,6 +200,7 @@ void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __GPIOC_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
+  __GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;

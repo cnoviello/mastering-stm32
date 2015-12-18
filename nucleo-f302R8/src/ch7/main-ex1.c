@@ -65,6 +65,7 @@ int main(void) {
   /* GPIO Ports Clock Enable */
   __GPIOC_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
+  __GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = B1_Pin;
@@ -86,7 +87,7 @@ int main(void) {
 
 void EXTI15_10_IRQHandler(void) {
   __HAL_GPIO_EXTI_CLEAR_IT(GPIO_PIN_13);
-  HAL_GPIO_TogglePin(LD2_GPIO_Port, GPIO_PIN_5);
+  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 }
 
 /** System Clock Configuration

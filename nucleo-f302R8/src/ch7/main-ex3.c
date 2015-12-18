@@ -65,8 +65,9 @@ int main(void) {
 
   /* GPIO Ports Clock Enable */
   __GPIOC_CLK_ENABLE();
-  __GPIOB_CLK_ENABLE();
+  __GPIOF_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
+  __GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13 ;
@@ -80,18 +81,19 @@ int main(void) {
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PA5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  /*Configure GPIO pin : PB13 */
+  GPIO_InitStruct.Pin = LD2_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0x1, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI2_IRQn, 0x0, 0);
-  HAL_NVIC_EnableIRQ(EXTI2_IRQn);
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI2_TSC_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI2_TSC_IRQn);
 
   while(1);
 }
@@ -100,7 +102,7 @@ void EXTI15_10_IRQHandler(void) {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
 }
 
-void EXTI2_IRQHandler(void) {
+void EXTI2_TSC_IRQHandler(void) {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
 }
 
@@ -108,7 +110,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
   if(GPIO_Pin == GPIO_PIN_13) {
     blink = 1;
     while(blink) {
-      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
       for(int i = 0; i < 100000; i++);
     }
   }
@@ -152,6 +154,7 @@ void SystemClock_Config(void)
   /* SysTick_IRQn interrupt configuration */
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
+
 
 /* USER CODE BEGIN 4 */
 

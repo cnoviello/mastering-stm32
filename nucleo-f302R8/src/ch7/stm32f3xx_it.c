@@ -43,7 +43,7 @@
 extern UART_HandleTypeDef huart2;
 
 /******************************************************************************/
-/*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
+/*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
 
 /**
@@ -62,13 +62,14 @@ void SysTick_Handler(void)
 }
 
 /******************************************************************************/
-/* stm32f3xx Peripheral Interrupt Handlers                                    */
+/* STM32F3xx Peripheral Interrupt Handlers                                    */
 /* Add here the Interrupt Handlers for the used peripherals.                  */
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f3xx.s).                    */
 /******************************************************************************/
+
 /**
-* @brief This function handles USART2 global interrupt.
+* @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXTI line 26.
 */
 void USART2_IRQHandler(void)
 {
