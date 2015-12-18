@@ -109,7 +109,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
     blink = 1;
     while(blink) {
       HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-      for(int i = 0; i < 100000; i++);
+      for(int i = 0; i < 1000000; i++);
     }
   }
   else {
