@@ -44,8 +44,10 @@ void DMA1_Channel4_5_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel4_5_IRQn 0 */
 
   /* USER CODE END DMA1_Channel4_5_IRQn 0 */
+#ifdef MEM2MEM_EX
 	GPIOC->ODR = 0x0;
   HAL_DMA_IRQHandler(&hdma_usart2_rx);
+#endif
   /* USER CODE BEGIN DMA1_Channel4_5_IRQn 1 */
 
   /* USER CODE END DMA1_Channel4_5_IRQn 1 */
