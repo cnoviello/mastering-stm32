@@ -8,7 +8,11 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+#ifdef UART_RX
+extern DMA_HandleTypeDef hdma_usart2_rx;
+#elif !defined(MEM2MEM_EX)
 extern DMA_HandleTypeDef hdma_usart2_tx;
+#endif
 
 /******************************************************************************/
 /*            Cortex-M0 Processor Interruption and Exception Handlers         */ 
@@ -46,8 +50,10 @@ void DMA1_Channel4_5_IRQHandler(void)
   /* USER CODE END DMA1_Channel4_5_IRQn 0 */
 #ifdef MEM2MEM_EX
 	GPIOC->ODR = 0x0;
-  HAL_DMA_IRQHandler(&hdma_usart2_rx);
-#else
+#endif
+#ifdef UART_RX
+	HAL_DMA_IRQHandler(&hdma_usart2_rx);
+#elif !defined(MEM2MEM_EX)
   HAL_DMA_IRQHandler(&hdma_usart2_tx);
 #endif
   /* USER CODE BEGIN DMA1_Channel4_5_IRQn 1 */

@@ -8,7 +8,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
-DMA_HandleTypeDef hdma_usart2_rx;
+DMA_HandleTypeDef hdma_memtomem_dma1_channel5;
 
 
 /* USER CODE BEGIN PV */
@@ -45,26 +45,20 @@ int main(void) {
   MX_DMA_Init();
   MX_USART2_UART_Init();
 
-  hdma_usart2_rx.Instance = DMA1_Channel5;
-  hdma_usart2_rx.Init.Direction = DMA_MEMORY_TO_MEMORY;
-  hdma_usart2_rx.Init.PeriphInc = DMA_PINC_ENABLE;
-  hdma_usart2_rx.Init.MemInc = DMA_MINC_ENABLE;
-  hdma_usart2_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
-  hdma_usart2_rx.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
-  hdma_usart2_rx.Init.Mode = DMA_NORMAL;
-  hdma_usart2_rx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
-  HAL_DMA_Init(&hdma_usart2_rx);
+  hdma_memtomem_dma1_channel5.Instance = DMA1_Channel5;
+  hdma_memtomem_dma1_channel5.Init.Direction = DMA_MEMORY_TO_MEMORY;
+  hdma_memtomem_dma1_channel5.Init.PeriphInc = DMA_PINC_ENABLE;
+  hdma_memtomem_dma1_channel5.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_memtomem_dma1_channel5.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_memtomem_dma1_channel5.Init.MemDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_memtomem_dma1_channel5.Init.Mode = DMA_NORMAL;
+  hdma_memtomem_dma1_channel5.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+  HAL_DMA_Init(&hdma_memtomem_dma1_channel5);
 
 
   GPIOC->ODR = 0x100;
-  HAL_DMA_Start_IT(&hdma_usart2_rx,  (uint32_t)&flashData,  (uint32_t)&sramData, 1000);
-  //HAL_DMA_PollForTransfer(&hdma_usart2_rx, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
-//  GPIOC->ODR = 0x0;
-
-  while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));
-
-  GPIOC->ODR = 0x100;
-  __aeabi_memcpy8(sramData, flashData, 1000);
+  HAL_DMA_Start(&hdma_memtomem_dma1_channel5,  (uint32_t)&flashData,  (uint32_t)&sramData, 1000);
+  HAL_DMA_PollForTransfer(&hdma_memtomem_dma1_channel5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
   GPIOC->ODR = 0x0;
 
   while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));
@@ -73,20 +67,17 @@ int main(void) {
   memcpy(sramData, flashData, 1000);
   GPIOC->ODR = 0x0;
 
+  HAL_Delay(1000);
 
-  while(1);
-  uint32_t a= 0;
+  while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));
 
+  GPIOC->ODR = 0x100;
   for(int i = 0; i < 1000; i++)
-	  a+= sramData[i];
-
-  while(1);
+	  sramData[i] = flashData[i];
+  GPIOC->ODR = 0x0;
 
   /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1);
-  /* USER CODE END 3 */
-
 }
 
 /** System Clock Configuration

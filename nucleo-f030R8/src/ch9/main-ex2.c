@@ -62,7 +62,7 @@ int main(void) {
   HAL_DMA_Start_IT(&hdma_usart2_tx,  (uint32_t)msg,  (uint32_t)&huart2.Instance->TDR, strlen(msg));
   //Enable UART in DMA mode
   huart2.Instance->CR3 |= USART_CR3_DMAT;
-  //Wait for transfer complete
+
   /* Infinite loop */
   while (1);
 }
