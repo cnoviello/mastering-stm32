@@ -1,9 +1,7 @@
 #!/usr/bin/env python
-
 import serial, time
 
 SERIAL = "/dev/tty.usbmodem1a1213" #Windows users, replace with "COMx"
-
 ser = serial.Serial(SERIAL, 38400)
 
 while True:
