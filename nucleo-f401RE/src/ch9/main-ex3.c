@@ -1,6 +1,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include <nucleo_hal_bsp.h>
-#include "stm32f0xx_hal.h"
+#include "stm32f4xx_hal.h"
 #include <string.h>
 
 /* USER CODE BEGIN Includes */
@@ -33,7 +33,7 @@ int main(void) {
 
   Nucleo_BSP_Init();
 
-  hdma_usart2_rx.Instance = DMA1_Channel5;
+  hdma_usart2_rx.Instance = DMA1_Stream5;
   hdma_usart2_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
   hdma_usart2_rx.Init.PeriphInc = DMA_PINC_DISABLE;
   hdma_usart2_rx.Init.MemInc = DMA_MINC_DISABLE;
@@ -41,9 +41,12 @@ int main(void) {
   hdma_usart2_rx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
   hdma_usart2_rx.Init.Mode = DMA_CIRCULAR;
   hdma_usart2_rx.Init.Priority = DMA_PRIORITY_LOW;
+  hdma_usart2_rx.Init.Channel = DMA_CHANNEL_4;
   HAL_DMA_Init(&hdma_usart2_rx);
 
-  HAL_DMA_Start(&hdma_usart2_rx,  (uint32_t)&huart2.Instance->RDR,  (uint32_t)&LD2_GPIO_Port->ODR, 1);
+  uint8_t data[20];
+
+  HAL_DMA_Start(&hdma_usart2_rx,  (uint32_t)&huart2.Instance->DR,  (uint32_t)&LD2_GPIO_Port->ODR, 1);
   //Enable UART in DMA mode
   huart2.Instance->CR3 |= USART_CR3_DMAR;
 

@@ -1,5 +1,5 @@
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f0xx_hal.h"
+#include "stm32f4xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 
@@ -9,7 +9,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart2;
-DMA_HandleTypeDef hdma_memtomem_dma1_channel5;
+DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 
 
 /* USER CODE BEGIN PV */
@@ -35,19 +35,24 @@ int main(void) {
   HAL_Init();
   Nucleo_BSP_Init();
 
-  hdma_memtomem_dma1_channel5.Instance = DMA1_Channel5;
-  hdma_memtomem_dma1_channel5.Init.Direction = DMA_MEMORY_TO_MEMORY;
-  hdma_memtomem_dma1_channel5.Init.PeriphInc = DMA_PINC_ENABLE;
-  hdma_memtomem_dma1_channel5.Init.MemInc = DMA_MINC_ENABLE;
-  hdma_memtomem_dma1_channel5.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  hdma_memtomem_dma1_channel5.Init.MemDataAlignment = DMA_PDATAALIGN_BYTE;
-  hdma_memtomem_dma1_channel5.Init.Mode = DMA_NORMAL;
-  hdma_memtomem_dma1_channel5.Init.Priority = DMA_PRIORITY_VERY_HIGH;
-  HAL_DMA_Init(&hdma_memtomem_dma1_channel5);
+  hdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
+  hdma_memtomem_dma2_stream0.Init.Channel = DMA_CHANNEL_0;
+  hdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
+  hdma_memtomem_dma2_stream0.Init.PeriphInc = DMA_PINC_ENABLE;
+  hdma_memtomem_dma2_stream0.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_memtomem_dma2_stream0.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_memtomem_dma2_stream0.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+  hdma_memtomem_dma2_stream0.Init.Mode = DMA_NORMAL;
+  hdma_memtomem_dma2_stream0.Init.Priority = DMA_PRIORITY_LOW;
+  hdma_memtomem_dma2_stream0.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
+  hdma_memtomem_dma2_stream0.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+  hdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
+  hdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
+  HAL_DMA_Init(&hdma_memtomem_dma2_stream0);
 
   GPIOC->ODR = 0x100;
-  HAL_DMA_Start(&hdma_memtomem_dma1_channel5,  (uint32_t)&flashData,  (uint32_t)&sramData, 1000);
-  HAL_DMA_PollForTransfer(&hdma_memtomem_dma1_channel5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+  HAL_DMA_Start(&hdma_memtomem_dma2_stream0,  (uint32_t)&flashData,  (uint32_t)&sramData, 1000);
+  HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
   GPIOC->ODR = 0x0;
 
   while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));
