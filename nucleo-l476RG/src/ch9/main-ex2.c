@@ -1,5 +1,5 @@
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l1xx_hal.h"
+#include "stm32l4xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 
@@ -50,7 +50,7 @@ int main(void) {
   HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
 
-  HAL_DMA_Start_IT(&hdma_usart2_tx,  (uint32_t)msg,  (uint32_t)&huart2.Instance->DR, strlen(msg));
+  HAL_DMA_Start_IT(&hdma_usart2_tx,  (uint32_t)msg,  (uint32_t)&huart2.Instance->TDR, strlen(msg));
   //Enable UART in DMA mode
   huart2.Instance->CR3 |= USART_CR3_DMAT;
 

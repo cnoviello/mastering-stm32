@@ -1,5 +1,5 @@
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l1xx_hal.h"
+#include "stm32l4xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 
@@ -46,7 +46,7 @@ int main(void) {
 
   __HAL_LINKDMA(&huart2, hdmatx, hdma_usart2_tx);
 
-  HAL_DMA_Start(&hdma_usart2_tx,  (uint32_t)msg,  (uint32_t)&huart2.Instance->DR, strlen(msg));
+  HAL_DMA_Start(&hdma_usart2_tx,  (uint32_t)msg,  (uint32_t)&huart2.Instance->TDR, strlen(msg));
   //Enable UART in DMA mode
   huart2.Instance->CR3 |= USART_CR3_DMAT;
   //Wait for transfer complete

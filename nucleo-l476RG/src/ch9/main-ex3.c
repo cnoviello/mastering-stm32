@@ -1,6 +1,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include <nucleo_hal_bsp.h>
-#include "stm32l1xx_hal.h"
+#include "stm32l4xx_hal.h"
 #include <string.h>
 
 /* USER CODE BEGIN Includes */
@@ -43,7 +43,7 @@ int main(void) {
   hdma_usart2_rx.Init.Priority = DMA_PRIORITY_LOW;
   HAL_DMA_Init(&hdma_usart2_rx);
 
-  HAL_DMA_Start(&hdma_usart2_rx,  (uint32_t)&huart2.Instance->DR,  (uint32_t)&LD2_GPIO_Port->ODR, 1);
+  HAL_DMA_Start(&hdma_usart2_rx,  (uint32_t)&huart2.Instance->RDR,  (uint32_t)&LD2_GPIO_Port->ODR, 1);
   //Enable UART in DMA mode
   huart2.Instance->CR3 |= USART_CR3_DMAR;
 
