@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    stm32l0xx_it.c
+  * @file    stm32l1xx_it.c
   * @brief   Interrupt Service Routines.
   ******************************************************************************
   *
@@ -31,9 +31,9 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_hal.h"
-#include "stm32l0xx.h"
-#include "stm32l0xx_it.h"
+#include "stm32l1xx_hal.h"
+#include "stm32l1xx.h"
+#include "stm32l1xx_it.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -47,8 +47,9 @@ extern DMA_HandleTypeDef hdma_usart2_rx;
 extern DMA_HandleTypeDef hdma_usart2_tx;
 #endif
 
+
 /******************************************************************************/
-/*            Cortex-M0+ Processor Interruption and Exception Handlers         */ 
+/*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
 
 /**
@@ -67,42 +68,14 @@ void SysTick_Handler(void)
 }
 
 /******************************************************************************/
-/* STM32L0xx Peripheral Interrupt Handlers                                    */
+/* STM32L1xx Peripheral Interrupt Handlers                                    */
 /* Add here the Interrupt Handlers for the used peripherals.                  */
 /* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32l0xx.s).                    */
+/* please refer to the startup file (startup_stm32l1xx.s).                    */
 /******************************************************************************/
 
 /**
-* @brief This function handles EXTI line 2 and line 3 interrupts.
-*/
-void EXTI2_3_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI2_3_IRQn 0 */
-
-  /* USER CODE END EXTI2_3_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
-  /* USER CODE BEGIN EXTI2_3_IRQn 1 */
-
-  /* USER CODE END EXTI2_3_IRQn 1 */
-}
-
-/**
-* @brief This function handles EXTI line 4 to 15 interrupts.
-*/
-void EXTI4_15_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI4_15_IRQn 0 */
-
-  /* USER CODE END EXTI4_15_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
-  /* USER CODE BEGIN EXTI4_15_IRQn 1 */
-
-  /* USER CODE END EXTI4_15_IRQn 1 */
-}
-
-/**
-* @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXTI line 26.
+* @brief This function handles USART2 global interrupt.
 */
 void USART2_IRQHandler(void)
 {
@@ -115,7 +88,7 @@ void USART2_IRQHandler(void)
   /* USER CODE END USART2_IRQn 1 */
 }
 
-void DMA1_Channel4_5_6_7_IRQHandler(void)
+void DMA1_Channel4_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel4_5_IRQn 0 */
 
