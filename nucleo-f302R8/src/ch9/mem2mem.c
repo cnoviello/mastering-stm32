@@ -52,6 +52,19 @@ int main(void) {
 
   while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));
 
+  hdma_memtomem_dma1_channel5.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+  hdma_memtomem_dma1_channel5.Init.MemDataAlignment = DMA_PDATAALIGN_WORD;
+  HAL_DMA_Init(&hdma_memtomem_dma1_channel5);
+
+  GPIOC->ODR = 0x100;
+  HAL_DMA_Start(&hdma_memtomem_dma1_channel5,  (uint32_t)&flashData,  (uint32_t)&sramData, 250);
+  HAL_DMA_PollForTransfer(&hdma_memtomem_dma1_channel5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+  GPIOC->ODR = 0x0;
+
+  HAL_Delay(1000);
+
+  while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin));
+
   GPIOC->ODR = 0x100;
   memcpy(sramData, flashData, 1000);
   GPIOC->ODR = 0x0;
