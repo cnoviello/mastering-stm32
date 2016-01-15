@@ -35,7 +35,8 @@ int main(void) {
 
   Nucleo_BSP_Init();
 
-  hdma_usart2_tx.Instance = DMA1_Channel4;
+  hdma_usart2_tx.Instance = DMA1_Channel7;
+  hdma_usart2_tx.Init.Request = DMA_REQUEST_4;
   hdma_usart2_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
   hdma_usart2_tx.Init.PeriphInc = DMA_PINC_DISABLE;
   hdma_usart2_tx.Init.MemInc = DMA_MINC_ENABLE;
@@ -59,7 +60,7 @@ int main(void) {
 }
 
 void DMATransferComplete(DMA_HandleTypeDef *hdma) {
-  if(hdma->Instance == DMA1_Channel4) {
+  if(hdma->Instance == DMA1_Channel7) {
     //Disable UART DMA mode
     huart2.Instance->CR3 &= ~USART_CR3_DMAT;
     //Turn LD2 ON

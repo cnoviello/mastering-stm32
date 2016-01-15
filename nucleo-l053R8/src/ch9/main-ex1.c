@@ -34,7 +34,8 @@ int main(void) {
 
   Nucleo_BSP_Init();
 
-  hdma_usart2_tx.Instance = DMA1_Channel4;
+  hdma_usart2_tx.Instance = DMA1_Channel7;
+  hdma_usart2_tx.Init.Request = DMA_REQUEST_4;
   hdma_usart2_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
   hdma_usart2_tx.Init.PeriphInc = DMA_PINC_DISABLE;
   hdma_usart2_tx.Init.MemInc = DMA_MINC_ENABLE;
@@ -42,6 +43,7 @@ int main(void) {
   hdma_usart2_tx.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
   hdma_usart2_tx.Init.Mode = DMA_NORMAL;
   hdma_usart2_tx.Init.Priority = DMA_PRIORITY_LOW;
+
   HAL_DMA_Init(&hdma_usart2_tx);
 
   __HAL_LINKDMA(&huart2, hdmatx, hdma_usart2_tx);
