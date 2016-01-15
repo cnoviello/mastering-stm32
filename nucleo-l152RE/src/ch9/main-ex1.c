@@ -34,7 +34,7 @@ int main(void) {
 
   Nucleo_BSP_Init();
 
-  hdma_usart2_tx.Instance = DMA1_Channel4;
+  hdma_usart2_tx.Instance = DMA1_Channel7;
   hdma_usart2_tx.Init.Direction = DMA_MEMORY_TO_PERIPH;
   hdma_usart2_tx.Init.PeriphInc = DMA_PINC_DISABLE;
   hdma_usart2_tx.Init.MemInc = DMA_MINC_ENABLE;
