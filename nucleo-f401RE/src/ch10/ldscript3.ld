@@ -27,7 +27,6 @@ SECTIONS
        
     .data : ALIGN(4)
     {
-        . = ALIGN(4);
         _sdata = .;        /* create a global symbol at data start */
         
         *(.data)
@@ -36,4 +35,20 @@ SECTIONS
         . = ALIGN(4);
         _edata = .;        /* define a global symbol at data end */        
     } >SRAM AT>FLASH
+    
+     /* Uninitialized data section */
+		.bss (NOLOAD) : ALIGN(4)
+		{
+		  /* This is used by the startup in order to initialize the .bss secion */
+		  _sbss = .;         /* define a global symbol at bss start */
+		  __bss_start__ = _sbss;
+		  
+		  *(.bss)
+		  *(.bss*)
+		
+		  . = ALIGN(4);
+		  _ebss = .;         /* define a global symbol at bss end */
+		  
+		  __bss_end__ = _ebss;
+		} >SRAM AT>SRAM
 }    

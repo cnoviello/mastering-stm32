@@ -19,14 +19,15 @@ typedef unsigned long uint32_t;
 #define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
 
 /* User functions */
-void _start (void);
+void _start2 (void);
 int main(void);
 void delay(uint32_t count);
+extern void _start(void);
 
 /* Minimal vector table */
 uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
     (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)_start        // main as Reset_Handler
+    (uint32_t *)_start2        // main as Reset_Handler
 };
 
 // Begin address for the initialisation values of the .data section.
@@ -36,9 +37,10 @@ extern unsigned int _sidata;
 extern unsigned int _sdata;
 // End address for the .data section; defined in linker script
 extern unsigned int _edata;
-
-
-volatile uint32_t dataVar = 0x3f;
+// Begin address for the .bss section; defined in linker script
+extern unsigned int _sbss;
+// End address for the .bss section; defined in linker script
+extern unsigned int _ebss;
 
 inline void
 __attribute__((always_inline))
@@ -51,14 +53,34 @@ __initialize_data (unsigned int* from, unsigned int* region_begin, unsigned int*
     *p++ = *from++;
 }
 
-void __attribute__ ((noreturn,weak))
-_start (void)
+inline void
+__attribute__((always_inline))
+__initialize_bss (unsigned int* region_begin, unsigned int* region_end)
 {
+  // Iterate and copy word by word.
+  // It is assumed that the pointers are word aligned.
+  unsigned int *p = region_begin;
+  while (p < region_end)
+    *p++ = 0;
+}
+
+void __attribute__ ((noreturn,weak))
+_start2 (void)
+{
+  _start();
 	__initialize_data(&_sidata, &_sdata, &_edata);
+	__initialize_bss(&_sbss, &_ebss);
 	main();
 
 	for(;;);
 }
+
+void _exit(int a) {
+  for(;;);
+}
+
+volatile uint32_t dataVar = 0x3f;
+volatile uint32_t bssVar;
 
 int main() {
 
@@ -66,7 +88,7 @@ int main() {
     *RCC_APB1ENR = 0x1 | 0x4;
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
-    while(dataVar == 0x3f) {
+    while(bssVar == 0) {
       *GPIOA_ODR = 0x20;
       delay(200000);
       *GPIOA_ODR = 0x0;
