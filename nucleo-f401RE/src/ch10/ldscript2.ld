@@ -6,6 +6,8 @@ MEMORY
     SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 96K
 }
  
+ ENTRY(_start)
+ 
 /* output sections */
 SECTIONS
 {
@@ -19,8 +21,19 @@ SECTIONS
  
     /* Initialized global and static variables (which 
        we don't have any in this example) into SRAM */
-    .data :
+
+    /* Used by the startup to initialize data */
+    _sidata = LOADADDR(.data);     
+       
+    .data : ALIGN(4)
     {
-        *(.data)           
-    } >SRAM
+        . = ALIGN(4);
+        _sdata = .;        /* create a global symbol at data start */
+        
+        *(.data)
+        *(.data*)
+        
+        . = ALIGN(4);
+        _edata = .;        /* define a global symbol at data end */        
+    } >SRAM AT>FLASH
 }    

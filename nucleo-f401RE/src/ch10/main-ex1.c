@@ -23,7 +23,7 @@ int main(void);
 void delay(uint32_t count);
 
 /* Minimal vector table */
-uint32_t *vector_table[] __attribute__((section(".vector_table"))) = {
+uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
     (uint32_t *)SRAM_END,   // initial stack pointer
     (uint32_t *)main        // main as Reset_Handler
 };
@@ -31,9 +31,8 @@ uint32_t *vector_table[] __attribute__((section(".vector_table"))) = {
 int main() {
     /* enable clock on GPIOA peripheral */
     *RCC_APB1ENR = 0x1;
-
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
-    *GPIOA_ODR |= 0x20; // Sets ODR[5] = 0x1, that is pulls PA5 high
+
     while(1) {
     	*GPIOA_ODR = 0x20;
         delay(200000);
