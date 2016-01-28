@@ -73,16 +73,15 @@ _start (void)
 	for(;;);
 }
 
-volatile uint32_t dataVar = 0x3f;
-volatile uint32_t bssVar;
+const char msg[] = "Hello World!";
+const float vals[] = {3.14, 0,43, 1,414};
 
 int main() {
-
     /* enable clock on GPIOA and GPIOC peripherals */
     *RCC_APB1ENR = 0x1 | 0x4;
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
-    while(bssVar == 0) {
+    while(vals[0] >= 3.14) {
       *GPIOA_ODR = 0x20;
       delay(200000);
       *GPIOA_ODR = 0x0;

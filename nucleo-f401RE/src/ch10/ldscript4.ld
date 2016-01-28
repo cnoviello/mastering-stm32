@@ -43,9 +43,15 @@ SECTIONS
 	  
 		  *(.bss)
 		  *(.bss*)
-		  *(COMMON)
 		  		
 		  . = ALIGN(4);
 		  _ebss = .;         /* define a global symbol at bss end */
 		} >SRAM
+		
+	  /* Constant data goes into FLASH */
+	  .rodata : ALIGN(4)
+	  {
+	    *(.rodata)         /* .rodata sections (constants) */
+	    *(.rodata*)        /* .rodata* sections (strings, etc.) */
+	  } >FLASH
 }    

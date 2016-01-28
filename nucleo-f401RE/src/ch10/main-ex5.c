@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+
 typedef unsigned long uint32_t;
 
 /* memory and peripheral start addresses */
@@ -73,16 +77,64 @@ _start (void)
 	for(;;);
 }
 
-volatile uint32_t dataVar = 0x3f;
-volatile uint32_t bssVar;
+void __attribute__((weak))
+_exit (int status __attribute__((unused)))
+{
+  errno = ENOSYS;
+
+  for(;;);
+}
+
+int __attribute__((weak))
+_getpid (int n __attribute__ ((unused)))
+{
+  return 1;
+}
+
+int __attribute__((weak))
+_kill (int pid __attribute__((unused)), int sig __attribute__((unused)))
+{
+  errno = ENOSYS;
+  return -1;
+}
+
+void *_sbrk(int incr) {
+    extern uint32_t _end_static; /* Defined by the linker */
+    extern unsigned int _Heap_Size;
+
+    static uint32_t *heap_end;
+    uint32_t *prev_heap_end;
+
+    if (heap_end == 0) {
+      heap_end = &_end_static;
+    }
+    prev_heap_end = heap_end;
+
+    incr = (incr + 3) & (~3);
+    if (heap_end + incr > &_end_static + _Heap_Size) {
+      asm("BKPT");
+      abort();
+    }
+
+    heap_end += incr;
+    return (void*) prev_heap_end;
+}
+
+const char msg[] = "Hello World!";
 
 int main() {
-
     /* enable clock on GPIOA and GPIOC peripherals */
     *RCC_APB1ENR = 0x1 | 0x4;
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
-    while(bssVar == 0) {
+    int sch = sizeof(char);
+    int sle = strlen(msg);
+
+    char *heapMsg = (char*)malloc(sch*sle);
+    memset(heapMsg, 0, strlen(msg));
+    memcpy(heapMsg, msg, strlen(msg));
+
+    while(strncmp(heapMsg, msg, strlen(msg)) == 0) {
       *GPIOA_ODR = 0x20;
       delay(200000);
       *GPIOA_ODR = 0x0;

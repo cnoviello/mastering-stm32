@@ -7,6 +7,7 @@ MEMORY
 }
  
  ENTRY(_start)
+ PROVIDE(_Heap_Size = 400);
  
 /* output sections */
 SECTIONS
@@ -43,9 +44,18 @@ SECTIONS
 	  
 		  *(.bss)
 		  *(.bss*)
-		  *(COMMON)
 		  		
 		  . = ALIGN(4);
 		  _ebss = .;         /* define a global symbol at bss end */
 		} >SRAM
+	
+		PROVIDE(_end_static = _ebss);		
+		
+	  /* Constant data goes into FLASH */
+	  .rodata : ALIGN(4)
+	  {
+	    *(.rodata)         /* .rodata sections (constants) */
+	    *(.rodata*)        /* .rodata* sections (strings, etc.) */
+	  } >FLASH
+	
 }    

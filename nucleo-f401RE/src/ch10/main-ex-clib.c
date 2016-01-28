@@ -19,14 +19,15 @@ typedef unsigned long uint32_t;
 #define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
 
 /* User functions */
-void _start (void);
+void _start2 (void);
 int main(void);
 void delay(uint32_t count);
+extern void _start(void);
 
 /* Minimal vector table */
 uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
     (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)_start        // main as Reset_Handler
+    (uint32_t *)_start2        // main as Reset_Handler
 };
 
 // Begin address for the initialisation values of the .data section.
@@ -64,13 +65,18 @@ __initialize_bss (unsigned int* region_begin, unsigned int* region_end)
 }
 
 void __attribute__ ((noreturn,weak))
-_start (void)
+_start2 (void)
 {
+  _start();
 	__initialize_data(&_sidata, &_sdata, &_edata);
 	__initialize_bss(&_sbss, &_ebss);
 	main();
 
 	for(;;);
+}
+
+void _exit(int a) {
+  for(;;);
 }
 
 volatile uint32_t dataVar = 0x3f;
