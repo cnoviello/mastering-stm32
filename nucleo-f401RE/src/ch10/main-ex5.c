@@ -23,6 +23,7 @@ typedef unsigned long uint32_t;
 #define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
 
 /* User functions */
+void *_sbrk(int incr);
 void _start (void);
 int main(void);
 void delay(uint32_t count);
@@ -35,34 +36,34 @@ uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
 
 // Begin address for the initialisation values of the .data section.
 // defined in linker script
-extern unsigned int _sidata;
+extern uint32_t _sidata;
 // Begin address for the .data section; defined in linker script
-extern unsigned int _sdata;
+extern uint32_t _sdata;
 // End address for the .data section; defined in linker script
-extern unsigned int _edata;
+extern uint32_t _edata;
 // Begin address for the .bss section; defined in linker script
-extern unsigned int _sbss;
+extern uint32_t _sbss;
 // End address for the .bss section; defined in linker script
-extern unsigned int _ebss;
+extern uint32_t _ebss;
 
 inline void
 __attribute__((always_inline))
-__initialize_data (unsigned int* from, unsigned int* region_begin, unsigned int* region_end)
+__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
 {
   // Iterate and copy word by word.
   // It is assumed that the pointers are word aligned.
-  unsigned int *p = region_begin;
+  uint32_t *p = region_begin;
   while (p < region_end)
     *p++ = *from++;
 }
 
 inline void
 __attribute__((always_inline))
-__initialize_bss (unsigned int* region_begin, unsigned int* region_end)
+__initialize_bss (uint32_t* region_begin, uint32_t* region_end)
 {
   // Iterate and copy word by word.
   // It is assumed that the pointers are word aligned.
-  unsigned int *p = region_begin;
+  uint32_t *p = region_begin;
   while (p < region_end)
     *p++ = 0;
 }
@@ -77,30 +78,9 @@ _start (void)
 	for(;;);
 }
 
-void __attribute__((weak))
-_exit (int status __attribute__((unused)))
-{
-  errno = ENOSYS;
-
-  for(;;);
-}
-
-int __attribute__((weak))
-_getpid (int n __attribute__ ((unused)))
-{
-  return 1;
-}
-
-int __attribute__((weak))
-_kill (int pid __attribute__((unused)), int sig __attribute__((unused)))
-{
-  errno = ENOSYS;
-  return -1;
-}
-
 void *_sbrk(int incr) {
     extern uint32_t _end_static; /* Defined by the linker */
-    extern unsigned int _Heap_Size;
+    extern uint32_t _Heap_Limit;
 
     static uint32_t *heap_end;
     uint32_t *prev_heap_end;
@@ -110,10 +90,11 @@ void *_sbrk(int incr) {
     }
     prev_heap_end = heap_end;
 
-    incr = (incr + 3) & (~3);
-    if (heap_end + incr > &_end_static + _Heap_Size) {
+#ifdef __ARM_ARCH_6M__ //If we are on a Cortex-M0/0+ MCU
+    incr = (incr + 0x3) & (0xFFFFFFFC); /* This ensure that memory chunks are always multiple of 4 */
+#endif
+    if (heap_end + incr > &_Heap_Limit) {
       asm("BKPT");
-      abort();
     }
 
     heap_end += incr;
@@ -127,14 +108,10 @@ int main() {
     *RCC_APB1ENR = 0x1 | 0x4;
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
-    int sch = sizeof(char);
-    int sle = strlen(msg);
+    char *heapMsg = (char*)malloc(sizeof(char)*strlen(msg));
+    strcpy(heapMsg, msg);
 
-    char *heapMsg = (char*)malloc(sch*sle);
-    memset(heapMsg, 0, strlen(msg));
-    memcpy(heapMsg, msg, strlen(msg));
-
-    while(strncmp(heapMsg, msg, strlen(msg)) == 0) {
+    while(strcmp(heapMsg, msg) == 0) {
       *GPIOA_ODR = 0x20;
       delay(200000);
       *GPIOA_ODR = 0x0;
@@ -142,6 +119,6 @@ int main() {
    	}
 }
 
-void delay(unsigned long count) {
+void delay(uint32_t count) {
     while(count--);
 }

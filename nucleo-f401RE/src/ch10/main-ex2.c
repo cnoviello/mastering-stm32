@@ -31,22 +31,22 @@ uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
 
 // Begin address for the initialisation values of the .data section.
 // defined in linker script
-extern unsigned int _sidata;
+extern uint32_t _sidata;
 // Begin address for the .data section; defined in linker script
-extern unsigned int _sdata;
+extern uint32_t _sdata;
 // End address for the .data section; defined in linker script
-extern unsigned int _edata;
+extern uint32_t _edata;
 
 
 volatile uint32_t dataVar = 0x3f;
 
 inline void
 __attribute__((always_inline))
-__initialize_data (unsigned int* from, unsigned int* region_begin, unsigned int* region_end)
+__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
 {
   // Iterate and copy word by word.
   // It is assumed that the pointers are word aligned.
-  unsigned int *p = region_begin;
+  uint32_t*p = region_begin;
   while (p < region_end)
     *p++ = *from++;
 }

@@ -6,9 +6,8 @@ MEMORY
     SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 96K
 }
  
- ENTRY(_start)
- PROVIDE(_Heap_Size = 400);
- 
+ ENTRY(_start);
+
 /* output sections */
 SECTIONS
 {
@@ -49,7 +48,19 @@ SECTIONS
 		  _ebss = .;         /* define a global symbol at bss end */
 		} >SRAM
 	
-		PROVIDE(_end_static = _ebss);		
+		_end_static = _ebss;
+		_Heap_Size = 0x190;
+		_Heap_Limit = _end_static + _Heap_Size;
+		_Min_Stack_Size = 0x400;		
+		
+	  /* User_heap_stack section, used to check that there is enough RAM left */
+		._user_heap_stack :
+		{
+		  . = ALIGN(4);
+		  . = . + _Heap_Size;
+		  . = . + _Min_Stack_Size;
+		  . = ALIGN(4);
+		} >SRAM
 		
 	  /* Constant data goes into FLASH */
 	  .rodata : ALIGN(4)

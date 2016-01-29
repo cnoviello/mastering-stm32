@@ -41,6 +41,6 @@ int main() {
     }
 }
 
-void delay(unsigned long count) {
+void delay(uint32_t count) {
     while(count--);
 }
