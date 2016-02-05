@@ -104,8 +104,8 @@ void *_sbrk(int incr) {
 const char msg[] = "Hello World!";
 
 int main() {
-    /* enable clock on GPIOA and GPIOC peripherals */
-    *RCC_APB1ENR = 0x1 | 0x4;
+    /* enable clock on GPIOA peripheral */
+    *RCC_APB1ENR = 0x1;
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
     char *heapMsg = (char*)malloc(sizeof(char)*strlen(msg));
