@@ -1,4 +1,4 @@
-/* memory layout for an STM32F401RE */
+/* memory layout for an STM32F334R8 */
 
 MEMORY
 {
@@ -8,6 +8,8 @@ MEMORY
 }
  
  ENTRY(_start);
+
+_estack = ORIGIN(SRAM) + LENGTH(SRAM);
 
 /* output sections */
 SECTIONS
@@ -70,14 +72,37 @@ SECTIONS
 	    *(.rodata*)        /* .rodata* sections (strings, etc.) */
 	  } >FLASH
 	  
-	  /* Used by the startup to initialize data */
-    _siccm = LOADADDR(.ccm);   
-	  
-	  .ccm : ALIGN(4)
+	  .ccm(NOLOAD) : ALIGN(4)
 	  {
 	  	 _sccm = .;
-	  	 *(.ccm .ccm* .text.BubbleSort2)
+	  	 *(.isr_vector_ccm)
+	  	 *(.ccm)
+	  	 KEEP(*(.isr_vector_ccm))
+	  	 	  	 
+	  	 *src/ch10/ccm_vector.o(.text* .bss* .data*)
 	  	 . = ALIGN(4);
 	  	 _eccm = .;
+    } >CCM
+    
+    /* Used by the startup to initialize data in CCM */
+    _siccm = LOADADDR(.ccm.data);
+    
+    .ccm.data : ALIGN(4)
+	  {
+	  	 _sccmd = .;
+	  	 *(.ccm.data .ccm.data*)
+	  	 . = ALIGN(4);
+	  	 _eccmd = .;
     } >CCM AT>FLASH
+    
+    /* Uninitialized data section */
+		.ccm.bss (NOLOAD) : ALIGN(4)
+		{
+		  _sccmb = .;         /* define a global symbol at bss start */
+	  
+		  *(ccm.bss ccm.bss*)
+	  		
+		  . = ALIGN(4);
+		  _eccmb = .;         /* define a global symbol at bss end */
+		} >SRAM
 }

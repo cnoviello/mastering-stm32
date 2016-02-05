@@ -1,37 +1,23 @@
+#include <stm32f3xx_hal.h>
+#include <stm32f3xx_hal_gpio.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include "index.h"
 
-typedef unsigned long uint32_t;
+#define HAL_MODULE_ENABLED
+#define HAL_GPIO_MODULE_ENABLED
 
-/* memory and peripheral start addresses */
-#define FLASH_BASE      0x08000000
-#define SRAM_BASE       0x20000000
-#define PERIPH_BASE     0x40000000
-
-/* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       12*1024     // STM32F401RE has 96 KB of RAM
-#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
-
-/* RCC peripheral addresses applicable to GPIOA */
-#define RCC_BASE        (PERIPH_BASE + 0x21000)
-#define RCC_APB1ENR     ((uint32_t*)(RCC_BASE + (0x14)))
-
-/* GPIOA peripheral addresses */
-#define GPIOA_BASE      (PERIPH_BASE + 0x8000000)
-#define GPIOA_MODER     ((uint32_t*)(GPIOA_BASE + 0x00))
-#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
+extern uint32_t _estack;
+extern const uint32_t _sccm;
 
 /* User functions */
-void *_sbrk(int incr);
 void _start (void);
 int main(void);
-void delay(uint32_t count);
 
 /* Minimal vector table */
 uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
+    (uint32_t *)&_estack,   // initial stack pointer
     (uint32_t *)_start        // main as Reset_Handler
 };
 
@@ -45,9 +31,9 @@ extern uint32_t _edata;
 // Begin address for the initialization values of the .ccm section.
 extern uint32_t _siccm;
 // Begin address for the .ccm section; defined in linker script
-extern uint32_t _sccm;
+extern uint32_t _sccmd;
 // End address for the .ccm section; defined in linker script
-extern uint32_t _eccm;
+extern uint32_t _eccmd;
 
 // Begin address for the .bss section; defined in linker script
 extern uint32_t _sbss;
@@ -77,81 +63,40 @@ __initialize_bss (uint32_t* region_begin, uint32_t* region_end)
 }
 
 void __attribute__ ((noreturn,weak))
-_start (void)
-{
+_start (void) {
+  SCB->VTOR = (uint32_t)&_sccm;  /* Relocate vector table to 0x1000 0000 */
+  SYSCFG->RCR = 0xF;             /* Enable write protection for CCM memory */
+
 	__initialize_data(&_sidata, &_sdata, &_edata);
-	__initialize_data(&_siccm, &_sccm, &_eccm);
+	__initialize_data(&_siccm, &_sccmd, &_eccmd);
 	__initialize_bss(&_sbss, &_ebss);
 	main();
 
 	for(;;);
 }
 
-void *_sbrk(int incr) {
-    extern uint32_t _end_static; /* Defined by the linker */
-    extern uint32_t _Heap_Limit;
-
-    static uint32_t *heap_end;
-    uint32_t *prev_heap_end;
-
-    if (heap_end == 0) {
-      heap_end = &_end_static;
-    }
-    prev_heap_end = heap_end;
-
-#ifdef __ARM_ARCH_6M__ //If we are on a Cortex-M0/0+ MCU
-    incr = (incr + 0x3) & (0xFFFFFFFC); /* This ensure that memory chunks are always multiple of 4 */
-#endif
-    if (heap_end + incr > &_Heap_Limit) {
-      asm("BKPT");
-    }
-
-    heap_end += incr;
-    return (void*) prev_heap_end;
-}
-
-const char msg[] __attribute__((section(".ccm.1"))) = "Hello World!";
-
-int compare( const void* a, const void* b)
-{
-    return ( *(char*)a - *(char*)b );
-}
-
-int __attribute__((section(".ccm.2")))
-compare2( const void* a, const void* b)
-{
-    return ( *(char*)a - *(char*)b );
-}
+uint32_t arr[20] __attribute__((section(".ccm")));
 
 int main() {
-    /* enable clock on GPIOA peripheral */
-    *RCC_APB1ENR |= 0x1 << 17;
-    *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
+    GPIO_InitTypeDef GPIO_InitStruct;
 
-    static char values[] __attribute__((section(".ccm.3"))) = { 40, 10, 100, 90, 20, 25 };
-    qsort(values, 6, sizeof(char), compare);
+    HAL_Init();
 
-//    *GPIOA_ODR = 0x20;
-//    BubbleSort(sram_array, index_html_len);
-//    *GPIOA_ODR = 0x0;
-//    BubbleSort(ccm_array, index_html_len);
-////    qsort(sram_array, index_html_len, sizeof(char), compare);
-    *GPIOA_ODR = 0x20;
-    //BubbleSort(ccm_array, 100);
-    qsort(sram_array, index_html_len, sizeof(char), compare);
-    *GPIOA_ODR = 0x0;
-    qsort(ccm_array, index_html_len, sizeof(char), compare2);
-    *GPIOA_ODR = 0x20;
+    /* GPIO Ports Clock Enable */
+    __GPIOA_CLK_ENABLE();
 
-    if(strcmp(msg, "ciao") == 0){
+    /*Configure GPIO pin : LD2_Pin */
+    GPIO_InitStruct.Pin = LD2_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
+    while(1) {
+      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+      HAL_Delay(500);
+      arr[0] = 0xf;
     }
-//    while(strcmp(heapMsg, msg) == 0) {
-//      *GPIOA_ODR = 0x20;
-//      delay(200000);
-//      *GPIOA_ODR = 0x0;
-//      delay(200000);
-//   	}
 }
 
 void delay(uint32_t count) {

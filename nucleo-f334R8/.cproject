@@ -2362,7 +2362,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch10/main-ex6.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch10/main-ex4.c|ch10/main-ex3.c|ch10/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch10/main-ex-clib.cpp|ch10/ccm_vector.c|ch10/startup_stm32f334x8.S|ch10/main-ex6.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch10/main-ex4.c|ch10/main-ex3.c|ch10/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2562,7 +2562,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch10/main-ex6.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch10/main-ex4.c|ch10/main-ex3.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch10/main-ex-clib.cpp|ch10/ccm_vector.c|ch10/startup_stm32f334x8.S|ch10/main-ex6.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch10/main-ex4.c|ch10/main-ex3.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2762,7 +2762,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch10/main-ex6.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch10/main-ex4.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch10/main-ex-clib.cpp|ch10/ccm_vector.c|ch10/startup_stm32f334x8.S|ch10/main-ex6.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch10/main-ex4.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2962,7 +2962,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch10/main-ex6.c|ch10/main-ex3.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch10/main-ex-clib.cpp|ch10/ccm_vector.c|ch10/startup_stm32f334x8.S|ch10/main-ex6.c|ch10/main-ex3.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch10/main-ex5.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3162,7 +3162,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch10/main-ex6.c|ch10/main-ex4.c|ch10/main-ex3.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch10/main-ex-clib.cpp|ch10/ccm_vector.c|ch10/startup_stm32f334x8.S|ch10/main-ex6.c|ch10/main-ex4.c|ch10/main-ex3.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3293,6 +3293,8 @@
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart.352606462" name="Do not use standard start files (-nostartfiles)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano.1839185534" name="Use newlib-nano (--specs=nano.specs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nodeflibs.414462255" name="Do not use default libraries (-nodefaultlibs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nodeflibs" value="false" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostdlibs.929563989" name="No startup or default libs (-nostdlib)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostdlibs" value="false" valueType="boolean"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input.1349733522" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -3353,6 +3355,8 @@
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.scriptfile.1583699183" name="Script files (-T)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.scriptfile" valueType="stringList">
 									<listOptionValue builtIn="false" value="ldscript6.ld"/>
 								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.nodeflibs.399234954" name="Do not use default libraries (-nodefaultlibs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.nodeflibs" value="false" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.nostdlibs.193203308" name="No startup or default libs (-nostdlib)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.nostdlibs" value="false" valueType="boolean"/>
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.170312605" name="Cross ARM C++ Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.276028346"/>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.archiver.57788142" name="Cross ARM GNU Archiver" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.archiver.950702566"/>
@@ -3362,7 +3366,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch10/main-ex5.c|ch10/main-ex4.c|ch10/main-ex3.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch10/main-ex-clib.cpp|ch10/main-ex5.c|ch10/main-ex4.c|ch10/main-ex3.c|ch10/main-ex2.c|ch10/main-ex1.c|ch10/main-ex-clib.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="src/cmsis/startup_stm32f334x8.S|src/newlib|src/cortexm" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3383,29 +3388,38 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
-		<configuration configurationName="CH4-EX1">
-			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
-		</configuration>
-		<configuration configurationName="CH9-EX1">
-			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
-		</configuration>
-		<configuration configurationName="CH7-EX1">
-			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
-		</configuration>
 		<configuration configurationName="CH8-EX2">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
 		</configuration>
 		<configuration configurationName="CH8-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
 		</configuration>
-		<configuration configurationName="CH7-EX2">
-			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
-		</configuration>
-		<configuration configurationName="CH7-EX3">
-			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
-		</configuration>
 		<configuration configurationName="CH8-EX3">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
 		</configuration>
+		<configuration configurationName="CH4-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
+		</configuration>
+		<configuration configurationName="CH9-EX3"/>
+		<configuration configurationName="CH10-EX2"/>
+		<configuration configurationName="CH9-EX2"/>
+		<configuration configurationName="CH10-EX3"/>
+		<configuration configurationName="CH9-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
+		</configuration>
+		<configuration configurationName="CH10-EX1"/>
+		<configuration configurationName="CH9-MEM2MEM"/>
+		<configuration configurationName="CH7-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
+		</configuration>
+		<configuration configurationName="CH10-EX6"/>
+		<configuration configurationName="CH7-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
+		</configuration>
+		<configuration configurationName="CH10-EX4"/>
+		<configuration configurationName="CH7-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f334R8"/>
+		</configuration>
+		<configuration configurationName="CH10-EX5"/>
 	</storageModule>
 </cproject>
