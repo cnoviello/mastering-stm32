@@ -65,7 +65,7 @@ __initialize_bss (uint32_t* region_begin, uint32_t* region_end)
 void __attribute__ ((noreturn,weak))
 _start (void) {
   SCB->VTOR = (uint32_t)&_sccm;  /* Relocate vector table to 0x1000 0000 */
-  SYSCFG->RCR = 0xF;             /* Enable write protection for CCM memory */
+  SYSCFG->RCR = 0xFF;            /* Enable write protection for CCM memory */
 
 	__initialize_data(&_sidata, &_sdata, &_edata);
 	__initialize_data(&_siccm, &_sccmd, &_eccmd);
@@ -91,7 +91,7 @@ int main() {
     HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
 
     while(1) {
-      HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
       HAL_Delay(500);
     }
 }

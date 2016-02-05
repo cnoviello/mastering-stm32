@@ -2,9 +2,9 @@
 
 MEMORY
 {
-    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 64K
-    SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 12K
-    CCM  (xrw)  : ORIGIN = 0x10000000, LENGTH = 4K
+    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 512K
+    SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 64K
+    CCM  (xrw)  : ORIGIN = 0x10000000, LENGTH = 16K
 }
  
  ENTRY(_start);
