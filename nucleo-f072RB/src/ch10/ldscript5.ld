@@ -1,4 +1,4 @@
-/* memory layout for an STM32F070RB  */
+/* memory layout for an STM32F072RB  */
 
 MEMORY
 {
