@@ -77,8 +77,8 @@ const char msg[] = "Hello World!";
 const float vals[] = {3.14, 0,43, 1,414};
 
 int main() {
-    /* enable clock on GPIOA and GPIOC peripherals */
-    *RCC_APB1ENR = 0x1 | 0x4;
+    /* enable clock on GPIOA peripheral */
+    *RCC_APB1ENR = 0x1;
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
     while(vals[0] >= 3.14) {
