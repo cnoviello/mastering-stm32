@@ -1,0 +1,113 @@
+
+Discarded input sections
+
+ .group         0x0000000000000000        0x8 ./src/ch10/main-ex2.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000008000000 0x0000000000080000 xr
+SRAM             0x0000000020000000 0x0000000000002000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD ./src/ch10/main-ex2.o
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libstdc++_nano.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libm.a
+START GROUP
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libg_nano.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a
+END GROUP
+START GROUP
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a
+END GROUP
+
+.text           0x0000000008000000       0xbc
+ *(.isr_vector)
+ .isr_vector    0x0000000008000000        0x8 ./src/ch10/main-ex2.o
+                0x0000000008000000                vector_table
+ *(.text .text*)
+ .text          0x0000000008000008        0x0 ./src/ch10/main-ex2.o
+ .text._start   0x0000000008000008       0x44 ./src/ch10/main-ex2.o
+                0x0000000008000008                _start
+ .text.main     0x000000000800004c       0x54 ./src/ch10/main-ex2.o
+                0x000000000800004c                main
+ .text.delay    0x00000000080000a0       0x1c ./src/ch10/main-ex2.o
+                0x00000000080000a0                delay
+ *(.isr_vector)
+                0x00000000080000bc                _sidata = LOADADDR (.data)
+
+.glue_7         0x00000000080000bc        0x0
+ .glue_7        0x0000000000000000        0x0 linker stubs
+
+.glue_7t        0x00000000080000bc        0x0
+ .glue_7t       0x0000000000000000        0x0 linker stubs
+
+.vfp11_veneer   0x00000000080000bc        0x0
+ .vfp11_veneer  0x0000000000000000        0x0 linker stubs
+
+.v4_bx          0x00000000080000bc        0x0
+ .v4_bx         0x0000000000000000        0x0 linker stubs
+
+.iplt           0x00000000080000bc        0x0
+ .iplt          0x0000000000000000        0x0 ./src/ch10/main-ex2.o
+
+.rel.dyn        0x00000000080000bc        0x0
+ .rel.iplt      0x0000000000000000        0x0 ./src/ch10/main-ex2.o
+
+.data           0x0000000020000000        0x4 load address 0x00000000080000bc
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _sdata = .
+ *(.data)
+ .data          0x0000000020000000        0x0 ./src/ch10/main-ex2.o
+ *(.data*)
+ .data.dataVar  0x0000000020000000        0x4 ./src/ch10/main-ex2.o
+                0x0000000020000000                dataVar
+                0x0000000020000004                . = ALIGN (0x4)
+                0x0000000020000004                _edata = .
+OUTPUT(nucleo-l053R8.elf elf32-littlearm)
+
+.igot.plt       0x0000000020000004        0x0 load address 0x00000000080000c0
+ .igot.plt      0x0000000000000000        0x0 ./src/ch10/main-ex2.o
+
+.bss            0x0000000020000004        0x0 load address 0x00000000080000c0
+ .bss           0x0000000020000004        0x0 ./src/ch10/main-ex2.o
+
+.debug_info     0x0000000000000000      0x168
+ .debug_info    0x0000000000000000      0x168 ./src/ch10/main-ex2.o
+
+.debug_abbrev   0x0000000000000000      0x132
+ .debug_abbrev  0x0000000000000000      0x132 ./src/ch10/main-ex2.o
+
+.debug_aranges  0x0000000000000000       0x30
+ .debug_aranges
+                0x0000000000000000       0x30 ./src/ch10/main-ex2.o
+
+.debug_ranges   0x0000000000000000       0x20
+ .debug_ranges  0x0000000000000000       0x20 ./src/ch10/main-ex2.o
+
+.debug_macro    0x0000000000000000      0x897
+ .debug_macro   0x0000000000000000       0x53 ./src/ch10/main-ex2.o
+ .debug_macro   0x0000000000000053      0x844 ./src/ch10/main-ex2.o
+
+.debug_line     0x0000000000000000       0x82
+ .debug_line    0x0000000000000000       0x82 ./src/ch10/main-ex2.o
+
+.debug_str      0x0000000000000000     0x259f
+ .debug_str     0x0000000000000000     0x259f ./src/ch10/main-ex2.o
+                                       0x25b9 (size before relaxing)
+
+.comment        0x0000000000000000       0x70
+ .comment       0x0000000000000000       0x70 ./src/ch10/main-ex2.o
+                                         0x71 (size before relaxing)
+
+.ARM.attributes
+                0x0000000000000000       0x32
+ .ARM.attributes
+                0x0000000000000000       0x32 ./src/ch10/main-ex2.o
+
+.debug_frame    0x0000000000000000       0x6c
+ .debug_frame   0x0000000000000000       0x6c ./src/ch10/main-ex2.o
