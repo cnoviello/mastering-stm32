@@ -1,4 +1,4 @@
-/* memory layout for an STM32F334R8 */
+/* memory layout for an STM32F303RE */
 
 MEMORY
 {

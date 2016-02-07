@@ -6,7 +6,7 @@ typedef unsigned long uint32_t;
 #define PERIPH_BASE     0x40000000
 
 /* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       64*1024     // STM32F334R8 has 96 KB of RAM
+#define SRAM_SIZE       64*1024     // STM32F303RE has 64 KB of RAM
 #define SRAM_END        (SRAM_BASE + SRAM_SIZE)
 
 /* RCC peripheral addresses applicable to GPIOA */
@@ -24,23 +24,23 @@ void delay(uint32_t count);
 
 /* Minimal vector table */
 uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)main        // main as Reset_Handler
+		(uint32_t *)SRAM_END,   // initial stack pointer
+		(uint32_t *)main        // main as Reset_Handler
 };
 
 int main() {
-    /* enable clock on GPIOA peripheral */
-    *RCC_APB1ENR |= 0x1 << 17;
-    *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
+	/* enable clock on GPIOA peripheral */
+	*RCC_APB1ENR |= 0x1 << 17;
+	*GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
-    while(1) {
-    	*GPIOA_ODR = 0x20;
-      delay(200000);
-    	*GPIOA_ODR = 0x0;
-      delay(200000);
-    }
+	while(1) {
+		*GPIOA_ODR = 0x20;
+		delay(200000);
+		*GPIOA_ODR = 0x0;
+		delay(200000);
+	}
 }
 
 void delay(uint32_t count) {
-    while(count--);
+	while(count--);
 }
