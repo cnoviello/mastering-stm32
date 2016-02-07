@@ -10,7 +10,7 @@ typedef unsigned long uint32_t;
 #define PERIPH_BASE     0x40000000
 
 /* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       16*1024     // STM32F334R8 has 96 KB of RAM
+#define SRAM_SIZE       16*1024     // STM32F302R8 has 16 KB of RAM
 #define SRAM_END        (SRAM_BASE + SRAM_SIZE)
 
 /* RCC peripheral addresses applicable to GPIOB */
