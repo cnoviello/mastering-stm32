@@ -1,0 +1,188 @@
+Archive member included because of file (symbol)
+
+/Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o)
+                              ./src/ch10/main-ex4.o (__aeabi_dcmpge)
+/Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(eqdf2.o)
+                              /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o) (__eqdf2)
+/Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(gedf2.o)
+                              /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o) (__gedf2)
+/Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(ledf2.o)
+                              /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o) (__ledf2)
+/Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(extendsfdf2.o)
+                              ./src/ch10/main-ex4.o (__aeabi_f2d)
+/Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+                              /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(extendsfdf2.o) (__clzsi2)
+
+Discarded input sections
+
+ .group         0x0000000000000000        0x8 ./src/ch10/main-ex4.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+FLASH            0x0000000008000000 0x0000000000080000 xr
+SRAM             0x0000000020000000 0x0000000000002000 xrw
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD ./src/ch10/main-ex4.o
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libstdc++_nano.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libm.a
+START GROUP
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libg_nano.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a
+END GROUP
+START GROUP
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a
+LOAD /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/../../../../arm-none-eabi/lib/armv6-m/libc_nano.a
+END GROUP
+
+.text           0x0000000008000000      0x494
+ *(.isr_vector)
+ .isr_vector    0x0000000008000000        0x8 ./src/ch10/main-ex4.o
+                0x0000000008000000                vector_table
+ *(.text .text*)
+ .text          0x0000000008000008        0x0 ./src/ch10/main-ex4.o
+ .text._start   0x0000000008000008       0x6c ./src/ch10/main-ex4.o
+                0x0000000008000008                _start
+ .text.main     0x0000000008000074       0x70 ./src/ch10/main-ex4.o
+                0x0000000008000074                main
+ .text.delay    0x00000000080000e4       0x1c ./src/ch10/main-ex4.o
+                0x00000000080000e4                delay
+ .text          0x0000000008000100       0x7c /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o)
+                0x0000000008000100                __aeabi_cdrcmple
+                0x0000000008000110                __aeabi_cdcmple
+                0x0000000008000110                __aeabi_cdcmpeq
+                0x0000000008000120                __aeabi_dcmpeq
+                0x000000000800012c                __aeabi_dcmplt
+                0x0000000008000140                __aeabi_dcmple
+                0x0000000008000154                __aeabi_dcmpgt
+                0x0000000008000168                __aeabi_dcmpge
+ .text          0x000000000800017c       0x88 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(eqdf2.o)
+                0x000000000800017c                __eqdf2
+                0x000000000800017c                __nedf2
+ .text          0x0000000008000204       0xe0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(gedf2.o)
+                0x0000000008000204                __gtdf2
+                0x0000000008000204                __gedf2
+ .text          0x00000000080002e4       0xcc /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(ledf2.o)
+                0x00000000080002e4                __ltdf2
+                0x00000000080002e4                __ledf2
+ .text          0x00000000080003b0       0xa8 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(extendsfdf2.o)
+                0x00000000080003b0                __aeabi_f2d
+ .text          0x0000000008000458       0x3c /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+                0x0000000008000458                __clzsi2
+ *(.isr_vector)
+                0x0000000008000494                _sidata = LOADADDR (.data)
+
+.glue_7         0x0000000008000494        0x0
+ .glue_7        0x0000000000000000        0x0 linker stubs
+
+.glue_7t        0x0000000008000494        0x0
+ .glue_7t       0x0000000000000000        0x0 linker stubs
+
+.vfp11_veneer   0x0000000008000494        0x0
+ .vfp11_veneer  0x0000000000000000        0x0 linker stubs
+
+.v4_bx          0x0000000008000494        0x0
+ .v4_bx         0x0000000000000000        0x0 linker stubs
+
+.iplt           0x0000000008000494        0x0
+ .iplt          0x0000000000000000        0x0 ./src/ch10/main-ex4.o
+
+.data           0x0000000020000000        0x0 load address 0x0000000008000494
+                0x0000000020000000                _sdata = .
+ *(.data)
+ .data          0x0000000020000000        0x0 ./src/ch10/main-ex4.o
+ .data          0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o)
+ .data          0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(eqdf2.o)
+ .data          0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(gedf2.o)
+ .data          0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(ledf2.o)
+ .data          0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(extendsfdf2.o)
+ .data          0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+ *(.data*)
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _edata = .
+
+.igot.plt       0x0000000020000000        0x0 load address 0x0000000008000494
+ .igot.plt      0x0000000000000000        0x0 ./src/ch10/main-ex4.o
+
+.bss            0x0000000020000000        0x0 load address 0x0000000008000494
+                0x0000000020000000                _sbss = .
+ *(.bss)
+ .bss           0x0000000020000000        0x0 ./src/ch10/main-ex4.o
+ .bss           0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o)
+ .bss           0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(eqdf2.o)
+ .bss           0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(gedf2.o)
+ .bss           0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(ledf2.o)
+ .bss           0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(extendsfdf2.o)
+ .bss           0x0000000020000000        0x0 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+ *(.bss*)
+                0x0000000020000000                . = ALIGN (0x4)
+                0x0000000020000000                _ebss = .
+
+.rodata         0x0000000008000494       0x24
+ *(.rodata)
+ *(.rodata*)
+ .rodata.msg    0x0000000008000494        0xd ./src/ch10/main-ex4.o
+                0x0000000008000494                msg
+ *fill*         0x00000000080004a1        0x3 
+ .rodata.vals   0x00000000080004a4       0x14 ./src/ch10/main-ex4.o
+                0x00000000080004a4                vals
+OUTPUT(nucleo-l053R8.elf elf32-littlearm)
+
+.rel.dyn        0x00000000080004b8        0x0
+ .rel.iplt      0x0000000000000000        0x0 ./src/ch10/main-ex4.o
+
+.debug_info     0x0000000000000000      0x224
+ .debug_info    0x0000000000000000      0x224 ./src/ch10/main-ex4.o
+
+.debug_abbrev   0x0000000000000000      0x154
+ .debug_abbrev  0x0000000000000000      0x154 ./src/ch10/main-ex4.o
+
+.debug_aranges  0x0000000000000000       0x30
+ .debug_aranges
+                0x0000000000000000       0x30 ./src/ch10/main-ex4.o
+
+.debug_ranges   0x0000000000000000       0x20
+ .debug_ranges  0x0000000000000000       0x20 ./src/ch10/main-ex4.o
+
+.debug_macro    0x0000000000000000      0x897
+ .debug_macro   0x0000000000000000       0x53 ./src/ch10/main-ex4.o
+ .debug_macro   0x0000000000000053      0x844 ./src/ch10/main-ex4.o
+
+.debug_line     0x0000000000000000       0x8b
+ .debug_line    0x0000000000000000       0x8b ./src/ch10/main-ex4.o
+
+.debug_str      0x0000000000000000     0x25bf
+ .debug_str     0x0000000000000000     0x25bf ./src/ch10/main-ex4.o
+                                       0x25de (size before relaxing)
+
+.comment        0x0000000000000000       0x70
+ .comment       0x0000000000000000       0x70 ./src/ch10/main-ex4.o
+                                         0x71 (size before relaxing)
+
+.ARM.attributes
+                0x0000000000000000       0x32
+ .ARM.attributes
+                0x0000000000000000       0x32 ./src/ch10/main-ex4.o
+ .ARM.attributes
+                0x0000000000000032       0x1e /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_arm_cmpdf2.o)
+ .ARM.attributes
+                0x0000000000000050       0x2c /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(eqdf2.o)
+ .ARM.attributes
+                0x000000000000007c       0x2c /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(gedf2.o)
+ .ARM.attributes
+                0x00000000000000a8       0x2c /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(ledf2.o)
+ .ARM.attributes
+                0x00000000000000d4       0x2c /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(extendsfdf2.o)
+ .ARM.attributes
+                0x0000000000000100       0x1e /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(_clzsi2.o)
+
+.debug_frame    0x0000000000000000      0x144
+ .debug_frame   0x0000000000000000       0x70 ./src/ch10/main-ex4.o
+ .debug_frame   0x0000000000000070       0x38 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(eqdf2.o)
+ .debug_frame   0x00000000000000a8       0x38 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(gedf2.o)
+ .debug_frame   0x00000000000000e0       0x38 /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(ledf2.o)
+ .debug_frame   0x0000000000000118       0x2c /Users/cnoviello/STM32Toolchain/gcc-arm-none-eabi-4_9-2015q2/bin/../lib/gcc/arm-none-eabi/4.9.3/armv6-m/libgcc.a(extendsfdf2.o)
