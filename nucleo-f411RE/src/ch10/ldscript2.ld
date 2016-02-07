@@ -1,4 +1,4 @@
-/* memory layout for an STM32F401RE */
+/* memory layout for an STM32F411RE */
 
 MEMORY
 {
