@@ -1,3 +1,7 @@
+#include <stdlib.h>
+#include <string.h>
+#include <errno.h>
+
 typedef unsigned long uint32_t;
 
 /* memory and peripheral start addresses */
