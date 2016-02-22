@@ -1,46 +1,88 @@
-typedef unsigned long uint32_t;
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f4xx_hal.h"
+#include <nucleo_hal_bsp.h>
+#include <string.h>
 
-/* memory and peripheral start addresses */
-#define FLASH_BASE      0x08000000
-#define SRAM_BASE       0x20000000
-#define PERIPH_BASE     0x40000000
+/* USER CODE BEGIN Includes */
 
-/* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       96*1024     // STM32F401RE has 96 KB of RAM
-#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
+/* USER CODE END Includes */
 
-/* RCC peripheral addresses applicable to GPIOA */
-#define RCC_BASE        (PERIPH_BASE + 0x23800)
-#define RCC_APB1ENR     ((uint32_t*)(RCC_BASE + 0x30))
+/* Private variables ---------------------------------------------------------*/
+UART_HandleTypeDef huart2;
 
-/* GPIOA peripheral addresses */
-#define GPIOA_BASE      (PERIPH_BASE + 0x20000)
-#define GPIOA_MODER     ((uint32_t*)(GPIOA_BASE + 0x00))
-#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
 
-/* User functions */
-int main(void);
-void delay(uint32_t count);
+/* USER CODE BEGIN PV */
+/* Private variables ---------------------------------------------------------*/
 
-/* Minimal vector table */
-uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)main        // main as Reset_Handler
-};
+/* USER CODE END PV */
 
-int main() {
-    /* enable clock on GPIOA peripheral */
-    *RCC_APB1ENR = 0x1;
-    *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
+/* Private function prototypes -----------------------------------------------*/
 
-    while(1) {
-    	*GPIOA_ODR = 0x20;
-        delay(200000);
-    	*GPIOA_ODR = 0x0;
-        delay(200000);
-    }
+/* USER CODE BEGIN PFP */
+/* Private function prototypes -----------------------------------------------*/
+
+/* USER CODE END PFP */
+
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
+
+int main(void) {
+  HAL_Init();
+
+  Nucleo_BSP_Init();
+
+  TIM_HandleTypeDef htim2;
+
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 47999;
+  htim2.Init.Period = 874;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+
+  __TIM2_CLK_ENABLE();
+
+  HAL_TIM_Base_Init(&htim2);
+  HAL_TIM_Base_Start(&htim2);
+
+  while (1) {
+	  if (__HAL_TIM_GET_COUNTER(&htim2) == 874) {
+		  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+		  HAL_Delay(1);
+	  }
+  }
 }
 
-void delay(uint32_t count) {
-    while(count--);
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
+
+#ifdef USE_FULL_ASSERT
+
+/**
+   * @brief Reports the name of the source file and the source line number
+   * where the assert_param error has occurred.
+   * @param file: pointer to the source file name
+   * @param line: assert_param error line source number
+   * @retval None
+   */
+void assert_failed(uint8_t* file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+
 }
+
+#endif
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+*/ 
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
