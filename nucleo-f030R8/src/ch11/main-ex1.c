@@ -1,43 +1,41 @@
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
+#include "stm32f0xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
-TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim6;
 
 int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
 
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 47999; //84MHz/48000 = 1750Hz
-  htim2.Init.Period = 874; //1750HZ / 875 = 2Hz = 0.5s
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 47999; //48MHz/48000 = 1000Hz
+  htim6.Init.Period = 499; //1000HZ / 500 = 2Hz = 0.5s
 
-  __TIM2_CLK_ENABLE();
+  __TIM6_CLK_ENABLE();
 
-  HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(TIM2_IRQn);
+  HAL_NVIC_SetPriority(TIM6_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM6_IRQn);
 
-  HAL_TIM_Base_Init(&htim2);
-  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Init(&htim6);
+  HAL_TIM_Base_Start_IT(&htim6);
 
-  while (1) {
-  }
+  while (1);
 }
 
-void TIM2_IRQHandler(void) {
-  HAL_TIM_IRQHandler(&htim2);
+void TIM6_IRQHandler(void) {
+  HAL_TIM_IRQHandler(&htim6);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if(htim->Instance == TIM2)
+  if(htim->Instance == TIM6)
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 }
+
 
 #ifdef USE_FULL_ASSERT
 
