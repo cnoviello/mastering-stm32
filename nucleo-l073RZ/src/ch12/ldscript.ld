@@ -1,9 +1,9 @@
-/* memory layout for an STM32L053R8 */
+/* memory layout for an STM32L073RZ */
 
 MEMORY
 {
-    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 512K
-    SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 8K
+    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 192K
+    SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 20K
 }
  
 /* output sections */
