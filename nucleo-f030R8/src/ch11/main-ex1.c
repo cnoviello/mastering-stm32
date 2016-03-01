@@ -4,7 +4,6 @@
 #include <string.h>
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart2;
 TIM_HandleTypeDef htim6;
 
 int main(void) {

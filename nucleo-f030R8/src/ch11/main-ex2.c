@@ -4,7 +4,6 @@
 #include <string.h>
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart2;
 TIM_HandleTypeDef htim3;
 
 void MX_TIM3_Init(void);
@@ -27,7 +26,7 @@ void MX_TIM3_Init(void) {
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 20999;
+  htim3.Init.Period = 19999;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim3.Init.RepetitionCounter = 0;
   HAL_TIM_Base_Init(&htim3);
@@ -69,7 +68,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if(htim->Instance == TIM3)
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 }
-
 
 #ifdef USE_FULL_ASSERT
 
