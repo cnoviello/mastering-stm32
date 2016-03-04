@@ -36,7 +36,6 @@ int main(void) {
   HAL_NVIC_SetPriority(TIM6_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(TIM6_IRQn);
 
-  HAL_TIM_Base_Init(&htim6);
   HAL_TIM_Base_Start_IT(&htim6);
 
   HAL_TIM_IC_Start_IT(&htim3, TIM_CHANNEL_1);
@@ -82,7 +81,9 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
       }
       /* Frequency computation: for this example TIMx (TIM1) is clocked by
          APB1Clk */
-      uwFrequency = HAL_RCC_GetPCLK1Freq() / uwDiffCapture;
+      HAL_TIM_Base_Stop_IT(htim);
+      uwFrequency = HAL_RCC_GetPCLK1Freq();
+      uwFrequency /= uwDiffCapture;
       uhCaptureIndex = 0;
       char msg[20];
       sprintf(msg, "T1: %u\r\n", uwIC2Value2);
@@ -93,6 +94,10 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 
       sprintf(msg, "Speed: %u\r\n", uwIC2Value2-uwIC2Value1);
       HAL_UART_Transmit(&huart2, msg, strlen(msg), HAL_MAX_DELAY);
+
+      sprintf(msg, "Frequency: %u\r\n", uwFrequency);
+      HAL_UART_Transmit(&huart2, msg, strlen(msg), HAL_MAX_DELAY);
+
     }
   }
 }
@@ -135,9 +140,9 @@ void MX_TIM3_Init(void)
   TIM_IC_InitTypeDef sConfigIC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 47;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
+  htim3.Init.Period = 0xffff;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_Base_Init(&htim3);
 
@@ -150,7 +155,7 @@ void MX_TIM3_Init(void)
   sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
   HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig);
 
-  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_BOTHEDGE;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
