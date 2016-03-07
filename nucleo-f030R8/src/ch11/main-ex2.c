@@ -4,69 +4,49 @@
 #include <string.h>
 
 /* Private variables ---------------------------------------------------------*/
-TIM_HandleTypeDef htim3;
+TIM_HandleTypeDef htim6;
+DMA_HandleTypeDef hdma_tim6_up;
 
-void MX_TIM3_Init(void);
+
+static void MX_DMA_Init(void);
 
 int main(void) {
+  uint8_t data[] = {0xFF, 0x0};
+
   HAL_Init();
-
   Nucleo_BSP_Init();
-  MX_TIM3_Init();
+  MX_DMA_Init();
 
-  HAL_TIM_Base_Start_IT(&htim3);
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 47999; //48MHz/48000 = 1000Hz
+  htim6.Init.Period = 499; //1000HZ / 500 = 2Hz = 0.5s
+  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  __TIM6_CLK_ENABLE();
+
+  HAL_TIM_Base_Init(&htim6);
+  HAL_TIM_Base_Start(&htim6);
+
+  hdma_tim6_up.Instance = DMA1_Channel3;
+  hdma_tim6_up.Init.Direction = DMA_MEMORY_TO_PERIPH;
+  hdma_tim6_up.Init.PeriphInc = DMA_PINC_DISABLE;
+  hdma_tim6_up.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_tim6_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_tim6_up.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+  hdma_tim6_up.Init.Mode = DMA_CIRCULAR;
+  hdma_tim6_up.Init.Priority = DMA_PRIORITY_LOW;
+  HAL_DMA_Init(&hdma_tim6_up);
+
+  HAL_DMA_Start(&hdma_tim6_up, (uint32_t)data, (uint32_t)&GPIOA->ODR, 2);
+  __HAL_TIM_ENABLE_DMA(&htim6, TIM_DMA_UPDATE);
 
   while (1);
 }
 
-/* TIM3 init function */
-void MX_TIM3_Init(void) {
-  TIM_ClockConfigTypeDef sClockSourceConfig;
-
-  htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 0;
-  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 19999;
-  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim3.Init.RepetitionCounter = 0;
-  HAL_TIM_Base_Init(&htim3);
-
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_ETRMODE2;
-  sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
-  sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
-  sClockSourceConfig.ClockFilter = 0;
-  HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig);
-
-  HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(TIM3_IRQn);
-}
-
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
-
-  GPIO_InitTypeDef GPIO_InitStruct;
-  if(htim_base->Instance==TIM3)  {
-    /* Peripheral clock enable */
-    __TIM3_CLK_ENABLE();
-    __GPIOD_CLK_ENABLE();
-
-    /**TIM3 GPIO Configuration
-    PD2     ------> TIM3_ETR
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_2;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
- }
-}
-
-void TIM3_IRQHandler(void) {
-  HAL_TIM_IRQHandler(&htim3);
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if(htim->Instance == TIM3)
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+/* Enable DMA controller clock */
+void MX_DMA_Init(void)
+{
+  /* DMA controller clock enable */
+  __DMA1_CLK_ENABLE();
 }
 
 #ifdef USE_FULL_ASSERT

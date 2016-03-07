@@ -21,20 +21,21 @@ int main(void) {
 
 /* TIM3 init function */
 void MX_TIM3_Init(void) {
-  TIM_SlaveConfigTypeDef sSlaveConfig;
+  TIM_ClockConfigTypeDef sClockSourceConfig;
 
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 19999;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.RepetitionCounter = 0;
   HAL_TIM_Base_Init(&htim3);
 
-  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_EXTERNAL1;
-  sSlaveConfig.InputTrigger = TIM_TS_TI2FP2;
-  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
-  sSlaveConfig.TriggerFilter = 0;
-  HAL_TIM_SlaveConfigSynchronization(&htim3, &sSlaveConfig);
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_ETRMODE2;
+  sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
+  sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
+  sClockSourceConfig.ClockFilter = 0;
+  HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig);
 
   HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(TIM3_IRQn);
@@ -46,16 +47,16 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   if(htim_base->Instance==TIM3)  {
     /* Peripheral clock enable */
     __TIM3_CLK_ENABLE();
+    __GPIOD_CLK_ENABLE();
 
     /**TIM3 GPIO Configuration
-    PA7     ------> TIM3_CH2
+    PD2     ------> TIM3_ETR
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF1_TIM3;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
  }
 }
 
@@ -67,7 +68,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if(htim->Instance == TIM3)
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 }
-
 
 #ifdef USE_FULL_ASSERT
 

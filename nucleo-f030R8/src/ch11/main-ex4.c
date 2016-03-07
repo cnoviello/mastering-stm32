@@ -4,16 +4,14 @@
 #include <string.h>
 
 /* Private variables ---------------------------------------------------------*/
-TIM_HandleTypeDef htim3, htim1;
+TIM_HandleTypeDef htim3;
 
-void MX_TIM1_Init(void);
 void MX_TIM3_Init(void);
 
 int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
-  MX_TIM1_Init();
   MX_TIM3_Init();
 
   HAL_TIM_Base_Start_IT(&htim3);
@@ -21,45 +19,21 @@ int main(void) {
   while (1);
 }
 
-void MX_TIM1_Init(void) {
-  TIM_ClockConfigTypeDef sClockSourceConfig;
-  TIM_MasterConfigTypeDef sMasterConfig;
-  TIM_SlaveConfigTypeDef sSlaveConfig;
-
-  htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 47999;
-  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 249;
-  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim1.Init.RepetitionCounter = 0;
-  HAL_TIM_Base_Init(&htim1);
-
-  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
-  HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig);
-
-  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
-  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
-  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
-  sSlaveConfig.TriggerFilter = 15;
-  HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
-
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
-  HAL_TIMEx_MasterConfigSynchronization(&htim1, &sMasterConfig);
-}
-
+/* TIM3 init function */
 void MX_TIM3_Init(void) {
   TIM_SlaveConfigTypeDef sSlaveConfig;
 
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 1;
+  htim3.Init.Period = 19999;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_Base_Init(&htim3);
 
   sSlaveConfig.SlaveMode = TIM_SLAVEMODE_EXTERNAL1;
-  sSlaveConfig.InputTrigger = TIM_TS_ITR0;
+  sSlaveConfig.InputTrigger = TIM_TS_TI2FP2;
+  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
+  sSlaveConfig.TriggerFilter = 0;
   HAL_TIM_SlaveConfigSynchronization(&htim3, &sSlaveConfig);
 
   HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
@@ -67,20 +41,22 @@ void MX_TIM3_Init(void) {
 }
 
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
+
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(htim_base->Instance==TIM3) {
+  if(htim_base->Instance==TIM3)  {
+    /* Peripheral clock enable */
     __TIM3_CLK_ENABLE();
 
-    GPIO_InitStruct.Pin = GPIO_PIN_8;
+    /**TIM3 GPIO Configuration
+    PA7     ------> TIM3_CH2
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
+    GPIO_InitStruct.Alternate = GPIO_AF1_TIM3;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  }
-
-  if(htim_base->Instance==TIM1)
-    __TIM1_CLK_ENABLE();
+ }
 }
 
 void TIM3_IRQHandler(void) {
