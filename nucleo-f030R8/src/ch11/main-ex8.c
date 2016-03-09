@@ -17,14 +17,22 @@ uint16_t computePulse(TIM_HandleTypeDef *htim, uint32_t chFrequency) {
 volatile uint16_t CH1_FREQ = 0;
 volatile uint16_t CH2_FREQ = 0;
 
+uint16_t vec[] = {50, 100, 200, 300, 400, 500, 600, 700};
+
 int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
   MX_TIM3_Init();
 
-  HAL_TIM_OC_Start_IT(&htim3, TIM_CHANNEL_1);
-  HAL_TIM_OC_Start_IT(&htim3, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1);
+  while(1) {
+    uint16_t pulse = HAL_TIM_ReadCapturedValue(&htim3, TIM_CHANNEL_1);
+
+     __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, ++pulse);
+     HAL_Delay(1);
+  }
+//  HAL_TIM_OC_Start_IT(&htim3, TIM_CHANNEL_2);
 
   while (1);
 }
@@ -34,24 +42,19 @@ void MX_TIM3_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 2;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 65535;
+  htim3.Init.Period = 10000;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  HAL_TIM_OC_Init(&htim3);
+  HAL_TIM_Base_Init(&htim3);
 
-  CH1_FREQ = computePulse(&htim3, 50000);
-  CH2_FREQ = computePulse(&htim3, 100000);
+  HAL_TIM_PWM_Init(&htim3);
 
-  sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
-  sConfigOC.Pulse = CH1_FREQ;
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 1;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  HAL_TIM_OC_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
-
-  sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
-  sConfigOC.Pulse = CH2_FREQ;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  HAL_TIM_OC_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2);
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
 }
 
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -74,7 +77,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
   }
 }
 
-void HAL_TIM_OC_MspInit(TIM_HandleTypeDef* htim_base) {
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
   if(htim_base->Instance==TIM3) {
     __TIM3_CLK_ENABLE();
