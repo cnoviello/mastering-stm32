@@ -9,64 +9,41 @@ TIM_HandleTypeDef htim3;
 
 void MX_TIM3_Init(void);
 
-DMA_HandleTypeDef hdma_tim3_ch1_trig;
-
-#define PI    3.14159
-#define ASR   1.8 //360 / 200 = 1.8
-
-int main(void) {
-  uint16_t IV[200];
-  float angle;
-
+ int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
   MX_TIM3_Init();
 
-  for (uint8_t i = 0; i < 200; i++) {
-    angle = ASR*(float)i;
-    IV[i] = (uint16_t) rint(100 + 99*sinf(angle*(PI/180)));
-  }
-
-  HAL_TIM_PWM_Start_DMA(&htim3, TIM_CHANNEL_1, (uint32_t *)IV, 200);
+  HAL_TIM_OnePulse_Start(&htim3, TIM_CHANNEL_1);
 
   while (1);
 }
 
 /* TIM3 init function */
 void MX_TIM3_Init(void) {
-  TIM_OC_InitTypeDef sConfigOC;
+  TIM_OnePulse_InitTypeDef sConfig;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 23;
+  htim3.Init.Prescaler = 47;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 199;
-  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV4;
-   HAL_TIM_PWM_Init(&htim3);
+  htim3.Init.Period = 65535;
+  HAL_TIM_OnePulse_Init(&htim3, TIM_OPMODE_REPETITIVE);
 
-  sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
-  HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
+  /* Configure the Channel 1 */
+  sConfig.OCMode = TIM_OCMODE_TOGGLE;
+  sConfig.OCPolarity = TIM_OCPOLARITY_LOW;
+  sConfig.Pulse = 19999;
 
-  hdma_tim3_ch1_trig.Instance = DMA1_Channel4;
-  hdma_tim3_ch1_trig.Init.Direction = DMA_MEMORY_TO_PERIPH;
-  hdma_tim3_ch1_trig.Init.PeriphInc = DMA_PINC_DISABLE;
-  hdma_tim3_ch1_trig.Init.MemInc = DMA_MINC_ENABLE;
-  hdma_tim3_ch1_trig.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-  hdma_tim3_ch1_trig.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
-  hdma_tim3_ch1_trig.Init.Mode = DMA_CIRCULAR;
-  hdma_tim3_ch1_trig.Init.Priority = DMA_PRIORITY_LOW;
-  HAL_DMA_Init(&hdma_tim3_ch1_trig);
+  /* Configure the Channel 2 */
+  sConfig.ICPolarity = TIM_ICPOLARITY_RISING;
+  sConfig.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfig.ICFilter = 0;
 
-  /* Several peripheral DMA handle pointers point to the same DMA handle.
-   Be aware that there is only one channel to perform all the requested DMAs. */
-  __HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_CC1], hdma_tim3_ch1_trig);
-  __HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_TRIGGER], hdma_tim3_ch1_trig);
+  HAL_TIM_OnePulse_ConfigChannel(&htim3, &sConfig, TIM_CHANNEL_1, TIM_CHANNEL_2);
 }
 
-void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_base) {
+void HAL_TIM_OnePulse_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
   if (htim_base->Instance == TIM3) {
     __TIM3_CLK_ENABLE();
@@ -77,11 +54,15 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_base) {
      */
     GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM3;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   }
+}
+
+void TIM3_IRQHandler(void) {
+   HAL_TIM_IRQHandler(&htim3);
 }
 
 #ifdef USE_FULL_ASSERT

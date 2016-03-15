@@ -19,17 +19,17 @@ int main(void) {
   uint16_t dutyCycle = HAL_TIM_ReadCapturedValue(&htim2, TIM_CHANNEL_1);
   while(1);
 
-//  while(1) {
-//    while(dutyCycle < __HAL_TIM_GET_AUTORELOAD(&htim2)) {
-//      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ++dutyCycle);
-//      HAL_Delay(1);
-//    }
-//
-//    while(dutyCycle > 0) {
-//      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, --dutyCycle);
-//      HAL_Delay(1);
-//    }
-//  }
+  while(1) {
+    while(dutyCycle < __HAL_TIM_GET_AUTORELOAD(&htim2)) {
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, ++dutyCycle);
+      HAL_Delay(1);
+    }
+
+    while(dutyCycle > 0) {
+      __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_1, --dutyCycle);
+      HAL_Delay(1);
+    }
+  }
 }
 
 /* TIM3 init function */
