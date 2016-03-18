@@ -14,22 +14,16 @@ void MX_TIM3_Init(void);
 void MX_TIM6_Init(void);
 void MX_DMA_Init(void);
 
-DMA_HandleTypeDef hdma_tim3_ch1_trig, hdma_tim3_ch4_up;;
+DMA_HandleTypeDef hdma_tim3_ch1_trig;
 DMA_HandleTypeDef hdma_tim6_up;
 
 uint8_t  odrVals[] = { 0x0, 0xFF };
-volatile uint16_t captures[2];
+uint16_t captures[2];
 volatile uint8_t  captureDone = 0;
-volatile uint16_t overflowCounter = 0;
-volatile uint8_t ups[40];
 
 int main(void) {
   uint16_t diffCapture = 0;
   char msg[30];
-  uint8_t sval[40];
-
-  memset(ups, 0, sizeof(uint8_t)*40);
-  memset(sval, 20, sizeof(uint8_t)*40);
 
   HAL_Init();
 
@@ -39,67 +33,21 @@ int main(void) {
   MX_TIM3_Init();
   MX_TIM6_Init();
 
-  hdma_tim3_ch4_up.Instance = DMA1_Channel3;
-  hdma_tim3_ch4_up.Init.Direction = DMA_PERIPH_TO_MEMORY;
-  hdma_tim3_ch4_up.Init.PeriphInc = DMA_PINC_DISABLE;
-  hdma_tim3_ch4_up.Init.MemInc = DMA_MINC_ENABLE;
-  hdma_tim3_ch4_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  hdma_tim3_ch4_up.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-  hdma_tim3_ch4_up.Init.Mode = DMA_NORMAL;
-  hdma_tim3_ch4_up.Init.Priority = DMA_PRIORITY_LOW;
-//  hdma_tim3_ch4_up.XferCpltCallback = NULL;
-//  hdma_tim3_ch4_up.XferHalfCpltCallback = NULL;
-//  hdma_tim3_ch4_up.XferErrorCallback = &DMAError;
-  HAL_DMA_Init(&hdma_tim3_ch4_up);
-
-
-  HAL_DMA_Start(&hdma_tim6_up, (uint32_t) odrVals, (uint32_t)&GPIOA->ODR, 2);
+  HAL_DMA_Start(&hdma_tim6_up, (uint32_t) odrVals, (uint32_t) &GPIOA->ODR, 2);
   __HAL_TIM_ENABLE_DMA(&htim6, TIM_DMA_UPDATE);
   HAL_TIM_Base_Start(&htim6);
 
-  HAL_DMA_Start(&hdma_tim3_ch4_up, (uint32_t)sval, (uint32_t)ups, 40);
-//
-////  HAL_DMA_Start(&hdma_tim3_ch4_up, (uint32_t)odrVals, (uint32_t)&GPIOA->ODR, 20);
-  __HAL_TIM_ENABLE_DMA(&htim3, TIM_DMA_UPDATE);
-//
-//  HAL_TIM_Base_Start(&htim3);
-  HAL_TIM_Base_Start(&htim3);
-////  HAL_DMA_PollForTransfer(&hdma_tim3_ch4_up, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
-//
   HAL_TIM_IC_Start_DMA(&htim3, TIM_CHANNEL_1, (uint32_t*) captures, 2);
-//  uint8_t i = 0, lasti = 0;
-//
-//  for(; i<20; i++) {
-//    sprintf(msg, "UPS: %u::", ups[i]);
-//    HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
-//  }
 
-//  while(1) {
-//    while(ups[i] != 0 && i < 20)
-//      i++;
-//    if(lasti != i) {
-//      lasti = i;
-//      sprintf(msg, "UPS: %u\r\n", ups[i-1]);
-//      HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
-//    }
-//  }
   while (1) {
     if (captureDone != 0) {
-      __HAL_TIM_DISABLE_DMA(&htim3, TIM_DMA_UPDATE);
-      int i=0;
-      while(ups[i] != 0) i++;
-
-
-//      captures[1]+=(htim3.Instance->ARR+1)*i;
-
       if (captures[1] >= captures[0])
         diffCapture = captures[1] - captures[0];
       else
         diffCapture = (htim3.Instance->ARR - captures[0]) + captures[1];
 
       frequency = HAL_RCC_GetPCLK1Freq() / (htim3.Instance->PSC + 1);
-      frequency = (float) frequency / ((htim3.Instance->ARR*(i-1)) + diffCapture);
-      overflowCounter = 0;
+      frequency = (float) frequency / diffCapture;
 
       sprintf(msg, "Input frequency: %.3f\r\n", frequency);
       HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
@@ -110,29 +58,20 @@ int main(void) {
 
 /* TIM3 init function */
 void MX_TIM3_Init(void) {
-  TIM_MasterConfigTypeDef sMasterConfig;
   TIM_IC_InitTypeDef sConfigIC;
 
   htim3.Instance = TIM3;
   htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 499;
+  htim3.Init.Period = 65535;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_IC_Init(&htim3);
-
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig);
 
   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
   HAL_TIM_IC_ConfigChannel(&htim3, &sConfigIC, TIM_CHANNEL_1);
-}
-
-void DMAError(DMA_HandleTypeDef *hdma) {
-  asm("BKPT #0");
 }
 
 void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* htim_ic) {
@@ -162,58 +101,21 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* htim_ic) {
     hdma_tim3_ch1_trig.Init.Priority = DMA_PRIORITY_LOW;
     HAL_DMA_Init(&hdma_tim3_ch1_trig);
 
-//    hdma_tim3_ch4_up.Instance = DMA1_Channel3;
-//    hdma_tim3_ch4_up.Init.Direction = DMA_MEMORY_TO_MEMORY;
-//    hdma_tim3_ch4_up.Init.PeriphInc = DMA_PINC_ENABLE;
-//    hdma_tim3_ch4_up.Init.MemInc = DMA_MINC_ENABLE;
-//    hdma_tim3_ch4_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-//    hdma_tim3_ch4_up.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
-//    hdma_tim3_ch4_up.Init.Mode = DMA_NORMAL;
-//    hdma_tim3_ch4_up.Init.Priority = DMA_PRIORITY_LOW;
-//    hdma_tim3_ch4_up.XferCpltCallback = NULL;
-//    hdma_tim3_ch4_up.XferHalfCpltCallback = NULL;
-//    hdma_tim3_ch4_up.XferErrorCallback = &DMAError;
-//    HAL_DMA_Init(&hdma_tim3_ch4_up);
-
     /* Several peripheral DMA handle pointers point to the same DMA handle.
      Be aware that there is only one channel to perform all the requested DMAs. */
     __HAL_LINKDMA(htim_ic, hdma[TIM_DMA_ID_CC1], hdma_tim3_ch1_trig);
-//    __HAL_LINKDMA(htim_ic, hdma[TIM_DMA_ID_UPDATE],hdma_tim3_ch4_up);
-    //__HAL_LINKDMA(htim_ic, hdma[TIM_DMA_ID_TRIGGER], hdma_tim3_ch1_trig);
-
-    /* Enable IRQ */
-    HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(TIM3_IRQn);
   }
 }
 
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
-//  if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) {
-    __HAL_TIM_DISABLE(&htim3);
-    __HAL_TIM_DISABLE_DMA(&htim3, TIM_DMA_UPDATE);
-    HAL_TIM_Base_Stop_IT(&htim3);
-    HAL_TIM_IC_Stop_DMA(&htim3, TIM_CHANNEL_1);
-    captureDone = 1;
-    return;
-    if (overflowCounter >= 2) {
-      HAL_TIM_IC_Stop_DMA(&htim3, TIM_CHANNEL_1);
-      htim3.Instance->PSC++;
-      overflowCounter = 0;
-      HAL_TIM_IC_Start_DMA(&htim3, TIM_CHANNEL_1, (uint32_t*) captures, 2);
-      HAL_TIM_Base_Start_IT(&htim3);
-      return;
-    } else
-      captureDone = 1;
-//  }
-}
 
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if (htim->Instance == TIM3)
-    overflowCounter++;
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
+  if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1) {
+    captureDone = 1;
+  }
 }
 
 void MX_TIM6_Init(void) {
-  htim6.Instance = TIM1;
+  htim6.Instance = TIM6;
   htim6.Init.Prescaler = 239; //48MHz/240 = 200KHz
   htim6.Init.Period = 1;      //200KHz/2  = 100KHz
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
@@ -221,12 +123,12 @@ void MX_TIM6_Init(void) {
 }
 
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
-  if (htim_base->Instance == TIM1) {
+  if (htim_base->Instance == TIM6) {
     /* Peripheral clock enable */
-    __TIM1_CLK_ENABLE();
+    __TIM6_CLK_ENABLE();
 
     /* Peripheral DMA init*/
-    hdma_tim6_up.Instance = DMA1_Channel5;
+    hdma_tim6_up.Instance = DMA1_Channel3;
     hdma_tim6_up.Init.Direction = DMA_MEMORY_TO_PERIPH;
     hdma_tim6_up.Init.PeriphInc = DMA_PINC_DISABLE;
     hdma_tim6_up.Init.MemInc = DMA_MINC_ENABLE;
@@ -248,27 +150,11 @@ void MX_DMA_Init(void) {
   HAL_NVIC_SetPriority(DMA1_Channel4_5_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel4_5_IRQn);
 
-  HAL_NVIC_SetPriority(DMA1_Channel2_3_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel2_3_IRQn);
-
-}
-
-void TIM3_IRQHandler(void) {
-  HAL_TIM_IRQHandler(&htim3);
-}
-
-void TIM6_IRQHandler(void) {
-  HAL_TIM_IRQHandler(&htim6);
 }
 
 void DMA1_Channel4_5_IRQHandler(void) {
   HAL_DMA_IRQHandler(&hdma_tim3_ch1_trig);
 }
-
-void DMA1_Channel2_3_IRQHandler(void) {
-  HAL_DMA_IRQHandler(&hdma_tim3_ch4_up);
-}
-
 
 
 #ifdef USE_FULL_ASSERT
