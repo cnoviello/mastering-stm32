@@ -46,11 +46,10 @@ void MX_TIM3_Init(void) {
   sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
   sConfigOC.Pulse = CH1_FREQ;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   HAL_TIM_OC_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
 
-  sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
   sConfigOC.Pulse = CH2_FREQ;
-  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   HAL_TIM_OC_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_2);
 }
 
@@ -98,12 +97,6 @@ void HAL_TIM_OC_MspInit(TIM_HandleTypeDef* htim_base) {
 void TIM3_IRQHandler(void) {
   HAL_TIM_IRQHandler(&htim3);
 }
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if(htim->Instance == TIM3)
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-}
-
 
 #ifdef USE_FULL_ASSERT
 

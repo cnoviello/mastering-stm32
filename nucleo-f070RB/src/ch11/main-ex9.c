@@ -75,7 +75,7 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_base) {
      PA6     ------> TIM3_CH1
      PA7     ------> TIM3_CH2
      */
-    GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
+    GPIO_InitStruct.Pin = GPIO_PIN_6;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;

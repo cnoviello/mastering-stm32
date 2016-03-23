@@ -13,7 +13,7 @@ void MX_TIM1_Init(void);
 
 char msg[40];
 uint8_t dir = 0;
-uint16_t cnt = 0;
+uint16_t cnt1 = 0, cnt2 = 0;
 uint32_t tick = 0;
 uint16_t diff = 0;
 uint16_t tim1_ch1_pulse, tim1_ch2_pulse;
@@ -28,25 +28,41 @@ int main(void) {
   MX_TIM1_Init();
   MX_TIM3_Init();
 
-  HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+  HAL_TIM_Encoder_Start(&htim3, TIM_CHANNEL_ALL);
   HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_1);
   HAL_TIM_OC_Start(&htim1, TIM_CHANNEL_2);
 
-  cnt = __HAL_TIM_GET_COUNTER(&htim3);
+  cnt1 = __HAL_TIM_GET_COUNTER(&htim3);
   tick = HAL_GetTick();
 
-  while(1) {
-    if(HAL_GetTick() - tick > 1000L) {
-      if(!__HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3))
-        diff = cnt - __HAL_TIM_GET_COUNTER(&htim3);
-      else
-        diff = __HAL_TIM_GET_COUNTER(&htim3) - cnt;
+  while (1) {
+    if (HAL_GetTick() - tick > 1000L) {
+      cnt2 = __HAL_TIM_GET_COUNTER(&htim3);
+      if (__HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3)) {
+        if (cnt2 < cnt1) /* Check for counter underflow */
+          diff = cnt1 - cnt2;
+        else
+          diff = (65535 - cnt2) + cnt1;
+      } else {
+        if (cnt2 > cnt1) /* Check for counter overflow */
+          diff = cnt2 - cnt1;
+        else
+          diff = (65535 - cnt1) + cnt2;
+      }
 
       sprintf(msg, "Difference: %d\r\n", diff);
       HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
 
-      uint16_t speed = ((diff/PULSES_PER_REVOLUTION)/60);
-      sprintf(msg, "Speed: %d rpm\r\n", speed);
+      speed = ((diff / PULSES_PER_REVOLUTION) / 60);
+
+      /* If the first three bits of SMCR register are set to 0x3
+       * then the timer is set in X4 mode (TIM_ENCODERMODE_TI12)
+       * and we need to divide the pulses counter by two, because
+       * they include the pulses for both the channels */
+      if ((TIM3->SMCR & 0x3) == 0x3)
+        speed /= 2;
+
+      sprintf(msg, "Speed: %d RPM\r\n", speed);
       HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
 
       dir = __HAL_TIM_IS_TIM_COUNTING_DOWN(&htim3);
@@ -54,10 +70,10 @@ int main(void) {
       HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
 
       tick = HAL_GetTick();
-      cnt = __HAL_TIM_GET_COUNTER(&htim3);
+      cnt1 = __HAL_TIM_GET_COUNTER(&htim3);
     }
 
-    if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET) {
+    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET) {
       /* Invert rotation by swapping CH1 and CH2 CCR value */
       tim1_ch1_pulse = __HAL_TIM_GET_COMPARE(&htim1, TIM_CHANNEL_1);
       tim1_ch2_pulse = __HAL_TIM_GET_COMPARE(&htim1, TIM_CHANNEL_2);
@@ -73,24 +89,21 @@ void MX_TIM1_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 0;
+  htim1.Init.Prescaler = 9;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 999;
-  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim1.Init.RepetitionCounter = 0;
   HAL_TIM_Base_Init(&htim1);
 
   sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
   sConfigOC.Pulse = 499;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
-  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   sConfigOC.OCIdleState = TIM_OCIDLESTATE_RESET;
+  sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCNIdleState = TIM_OCNIDLESTATE_RESET;
   HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_1);
 
   sConfigOC.Pulse = 999; /* Phase B is shifted by 90° */
-
   HAL_TIM_OC_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2);
 }
 
@@ -99,7 +112,7 @@ void MX_TIM3_Init(void) {
   TIM_Encoder_InitTypeDef sEncoderConfig;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 1;
+  htim3.Init.Prescaler = 0;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 65535;
 
@@ -121,8 +134,7 @@ void MX_TIM3_Init(void) {
 void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
   if (htim_base->Instance == TIM3) {
-    __TIM3_CLK_ENABLE()
-    ;
+    __TIM3_CLK_ENABLE();
 
     /**TIM3 GPIO Configuration
      PA6     ------> TIM3_CH1
@@ -131,50 +143,35 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_base) {
     GPIO_InitStruct.Pin = GPIO_PIN_6 | GPIO_PIN_7;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF1_TIM3;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-    HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
-    HAL_NVIC_EnableIRQ(TIM3_IRQn);
   }
 }
 
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base)
-{
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(htim_base->Instance==TIM1)
-  {
-  /* USER CODE BEGIN TIM1_MspInit 0 */
+  if (htim_base->Instance == TIM1) {
+    /* USER CODE BEGIN TIM1_MspInit 0 */
 
-  /* USER CODE END TIM1_MspInit 0 */
+    /* USER CODE END TIM1_MspInit 0 */
     /* Peripheral clock enable */
     __TIM1_CLK_ENABLE();
 
-        /**TIM1 GPIO Configuration
-    PA8     ------> TIM1_CH1
-    PA9     ------> TIM1_CH2
-    */
-    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+    /**TIM1 GPIO Configuration
+     PA8     ------> TIM1_CH1
+     PA9     ------> TIM1_CH2
+     */
+    GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-  /* USER CODE BEGIN TIM1_MspInit 1 */
+    /* USER CODE BEGIN TIM1_MspInit 1 */
 
-  /* USER CODE END TIM1_MspInit 1 */
+    /* USER CODE END TIM1_MspInit 1 */
   }
-
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if (htim->Instance == TIM3)
-    asm("BKPT #0");
-}
-
-void TIM3_IRQHandler(void) {
-  HAL_TIM_IRQHandler(&htim3);
 }
 
 #ifdef USE_FULL_ASSERT

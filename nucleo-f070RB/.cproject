@@ -4100,7 +4100,7 @@
 				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 11 Example 11" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.879810224.1763344848.898744435.1823705535.641704662.929380238.702658721.178615501.2023888431.209033434.734338835" name="CH11-EX11" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.879810224.1763344848.898744435.1823705535.641704662.929380238.702658721.178615501.2023888431.209033434.734338835." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.520653889" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1733650482" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.most" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1733650482" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength.512977232" name="Message length (-fmessage-length=0)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar.1606690273" name="'char' is signed (-fsigned-char)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections.1422270936" name="Function sections (-ffunction-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections" value="true" valueType="boolean"/>
@@ -4125,6 +4125,7 @@
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm.329732125" name="Remove command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm" value="rm" valueType="string"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.970379107" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.1019215644" name="Print size" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.pedantic.1189255296" name="Pedantic (-pedantic)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.pedantic" value="false" valueType="boolean"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform.1845208144" isAbstract="false" osList="all" superClass="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform"/>
 							<builder buildPath="${workspace_loc:/nucleo-f030R8}/Debug" id="ilg.gnuarmeclipse.managedbuild.cross.builder.2143667671" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnuarmeclipse.managedbuild.cross.builder"/>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.71284996" name="Cross ARM GNU Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler">
@@ -4210,7 +4211,7 @@
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart.150593682" name="Do not use standard start files (-nostartfiles)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano.848155780" name="Use newlib-nano (--specs=nano.specs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.useprintffloat.1113927959" name="Use float with nano printf (-u _printf_float)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.useprintffloat" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.useprintffloat.1113927959" name="Use float with nano printf (-u _printf_float)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.useprintffloat" value="false" valueType="boolean"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input.1176008341" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -4239,8 +4240,8 @@
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 			<storageModule moduleId="ilg.gnuarmeclipse.managedbuild.packs">
-				<option id="cmsis.device.name" value="STM32F030R8"/>
-				<option id="cmsis.subfamily.name" value="STM32F030"/>
+				<option id="cmsis.device.name" value="STM32F070RB"/>
+				<option id="cmsis.subfamily.name" value="STM32F070"/>
 				<option id="cmsis.family.name" value="STM32F0 Series"/>
 				<option id="cmsis.device.vendor.name" value="STMicroelectronics"/>
 				<option id="cmsis.device.vendor.id" value="13"/>
@@ -4248,9 +4249,9 @@
 				<option id="cmsis.device.pack.name" value="STM32F0xx_DFP"/>
 				<option id="cmsis.device.pack.version" value="1.4.0"/>
 				<option id="cmsis.core.name" value="Cortex-M0"/>
-				<option id="cmsis.compiler.define" value="STM32F030"/>
-				<memory section="IRAM1" size="0x2000" start="0x20000000" startup="0"/>
-				<memory section="IROM1" size="0x10000" start="0x08000000" startup="1"/>
+				<option id="cmsis.compiler.define" value="STM32F070xB"/>
+				<memory section="IRAM1" size="0x4000" start="0x20000000" startup="0"/>
+				<memory section="IROM1" size="0x20000" start="0x08000000" startup="1"/>
 			</storageModule>
 		</cconfiguration>
 	</storageModule>
@@ -4268,20 +4269,40 @@
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="CH11-EX1"/>
+		<configuration configurationName="CH11-EX2"/>
+		<configuration configurationName="CH11-EX7"/>
+		<configuration configurationName="CH11-EX8"/>
+		<configuration configurationName="CH11-EX9"/>
+		<configuration configurationName="CH8-EX2"/>
+		<configuration configurationName="CH11-EX3"/>
+		<configuration configurationName="CH8-EX1"/>
+		<configuration configurationName="CH11-EX4"/>
+		<configuration configurationName="CH11-EX5"/>
+		<configuration configurationName="CH8-EX3"/>
+		<configuration configurationName="CH11-EX6"/>
 		<configuration configurationName="CH4-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f070RB"/>
 		</configuration>
-		<configuration configurationName="CH7-EX1"/>
-		<configuration configurationName="CH8-EX2"/>
-		<configuration configurationName="CH8-EX1"/>
-		<configuration configurationName="CH7-EX2"/>
+		<configuration configurationName="CH9-EX3"/>
+		<configuration configurationName="CH9-EX2"/>
+		<configuration configurationName="CH9-EX1"/>
+		<configuration configurationName="CH11-EX11"/>
+		<configuration configurationName="CH11-EX10"/>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f070RB"/>
 		</configuration>
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f070RB"/>
 		</configuration>
+		<configuration configurationName="CH12-EX1"/>
+		<configuration configurationName="CH9-MEM2MEM"/>
+		<configuration configurationName="CH12-EX4"/>
+		<configuration configurationName="CH7-EX1"/>
+		<configuration configurationName="CH12-EX5"/>
+		<configuration configurationName="CH12-EX2"/>
+		<configuration configurationName="CH12-EX3"/>
+		<configuration configurationName="CH7-EX2"/>
 		<configuration configurationName="CH7-EX3"/>
-		<configuration configurationName="CH8-EX3"/>
 	</storageModule>
 </cproject>
