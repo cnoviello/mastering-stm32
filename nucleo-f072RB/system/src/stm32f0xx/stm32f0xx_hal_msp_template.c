@@ -1,10 +1,20 @@
- /**
+/**
   ******************************************************************************
-  * @file    stm32f0xx_hal_spi_ex.h
+  * @file    stm32f0xx_hal_msp_template.c
   * @author  MCD Application Team
   * @version V1.3.1
   * @date    29-January-2016
-  * @brief   Header file of SPI HAL Extended module.
+  * @brief   HAL MSP module.
+  *          This file template is located in the HAL folder and should be copied 
+  *          to the user folder.
+  *         
+  @verbatim
+ ===============================================================================
+                     ##### How to use this driver #####
+ ===============================================================================
+    [..]
+
+  @endverbatim
   ******************************************************************************
   * @attention
   *
@@ -33,61 +43,77 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */
-
-/* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32F0xx_HAL_SPI_EX_H
-#define __STM32F0xx_HAL_SPI_EX_H
-
-#ifdef __cplusplus
- extern "C" {
-#endif
+  */ 
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f0xx_hal_def.h"
+#include "stm32f0xx_hal.h"
 
 /** @addtogroup STM32F0xx_HAL_Driver
   * @{
   */
 
-/** @addtogroup SPIEx
+/** @defgroup HAL_MSP HAL MSP module driver
+  * @brief HAL MSP module.
   * @{
   */
 
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-/* Exported macros ------------------------------------------------------------*/
-/* Exported functions --------------------------------------------------------*/
-/** @addtogroup SPIEx_Exported_Functions
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
+
+/** @defgroup HAL_MSP_Private_Functions HAL MSP Private Functions
   * @{
   */
 
-/* Initialization and de-initialization functions  ****************************/
-/* IO operation functions *****************************************************/
-/** @addtogroup SPIEx_Exported_Functions_Group1
-  * @{
-  */
-HAL_StatusTypeDef HAL_SPIEx_FlushRxFifo(SPI_HandleTypeDef *hspi);
 /**
-  * @}
+  * @brief  Initializes the Global MSP.
+  * @retval None
   */
+void HAL_MspInit(void)
+{
 
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
 }
-#endif
 
-#endif /* __STM32F0xx_HAL_SPI_EX_H */
+/**
+  * @brief  DeInitializes the Global MSP. 
+  * @retval None
+  */
+void HAL_MspDeInit(void)
+{
+
+}
+
+/**
+  * @brief  Initializes the PPP MSP.
+  * @retval None
+  */
+void HAL_PPP_MspInit(void)
+{
+
+}
+
+/**
+  * @brief  DeInitializes the PPP MSP. 
+  * @retval None
+  */
+void HAL_PPP_MspDeInit(void)
+{
+
+}
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

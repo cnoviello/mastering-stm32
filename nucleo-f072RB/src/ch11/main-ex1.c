@@ -17,8 +17,8 @@ int main(void) {
 
   __TIM6_CLK_ENABLE();
 
-  HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+  HAL_NVIC_SetPriority(TIM6_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM6_IRQn);
 
   HAL_TIM_Base_Init(&htim6);
   HAL_TIM_Base_Start_IT(&htim6);
@@ -26,7 +26,7 @@ int main(void) {
   while (1);
 }
 
-void TIM6_DAC_IRQHandler(void) {
+void TIM6_IRQHandler(void) {
   HAL_TIM_IRQHandler(&htim6);
 }
 
