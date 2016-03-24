@@ -9,7 +9,7 @@ TIM_HandleTypeDef htim3;
 void MX_TIM3_Init(void);
 
 uint16_t computePulse(TIM_HandleTypeDef *htim, uint32_t chFrequency) {
-  uint32_t timFrequency= HAL_RCC_GetPCLK1Freq() / (htim->Instance->PSC + 1);
+  uint32_t timFrequency= HAL_RCC_GetHCLKFreq() / (htim->Instance->PSC + 1);
 
   return (uint16_t)(timFrequency / chFrequency);
 }

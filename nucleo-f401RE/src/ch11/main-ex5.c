@@ -29,7 +29,7 @@ void MX_TIM1_Init(void) {
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 47999;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim1.Init.Period = 249;
+  htim1.Init.Period = 499;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   HAL_TIM_Base_Init(&htim1);
@@ -38,7 +38,7 @@ void MX_TIM1_Init(void) {
   HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig);
 
   sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
-  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
+  sSlaveConfig.InputTrigger = TIM_TS_TI2FP2;
   sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
   sSlaveConfig.TriggerFilter = 15;
   HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
@@ -68,19 +68,19 @@ void MX_TIM3_Init(void) {
 
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(htim_base->Instance==TIM3) {
-    __TIM3_CLK_ENABLE();
+  if(htim_base->Instance==TIM1) {
+    __TIM1_CLK_ENABLE();
 
-    GPIO_InitStruct.Pin = GPIO_PIN_8;
+    GPIO_InitStruct.Pin = GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLDOWN;
     GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
+    GPIO_InitStruct.Alternate = GPIO_AF1_TIM1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   }
 
-  if(htim_base->Instance==TIM1)
-    __TIM1_CLK_ENABLE();
+  if(htim_base->Instance==TIM3)
+    __TIM3_CLK_ENABLE();
 }
 
 void TIM3_IRQHandler(void) {

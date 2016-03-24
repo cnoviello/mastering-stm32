@@ -38,7 +38,7 @@ void MX_TIM3_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 23;
+  htim3.Init.Prescaler = 41;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim3.Init.Period = 199;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -50,7 +50,8 @@ void MX_TIM3_Init(void) {
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
   HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_1);
 
-  hdma_tim3_ch1_trig.Instance = DMA1_Channel4;
+  hdma_tim3_ch1_trig.Instance = DMA1_Stream4;
+  hdma_tim3_ch1_trig.Init.Channel = DMA_CHANNEL_5;
   hdma_tim3_ch1_trig.Init.Direction = DMA_MEMORY_TO_PERIPH;
   hdma_tim3_ch1_trig.Init.PeriphInc = DMA_PINC_DISABLE;
   hdma_tim3_ch1_trig.Init.MemInc = DMA_MINC_ENABLE;
@@ -58,12 +59,12 @@ void MX_TIM3_Init(void) {
   hdma_tim3_ch1_trig.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
   hdma_tim3_ch1_trig.Init.Mode = DMA_CIRCULAR;
   hdma_tim3_ch1_trig.Init.Priority = DMA_PRIORITY_LOW;
+  hdma_tim3_ch1_trig.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
   HAL_DMA_Init(&hdma_tim3_ch1_trig);
 
   /* Several peripheral DMA handle pointers point to the same DMA handle.
    Be aware that there is only one channel to perform all the requested DMAs. */
   __HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_CC1], hdma_tim3_ch1_trig);
-  __HAL_LINKDMA(&htim3, hdma[TIM_DMA_ID_TRIGGER], hdma_tim3_ch1_trig);
 }
 
 void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_base) {
@@ -79,7 +80,7 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_base) {
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF1_TIM3;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   }
 }
