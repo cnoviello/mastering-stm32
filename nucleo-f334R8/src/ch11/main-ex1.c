@@ -12,8 +12,8 @@ int main(void) {
   Nucleo_BSP_Init();
 
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 47999; //48MHz/48000 = 1000Hz
-  htim6.Init.Period = 499; //1000HZ / 500 = 2Hz = 0.5s
+  htim6.Init.Prescaler = 31999; //64MHz/32000 = 2000Hz
+  htim6.Init.Period = 999;      //2000HZ / 1000 = 2Hz = 0.5s
 
   __TIM6_CLK_ENABLE();
 

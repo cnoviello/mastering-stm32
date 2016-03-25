@@ -12,13 +12,13 @@ int main(void) {
   Nucleo_BSP_Init();
 
   htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 31999; //64MHz/32000 = 2000Hz
+  htim6.Init.Prescaler = 35999; //72MHz/36000 = 2000Hz
   htim6.Init.Period = 999;      //2000HZ / 1000 = 2Hz = 0.5s
 
   __TIM6_CLK_ENABLE();
 
-  HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
+  HAL_NVIC_SetPriority(TIM6_DAC1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM6_DAC1_IRQn);
 
   HAL_TIM_Base_Init(&htim6);
   HAL_TIM_Base_Start_IT(&htim6);
@@ -26,7 +26,7 @@ int main(void) {
   while (1);
 }
 
-void TIM6_DAC_IRQHandler(void) {
+void TIM6_DAC1_IRQHandler(void) {
   HAL_TIM_IRQHandler(&htim6);
 }
 
