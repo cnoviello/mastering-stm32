@@ -89,7 +89,7 @@ void MX_TIM1_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 9;
+  htim1.Init.Prescaler = 19;
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.Period = 999;
   HAL_TIM_Base_Init(&htim1);
@@ -144,7 +144,7 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_base) {
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF1_TIM3;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM3;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   }
 }
@@ -162,12 +162,12 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
      PA8     ------> TIM1_CH1
      PA9     ------> TIM1_CH2
      */
-    GPIO_InitStruct.Pin = GPIO_PIN_8 | GPIO_PIN_9;
+    GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
-    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
     /* USER CODE BEGIN TIM1_MspInit 1 */
 
     /* USER CODE END TIM1_MspInit 1 */
