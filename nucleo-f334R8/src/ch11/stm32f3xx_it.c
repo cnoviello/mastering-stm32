@@ -44,8 +44,6 @@
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
 /******************************************************************************/
-extern DMA_HandleTypeDef hdma_usart2_tx;
-extern DMA_HandleTypeDef hdma_usart2_rx;
 /**
 * @brief This function handles System tick timer.
 */
@@ -60,22 +58,6 @@ void SysTick_Handler(void)
 
   /* USER CODE END SysTick_IRQn 1 */
 }
-
-void DMA1_Channel7_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Stream6_IRQn 0 */
-
-  /* USER CODE END DMA1_Stream6_IRQn 0 */
-#ifdef UART_RX
-  HAL_DMA_IRQHandler(&hdma_usart2_rx);
-#elif !defined(MEM2MEM)
-  HAL_DMA_IRQHandler(&hdma_usart2_tx);
-#endif
-  /* USER CODE BEGIN DMA1_Stream6_IRQn 1 */
-
-  /* USER CODE END DMA1_Stream6_IRQn 1 */
-}
-
 
 /******************************************************************************/
 /* STM32F3xx Peripheral Interrupt Handlers                                    */
