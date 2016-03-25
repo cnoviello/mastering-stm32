@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_nor.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   NOR HAL module driver.
   *          This file provides a generic firmware to drive NOR memories mounted 
   *          as external device.
@@ -55,7 +55,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -262,6 +262,8 @@ HAL_StatusTypeDef HAL_NOR_DeInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspInit(NOR_HandleTypeDef *hnor)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NOR_MspInit could be implemented in the user file
    */ 
@@ -275,6 +277,8 @@ __weak void HAL_NOR_MspInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspDeInit(NOR_HandleTypeDef *hnor)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NOR_MspDeInit could be implemented in the user file
    */ 
@@ -289,6 +293,8 @@ __weak void HAL_NOR_MspDeInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspWait(NOR_HandleTypeDef *hnor, uint32_t Timeout)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NOR_MspWait could be implemented in the user file
    */ 

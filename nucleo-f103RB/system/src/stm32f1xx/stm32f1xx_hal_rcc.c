@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_rcc.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   RCC HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Reset and Clock Control (RCC) peripheral:
@@ -50,7 +50,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -946,21 +946,30 @@ HAL_StatusTypeDef HAL_RCC_ClockConfig(RCC_ClkInitTypeDef  *RCC_ClkInitStruct, ui
   * @note   MCO pin should be configured in alternate function mode.
   * @param  RCC_MCOx specifies the output direction for the clock source.
   *          This parameter can be one of the following values:
-  *            @arg RCC_MCO Clock source to output on MCO1 pin(PA8).
+  *            @arg @ref RCC_MCO Clock source to output on MCO1 pin(PA8).
   * @param  RCC_MCOSource specifies the clock source to output.
   *          This parameter can be one of the following values:
-  *            @arg RCC_MCO1SOURCE_NOCLOCK No clock selected
-  *            @arg RCC_MCO1SOURCE_SYSCLK System clock selected
-  *            @arg RCC_MCO1SOURCE_HSI HSI oscillator clock selected
-  *            @arg RCC_MCO1SOURCE_HSE HSE oscillator clock selected
-  *            @arg RCC_MCO1SOURCE_PLLCLK PLL clock divided by 2 selected as MCO source
-  *            @arg RCC_MCO1SOURCE_PLL2CLK PLL2 clock selected as MCO source (only for connectivity line devices)
-  *            @arg RCC_MCO1SOURCE_PLL3CLK_DIV2 PLL3 clock divided by 2 selected as MCO source (only for connectivity line devices)
-  *            @arg RCC_MCO1SOURCE_EXT_HSE XT1 external 3-25 MHz oscillator clock selected as MCO source (only for connectivity line devices)
-  *            @arg RCC_MCO1SOURCE_PLL3CLK PLL3 clock selected as MCO source (only for connectivity line devices)
+  *            @arg @ref RCC_MCO1SOURCE_NOCLOCK No clock selected
+  *            @arg @ref RCC_MCO1SOURCE_SYSCLK System clock selected
+  *            @arg @ref RCC_MCO1SOURCE_HSI HSI oscillator clock selected
+  *            @arg @ref RCC_MCO1SOURCE_HSE HSE oscillator clock selected
+  @if STM32F105xC
+  *            @arg @ref RCC_MCO1SOURCE_PLLCLK PLL clock divided by 2 selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_PLL2CLK PLL2 clock selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_PLL3CLK_DIV2 PLL3 clock divided by 2 selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_EXT_HSE XT1 external 3-25 MHz oscillator clock selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_PLL3CLK PLL3 clock selected as MCO source
+  @endif
+  @if STM32F107xC
+  *            @arg @ref RCC_MCO1SOURCE_PLLCLK PLL clock divided by 2 selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_PLL2CLK PLL2 clock selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_PLL3CLK_DIV2 PLL3 clock divided by 2 selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_EXT_HSE XT1 external 3-25 MHz oscillator clock selected as MCO source
+  *            @arg @ref RCC_MCO1SOURCE_PLL3CLK PLL3 clock selected as MCO source
+  @endif
   * @param  RCC_MCODiv specifies the MCO DIV.
   *          This parameter can be one of the following values:
-  *            @arg RCC_MCODIV_1 no division applied to MCO clock
+  *            @arg @ref RCC_MCODIV_1 no division applied to MCO clock
   * @retval None
   */
 void HAL_RCC_MCOConfig(uint32_t RCC_MCOx, uint32_t RCC_MCOSource, uint32_t RCC_MCODiv)
@@ -978,7 +987,7 @@ void HAL_RCC_MCOConfig(uint32_t RCC_MCOx, uint32_t RCC_MCOSource, uint32_t RCC_M
   /* Configure the MCO1 pin in alternate function mode */
   gpio.Pin = MCO1_PIN;
   gpio.Mode = GPIO_MODE_AF_PP;
-  gpio.Speed = GPIO_SPEED_HIGH;
+  gpio.Speed = GPIO_SPEED_FREQ_HIGH;
   gpio.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(MCO1_GPIO_PORT, &gpio);
   

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_flash.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   FLASH HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the internal FLASH memory:
@@ -63,7 +63,7 @@
   [..] In addition to these function, this driver includes a set of macros allowing
        to handle the following operations:
       
-      (+) Set the latency
+      (+) Set/Get the latency
       (+) Enable/Disable the prefetch buffer
       (+) Enable/Disable the half cycle access
       (+) Enable/Disable the FLASH interrupts
@@ -73,7 +73,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -175,7 +175,7 @@ static  void   FLASH_SetErrorCode(void);
   *  
   * @note   FLASH should be previously erased before new programmation (only exception to this 
   *         is when 0x0000 is programmed)
-  *  
+  *
   * @param  TypeProgram:  Indicate the way to program at a specified address.
   *                       This parameter can be a value of @ref FLASH_Type_Program
   * @param  Address:      Specifies the address to be programmed.
@@ -274,7 +274,7 @@ HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint
   *
   * @note   If an erase and a program operations are requested simultaneously,    
   *         the erase operation is performed before the program one.
-  *  
+  *
   * @param  TypeProgram: Indicate the way to program at a specified address.
   *                      This parameter can be a value of @ref FLASH_Type_Program
   * @param  Address:     Specifies the address to be programmed.
@@ -359,14 +359,18 @@ void HAL_FLASH_IRQHandler(void)
   if(__HAL_FLASH_GET_FLAG(FLASH_FLAG_WRPERR) ||__HAL_FLASH_GET_FLAG(FLASH_FLAG_PGERR))
 #endif /* FLASH_BANK2_END */
   {
+    /*return the faulty address*/
+    addresstmp = pFlash.Address;
+    /* Reset address */
+    pFlash.Address = 0xFFFFFFFF;
+  
     /*Save the Error code*/
     FLASH_SetErrorCode();
     
     /* FLASH error interrupt user callback */
-    HAL_FLASH_OperationErrorCallback(pFlash.Address);
+    HAL_FLASH_OperationErrorCallback(addresstmp);
 
-    /* Reset address and stop the procedure ongoing*/
-    pFlash.Address = 0xFFFFFFFF;
+    /* Stop the procedure ongoing*/
     pFlash.ProcedureOnGoing = FLASH_PROC_NONE;
   }
 
@@ -391,28 +395,30 @@ void HAL_FLASH_IRQHandler(void)
         /* Nb of pages to erased can be decreased */
         pFlash.DataRemaining--;
 
-        /* Indicate user which page address has been erased*/
-        HAL_FLASH_EndOfOperationCallback(pFlash.Address);
-
         /* Check if there are still pages to erase*/
         if(pFlash.DataRemaining != 0)
         {
-          /* Increment page address to next page */
-          pFlash.Address += FLASH_PAGE_SIZE;
           addresstmp = pFlash.Address;
+          /*Indicate user which sector has been erased*/
+          HAL_FLASH_EndOfOperationCallback(addresstmp);
 
-          /* Operation is completed, disable the PER Bit */
+          /*Increment sector number*/
+          addresstmp = pFlash.Address + FLASH_PAGE_SIZE;
+          pFlash.Address = addresstmp;
+
+          /* If the erase operation is completed, disable the PER Bit */
           CLEAR_BIT(FLASH->CR, FLASH_CR_PER);
 
           FLASH_PageErase(addresstmp);
         }
         else
         {
-          /*No more pages to Erase*/
-
-          /*Reset Address and stop Erase pages procedure*/
-          pFlash.Address = 0xFFFFFFFF;
+          /*No more pages to Erase, user callback can be called.*/
+          /*Reset Sector and stop Erase pages procedure*/
+          pFlash.Address = addresstmp = 0xFFFFFFFF;
           pFlash.ProcedureOnGoing = FLASH_PROC_NONE;
+          /* FLASH EOP interrupt user callback */
+          HAL_FLASH_EndOfOperationCallback(addresstmp);
         }
       }
       else if(pFlash.ProcedureOnGoing == FLASH_PROC_MASSERASE)
@@ -496,12 +502,12 @@ void HAL_FLASH_IRQHandler(void)
         /* Nb of pages to erased can be decreased */
         pFlash.DataRemaining--;
         
-        /* Indicate user which page address has been erased*/
-        HAL_FLASH_EndOfOperationCallback(pFlash.Address);
-        
         /* Check if there are still pages to erase*/
         if(pFlash.DataRemaining != 0)
         {
+          /* Indicate user which page address has been erased*/
+          HAL_FLASH_EndOfOperationCallback(pFlash.Address);
+        
           /* Increment page address to next page */
           pFlash.Address += FLASH_PAGE_SIZE;
           addresstmp = pFlash.Address;
@@ -518,6 +524,9 @@ void HAL_FLASH_IRQHandler(void)
           /*Reset Address and stop Erase pages procedure*/
           pFlash.Address = 0xFFFFFFFF;
           pFlash.ProcedureOnGoing = FLASH_PROC_NONE;
+
+          /* FLASH EOP interrupt user callback */
+          HAL_FLASH_EndOfOperationCallback(pFlash.Address);
         }
       }
       else if(pFlash.ProcedureOnGoing == FLASH_PROC_MASSERASE)
@@ -609,11 +618,14 @@ void HAL_FLASH_IRQHandler(void)
   * @param  ReturnValue: The value saved in this parameter depends on the ongoing procedure
   *                 - Mass Erase: No return value expected
   *                 - Pages Erase: Address of the page which has been erased 
+  *                    (if 0xFFFFFFFF, it means that all the selected pages have been erased)
   *                 - Program: Address which was selected for data program
   * @retval none
   */
 __weak void HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(ReturnValue);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_FLASH_EndOfOperationCallback could be implemented in the user file
    */ 
@@ -629,6 +641,8 @@ __weak void HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue)
   */
 __weak void HAL_FLASH_OperationErrorCallback(uint32_t ReturnValue)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(ReturnValue);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_FLASH_OperationErrorCallback could be implemented in the user file
    */ 
@@ -787,6 +801,7 @@ uint32_t HAL_FLASH_GetError(void)
 /** @addtogroup FLASH_Private_Functions
  * @{
  */
+
 /**
   * @brief  Program a half-word (16-bit) at a specified address.
   * @param  Address: specifies the address to be programmed.
@@ -819,7 +834,7 @@ static void FLASH_Program_HalfWord(uint32_t Address, uint16_t Data)
 
 /**
   * @brief  Wait for a FLASH operation to complete.
-  * @param  Timeout: maximum flash operationtimeout
+  * @param  Timeout: maximum flash operation timeout
   * @retval HAL_StatusTypeDef HAL Status
   */
 HAL_StatusTypeDef FLASH_WaitForLastOperation(uint32_t Timeout)
@@ -848,8 +863,9 @@ HAL_StatusTypeDef FLASH_WaitForLastOperation(uint32_t Timeout)
     __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP);
   }
   
-  if(__HAL_FLASH_GET_FLAG(FLASH_FLAG_WRPERR) || __HAL_FLASH_GET_FLAG(FLASH_FLAG_PGERR) || \
-     __HAL_FLASH_GET_FLAG(FLASH_FLAG_OPTVERR))
+  if(__HAL_FLASH_GET_FLAG(FLASH_FLAG_WRPERR)  || 
+     __HAL_FLASH_GET_FLAG(FLASH_FLAG_OPTVERR) || 
+     __HAL_FLASH_GET_FLAG(FLASH_FLAG_PGERR))
   {
     /*Save the error code*/
     FLASH_SetErrorCode();
@@ -858,7 +874,6 @@ HAL_StatusTypeDef FLASH_WaitForLastOperation(uint32_t Timeout)
 
   /* If there is no error flag set */
   return HAL_OK;
-  
 }
 
 #if defined(FLASH_BANK2_END)

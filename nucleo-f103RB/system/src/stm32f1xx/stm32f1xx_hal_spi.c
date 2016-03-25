@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_spi.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   SPI HAL module driver.
   *    
   *          This file provides firmware functions to manage the following 
@@ -119,7 +119,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -334,6 +334,8 @@ HAL_StatusTypeDef HAL_SPI_DeInit(SPI_HandleTypeDef *hspi)
   */
  __weak void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
  {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
    /* NOTE : This function Should not be modified, when the callback is needed,
              the HAL_SPI_MspInit could be implenetd in the user file
    */
@@ -347,6 +349,8 @@ HAL_StatusTypeDef HAL_SPI_DeInit(SPI_HandleTypeDef *hspi)
   */
  __weak void HAL_SPI_MspDeInit(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_MspDeInit could be implenetd in the user file
    */
@@ -1251,11 +1255,6 @@ HAL_StatusTypeDef HAL_SPI_Transmit_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, 
     /* Set the DMA error callback */
     hspi->hdmatx->XferErrorCallback = SPI_DMAError;
 
-    /* Reset content of SPI RxDMA descriptor */
-    hspi->hdmarx->XferHalfCpltCallback = 0;
-    hspi->hdmarx->XferCpltCallback     = 0;
-    hspi->hdmarx->XferErrorCallback    = 0;
-
     /* Enable the Tx DMA Channel */
     HAL_DMA_Start_IT(hspi->hdmatx, (uint32_t)hspi->pTxBuffPtr, (uint32_t)&hspi->Instance->DR, hspi->TxXferCount);
 
@@ -1344,11 +1343,6 @@ HAL_StatusTypeDef HAL_SPI_Receive_DMA(SPI_HandleTypeDef *hspi, uint8_t *pData, u
 
     /* Set the DMA error callback */
     hspi->hdmarx->XferErrorCallback = SPI_DMAError;
-
-    /* Reset content of SPI TxDMA descriptor */
-    hspi->hdmatx->XferHalfCpltCallback = 0;
-    hspi->hdmatx->XferCpltCallback     = 0;
-    hspi->hdmatx->XferErrorCallback    = 0;
 
     /* Enable the Rx DMA Channel */
     HAL_DMA_Start_IT(hspi->hdmarx, (uint32_t)&hspi->Instance->DR, (uint32_t)hspi->pRxBuffPtr, hspi->RxXferCount);
@@ -1630,6 +1624,8 @@ void HAL_SPI_IRQHandler(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxCpltCallback could be implenetd in the user file
    */
@@ -1643,6 +1639,8 @@ __weak void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_RxCpltCallback() could be implenetd in the user file
    */
@@ -1656,6 +1654,8 @@ __weak void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxRxCpltCallback() could be implenetd in the user file
    */
@@ -1669,6 +1669,8 @@ __weak void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxHalfCpltCallback could be implenetd in the user file
    */
@@ -1682,6 +1684,8 @@ __weak void HAL_SPI_TxHalfCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_RxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_RxHalfCpltCallback() could be implenetd in the user file
    */
@@ -1695,6 +1699,8 @@ __weak void HAL_SPI_RxHalfCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxRxHalfCpltCallback() could be implenetd in the user file
    */
@@ -1708,6 +1714,8 @@ __weak void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
   */
  __weak void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
   /* NOTE : - This function Should not be modified, when the callback is needed,
             the HAL_SPI_ErrorCallback() could be implenetd in the user file.
             - The ErrorCode parameter in the hspi handle is updated by the SPI processes

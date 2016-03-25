@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_adc.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -247,7 +247,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -395,7 +395,10 @@ HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
   {
     assert_param(IS_ADC_REGULAR_NB_CONV(hadc->Init.NbrOfConversion));
     assert_param(IS_FUNCTIONAL_STATE(hadc->Init.DiscontinuousConvMode));
-    assert_param(IS_ADC_REGULAR_DISCONT_NUMBER(hadc->Init.NbrOfDiscConversion));
+    if(hadc->Init.DiscontinuousConvMode != DISABLE)
+    {
+      assert_param(IS_ADC_REGULAR_DISCONT_NUMBER(hadc->Init.NbrOfDiscConversion));
+    }
   }
   
   /* As prerequisite, into HAL_ADC_MspInit(), ADC clock must be configured    */
@@ -458,6 +461,8 @@ HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
     tmp_cr1 |= (ADC_CR1_SCAN_SET(hadc->Init.ScanConvMode));
     
     /* Enable discontinuous mode only if continuous mode is disabled */
+    /* Note: If parameter "Init.ScanConvMode" is set to disable, parameter    */
+    /*       discontinuous is set anyway, but will have no effect on ADC HW.  */
     if (hadc->Init.DiscontinuousConvMode == ENABLE)
     {
       if (hadc->Init.ContinuousConvMode == DISABLE)
@@ -504,7 +509,7 @@ HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
     /*   conversions is forced to 0x00 for alignment over all STM32 devices.  */
     /* - if scan mode is enabled, regular channels sequence length is set to  */
     /*   parameter "NbrOfConversion"                                          */
-    if (hadc->Init.ScanConvMode == ADC_SCAN_ENABLE)
+    if (ADC_CR1_SCAN_SET(hadc->Init.ScanConvMode) == ADC_SCAN_ENABLE)
     {
       tmp_sqr1 = ADC_SQR1_L_SHIFT(hadc->Init.NbrOfConversion);
     }
@@ -707,6 +712,8 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspInit must be implemented in the user file.
    */ 
@@ -719,6 +726,8 @@ __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspDeInit must be implemented in the user file.
    */ 
@@ -1054,7 +1063,7 @@ HAL_StatusTypeDef HAL_ADC_PollForEvent(ADC_HandleTypeDef* hadc, uint32_t EventTy
   
   /* Get tick count */
   tickstart = HAL_GetTick();
-      
+  
   /* Check selected event flag */
   while(__HAL_ADC_GET_FLAG(hadc, EventType) == RESET)
   {
@@ -1069,7 +1078,7 @@ HAL_StatusTypeDef HAL_ADC_PollForEvent(ADC_HandleTypeDef* hadc, uint32_t EventTy
         /* Process unlocked */
         __HAL_UNLOCK(hadc);
         
-        return HAL_ERROR;
+        return HAL_TIMEOUT;
       }
     }
   }
@@ -1450,10 +1459,22 @@ HAL_StatusTypeDef HAL_ADC_Stop_DMA(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Get ADC regular group conversion result.
-  * @note   Reading DR register automatically clears EOC (end of conversion of
-  *         regular group) flag.
+  * @note   Reading register DR automatically clears ADC flag EOC
+  *         (ADC group regular end of unitary conversion).
+  * @note   This function does not clear ADC flag EOS 
+  *         (ADC group regular end of sequence conversion).
+  *         Occurrence of flag EOS rising:
+  *          - If sequencer is composed of 1 rank, flag EOS is equivalent
+  *            to flag EOC.
+  *          - If sequencer is composed of several ranks, during the scan
+  *            sequence flag EOC only is raised, at the end of the scan sequence
+  *            both flags EOC and EOS are raised.
+  *         To clear this flag, either use function: 
+  *         in programming model IT: @ref HAL_ADC_IRQHandler(), in programming
+  *         model polling: @ref HAL_ADC_PollForConversion() 
+  *         or @ref __HAL_ADC_CLEAR_FLAG(&hadc, ADC_FLAG_EOS).
   * @param  hadc: ADC handle
-  * @retval Converted value
+  * @retval ADC group regular conversion data
   */
 uint32_t HAL_ADC_GetValue(ADC_HandleTypeDef* hadc)
 {
@@ -1589,6 +1610,8 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvCpltCallback must be implemented in the user file.
    */
@@ -1601,6 +1624,8 @@ __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvHalfCpltCallback must be implemented in the user file.
   */
@@ -1613,6 +1638,8 @@ __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOutOfWindowCallback must be implemented in the user file.
   */
@@ -1626,6 +1653,8 @@ __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ErrorCallback must be implemented in the user file.
   */
@@ -1768,6 +1797,14 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
 
 /**
   * @brief  Configures the analog watchdog.
+  * @note   Analog watchdog thresholds can be modified while ADC conversion
+  *         is on going.
+  *         In this case, some constraints must be taken into account:
+  *         the programmed threshold values are effective from the next
+  *         ADC EOC (end of unitary conversion).
+  *         Considering that registers write delay may happen due to
+  *         bus activity, this might cause an uncertainty on the
+  *         effective timing of the new programmed threshold values.
   * @param  hadc: ADC handle
   * @param  AnalogWDGConfig: Structure of ADC analog watchdog configuration
   * @retval HAL status
