@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_lcd.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   LCD Controller HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the LCD Controller (LCD) peripheral:
@@ -60,7 +60,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -306,6 +306,9 @@ HAL_StatusTypeDef HAL_LCD_Init(LCD_HandleTypeDef *hlcd)
   */
  __weak void HAL_LCD_MspDeInit(LCD_HandleTypeDef *hlcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hlcd);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_LCD_MspDeInit could be implemented in the user file
    */ 
@@ -318,6 +321,9 @@ HAL_StatusTypeDef HAL_LCD_Init(LCD_HandleTypeDef *hlcd)
   */
  __weak void HAL_LCD_MspInit(LCD_HandleTypeDef *hlcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hlcd);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_LCD_MspInit could be implemented in the user file
    */ 

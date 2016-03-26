@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_usart.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of USART HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -308,7 +308,7 @@ typedef struct
 #define USART_FLAG_BUSY                      USART_ISR_BUSY  /*!< Busy Flag */
 #define USART_FLAG_CTS                       USART_ISR_CTS   /*!< CTS flag */
 #define USART_FLAG_CTSIF                     USART_ISR_CTSIF /*!< CTS interrupt flag */
-#define USART_FLAG_LBDF                      USART_ISR_LBD   /*!< LIN Break Detection Flag */
+#define USART_FLAG_LBDF                      USART_ISR_LBDF  /*!< LIN Break Detection Flag */
 #define USART_FLAG_TXE                       USART_ISR_TXE   /*!< Transmit Data Register Empty */
 #define USART_FLAG_TC                        USART_ISR_TC    /*!< Transmission Complete */
 #define USART_FLAG_RXNE                      USART_ISR_RXNE  /*!< Read Data Register Not Empty */

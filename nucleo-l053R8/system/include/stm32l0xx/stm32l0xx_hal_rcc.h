@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_rcc.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of RCC HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -180,6 +180,7 @@ typedef struct
   */
 #define RCC_DBP_TIMEOUT_VALUE          ((uint32_t)100)  /* 100 ms */
 #define RCC_LSE_TIMEOUT_VALUE          LSE_STARTUP_TIMEOUT
+#define RCC_HSE_TIMEOUT_VALUE          HSE_STARTUP_TIMEOUT
 /**
   * @}
   */
@@ -398,10 +399,17 @@ typedef struct
 #define RCC_RTCCLKSOURCE_NO_CLK          ((uint32_t)0x00000000)
 #define RCC_RTCCLKSOURCE_LSE             RCC_CSR_RTCSEL_LSE
 #define RCC_RTCCLKSOURCE_LSI             RCC_CSR_RTCSEL_LSI
+#define RCC_RTCCLKSOURCE_HSE_DIVX        RCC_CSR_RTCSEL_HSE
+
 #define RCC_RTCCLKSOURCE_HSE_DIV2        RCC_CSR_RTCSEL_HSE
 #define RCC_RTCCLKSOURCE_HSE_DIV4        ((uint32_t)RCC_CSR_RTCSEL_HSE | RCC_CR_RTCPRE_0)
 #define RCC_RTCCLKSOURCE_HSE_DIV8        ((uint32_t)RCC_CSR_RTCSEL_HSE | RCC_CR_RTCPRE_1)
 #define RCC_RTCCLKSOURCE_HSE_DIV16       ((uint32_t)RCC_CSR_RTCSEL_HSE | RCC_CR_RTCPRE)
+
+#define RCC_RTC_HSE_DIV_2     (uint32_t)0x00000000U  /*!< HSE is divided by 2 for RTC clock */
+#define RCC_RTC_HSE_DIV_4      RCC_CR_RTCPRE_0       /*!< HSE is divided by 4 for RTC clock */
+#define RCC_RTC_HSE_DIV_8      RCC_CR_RTCPRE_1       /*!< HSE is divided by 8 for RTC clock */
+#define RCC_RTC_HSE_DIV_16     RCC_CR_RTCPRE         /*!< HSE is divided by 16 for RTC clock */
 
 /**
   * @}
@@ -448,6 +456,10 @@ typedef struct
   */
 #define RCC_MCO1                         ((uint32_t)0x00000000)
 #define RCC_MCO2                         ((uint32_t)0x00000001)
+#if  defined(STM32L031xx) || defined(STM32L041xx) || defined(STM32L073xx) || defined(STM32L083xx) || \
+     defined(STM32L072xx) || defined(STM32L082xx) || defined(STM32L071xx) || defined(STM32L081xx) 
+#define RCC_MCO3                         ((uint32_t)0x00000002)
+#endif
 
 /**
   * @}
@@ -1181,15 +1193,39 @@ typedef struct
   * @note     The maximum input clock frequency for RTC is 1MHz (when using HSE as
   *           RTC clock source).
   */
+                      
 #define __HAL_RCC_RTC_CLKPRESCALER(__RTCCLKSOURCE__) (((__RTCCLKSOURCE__) & RCC_CSR_RTCSEL) == RCC_CSR_RTCSEL) ?    \
-                                                 MODIFY_REG(RCC->CR, RCC_CR_RTCPRE, ((__RTCCLKSOURCE__) & 0xFFFCFFFF)) : CLEAR_BIT(RCC->CR, RCC_CR_RTCPRE)
+                                                      MODIFY_REG(RCC->CR, RCC_CR_RTCPRE, (uint32_t)((__RTCCLKSOURCE__) & RCC_CR_RTCPRE)) : \
+                                                      CLEAR_BIT(RCC->CR, RCC_CR_RTCPRE)
 
 #define __HAL_RCC_RTC_CONFIG(__RTCCLKSOURCE__) do { __HAL_RCC_RTC_CLKPRESCALER(__RTCCLKSOURCE__);    \
-                                                   MODIFY_REG( RCC->CSR, RCC_CSR_RTCSEL, (uint32_t)(__RTCCLKSOURCE__));  \
+                                                    MODIFY_REG( RCC->CSR, RCC_CSR_RTCSEL, (uint32_t)((__RTCCLKSOURCE__) & RCC_CSR_RTCSEL));  \
                                                    } while (0)
 
-#define  __HAL_RCC_GET_RTC_SOURCE() ((uint32_t)(READ_BIT(RCC->CSR, RCC_CSR_RTCSEL)))
 
+ /**
+  * @brief    Get the RTC and LCD clock (RTCCLK / LCDCLK).
+  *
+  * @retval The clock source can be one of the following values:
+  *            @arg @ref RCC_RTCCLKSOURCE_NO_CLK No clock selected as RTC clock
+  *            @arg @ref RCC_RTCCLKSOURCE_LSE LSE selected as RTC clock
+  *            @arg @ref RCC_RTCCLKSOURCE_LSI LSI selected as RTC clock
+  *            @arg @ref RCC_RTCCLKSOURCE_HSE_DIVX HSE divided by X selected as RTC clock (X can be retrieved thanks to @ref __HAL_RCC_GET_RTC_HSE_PRESCALER()
+  *
+  */                                                    
+#define  __HAL_RCC_GET_RTC_SOURCE() ((uint32_t)(READ_BIT(RCC->CSR, RCC_CSR_RTCSEL)))
+    
+  /**
+  * @brief   Get the RTC and LCD HSE clock divider (RTCCLK / LCDCLK).
+  *
+  * @retval Returned value can be one of the following values:
+  *         @arg @ref RCC_RTC_HSE_DIV_2: HSE divided by 2 selected as RTC clock
+  *         @arg @ref RCC_RTC_HSE_DIV_4: HSE divided by 4 selected as RTC clock
+  *         @arg @ref RCC_RTC_HSE_DIV_8: HSE divided by 8 selected as RTC clock
+  *         @arg @ref RCC_RTC_HSE_DIV_16: HSE divided by 16 selected as RTC clock
+  *
+  */
+#define  __HAL_RCC_GET_RTC_HSE_PRESCALER() ((uint32_t)(READ_BIT(RCC->CR, RCC_CR_RTCPRE)))                                                   
 
 /** @brief  Macros to enable or disable the main PLL.
   * @note   After enabling the main PLL, the application software should wait on 
@@ -1500,8 +1536,14 @@ typedef struct
                                 ((__DIV__) == RCC_MCODIV_4)  || \
                                 ((__DIV__) == RCC_MCODIV_8)  || \
                                 ((__DIV__) == RCC_MCODIV_16))
-                                
+
+#if  defined(STM32L031xx) || defined(STM32L041xx) || defined(STM32L073xx) || defined(STM32L083xx) || \
+     defined(STM32L072xx) || defined(STM32L082xx) || defined(STM32L071xx) || defined(STM32L081xx) 
+#define IS_RCC_MCO(__MCOx__) (((__MCOx__) == RCC_MCO1) || ((__MCOx__) == RCC_MCO2) || ((__MCOx__) == RCC_MCO3))
+#else
 #define IS_RCC_MCO(__MCOx__) (((__MCOx__) == RCC_MCO1) || ((__MCOx__) == RCC_MCO2))
+
+#endif
 
 #define IS_RCC_CALIBRATION_VALUE(__VALUE__) ((__VALUE__) <= 0x1F)
 #define IS_RCC_MSICALIBRATION_VALUE(__VALUE__) ((__VALUE__) <= 0xFF)

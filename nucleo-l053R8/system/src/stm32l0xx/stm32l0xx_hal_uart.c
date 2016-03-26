@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_uart.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   UART HAL module driver.
   *
   *          This file provides firmware functions to manage the following 
@@ -126,7 +126,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -549,6 +549,9 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_MspInit can be implemented in the user file
    */ 
@@ -561,6 +564,9 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_MspDeInit can be implemented in the user file
    */ 
@@ -1219,6 +1225,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_UART_TxCpltCallback could be implemented in the user file
    */ 
@@ -1231,6 +1240,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_TxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_UART_TxCpltCallback could be implemented in the user file
    */ 
@@ -1243,6 +1255,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   */
 __weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_UART_TxCpltCallback could be implemented in the user file
    */
@@ -1255,6 +1270,9 @@ __weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   */
 __weak void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_UART_TxCpltCallback could be implemented in the user file
    */
@@ -1267,6 +1285,9 @@ __weak void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_ErrorCallback can be implemented in the user file
    */ 
@@ -1406,7 +1427,7 @@ HAL_StatusTypeDef HAL_HalfDuplex_EnableReceiver(UART_HandleTypeDef *huart)
 HAL_StatusTypeDef HAL_LIN_SendBreak(UART_HandleTypeDef *huart)
 {
   /* Check the parameters */
-  assert_param(IS_UART_INSTANCE(huart->Instance));
+  assert_param(IS_UART_LIN_INSTANCE(huart->Instance));
   
   /* Process Locked */
   __HAL_LOCK(huart);

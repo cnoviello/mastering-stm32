@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_pcd.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   PCD HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the USB Peripheral Controller:
@@ -44,7 +44,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -237,6 +237,9 @@ HAL_StatusTypeDef HAL_PCD_DeInit(PCD_HandleTypeDef *hpcd)
   */
 __weak void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_MspInit could be implemented in the user file
    */
@@ -249,6 +252,9 @@ __weak void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
   */
 __weak void HAL_PCD_MspDeInit(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_MspDeInit could be implemented in the user file
    */
@@ -394,6 +400,10 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_DataOutStageCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+  UNUSED(epnum);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -407,6 +417,10 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_DataInStageCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+  UNUSED(epnum);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -418,6 +432,8 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_SetupStageCallback(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -430,6 +446,9 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_SOFCallback(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -442,6 +461,9 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_ResetCallback(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -455,6 +477,9 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_SuspendCallback(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -467,6 +492,9 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_ResumeCallback(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -480,6 +508,10 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_ISOOUTIncompleteCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+  UNUSED(epnum);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -493,6 +525,10 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_ISOINIncompleteCallback(PCD_HandleTypeDef *hpcd, uint8_t epnum)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+  UNUSED(epnum);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -505,6 +541,9 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_ConnectCallback(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 
@@ -517,6 +556,9 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
   */
  __weak void HAL_PCD_DisconnectCallback(PCD_HandleTypeDef *hpcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_PCD_DataOutStageCallback could be implemented in the user file
    */ 

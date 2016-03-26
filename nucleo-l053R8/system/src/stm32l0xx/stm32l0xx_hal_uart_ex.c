@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_uart_ex.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Extended UART HAL module driver.
   *    
   *          This file provides firmware functions to manage the following 
@@ -30,7 +30,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -401,6 +401,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
   */
  __weak void HAL_UARTEx_WakeupCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_WakeupCallback can be implemented in the user file
    */

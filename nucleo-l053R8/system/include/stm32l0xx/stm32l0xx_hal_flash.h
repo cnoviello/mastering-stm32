@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_flash.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of Flash HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -170,10 +170,7 @@ extern FLASH_ProcessTypeDef ProcFlash;
 #define FLASH_FLAG_WRPERR          FLASH_SR_WRPERR          /*!< FLASH Write protected error flag */
 #define FLASH_FLAG_PGAERR          FLASH_SR_PGAERR          /*!< FLASH Programming Alignment error flag */
 #define FLASH_FLAG_SIZERR          FLASH_SR_SIZERR          /*!< FLASH Size error flag  */
-#if defined(STM32L031xx) || defined(STM32L041xx)
-#else
 #define FLASH_FLAG_OPTVERR         FLASH_SR_OPTVERR         /*!< FLASH Option Validity error flag (not valid with STM32L031xx/STM32L041xx) */
-#endif
 #define FLASH_FLAG_RDERR           FLASH_SR_RDERR           /*!< FLASH Read protected error flag */
 #define FLASH_FLAG_FWWERR          FLASH_SR_FWWERR          /*!< FLASH Write or Errase operation aborted */
 #define FLASH_FLAG_NOTZEROERR      FLASH_SR_NOTZEROERR      /*!< FLASH Read protected error flag */

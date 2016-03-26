@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_smartcard.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of SMARTCARD HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -246,7 +246,7 @@ typedef struct
 /** @defgroup SMARTCARD_Word_Length SMARTCARD Word Length
   * @{
   */
-#define SMARTCARD_WORDLENGTH_9B                  ((uint32_t)USART_CR1_M_0)
+#define SMARTCARD_WORDLENGTH_9B                  ((uint32_t)USART_CR1_M0)
 #define IS_SMARTCARD_WORD_LENGTH(LENGTH) ((LENGTH) == SMARTCARD_WORDLENGTH_9B) 
 /**
   * @}

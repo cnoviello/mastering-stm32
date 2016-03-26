@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_spi.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of SPI HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -121,7 +121,7 @@ typedef enum
 /** 
   * @brief  SPI handle Structure definition
   */
-typedef struct SPI_HandleTypeDef
+typedef struct __SPI_HandleTypeDef
 {
   SPI_TypeDef                *Instance;    /*!< SPI registers base address */
 
@@ -143,9 +143,9 @@ typedef struct SPI_HandleTypeDef
 
   DMA_HandleTypeDef          *hdmarx;      /*!< SPI Rx DMA handle parameters */
 
-  void                       (*RxISR)(struct SPI_HandleTypeDef * hspi); /*!< function pointer on Rx ISR */
+  void                       (*RxISR)(struct __SPI_HandleTypeDef * hspi); /*!< function pointer on Rx ISR */
 
-  void                       (*TxISR)(struct SPI_HandleTypeDef * hspi); /*!< function pointer on Tx ISR */
+  void                       (*TxISR)(struct __SPI_HandleTypeDef * hspi); /*!< function pointer on Tx ISR */
 
   HAL_LockTypeDef            Lock;         /*!< SPI locking object */
 

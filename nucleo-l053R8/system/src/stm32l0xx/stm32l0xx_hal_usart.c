@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_usart.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   USART HAL module driver.
   *
   *          This file provides firmware functions to manage the following 
@@ -53,7 +53,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -267,6 +267,9 @@ HAL_StatusTypeDef HAL_USART_DeInit(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_MspInit(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_MspInit could be implenetd in the user file
    */ 
@@ -279,6 +282,9 @@ HAL_StatusTypeDef HAL_USART_DeInit(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_MspDeInit(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_MspDeInit could be implenetd in the user file
    */ 
@@ -1112,6 +1118,9 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_TxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_TxCpltCallback could be implemented in the user file
    */
@@ -1124,6 +1133,9 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_TxHalfCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_TxCpltCallback could be implemented in the user file
    */
@@ -1136,6 +1148,9 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_TxCpltCallback could be implemented in the user file
    */
@@ -1148,6 +1163,9 @@ __weak void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_RxHalfCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_TxCpltCallback could be implemented in the user file
    */
@@ -1160,6 +1178,9 @@ __weak void HAL_USART_RxHalfCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_TxRxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_TxCpltCallback could be implemented in the user file
    */
@@ -1172,6 +1193,9 @@ __weak void HAL_USART_TxRxCpltCallback(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_ErrorCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function Should not be modified, when the callback is needed,
            the HAL_USART_ErrorCallback could be implemented in the user file
    */ 
@@ -1688,7 +1712,8 @@ static HAL_StatusTypeDef USART_SetConfig(USART_HandleTypeDef *husart)
 
   /*-------------------------- USART BRR Configuration -----------------------*/
   /* BRR is filled-up according to OVER8 bit setting which is forced to 1     */
-   switch (clocksource)
+  USART_GETCLOCKSOURCE(husart, clocksource);
+  switch (clocksource)
   {
     case USART_CLOCKSOURCE_PCLK1:
       usartdiv = (uint16_t)((2*HAL_RCC_GetPCLK1Freq()) / husart->Init.BaudRate);

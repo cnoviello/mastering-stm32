@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_dma.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of DMA HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -133,7 +133,7 @@ typedef enum
 /** 
   * @brief  DMA handle Structure definition  
   */ 
-typedef struct DMA_HandleTypeDef
+typedef struct __DMA_HandleTypeDef
 {  
   DMA_Channel_TypeDef    *Instance;                                                   /*!< Register base address                  */
   
@@ -145,11 +145,11 @@ typedef struct DMA_HandleTypeDef
   
   void                  *Parent;                                                      /*!< Parent object state                    */  
   
-  void                  (* XferCpltCallback)( struct DMA_HandleTypeDef * hdma);     /*!< DMA transfer complete callback         */
+  void                  (* XferCpltCallback)( struct __DMA_HandleTypeDef * hdma);     /*!< DMA transfer complete callback         */
   
-  void                  (* XferHalfCpltCallback)( struct DMA_HandleTypeDef * hdma); /*!< DMA Half transfer complete callback    */
+  void                  (* XferHalfCpltCallback)( struct __DMA_HandleTypeDef * hdma); /*!< DMA Half transfer complete callback    */
 
-  void                  (* XferErrorCallback)( struct DMA_HandleTypeDef * hdma);    /*!< DMA transfer error callback            */
+  void                  (* XferErrorCallback)( struct __DMA_HandleTypeDef * hdma);    /*!< DMA transfer error callback            */
   
   __IO uint32_t          ErrorCode;                                                    /*!< DMA Error code                         */
   

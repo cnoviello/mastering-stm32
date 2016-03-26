@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_rcc_ex.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of RCC HAL Extension module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -1219,6 +1219,33 @@ typedef struct
        /* STM32L053xx  || STM32L063xx  || STM32L073xx  ||  STM32L083xx  || */
 	     /* STM32L031xx  || STM32L041xx  || STM32L011xx  ||  STM32L021xx   */
 
+/** @brief Macro to configures LCD clock (LCDCLK).
+  *  @note   LCD and RTC use the same configuration
+  *  @note   LCD can however be used in the Stop low power mode if the LSE or LSI is used as the
+  *   LCD clock source.
+  *    
+  *  @param  __LCD_CLKSOURCE__ specifies the LCD clock source.
+  *          This parameter can be one of the following values:
+  *             @arg @ref RCC_RTCCLKSOURCE_LSE LSE selected as LCD clock
+  *             @arg @ref RCC_RTCCLKSOURCE_LSI LSI selected as LCD clock
+  *             @arg @ref RCC_RTCCLKSOURCE_HSE_DIV2 HSE divided by 2 selected as LCD clock
+  *             @arg @ref RCC_RTCCLKSOURCE_HSE_DIV4 HSE divided by 4 selected as LCD clock
+  *             @arg @ref RCC_RTCCLKSOURCE_HSE_DIV8 HSE divided by 8 selected as LCD clock
+  *             @arg @ref RCC_RTCCLKSOURCE_HSE_DIV16 HSE divided by 16 selected as LCD clock
+  */
+#define __HAL_RCC_LCD_CONFIG(__LCD_CLKSOURCE__) __HAL_RCC_RTC_CONFIG(__LCD_CLKSOURCE__)
+
+/** @brief macros to get the LCD clock source.
+  */
+#define __HAL_RCC_GET_LCD_SOURCE()              __HAL_RCC_GET_RTC_SOURCE()
+
+/** @brief macros to get the LCD clock pre-scaler.
+  */
+#define  __HAL_RCC_GET_LCD_HSE_PRESCALER()      __HAL_RCC_GET_RTC_HSE_PRESCALER()
+/**
+  * @}
+  */
+          
 /** @brief  Macro to configure the I2C1 clock (I2C1CLK).
   *
   * @param  __I2C1_CLKSOURCE__: specifies the I2C1 clock source.
