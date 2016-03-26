@@ -46,16 +46,6 @@ int main(void) {
       frequency = HAL_RCC_GetHCLKFreq() / (htim2.Instance->PSC + 1);
       frequency = (float) frequency / diffCapture;
 
-
-      sprintf(msg, "C0: %lu\r\n", captures[0]);
-      HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
-
-      sprintf(msg, "C1: %lu\r\n", captures[1]);
-      HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
-
-      sprintf(msg, "Diff: %lu\r\n", htim2.Instance->ARR);
-      HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
-
       sprintf(msg, "Input frequency: %.3f\r\n", frequency);
       HAL_UART_Transmit(&huart2, (uint8_t*) msg, strlen(msg), HAL_MAX_DELAY);
       while (1);

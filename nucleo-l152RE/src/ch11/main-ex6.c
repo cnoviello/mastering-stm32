@@ -1,5 +1,5 @@
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l0xx_hal.h"
+#include "stm32l1xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 
@@ -56,13 +56,17 @@ int main(void) {
 /* TIM3 init function */
 void MX_TIM2_Init(void) {
   TIM_IC_InitTypeDef sConfigIC;
+  TIM_ClockConfigTypeDef sClockSourceConfig;
 
   htim2.Instance = TIM2;
   htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 65535;
+  htim2.Init.Period = 0xffffffff;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   HAL_TIM_IC_Init(&htim2);
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig);
 
   sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
   sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
@@ -83,13 +87,12 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* htim_ic) {
     GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
-    GPIO_InitStruct.Alternate = GPIO_AF2_TIM2;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
     /* Peripheral DMA init*/
     hdma_tim2_ch1.Instance = DMA1_Channel5;
-    hdma_tim2_ch1.Init.Request = DMA_REQUEST_8;
     hdma_tim2_ch1.Init.Direction = DMA_PERIPH_TO_MEMORY;
     hdma_tim2_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
     hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
@@ -101,8 +104,7 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* htim_ic) {
 
     /* Several peripheral DMA handle pointers point to the same DMA handle.
      Be aware that there is only one channel to perform all the requested DMAs. */
-    __HAL_LINKDMA(htim_ic, hdma[TIM_DMA_ID_CC1], hdma_tim2_ch1);
-  }
+    __HAL_LINKDMA(htim_ic,hdma[TIM_DMA_ID_CC1],hdma_tim2_ch1);  }
 }
 
 
@@ -113,20 +115,11 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) {
 }
 
 void MX_TIM6_Init(void) {
-  GPIO_InitTypeDef GPIO_InitStruct;
-
   htim6.Instance = TIM6;
   htim6.Init.Prescaler = 159; //32MHz/160 = 200KHz
   htim6.Init.Period = 1;      //200KHz/2  = 100KHz
   htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
   HAL_TIM_Base_Init(&htim6);
-
-  /*Configure GPIO pin : PB15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_15;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   HAL_NVIC_SetPriority(TIM6_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(TIM6_IRQn);
@@ -144,12 +137,12 @@ void MX_DMA_Init(void) {
   __DMA1_CLK_ENABLE();
 
   /* DMA interrupt init */
-  HAL_NVIC_SetPriority(DMA1_Channel4_5_6_7_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(DMA1_Channel4_5_6_7_IRQn);
+  HAL_NVIC_SetPriority(DMA1_Channel5_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
 }
 
-void DMA1_Channel4_5_6_7_IRQHandler(void) {
+void DMA1_Channel5_IRQHandler(void) {
   HAL_DMA_IRQHandler(&hdma_tim2_ch1);
 }
 
@@ -159,7 +152,7 @@ void TIM6_IRQHandler(void) {
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
   if(htim->Instance == TIM6)
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_15);
+    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
 }
 
 

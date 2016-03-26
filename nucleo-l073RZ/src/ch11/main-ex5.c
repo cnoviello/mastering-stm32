@@ -7,14 +7,14 @@
 TIM_HandleTypeDef htim21, htim2;
 
 void MX_TIM1_Init(void);
-void MX_TIM3_Init(void);
+void MX_TIM21_Init(void);
 
 int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
   MX_TIM1_Init();
-  MX_TIM3_Init();
+  MX_TIM21_Init();
 
   HAL_TIM_Base_Start_IT(&htim21);
 
@@ -47,7 +47,7 @@ void MX_TIM1_Init(void) {
   HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig);
 }
 
-void MX_TIM3_Init(void) {
+void MX_TIM21_Init(void) {
   TIM_SlaveConfigTypeDef sSlaveConfig;
 
   htim21.Instance = TIM21;
