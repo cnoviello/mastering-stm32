@@ -84,7 +84,7 @@ int main(void) {
   }
 }
 
-/* TIM1 init function */
+/* TIM2 init function */
 void MX_TIM2_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
@@ -104,7 +104,7 @@ void MX_TIM2_Init(void) {
   HAL_TIM_OC_ConfigChannel(&htim2, &sConfigOC, TIM_CHANNEL_2);
 }
 
-/* TIM3 init function */
+/* TIM21 init function */
 void MX_TIM21_Init(void) {
   TIM_Encoder_InitTypeDef sEncoderConfig;
 
@@ -149,9 +149,6 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_base) {
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
   if (htim_base->Instance == TIM2) {
-    /* USER CODE BEGIN TIM1_MspInit 0 */
-
-    /* USER CODE END TIM1_MspInit 0 */
     /* Peripheral clock enable */
     __TIM2_CLK_ENABLE();
 
@@ -165,9 +162,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
     GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM2;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-    /* USER CODE BEGIN TIM1_MspInit 1 */
-
-    /* USER CODE END TIM1_MspInit 1 */
   }
 }
 

@@ -70,7 +70,14 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
   if(htim_base->Instance==TIM3) {
     __TIM3_CLK_ENABLE();
+  }
 
+  if(htim_base->Instance==TIM1) {
+    __TIM1_CLK_ENABLE();
+
+    /**TIM1 GPIO Configuration    
+    PA8     ------> TIM1_CH1 
+    */
     GPIO_InitStruct.Pin = GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLDOWN;
@@ -78,9 +85,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
     GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   }
-
-  if(htim_base->Instance==TIM1)
-    __TIM1_CLK_ENABLE();
 }
 
 void TIM3_IRQHandler(void) {

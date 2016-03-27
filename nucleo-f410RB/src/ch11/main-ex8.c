@@ -31,7 +31,7 @@ int main(void) {
   }
 }
 
-/* TIM3 init function */
+/* TIM1 init function */
 void MX_TIM1_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig;
@@ -67,9 +67,8 @@ void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_base) {
   if(htim_base->Instance==TIM1) {
     __TIM1_CLK_ENABLE();
 
-    /**TIM3 GPIO Configuration
-    PA6     ------> TIM3_CH1
-    PA7     ------> TIM3_CH2
+    /**TIM1 GPIO Configuration
+    PA8     ------> TIM1_CH1
     */
     GPIO_InitStruct.Pin = GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

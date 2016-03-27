@@ -152,9 +152,6 @@ void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef* htim_base) {
 void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   GPIO_InitTypeDef GPIO_InitStruct;
   if (htim_base->Instance == TIM1) {
-    /* USER CODE BEGIN TIM1_MspInit 0 */
-
-    /* USER CODE END TIM1_MspInit 0 */
     /* Peripheral clock enable */
     __TIM1_CLK_ENABLE();
 

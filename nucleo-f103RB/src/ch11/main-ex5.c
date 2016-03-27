@@ -71,7 +71,10 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   if(htim_base->Instance==TIM1) {
     __TIM1_CLK_ENABLE();
     __HAL_RCC_AFIO_CLK_ENABLE();
-
+    
+    /**TIM1 GPIO Configuration    
+    PA9     ------> TIM1_CH2
+    */
     GPIO_InitStruct.Pin = GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
     GPIO_InitStruct.Pull = GPIO_PULLDOWN;

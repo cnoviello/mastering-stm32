@@ -53,7 +53,7 @@ int main(void) {
   }
 }
 
-/* TIM3 init function */
+/* TIM1 init function */
 void MX_TIM1_Init(void) {
   TIM_IC_InitTypeDef sConfigIC;
 
@@ -78,7 +78,7 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* htim_ic) {
     __TIM1_CLK_ENABLE();
 
     /**TIM3 GPIO Configuration
-     PA6     ------> TIM3_CH1
+     PC0     ------> TIM1_CH1
      */
     GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

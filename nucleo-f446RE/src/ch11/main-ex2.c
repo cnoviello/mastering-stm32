@@ -19,7 +19,7 @@ int main(void) {
 
   htim1.Instance = TIM1;
   htim1.Init.Prescaler = 47999; //84MHz/48000 = 1750Hz
-  htim1.Init.Period = 874; //1750HZ / 875 = 2Hz = 0.5s
+  htim1.Init.Period = 874;      //1750HZ / 875 = 2Hz = 0.5s
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   __TIM1_CLK_ENABLE();

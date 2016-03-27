@@ -31,7 +31,7 @@ int main(void) {
   }
 }
 
-/* TIM3 init function */
+/* TIM2 init function */
 void MX_TIM2_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 

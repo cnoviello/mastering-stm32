@@ -13,8 +13,8 @@ int main(void) {
   Nucleo_BSP_Init();
 
   htim1.Instance = TIM1;
-  htim1.Init.Prescaler = 49999; //100MHz/48000 = 2000Hz
-  htim1.Init.Period = 999; //2000HZ / 1000 = 2Hz = 0.5s
+  htim1.Init.Prescaler = 49999; //100MHz/50000 = 2000Hz
+  htim1.Init.Period = 999;      //2000HZ/1000 = 2Hz = 0.5s
   htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
 

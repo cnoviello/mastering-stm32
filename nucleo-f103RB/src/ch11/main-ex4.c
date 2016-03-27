@@ -49,7 +49,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
     __HAL_RCC_AFIO_CLK_ENABLE();
 
     /**TIM3 GPIO Configuration
-    PD2     ------> TIM3_ETR
+    PA6     ------> TIM3_CH1
     */
     GPIO_InitStruct.Pin = GPIO_PIN_6;
     GPIO_InitStruct.Mode = GPIO_MODE_INPUT;

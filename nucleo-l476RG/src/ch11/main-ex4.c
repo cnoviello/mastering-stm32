@@ -19,7 +19,7 @@ int main(void) {
   while (1);
 }
 
-/* TIM3 init function */
+/* TIM2 init function */
 void MX_TIM2_Init(void) {
   TIM_SlaveConfigTypeDef sSlaveConfig;
 
@@ -47,8 +47,8 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
     /* Peripheral clock enable */
     __TIM2_CLK_ENABLE();
 
-    /**TIM3 GPIO Configuration
-    PA7     ------> TIM2_CH2
+    /**TIM2 GPIO Configuration
+    PA1     ------> TIM2_CH2
     */
     GPIO_InitStruct.Pin = GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

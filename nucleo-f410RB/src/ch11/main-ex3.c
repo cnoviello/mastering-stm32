@@ -19,7 +19,7 @@ int main(void) {
   while (1);
 }
 
-/* TIM3 init function */
+/* TIM1 init function */
 void MX_TIM1_Init(void) {
   TIM_ClockConfigTypeDef sClockSourceConfig;
 
@@ -49,8 +49,8 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
     __TIM1_CLK_ENABLE();
     __GPIOA_CLK_ENABLE();
 
-    /**TIM3 GPIO Configuration
-    PD2     ------> TIM3_ETR
+    /**TIM1 GPIO Configuration
+    PA12     ------> TIM1_ETR
     */
     GPIO_InitStruct.Pin = GPIO_PIN_12;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

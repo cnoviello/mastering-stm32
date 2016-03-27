@@ -29,7 +29,7 @@ int main(void) {
   while (1);
 }
 
-/* TIM3 init function */
+/* TIM5 init function */
 void MX_TIM5_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
@@ -57,7 +57,7 @@ void MX_TIM5_Init(void) {
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
   uint16_t pulse;
 
-  /* TIM5_CH1 toggling with frequency = 50KHz */
+  /* TIMx_CH1 toggling with frequency = 50KHz */
   if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
   {
     pulse = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
@@ -65,7 +65,7 @@ void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
     __HAL_TIM_SET_COMPARE(htim, TIM_CHANNEL_1, (pulse + CH1_FREQ));
   }
 
-  /* TIM5_CH2 toggling with frequency = 100KHz */
+  /* TIMx_CH2 toggling with frequency = 100KHz */
   if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_2)
   {
     pulse = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_2);
@@ -79,9 +79,9 @@ void HAL_TIM_OC_MspInit(TIM_HandleTypeDef* htim_base) {
   if(htim_base->Instance==TIM5) {
     __TIM5_CLK_ENABLE();
 
-    /**TIM3 GPIO Configuration
-    PA6     ------> TIM3_CH1
-    PA7     ------> TIM3_CH2
+    /**TIM5 GPIO Configuration
+    PA0     ------> TIM5_CH1
+    PA\     ------> TIM5_CH2
     */
     GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

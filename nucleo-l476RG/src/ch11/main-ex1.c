@@ -13,7 +13,7 @@ int main(void) {
 
   htim6.Instance = TIM6;
   htim6.Init.Prescaler = 39999; //80MHz/40000 = 2000Hz
-  htim6.Init.Period = 999; //2000HZ / 1000 = 2Hz = 0.5s
+  htim6.Init.Period = 999;      //2000HZ / 1000 = 2Hz = 0.5s
 
   __TIM6_CLK_ENABLE();
 

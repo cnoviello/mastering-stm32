@@ -84,7 +84,7 @@ int main(void) {
   }
 }
 
-/* TIM1 init function */
+/* TIM2 init function */
 void MX_TIM2_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
@@ -158,8 +158,8 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
     __TIM2_CLK_ENABLE();
 
     /**TIM1 GPIO Configuration
-     PA8     ------> TIM1_CH1
-     PA9     ------> TIM1_CH2
+     PA0     ------> TIM2_CH1
+     PA1     ------> TIM2_CH2
      */
     GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

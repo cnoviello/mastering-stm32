@@ -19,7 +19,7 @@ int main(void) {
 
   htim5.Instance = TIM5;
   htim5.Init.Prescaler = 39999; //80MHz/40000 = 2000Hz
-  htim5.Init.Period = 999; //2000HZ / 1000 = 2Hz = 0.5s
+  htim5.Init.Period = 999;      //2000HZ / 1000 = 2Hz = 0.5s
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   __TIM5_CLK_ENABLE();

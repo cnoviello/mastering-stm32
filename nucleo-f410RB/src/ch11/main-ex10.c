@@ -20,7 +20,7 @@ void MX_TIM1_Init(void);
   while (1);
 }
 
-/* TIM3 init function */
+/* TIM1 init function */
 void MX_TIM1_Init(void) {
   TIM_OnePulse_InitTypeDef sConfig;
 
@@ -48,9 +48,9 @@ void HAL_TIM_OnePulse_MspInit(TIM_HandleTypeDef* htim_base) {
   if (htim_base->Instance == TIM1) {
     __TIM1_CLK_ENABLE();
 
-    /**TIM3 GPIO Configuration
-     PA6     ------> TIM3_CH1
-     PA7     ------> TIM3_CH2
+    /**TIM1 GPIO Configuration
+     PA8     ------> TIM1_CH1
+     PA9     ------> TIM1_CH2
      */
     GPIO_InitStruct.Pin = GPIO_PIN_9 | GPIO_PIN_8;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;

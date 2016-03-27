@@ -29,7 +29,7 @@ int main(void) {
   while (1);
 }
 
-/* TIM3 init function */
+/* TIM2 init function */
 void MX_TIM2_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
@@ -56,7 +56,7 @@ void MX_TIM2_Init(void) {
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
   uint16_t pulse;
 
-  /* TIM2_CH1 toggling with frequency = 50KHz */
+  /* TIMx_CH1 toggling with frequency = 50KHz */
   if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
   {
     pulse = 0xFFFF & HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);

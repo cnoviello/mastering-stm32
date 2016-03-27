@@ -6,7 +6,7 @@
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim1;
 
-void MX_TIM3_Init(void);
+void MX_TIM1_Init(void);
 
 uint16_t computePulse(TIM_HandleTypeDef *htim, uint32_t chFrequency) {
   uint32_t timFrequency= HAL_RCC_GetHCLKFreq() / (htim->Instance->PSC + 1);
@@ -21,7 +21,7 @@ int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
-  MX_TIM3_Init();
+  MX_TIM1_Init();
 
   HAL_TIM_OC_Start_IT(&htim1, TIM_CHANNEL_1);
   HAL_TIM_OC_Start_IT(&htim1, TIM_CHANNEL_2);
@@ -29,8 +29,8 @@ int main(void) {
   while (1);
 }
 
-/* TIM3 init function */
-void MX_TIM3_Init(void) {
+/* TIM1 init function */
+void MX_TIM1_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
   htim1.Instance = TIM1;
@@ -56,7 +56,7 @@ void MX_TIM3_Init(void) {
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
   uint16_t pulse;
 
-  /* TIM2_CH1 toggling with frequency = 50KHz */
+  /* TIMx_CH1 toggling with frequency = 50KHz */
   if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
   {
     pulse = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);
@@ -78,7 +78,7 @@ void HAL_TIM_OC_MspInit(TIM_HandleTypeDef* htim_base) {
   if(htim_base->Instance==TIM1) {
     __TIM1_CLK_ENABLE();
 
-    /**TIM3 GPIO Configuration
+    /**TIM1 GPIO Configuration
     PC0     ------> TIM1_CH1
     PC1     ------> TIM1_CH2
     */

@@ -56,7 +56,7 @@ void MX_TIM3_Init(void) {
 void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim) {
   uint32_t pulse;
 
-  /* TIM2_CH1 toggling with frequency = 50KHz */
+  /* TIMx_CH1 toggling with frequency = 50KHz */
   if(htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)
   {
     pulse = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);

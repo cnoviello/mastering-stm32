@@ -79,6 +79,9 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
   if(htim_base->Instance==TIM5) {
     __TIM5_CLK_ENABLE();
 
+    /**TIM5 GPIO Configuration    
+    PA0     ------> TIM1_CH1 
+    */
     GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_PULLDOWN;

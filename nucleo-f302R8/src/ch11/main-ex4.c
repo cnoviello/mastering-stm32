@@ -6,21 +6,21 @@
 /* Private variables ---------------------------------------------------------*/
 TIM_HandleTypeDef htim1;
 
-void MX_TIM3_Init(void);
+void MX_TIM1_Init(void);
 
 int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
-  MX_TIM3_Init();
+  MX_TIM1_Init();
 
   HAL_TIM_Base_Start_IT(&htim1);
 
   while (1);
 }
 
-/* TIM3 init function */
-void MX_TIM3_Init(void) {
+/* TIM1 init function */
+void MX_TIM1_Init(void) {
   TIM_SlaveConfigTypeDef sSlaveConfig;
 
   htim1.Instance = TIM1;
@@ -48,7 +48,7 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
     __TIM1_CLK_ENABLE();
 
     /**TIM3 GPIO Configuration
-    PA7     ------> TIM3_CH2
+    PC0     ------> TIM1_CH1
     */
     GPIO_InitStruct.Pin = GPIO_PIN_0;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
