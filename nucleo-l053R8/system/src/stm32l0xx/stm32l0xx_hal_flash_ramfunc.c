@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_flash_ramfunc.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   FLASH RAMFUNC driver.
   *          This file provides a Flash firmware functions which should be 
   *          executed from internal SRAM
@@ -32,7 +32,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -404,13 +404,18 @@ static __RAM_FUNC FLASHRAM_SetErrorCode(void)
   { 
     ProcFlash.ErrorCode |= HAL_FLASH_ERROR_SIZE;
   }
-#if defined(STM32L031xx) || defined(STM32L041xx)
-#else
   if(__HAL_FLASH_GET_FLAG(FLASH_FLAG_OPTVERR))
   { 
+    /* WARNING : On the first cut of STM32L031xx and STM32L041xx devices,
+     *           (RevID = 0x1000) the FLASH_FLAG_OPTVERR bit was not behaving
+     *           as expected. If the user run an application using the first
+     *           cut of the STM32L031xx device or the first cut of the STM32L041xx
+     *           device, this error should be ignored. The RevID of the device
+     *           can be retrieved via the HAL_GetREVID() function.
+     *
+     */
     ProcFlash.ErrorCode |= HAL_FLASH_ERROR_OPTV;
   }
-#endif
   if(__HAL_FLASH_GET_FLAG(FLASH_FLAG_RDERR))
   { 
     ProcFlash.ErrorCode |= HAL_FLASH_ERROR_RD;
@@ -425,14 +430,10 @@ static __RAM_FUNC FLASHRAM_SetErrorCode(void)
   }
   
   /* Errors are now stored, clear errors flags */
-#if defined(STM32L031xx) || defined(STM32L041xx)
-  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_SIZERR |
-                         FLASH_FLAG_RDERR | FLASH_FLAG_FWWERR | FLASH_FLAG_NOTZEROERR);
-#else
+
   __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_WRPERR | FLASH_FLAG_PGAERR | FLASH_FLAG_SIZERR |
                          FLASH_FLAG_OPTVERR | FLASH_FLAG_RDERR | FLASH_FLAG_FWWERR | 
                          FLASH_FLAG_NOTZEROERR);
-#endif
   return HAL_OK;
 } 
 
@@ -461,15 +462,22 @@ static __RAM_FUNC FLASHRAM_WaitForLastOperation(uint32_t Timeout)
     if( (__HAL_FLASH_GET_FLAG(FLASH_FLAG_RDERR)      != RESET) || 
         (__HAL_FLASH_GET_FLAG(FLASH_FLAG_WRPERR)     != RESET) || 
         (__HAL_FLASH_GET_FLAG(FLASH_FLAG_PGAERR)     != RESET) || 
-#if defined(STM32L031xx) || defined(STM32L041xx)
-#else
         (__HAL_FLASH_GET_FLAG(FLASH_FLAG_OPTVERR)    != RESET) || 
-#endif
         (__HAL_FLASH_GET_FLAG(FLASH_FLAG_SIZERR)     != RESET) || 
         (__HAL_FLASH_GET_FLAG(FLASH_FLAG_FWWERR)     != RESET) || 
         (__HAL_FLASH_GET_FLAG(FLASH_FLAG_NOTZEROERR) != RESET) )
     {
       /*Save the error code*/
+
+      /* WARNING : On the first cut of STM32L031xx and STM32L041xx devices,
+       *           (RefID = 0x1000) the FLASH_FLAG_OPTVERR bit was not behaving
+       *           as expected. If the user run an application using the first
+       *           cut of the STM32L031xx device or the first cut of the STM32L041xx
+       *           device, this error should be ignored. The revId of the device
+       *           can be retrieved via the HAL_GetREVID() function.
+       *
+       */
+
       FLASHRAM_SetErrorCode();
       return HAL_ERROR;
     }

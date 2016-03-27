@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32_hal_legacy.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015 
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   This file contains aliases definition for the STM32Cube HAL constants 
   *          macros and functions maintained for legacy purpose.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -103,6 +103,7 @@
 #define ADC_EXTERNALTRIG_EDGE_RISING    ADC_EXTERNALTRIGCONVEDGE_RISING
 #define ADC_EXTERNALTRIG_EDGE_FALLING   ADC_EXTERNALTRIGCONVEDGE_FALLING
 #define ADC_EXTERNALTRIG_EDGE_RISINGFALLING ADC_EXTERNALTRIGCONVEDGE_RISINGFALLING
+#define ADC_SAMPLETIME_2CYCLE_5         ADC_SAMPLETIME_2CYCLES_5
 
 #define HAL_ADC_STATE_BUSY_REG          HAL_ADC_STATE_REG_BUSY
 #define HAL_ADC_STATE_BUSY_INJ          HAL_ADC_STATE_INJ_BUSY
@@ -147,6 +148,14 @@
   * @}
   */
 
+/** @defgroup HAL_CORTEX_Aliased_Defines HAL CORTEX Aliased Defines maintained for legacy purpose
+  * @{
+  */
+#define __HAL_CORTEX_SYSTICKCLK_CONFIG HAL_SYSTICK_CLKSourceConfig
+/**
+  * @}
+  */
+
 /** @defgroup HAL_CRC_Aliased_Defines HAL CRC Aliased Defines maintained for legacy purpose
   * @{
   */
@@ -165,7 +174,7 @@
 #define DAC1_CHANNEL_1                                  DAC_CHANNEL_1
 #define DAC1_CHANNEL_2                                  DAC_CHANNEL_2
 #define DAC2_CHANNEL_1                                  DAC_CHANNEL_1
-#define DAC_WAVE_NONE                                   ((uint32_t)0x00000000)
+#define DAC_WAVE_NONE                                   ((uint32_t)0x00000000U)
 #define DAC_WAVE_NOISE                                  ((uint32_t)DAC_CR_WAVE1_0)
 #define DAC_WAVE_TRIANGLE                               ((uint32_t)DAC_CR_WAVE1_1)                           
 #define DAC_WAVEGENERATION_NONE                         DAC_WAVE_NONE
@@ -369,11 +378,11 @@
  #define  GPIO_SPEED_HIGH        GPIO_SPEED_FREQ_VERY_HIGH     
 #endif /* STM32L1 */
 
-#if defined(STM32F3) 
+#if defined(STM32F0) || defined(STM32F3) || defined(STM32F1)
  #define  GPIO_SPEED_LOW    GPIO_SPEED_FREQ_LOW
  #define  GPIO_SPEED_MEDIUM GPIO_SPEED_FREQ_MEDIUM
  #define  GPIO_SPEED_HIGH   GPIO_SPEED_FREQ_HIGH
-#endif /* STM32F3 */
+#endif /* STM32F0 || STM32F3 || STM32F1 */
 
 /**
   * @}
@@ -415,6 +424,14 @@
 #define I2C_NOSTRETCH_ENABLED                   I2C_NOSTRETCH_ENABLE
 #define I2C_ANALOGFILTER_ENABLED                I2C_ANALOGFILTER_ENABLE
 #define I2C_ANALOGFILTER_DISABLED               I2C_ANALOGFILTER_DISABLE
+#if defined(STM32F0) || defined(STM32F1) || defined(STM32F3) || defined(STM32G0)
+#define HAL_I2C_STATE_MEM_BUSY_TX               HAL_I2C_STATE_BUSY_TX
+#define HAL_I2C_STATE_MEM_BUSY_RX               HAL_I2C_STATE_BUSY_RX
+#define HAL_I2C_STATE_MASTER_BUSY_TX            HAL_I2C_STATE_BUSY_TX
+#define HAL_I2C_STATE_MASTER_BUSY_RX            HAL_I2C_STATE_BUSY_RX
+#define HAL_I2C_STATE_SLAVE_BUSY_TX             HAL_I2C_STATE_BUSY_TX
+#define HAL_I2C_STATE_SLAVE_BUSY_RX             HAL_I2C_STATE_BUSY_RX
+#endif
 /**
   * @}
   */
@@ -800,9 +817,9 @@
 #define CAN_IT_RQCP2                CAN_IT_TME
 #define INAK_TIMEOUT                CAN_TIMEOUT_VALUE
 #define SLAK_TIMEOUT                CAN_TIMEOUT_VALUE
-#define CAN_TXSTATUS_FAILED         ((uint8_t)0x00)
-#define CAN_TXSTATUS_OK             ((uint8_t)0x01)
-#define CAN_TXSTATUS_PENDING        ((uint8_t)0x02)
+#define CAN_TXSTATUS_FAILED         ((uint8_t)0x00U)
+#define CAN_TXSTATUS_OK             ((uint8_t)0x01U)
+#define CAN_TXSTATUS_PENDING        ((uint8_t)0x02U)
 
 /**
   * @}
@@ -821,17 +838,17 @@
 #define MACFCR_CLEAR_MASK       ETH_MACFCR_CLEAR_MASK
 #define DMAOMR_CLEAR_MASK       ETH_DMAOMR_CLEAR_MASK
 
-#define ETH_MMCCR              ((uint32_t)0x00000100)  
-#define ETH_MMCRIR             ((uint32_t)0x00000104)  
-#define ETH_MMCTIR             ((uint32_t)0x00000108)  
-#define ETH_MMCRIMR            ((uint32_t)0x0000010C)  
-#define ETH_MMCTIMR            ((uint32_t)0x00000110)  
-#define ETH_MMCTGFSCCR         ((uint32_t)0x0000014C)  
-#define ETH_MMCTGFMSCCR        ((uint32_t)0x00000150)  
-#define ETH_MMCTGFCR           ((uint32_t)0x00000168)  
-#define ETH_MMCRFCECR          ((uint32_t)0x00000194)  
-#define ETH_MMCRFAECR          ((uint32_t)0x00000198)  
-#define ETH_MMCRGUFCR          ((uint32_t)0x000001C4) 
+#define ETH_MMCCR              ((uint32_t)0x00000100U)  
+#define ETH_MMCRIR             ((uint32_t)0x00000104U)  
+#define ETH_MMCTIR             ((uint32_t)0x00000108U)  
+#define ETH_MMCRIMR            ((uint32_t)0x0000010CU)  
+#define ETH_MMCTIMR            ((uint32_t)0x00000110U)  
+#define ETH_MMCTGFSCCR         ((uint32_t)0x0000014CU)  
+#define ETH_MMCTGFMSCCR        ((uint32_t)0x00000150U)  
+#define ETH_MMCTGFCR           ((uint32_t)0x00000168U)  
+#define ETH_MMCRFCECR          ((uint32_t)0x00000194U)  
+#define ETH_MMCRFAECR          ((uint32_t)0x00000198U)  
+#define ETH_MMCRGUFCR          ((uint32_t)0x000001C4U) 
 
 /**
   * @}
@@ -2844,32 +2861,6 @@
 #define __HAL_TIM_GetICPrescaler        __HAL_TIM_GET_ICPRESCALER
 #define __HAL_TIM_SetCompare            __HAL_TIM_SET_COMPARE
 #define __HAL_TIM_GetCompare            __HAL_TIM_GET_COMPARE
-
-#define TIM_TS_ITR0                        ((uint32_t)0x0000)
-#define TIM_TS_ITR1                        ((uint32_t)0x0010)
-#define TIM_TS_ITR2                        ((uint32_t)0x0020)
-#define TIM_TS_ITR3                        ((uint32_t)0x0030)
-#define IS_TIM_INTERNAL_TRIGGER_SELECTION(SELECTION) (((SELECTION) == TIM_TS_ITR0) || \
-                                                      ((SELECTION) == TIM_TS_ITR1) || \
-                                                      ((SELECTION) == TIM_TS_ITR2) || \
-                                                      ((SELECTION) == TIM_TS_ITR3))
-
-#define TIM_CHANNEL_1                      ((uint32_t)0x0000)
-#define TIM_CHANNEL_2                      ((uint32_t)0x0004)
-#define IS_TIM_PWMI_CHANNELS(CHANNEL) (((CHANNEL) == TIM_CHANNEL_1) || \
-                                       ((CHANNEL) == TIM_CHANNEL_2))
-
-#define TIM_OUTPUTNSTATE_DISABLE            ((uint32_t)0x0000)
-#define TIM_OUTPUTNSTATE_ENABLE             (TIM_CCER_CC1NE)
-
-#define IS_TIM_OUTPUTN_STATE(STATE) (((STATE) == TIM_OUTPUTNSTATE_DISABLE) || \
-                                     ((STATE) == TIM_OUTPUTNSTATE_ENABLE))
-
-#define TIM_OUTPUTSTATE_DISABLE            ((uint32_t)0x0000)
-#define TIM_OUTPUTSTATE_ENABLE             (TIM_CCER_CC1E)
-
-#define IS_TIM_OUTPUT_STATE(STATE) (((STATE) == TIM_OUTPUTSTATE_DISABLE) || \
-                                    ((STATE) == TIM_OUTPUTSTATE_ENABLE))  
 /**
   * @}
   */

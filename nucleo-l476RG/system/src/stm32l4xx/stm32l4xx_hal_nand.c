@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_nand.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   NAND HAL module driver.
   *          This file provides a generic firmware to drive NAND memories mounted 
   *          as external device.
@@ -55,7 +55,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -220,6 +220,9 @@ HAL_StatusTypeDef HAL_NAND_DeInit(NAND_HandleTypeDef *hnand)
   */
 __weak void HAL_NAND_MspInit(NAND_HandleTypeDef *hnand)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnand);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_NAND_MspInit could be implemented in the user file
    */ 
@@ -233,6 +236,9 @@ __weak void HAL_NAND_MspInit(NAND_HandleTypeDef *hnand)
   */
 __weak void HAL_NAND_MspDeInit(NAND_HandleTypeDef *hnand)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnand);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_NAND_MspDeInit could be implemented in the user file
    */ 
@@ -296,6 +302,9 @@ void HAL_NAND_IRQHandler(NAND_HandleTypeDef *hnand)
   */
 __weak void HAL_NAND_ITCallback(NAND_HandleTypeDef *hnand)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnand);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_NAND_ITCallback could be implemented in the user file
    */
@@ -858,6 +867,9 @@ uint32_t HAL_NAND_Read_Status(NAND_HandleTypeDef *hnand)
   uint32_t data = 0;
   uint32_t deviceaddress = 0;
   
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnand);
+
   /* Identify the device address */
    deviceaddress = NAND_DEVICE;
 

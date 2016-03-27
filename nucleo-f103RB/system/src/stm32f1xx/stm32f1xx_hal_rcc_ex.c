@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_rcc_ex.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   Extended RCC HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities RCC extension peripheral:
@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -343,11 +343,45 @@ void HAL_RCCEx_GetPeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
   * @note   Returns 0 if peripheral clock is unknown
   * @param  PeriphClk Peripheral clock identifier
   *         This parameter can be one of the following values:
-  *            @arg RCC_PERIPHCLK_RTC  RTC peripheral clock
-  *            @arg RCC_PERIPHCLK_ADC  ADC peripheral clock
-  *            @arg RCC_PERIPHCLK_I2S2 I2S2 peripheral clock (STM32F103xE, STM32F103xG, STM32F105xC & STM32F107xC)
-  *            @arg RCC_PERIPHCLK_I2S3 I2S3 peripheral clock (STM32F103xE, STM32F103xG, STM32F105xC & STM32F107xC)
-  *            @arg RCC_PERIPHCLK_USB USB peripheral clock (STM32F102xx, STM32F103xx, STM32F105xC & STM32F107xC)
+  *            @arg @ref RCC_PERIPHCLK_RTC  RTC peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_ADC  ADC peripheral clock
+  @if STM32F103xE
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  @endif
+  @if STM32F103xG
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  @endif
+  @if STM32F105xC
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_USB  USB peripheral clock
+  @endif
+  @if STM32F107xC
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S3 I2S3 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_I2S2 I2S2 peripheral clock
+  *            @arg @ref RCC_PERIPHCLK_USB  USB peripheral clock
+  @endif
+  @if STM32F102xx
+  *            @arg @ref RCC_PERIPHCLK_USB  USB peripheral clock
+  @endif
+  @if STM32F103xx
+  *            @arg @ref RCC_PERIPHCLK_USB  USB peripheral clock
+  @endif
   * @retval Frequency in Hz (0: means that no available frequency for the peripheral)
   */
 uint32_t HAL_RCCEx_GetPeriphCLKFreq(uint32_t PeriphClk)

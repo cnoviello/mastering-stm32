@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_uart.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Header file of UART HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -437,7 +437,7 @@ typedef struct
 #define UART_FLAG_RTOF                      USART_ISR_RTOF    /*!< Receiver Time Out */
 #define UART_FLAG_CTS                       USART_ISR_CTS     /*!< CTS flag */
 #define UART_FLAG_CTSIF                     USART_ISR_CTSIF   /*!< CTS interrupt flag */
-#define UART_FLAG_LBDF                      USART_ISR_LBD     /*!< LIN Break Detection Flag */
+#define UART_FLAG_LBDF                      USART_ISR_LBDF    /*!< LIN Break Detection Flag */
 #define UART_FLAG_TXE                       USART_ISR_TXE     /*!< Transmit Data Register Empty */
 #define UART_FLAG_TC                        USART_ISR_TC      /*!< Transmission Complete */
 #define UART_FLAG_RXNE                      USART_ISR_RXNE    /*!< Read Data Register Not Empty */

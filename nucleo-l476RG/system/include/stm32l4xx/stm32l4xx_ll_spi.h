@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_spi.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of SPI LL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -58,12 +58,77 @@ extern "C" {
 
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
-/* Private constants ---------------------------------------------------------*/
-
 /* Private macros ------------------------------------------------------------*/
 
 /* Exported types ------------------------------------------------------------*/
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup LL_ES_INIT SPI Exported Init structure
+  * @{
+  */
+
+/**
+  * @brief  SPI Init structures definition
+  */
+typedef struct
+{
+  uint32_t TransferDirection;       /*!< Specifies the SPI unidirectional or bidirectional data mode.
+                                         This parameter can be a value of @ref SPI_LL_EC_TRANSFER_MODE.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetTransferDirection().*/
+
+  uint32_t Mode;                    /*!< Specifies the SPI mode (Master/Slave).
+                                         This parameter can be a value of @ref SPI_LL_EC_MODE.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetMode().*/
+
+  uint32_t DataWidth;               /*!< Specifies the SPI data width.
+                                         This parameter can be a value of @ref SPI_LL_EC_DATAWIDTH.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetDataWidth().*/
+
+  uint32_t ClockPolarity;           /*!< Specifies the serial clock steady state.
+                                         This parameter can be a value of @ref SPI_LL_EC_POLARITY.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetClockPolarity().*/
+
+  uint32_t ClockPhase;              /*!< Specifies the clock active edge for the bit capture.
+                                         This parameter can be a value of @ref SPI_LL_EC_PHASE.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetClockPhase().*/
+
+  uint32_t NSS;                     /*!< Specifies whether the NSS signal is managed by hardware (NSS pin) or by software using the SSI bit.
+                                         This parameter can be a value of @ref SPI_LL_EC_NSS_MODE.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetNSSMode().*/
+
+  uint32_t BaudRate;                /*!< Specifies the BaudRate prescaler value which will be used to configure the transmit and receive SCK clock.
+                                         This parameter can be a value of @ref SPI_LL_EC_BAUDRATEPRESCALER.
+                                         @note The communication clock is derived from the master clock. The slave clock does not need to be set.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetBaudRatePrescaler().*/
+
+  uint32_t BitOrder;                /*!< Specifies whether data transfers start from MSB or LSB bit.
+                                         This parameter can be a value of @ref SPI_LL_EC_BIT_ORDER.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetTransferBitOrder().*/
+
+  uint32_t CRCCalculation;          /*!< Specifies if the CRC calculation is enabled or not.
+                                         This parameter can be a value of @ref SPI_LL_EC_CRC_CALCULATION.
+
+                                         This feature can be modified afterwards using unitary functions @ref LL_SPI_EnableCRC() and @ref LL_SPI_DisableCRC().*/
+
+  uint32_t CRCPoly;                 /*!< Specifies the polynomial used for the CRC calculation.
+                                         This parameter must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF.
+
+                                         This feature can be modified afterwards using unitary function @ref LL_SPI_SetCRCPolynomial().*/
+
+} LL_SPI_InitTypeDef;
+
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
+
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup SPI_LL_Exported_Constants SPI Exported Constants
   * @{
@@ -135,14 +200,14 @@ extern "C" {
 /** @defgroup SPI_LL_EC_BAUDRATEPRESCALER BAUDRATEPRESCALER
   * @{
   */
-#define LL_SPI_BAUDRATEPRESCALER_DIV2      ((uint32_t)0x00000000)                         /*!< Baudrate control equal to fPCLK/2   */
-#define LL_SPI_BAUDRATEPRESCALER_DIV4      (SPI_CR1_BR_0)                                 /*!< Baudrate control equal to fPCLK/4   */
-#define LL_SPI_BAUDRATEPRESCALER_DIV8      (SPI_CR1_BR_1)                                 /*!< Baudrate control equal to fPCLK/8   */
-#define LL_SPI_BAUDRATEPRESCALER_DIV16     (SPI_CR1_BR_1 | SPI_CR1_BR_0)                  /*!< Baudrate control equal to fPCLK/16  */
-#define LL_SPI_BAUDRATEPRESCALER_DIV32     (SPI_CR1_BR_2)                                 /*!< Baudrate control equal to fPCLK/32  */
-#define LL_SPI_BAUDRATEPRESCALER_DIV64     (SPI_CR1_BR_2 | SPI_CR1_BR_0)                  /*!< Baudrate control equal to fPCLK/64  */
-#define LL_SPI_BAUDRATEPRESCALER_DIV128    (SPI_CR1_BR_2 | SPI_CR1_BR_1)                  /*!< Baudrate control equal to fPCLK/128 */
-#define LL_SPI_BAUDRATEPRESCALER_DIV256    (SPI_CR1_BR_2 | SPI_CR1_BR_1 | SPI_CR1_BR_0)   /*!< Baudrate control equal to fPCLK/256 */
+#define LL_SPI_BAUDRATEPRESCALER_DIV2      ((uint32_t)0x00000000)                         /*!< BaudRate control equal to fPCLK/2   */
+#define LL_SPI_BAUDRATEPRESCALER_DIV4      (SPI_CR1_BR_0)                                 /*!< BaudRate control equal to fPCLK/4   */
+#define LL_SPI_BAUDRATEPRESCALER_DIV8      (SPI_CR1_BR_1)                                 /*!< BaudRate control equal to fPCLK/8   */
+#define LL_SPI_BAUDRATEPRESCALER_DIV16     (SPI_CR1_BR_1 | SPI_CR1_BR_0)                  /*!< BaudRate control equal to fPCLK/16  */
+#define LL_SPI_BAUDRATEPRESCALER_DIV32     (SPI_CR1_BR_2)                                 /*!< BaudRate control equal to fPCLK/32  */
+#define LL_SPI_BAUDRATEPRESCALER_DIV64     (SPI_CR1_BR_2 | SPI_CR1_BR_0)                  /*!< BaudRate control equal to fPCLK/64  */
+#define LL_SPI_BAUDRATEPRESCALER_DIV128    (SPI_CR1_BR_2 | SPI_CR1_BR_1)                  /*!< BaudRate control equal to fPCLK/128 */
+#define LL_SPI_BAUDRATEPRESCALER_DIV256    (SPI_CR1_BR_2 | SPI_CR1_BR_1 | SPI_CR1_BR_0)   /*!< BaudRate control equal to fPCLK/256 */
 /**
   * @}
   */
@@ -159,18 +224,10 @@ extern "C" {
 /** @defgroup SPI_LL_EC_TRANSFER_MODE TRANSFER MODE
   * @{
   */
-#define LL_SPI_FULL_DUPLEX                 ((uint32_t)0x00000000)    /*!< Full-Duplex mode. Rx and Tx transfer on 2 lines */
-#define LL_SPI_SIMPLEX_RX                  (SPI_CR1_RXONLY)          /*!< Simplex Rx mode.  Rx transfer only on 1 line    */
-#define LL_SPI_HALF_DUPLEX                 (SPI_CR1_BIDIMODE)        /*!< Half-Duplex mode. Rx or Tx transfer on 1 line   */
-/**
-  * @}
-  */
-
-/** @defgroup SPI_LL_EC_DIRECTION_HALF_DUPLEX DIRECTION HALF DUPLEX
-  * @{
-  */
-#define LL_SPI_DIRECTION_HALF_DUPLEX_TX    (SPI_CR1_BIDIOE)          /*!< Tx transfer selection for Half-Duplex mode */
-#define LL_SPI_DIRECTION_HALF_DUPLEX_RX    (0x00000000)              /*!< Rx transfer selection for Half-Duplex mode */
+#define LL_SPI_FULL_DUPLEX                 ((uint32_t)0x00000000)               /*!< Full-Duplex mode. Rx and Tx transfer on 2 lines */
+#define LL_SPI_SIMPLEX_RX                  (SPI_CR1_RXONLY)                     /*!< Simplex Rx mode.  Rx transfer only on 1 line    */
+#define LL_SPI_HALF_DUPLEX_RX              (SPI_CR1_BIDIMODE)                   /*!< Half-Duplex Rx mode. Rx transfer on 1 line      */
+#define LL_SPI_HALF_DUPLEX_TX              (SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE)  /*!< Half-Duplex Tx mode. Tx transfer on 1 line      */
 /**
   * @}
   */
@@ -203,6 +260,17 @@ extern "C" {
 /**
   * @}
   */
+
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup SPI_LL_EC_CRC_CALCULATION CRC CALCULATION
+  * @{
+  */
+#define LL_SPI_CRCCALCULATION_DISABLE      ((uint32_t)0x00000000)    /*!< CRC calcuation disabled */
+#define LL_SPI_CRCCALCULATION_ENABLE       (SPI_CR1_CRCEN)           /*!< CRC calcuation enabled  */
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
 
 /** @defgroup SPI_LL_EC_CRC_LENGTH CRC LENGTH
   * @{
@@ -328,10 +396,11 @@ __STATIC_INLINE void LL_SPI_Disable(SPI_TypeDef *SPIx)
   * @brief  Check if SPI peripheral is enabled
   * @rmtoll CR1          SPE           LL_SPI_IsEnabled
   * @param  SPIx SPI Instance
-  * @retval None
+  * @retval State of bit (1 or 0).
   */
-__STATIC_INLINE void LL_SPI_IsEnabled(SPI_TypeDef *SPIx)
+__STATIC_INLINE uint32_t LL_SPI_IsEnabled(SPI_TypeDef *SPIx)
 {
+  return (READ_BIT(SPIx->CR1, SPI_CR1_SPE) == (SPI_CR1_SPE));
 }
 
 /**
@@ -451,11 +520,11 @@ __STATIC_INLINE uint32_t LL_SPI_GetClockPolarity(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set Baudrate Prescaler
+  * @brief  Set BaudRate Prescaler
   * @note   These bits should not be changed when communication is ongoing. SPI BaudRate = fPCLK/Pescaler.
   * @rmtoll CR1          BR            LL_SPI_SetBaudRatePrescaler
   * @param  SPIx SPI Instance
-  * @param  Baudrate This parameter can be one of the following values:
+  * @param  BaudRate This parameter can be one of the following values:
   *         @arg @ref LL_SPI_BAUDRATEPRESCALER_DIV2
   *         @arg @ref LL_SPI_BAUDRATEPRESCALER_DIV4
   *         @arg @ref LL_SPI_BAUDRATEPRESCALER_DIV8
@@ -466,13 +535,13 @@ __STATIC_INLINE uint32_t LL_SPI_GetClockPolarity(SPI_TypeDef *SPIx)
   *         @arg @ref LL_SPI_BAUDRATEPRESCALER_DIV256
   * @retval None
   */
-__STATIC_INLINE void LL_SPI_SetBaudRatePrescaler(SPI_TypeDef *SPIx, uint32_t Baudrate)
+__STATIC_INLINE void LL_SPI_SetBaudRatePrescaler(SPI_TypeDef *SPIx, uint32_t BaudRate)
 {
-  MODIFY_REG(SPIx->CR1, SPI_CR1_BR, Baudrate);
+  MODIFY_REG(SPIx->CR1, SPI_CR1_BR, BaudRate);
 }
 
 /**
-  * @brief  Get Baudrate Prescaler
+  * @brief  Get BaudRate Prescaler
   * @rmtoll CR1          BR            LL_SPI_GetBaudRatePrescaler
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -523,65 +592,40 @@ __STATIC_INLINE uint32_t LL_SPI_GetTransferBitOrder(SPI_TypeDef *SPIx)
   * @note   For Half-Duplex mode, Rx Direction is set by default.
   *         In master mode, the MOSI pin is used and in slave mode, the MISO pin is used for Half-Duplex.
   * @rmtoll CR1          RXONLY        LL_SPI_SetTransferDirection\n
-  *         CR1          BIDIMODE      LL_SPI_SetTransferDirection
+  *         CR1          BIDIMODE      LL_SPI_SetTransferDirection\n
+  *         CR1          BIDIOE        LL_SPI_SetTransferDirection
   * @param  SPIx SPI Instance
   * @param  TransferDirection This parameter can be one of the following values:
   *         @arg @ref LL_SPI_FULL_DUPLEX
   *         @arg @ref LL_SPI_SIMPLEX_RX
-  *         @arg @ref LL_SPI_HALF_DUPLEX
+  *         @arg @ref LL_SPI_HALF_DUPLEX_RX
+  *         @arg @ref LL_SPI_HALF_DUPLEX_TX
   * @retval None
   */
 __STATIC_INLINE void LL_SPI_SetTransferDirection(SPI_TypeDef *SPIx, uint32_t TransferDirection)
 {
-  MODIFY_REG(SPIx->CR1, SPI_CR1_RXONLY | SPI_CR1_BIDIMODE, TransferDirection);
+  MODIFY_REG(SPIx->CR1, SPI_CR1_RXONLY | SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE, TransferDirection);
 }
 
 /**
   * @brief  Get Transfer Direction Mode
   * @rmtoll CR1          RXONLY        LL_SPI_GetTransferDirection\n
-  *         CR1          BIDIMODE      LL_SPI_GetTransferDirection
+  *         CR1          BIDIMODE      LL_SPI_GetTransferDirection\n
+  *         CR1          BIDIOE        LL_SPI_GetTransferDirection
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
   *         @arg @ref LL_SPI_FULL_DUPLEX
   *         @arg @ref LL_SPI_SIMPLEX_RX
-  *         @arg @ref LL_SPI_HALF_DUPLEX
+  *         @arg @ref LL_SPI_HALF_DUPLEX_RX
+  *         @arg @ref LL_SPI_HALF_DUPLEX_TX
   */
 __STATIC_INLINE uint32_t LL_SPI_GetTransferDirection(SPI_TypeDef *SPIx)
 {
-  return (uint32_t)(READ_BIT(SPIx->CR1, SPI_CR1_RXONLY | SPI_CR1_BIDIMODE));
+  return (uint32_t)(READ_BIT(SPIx->CR1, SPI_CR1_RXONLY | SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE));
 }
 
 /**
-  * @brief  Set direction for Half-Duplex Mode
-  * @note   In master mode, the MOSI pin is used and in slave mode, the MISO pin is used for Half-Duplex.
-  * @rmtoll CR1          BIDIOE        LL_SPI_SetHalfDuplexDirection
-  * @param  SPIx SPI Instance
-  * @param  HalfDuplexDirection This parameter can be one of the following values:
-  *         @arg @ref LL_SPI_DIRECTION_HALF_DUPLEX_TX
-  *         @arg @ref LL_SPI_DIRECTION_HALF_DUPLEX_RX
-  * @retval None
-  */
-__STATIC_INLINE void LL_SPI_SetHalfDuplexDirection(SPI_TypeDef *SPIx, uint32_t HalfDuplexDirection)
-{
-  MODIFY_REG(SPIx->CR1, SPI_CR1_BIDIOE, HalfDuplexDirection);
-}
-
-/**
-  * @brief  Get direction for Half-Duplex Mode
-  * @note   In master mode, the MOSI pin is used and in slave mode, the MISO pin is used for Half-Duplex.
-  * @rmtoll CR1          BIDIOE        LL_SPI_GetHalfDuplexDirection
-  * @param  SPIx SPI Instance
-  * @retval Returned value can be one of the following values:
-  *         @arg @ref LL_SPI_DIRECTION_HALF_DUPLEX_TX
-  *         @arg @ref LL_SPI_DIRECTION_HALF_DUPLEX_RX
-  */
-__STATIC_INLINE uint32_t LL_SPI_GetHalfDuplexDirection(SPI_TypeDef *SPIx)
-{
-  return (uint32_t)(READ_BIT(SPIx->CR1, SPI_CR1_BIDIOE));
-}
-
-/**
-  * @brief  Set Frame Data Size
+  * @brief  Set Frame Data Width
   * @rmtoll CR2          DS            LL_SPI_SetDataWidth
   * @param  SPIx SPI Instance
   * @param  DataWidth This parameter can be one of the following values:
@@ -606,7 +650,7 @@ __STATIC_INLINE void LL_SPI_SetDataWidth(SPI_TypeDef *SPIx, uint32_t DataWidth)
 }
 
 /**
-  * @brief  Get Frame Data Size
+  * @brief  Get Frame Data Width
   * @rmtoll CR2          DS            LL_SPI_GetDataWidth
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -693,10 +737,11 @@ __STATIC_INLINE void LL_SPI_DisableCRC(SPI_TypeDef *SPIx)
   * @note   This bit should be written only when SPI is disabled (SPE = 0) for correct operation.
   * @rmtoll CR1          CRCEN         LL_SPI_IsEnabledCRC
   * @param  SPIx SPI Instance
-  * @retval None
+  * @retval State of bit (1 or 0).
   */
-__STATIC_INLINE void LL_SPI_IsEnabledCRC(SPI_TypeDef *SPIx)
+__STATIC_INLINE uint32_t LL_SPI_IsEnabledCRC(SPI_TypeDef *SPIx)
 {
+  return (READ_BIT(SPIx->CR1, SPI_CR1_CRCEN) == (SPI_CR1_CRCEN));
 }
 
 /**
@@ -743,19 +788,19 @@ __STATIC_INLINE void LL_SPI_SetCRCNext(SPI_TypeDef *SPIx)
   * @brief  Set polynomial for CRC calculation
   * @rmtoll CRCPR        CRCPOLY       LL_SPI_SetCRCPolynomial
   * @param  SPIx SPI Instance
-  * @param  CRCPoly 0..0xFFFF
+  * @param  CRCPoly This parameter must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF
   * @retval None
   */
 __STATIC_INLINE void LL_SPI_SetCRCPolynomial(SPI_TypeDef *SPIx, uint32_t CRCPoly)
 {
-  MODIFY_REG(SPIx->CRCPR, SPI_CRCPR_CRCPOLY, CRCPoly);
+  WRITE_REG(SPIx->CRCPR, (uint16_t)CRCPoly);
 }
 
 /**
   * @brief  Get polynomial for CRC calculation
   * @rmtoll CRCPR        CRCPOLY       LL_SPI_GetCRCPolynomial
   * @param  SPIx SPI Instance
-  * @retval 0..0xFFFF
+  * @retval Returned value must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF
   */
 __STATIC_INLINE uint32_t LL_SPI_GetCRCPolynomial(SPI_TypeDef *SPIx)
 {
@@ -766,7 +811,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetCRCPolynomial(SPI_TypeDef *SPIx)
   * @brief  Get Rx CRC
   * @rmtoll RXCRCR       RXCRC         LL_SPI_GetRxCRC
   * @param  SPIx SPI Instance
-  * @retval 0..0xFFFF
+  * @retval Returned value must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF
   */
 __STATIC_INLINE uint32_t LL_SPI_GetRxCRC(SPI_TypeDef *SPIx)
 {
@@ -777,7 +822,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetRxCRC(SPI_TypeDef *SPIx)
   * @brief  Get Tx CRC
   * @rmtoll TXCRCR       TXCRC         LL_SPI_GetTxCRC
   * @param  SPIx SPI Instance
-  * @retval 0..0xFFFF
+  * @retval Returned value must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF
   */
 __STATIC_INLINE uint32_t LL_SPI_GetTxCRC(SPI_TypeDef *SPIx)
 {
@@ -856,10 +901,11 @@ __STATIC_INLINE void LL_SPI_DisableNSSPulseMgt(SPI_TypeDef *SPIx)
   * @note   This bit should not be changed when communication is ongoing. This bit is not used in SPI TI mode.
   * @rmtoll CR2          NSSP          LL_SPI_IsEnabledNSSPulse
   * @param  SPIx SPI Instance
-  * @retval None
+  * @retval State of bit (1 or 0).
   */
-__STATIC_INLINE void LL_SPI_IsEnabledNSSPulse(SPI_TypeDef *SPIx)
+__STATIC_INLINE uint32_t LL_SPI_IsEnabledNSSPulse(SPI_TypeDef *SPIx)
 {
+  return (READ_BIT(SPIx->CR2, SPI_CR2_NSSP) == (SPI_CR2_NSSP));
 }
 
 /**
@@ -1307,7 +1353,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetDMAParity_TX(SPI_TypeDef *SPIx)
   */
 __STATIC_INLINE uint32_t LL_SPI_DMA_GetRegAddr(SPI_TypeDef *SPIx)
 {
-  return (uint32_t)&(SPIx->DR);
+  return (uint32_t) & (SPIx->DR);
 }
 
 /**
@@ -1349,7 +1395,7 @@ __STATIC_INLINE uint16_t LL_SPI_ReceiveData16(SPI_TypeDef *SPIx)
   */
 __STATIC_INLINE void LL_SPI_TransmitData8(SPI_TypeDef *SPIx, uint8_t TxData)
 {
-  *((__IO uint8_t*)&SPIx->DR) = TxData;
+  *((__IO uint8_t *)&SPIx->DR) = TxData;
 }
 
 /**
@@ -1361,13 +1407,25 @@ __STATIC_INLINE void LL_SPI_TransmitData8(SPI_TypeDef *SPIx, uint8_t TxData)
   */
 __STATIC_INLINE void LL_SPI_TransmitData16(SPI_TypeDef *SPIx, uint16_t TxData)
 {
-  *((__IO uint16_t*)&SPIx->DR) = TxData;
+  *((__IO uint16_t *)&SPIx->DR) = TxData;
 }
 
 /**
   * @}
   */
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup SPI_LL_EF_Init Initialization and de-initialization functions
+  * @{
+  */
 
+ErrorStatus LL_SPI_DeInit(SPI_TypeDef *SPIx);
+ErrorStatus LL_SPI_Init(SPI_TypeDef *SPIx, LL_SPI_InitTypeDef *SPI_InitStruct);
+void        LL_SPI_StructInit(LL_SPI_InitTypeDef *SPI_InitStruct);
+
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
 /**
   * @}
   */

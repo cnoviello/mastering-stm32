@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_dma.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of DMA HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -124,7 +124,6 @@ typedef enum
   HAL_DMA_HALF_TRANSFER      = 0x01     /*!< Half Transfer     */
 }HAL_DMA_LevelCompleteTypeDef;
 
-
 /**
   * @brief  DMA handle Structure definition
   */
@@ -140,11 +139,11 @@ typedef struct __DMA_HandleTypeDef
                                                                                 
   void                  *Parent;                                                   /*!< Parent object state                    */
 
-  void                  (* XferCpltCallback)(struct __DMA_HandleTypeDef * hdma);     /*!< DMA transfer complete callback         */
+  void                  (* XferCpltCallback)(struct __DMA_HandleTypeDef * hdma);     /*!< DMA transfer complete callback       */
 
-  void                  (* XferHalfCpltCallback)(struct __DMA_HandleTypeDef * hdma); /*!< DMA Half transfer complete callback    */
+  void                  (* XferHalfCpltCallback)(struct __DMA_HandleTypeDef * hdma); /*!< DMA Half transfer complete callback  */
 
-  void                  (* XferErrorCallback)(struct __DMA_HandleTypeDef * hdma);    /*!< DMA transfer error callback            */
+  void                  (* XferErrorCallback)(struct __DMA_HandleTypeDef * hdma);    /*!< DMA transfer error callback          */
 
   __IO uint32_t          ErrorCode;                                                /*!< DMA Error code                         */
 }DMA_HandleTypeDef;

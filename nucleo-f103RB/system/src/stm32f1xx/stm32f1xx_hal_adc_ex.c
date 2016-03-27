@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_adc_ex.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -26,7 +26,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -715,7 +715,7 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeStart_DMA(ADC_HandleTypeDef* hadc, uint32_t
     
     return HAL_ERROR;
   }
-
+  
   /* Enable the ADC peripherals: master and slave (in case if not already     */
   /* enabled previously)                                                      */
   tmp_hal_status = ADC_Enable(hadc);
@@ -898,6 +898,23 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeStop_DMA(ADC_HandleTypeDef* hadc)
 
 /**
   * @brief  Get ADC injected group conversion result.
+  * @note   Reading register JDRx automatically clears ADC flag JEOC
+  *         (ADC group injected end of unitary conversion).
+  * @note   This function does not clear ADC flag JEOS 
+  *         (ADC group injected end of sequence conversion)
+  *         Occurrence of flag JEOS rising:
+  *          - If sequencer is composed of 1 rank, flag JEOS is equivalent
+  *            to flag JEOC.
+  *          - If sequencer is composed of several ranks, during the scan
+  *            sequence flag JEOC only is raised, at the end of the scan sequence
+  *            both flags JEOC and EOS are raised.
+  *         Flag JEOS must not be cleared by this function because
+  *         it would not be compliant with low power features
+  *         (feature low power auto-wait, not available on all STM32 families).
+  *         To clear this flag, either use function: 
+  *         in programming model IT: @ref HAL_ADC_IRQHandler(), in programming
+  *         model polling: @ref HAL_ADCEx_InjectedPollForConversion() 
+  *         or @ref __HAL_ADC_CLEAR_FLAG(&hadc, ADC_FLAG_JEOS).
   * @param  hadc: ADC handle
   * @param  InjectedRank: the converted ADC injected rank.
   *          This parameter can be one of the following values:
@@ -905,7 +922,7 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeStop_DMA(ADC_HandleTypeDef* hadc)
   *            @arg ADC_INJECTED_RANK_2: Injected Channel2 selected
   *            @arg ADC_INJECTED_RANK_3: Injected Channel3 selected
   *            @arg ADC_INJECTED_RANK_4: Injected Channel4 selected
-  * @retval None
+  * @retval ADC group injected conversion data
   */
 uint32_t HAL_ADCEx_InjectedGetValue(ADC_HandleTypeDef* hadc, uint32_t InjectedRank)
 {
@@ -914,10 +931,6 @@ uint32_t HAL_ADCEx_InjectedGetValue(ADC_HandleTypeDef* hadc, uint32_t InjectedRa
   /* Check the parameters */
   assert_param(IS_ADC_ALL_INSTANCE(hadc->Instance));
   assert_param(IS_ADC_INJECTED_RANK(InjectedRank));
-   
-  /* Clear injected group conversion flag to have similar behaviour as        */
-  /* regular group: reading data register also clears end of conversion flag. */
-  __HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_JEOC);
   
   /* Get ADC converted value */ 
   switch(InjectedRank)
@@ -982,6 +995,8 @@ uint32_t HAL_ADCEx_MultiModeGetValue(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_ADCEx_InjectedConvCpltCallback could be implemented in the user file
   */

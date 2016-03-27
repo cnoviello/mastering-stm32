@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_cortex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of CORTEX LL module.
   @verbatim
   ==============================================================================
@@ -23,7 +23,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -82,26 +82,28 @@ extern "C" {
   * @{
   */
 
-/** @defgroup CORTEX_LL_EC_CLKSOURCE_HCLK SYSTICK CLK SOURCE
+/** @defgroup CORTEX_LL_EC_CLKSOURCE_HCLK SYSTICK Clock Source
   * @{
   */
-#define LL_SYSTICK_CLKSOURCE_HCLK_DIV8     ((uint32_t)0x00000000) /* AHB clock divided by 8 selected as SysTick clock source.*/
-#define LL_SYSTICK_CLKSOURCE_HCLK          ((uint32_t)0x00000004) /* AHB clock selected as SysTick clock source. */
+#define LL_SYSTICK_CLKSOURCE_HCLK_DIV8     ((uint32_t)0x00000000)                 /*!< AHB clock divided by 8 selected as SysTick clock source.*/
+#define LL_SYSTICK_CLKSOURCE_HCLK          ((uint32_t)SysTick_CTRL_CLKSOURCE_Msk) /*!< AHB clock selected as SysTick clock source. */
 /**
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_FAULT HANDLER FAULT
+/** @defgroup CORTEX_LL_EC_FAULT Handler Fault type
   * @{
   */
-#define LL_HANDLER_FAULT_USG               SCB_SHCSR_USGFAULTENA_Msk /* Usage fault */
-#define LL_HANDLER_FAULT_BUS               SCB_SHCSR_BUSFAULTENA_Msk /* Bus fault */
-#define LL_HANDLER_FAULT_MEM               SCB_SHCSR_MEMFAULTENA_Msk /* Memory management fault */
+#define LL_HANDLER_FAULT_USG               SCB_SHCSR_USGFAULTENA_Msk              /*!< Usage fault */
+#define LL_HANDLER_FAULT_BUS               SCB_SHCSR_BUSFAULTENA_Msk              /*!< Bus fault */
+#define LL_HANDLER_FAULT_MEM               SCB_SHCSR_MEMFAULTENA_Msk              /*!< Memory management fault */
 /**
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_CTRL_HFNMI_PRIVDEF MPU CONTROL
+#if __MPU_PRESENT
+
+/** @defgroup CORTEX_LL_EC_CTRL_HFNMI_PRIVDEF MPU Control
   * @{
   */
 #define LL_MPU_CTRL_HFNMI_PRIVDEF_NONE     ((uint32_t)0x00000000)                            /*!< Disable NMI and privileged SW access */
@@ -112,7 +114,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_REGION MPU REGION NUMBER
+/** @defgroup CORTEX_LL_EC_REGION MPU Region Number
   * @{
   */
 #define LL_MPU_REGION_NUMBER0              ((uint32_t)0x00) /*!< REGION Number 0 */
@@ -127,7 +129,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_REGION_SIZE MPU REGION SIZE
+/** @defgroup CORTEX_LL_EC_REGION_SIZE MPU Region Size
   * @{
   */
 #define LL_MPU_REGION_SIZE_32B             ((uint32_t)(0x04 << MPU_RASR_SIZE_Pos)) /*!< 32B Size of the MPU protection region */
@@ -162,7 +164,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_REGION_PRIVILEDGES MPU REGION PRIVILEDGES
+/** @defgroup CORTEX_LL_EC_REGION_PRIVILEDGES MPU Region Privileges
   * @{
   */
 #define LL_MPU_REGION_NO_ACCESS            ((uint32_t)(0x00 << MPU_RASR_AP_Pos)) /*!< No access*/
@@ -175,7 +177,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_TEX MPU TEX LEVEL
+/** @defgroup CORTEX_LL_EC_TEX MPU TEX Level
   * @{
   */
 #define LL_MPU_TEX_LEVEL0                  ((uint32_t)(0x00 << MPU_RASR_TEX_Pos)) /*!< b000 for TEX bits */
@@ -186,7 +188,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_INSTRUCTION_ACCESS MPU INSTRUCTION ACCESS
+/** @defgroup CORTEX_LL_EC_INSTRUCTION_ACCESS MPU Instruction Access
   * @{
   */
 #define LL_MPU_INSTRUCTION_ACCESS_ENABLE   ((uint32_t)0x00) /*!< Instruction fetches enabled */
@@ -195,7 +197,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_SHAREABLE_ACCESS MPU SHAREABLE ACCESS 
+/** @defgroup CORTEX_LL_EC_SHAREABLE_ACCESS MPU Shareable Access
   * @{
   */
 #define LL_MPU_ACCESS_SHAREABLE            MPU_RASR_S_Msk   /*!< Shareable memory attribute */
@@ -204,7 +206,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_CACHEABLE_ACCESS MPU CACHEABLE ACCESS 
+/** @defgroup CORTEX_LL_EC_CACHEABLE_ACCESS MPU Cacheable Access
   * @{
   */
 #define LL_MPU_ACCESS_CACHEABLE            MPU_RASR_C_Msk   /*!< Cacheable memory attribute */
@@ -213,7 +215,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup CORTEX_LL_EC_BUFFERABLE_ACCESS MPU BUFFERABLE ACCESS 
+/** @defgroup CORTEX_LL_EC_BUFFERABLE_ACCESS MPU Bufferable Access
   * @{
   */
 #define LL_MPU_ACCESS_BUFFERABLE           MPU_RASR_B_Msk   /*!< Bufferable memory attribute */
@@ -221,7 +223,7 @@ extern "C" {
 /**
   * @}
   */
-
+#endif /* __MPU_PRESENT */
 /**
   * @}
   */
@@ -239,7 +241,7 @@ extern "C" {
 
 /**
   * @brief  This function checks if the Systick counter flag is active or not.
-  * @note It can be used in timeout function on application side.
+  * @note   It can be used in timeout function on application side.
   * @rmtoll STK_CTRL     COUNTFLAG     LL_SYSTICK_IsActiveCounterFlag
   * @retval State of bit (1 or 0).
   */
@@ -342,8 +344,8 @@ __STATIC_INLINE void LL_LPM_EnableDeepSleep(void)
 
 /**
   * @brief  Configures sleep-on-exit when returning from Handler mode to Thread mode.
-  * @note Setting this bit to 1 enables an interrupt-driven application to avoid returning to an
-  *                empty main application.
+  * @note   Setting this bit to 1 enables an interrupt-driven application to avoid returning to an
+  *         empty main application.
   * @rmtoll SCB_SCR      SLEEPONEXIT   LL_LPM_EnableSleepOnExit
   * @retval None
   */
@@ -366,7 +368,7 @@ __STATIC_INLINE void LL_LPM_DisableSleepOnExit(void)
 
 /**
   * @brief  Enabled events and all interrupts, including disabled interrupts, can wakeup the
-  * processor.
+  *         processor.
   * @rmtoll SCB_SCR      SEVEONPEND    LL_LPM_EnableEventOnPend
   * @retval None
   */
@@ -378,7 +380,7 @@ __STATIC_INLINE void LL_LPM_EnableEventOnPend(void)
 
 /**
   * @brief  Only enabled interrupts or events can wakeup the processor, disabled interrupts are
-  * excluded
+  *         excluded
   * @rmtoll SCB_SCR      SEVEONPEND    LL_LPM_DisableEventOnPend
   * @retval None
   */
@@ -445,7 +447,7 @@ __STATIC_INLINE uint32_t LL_CPUID_GetImplementer(void)
 }
 
 /**
-  * @brief  Get Variant number (The r value in the rnpnproduct revision identifier)
+  * @brief  Get Variant number (The r value in the rnpn product revision identifier)
   * @rmtoll SCB_CPUID    VARIANT       LL_CPUID_GetVariant
   * @retval Value between 0 and 255 (0x0: revision 0)
   */
@@ -455,9 +457,9 @@ __STATIC_INLINE uint32_t LL_CPUID_GetVariant(void)
 }
 
 /**
-  * @brief  Get Constant number (architecture)
+  * @brief  Get Constant number
   * @rmtoll SCB_CPUID    ARCHITECTURE  LL_CPUID_GetConstant
-  * @retval Reads as 0xF
+  * @retval Value should be equal to 0xF for Cortex-M4 devices
   */
 __STATIC_INLINE uint32_t LL_CPUID_GetConstant(void)
 {
@@ -465,7 +467,7 @@ __STATIC_INLINE uint32_t LL_CPUID_GetConstant(void)
 }
 
 /**
-  * @brief  Get Constant number (architecture)
+  * @brief  Get Part number
   * @rmtoll SCB_CPUID    PARTNO        LL_CPUID_GetParNo
   * @retval Value should be equal to 0xC24 for Cortex-M4
   */
@@ -475,7 +477,7 @@ __STATIC_INLINE uint32_t LL_CPUID_GetParNo(void)
 }
 
 /**
-  * @brief  Get Revision number (The p value in the rnpnproduct revision identifier, indicates patch release)
+  * @brief  Get Revision number (The p value in the rnpn product revision identifier, indicates patch release)
   * @rmtoll SCB_CPUID    REVISION      LL_CPUID_GetRevision
   * @retval Value between 0 and 255 (0x1: patch 1)
   */
@@ -488,6 +490,7 @@ __STATIC_INLINE uint32_t LL_CPUID_GetRevision(void)
   * @}
   */
 
+#if __MPU_PRESENT
 /** @defgroup CORTEX_LL_EF_MPU MPU
   * @{
   */
@@ -577,7 +580,7 @@ __STATIC_INLINE void LL_MPU_EnableRegion(uint32_t Region)
   *         @arg @ref LL_MPU_REGION_NUMBER5
   *         @arg @ref LL_MPU_REGION_NUMBER6
   *         @arg @ref LL_MPU_REGION_NUMBER7
-  * @param  Address Value of region base address 
+  * @param  Address Value of region base address
   * @param  SubRegionDisable Sub-region disable value between Min_Data = 0x00 and Max_Data = 0xFF
   * @param  Attributes This parameter can be a combination of the following values:
   *         @arg @ref LL_MPU_REGION_SIZE_32B or @ref LL_MPU_REGION_SIZE_64B or @ref LL_MPU_REGION_SIZE_128B or @ref LL_MPU_REGION_SIZE_256B or @ref LL_MPU_REGION_SIZE_512B
@@ -600,7 +603,7 @@ __STATIC_INLINE void LL_MPU_ConfigRegion(uint32_t Region, uint32_t SubRegionDisa
   /* Set Region number */
   WRITE_REG(MPU->RNR, Region);
   /* Set base address */
-  WRITE_REG(MPU->RBAR, (Address & 0xFFFFFFE0));
+  WRITE_REG(MPU->RBAR, (Address & 0xFFFFFFE0U));
   /* Configure MPU */
   WRITE_REG(MPU->RASR, (MPU_RASR_ENABLE_Msk | Attributes | SubRegionDisable << MPU_RASR_SRD_Pos));
 }
@@ -632,6 +635,7 @@ __STATIC_INLINE void LL_MPU_DisableRegion(uint32_t Region)
   * @}
   */
 
+#endif /* __MPU_PRESENT */
 /**
   * @}
   */

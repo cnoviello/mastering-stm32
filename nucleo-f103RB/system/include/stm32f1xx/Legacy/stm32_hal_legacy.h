@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32_hal_legacy.h
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   This file contains aliases definition for the STM32Cube HAL constants 
   *          macros and functions maintained for legacy purpose.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -102,7 +102,16 @@
 #define ADC_EXTERNALTRIG_EDGE_NONE      ADC_EXTERNALTRIGCONVEDGE_NONE
 #define ADC_EXTERNALTRIG_EDGE_RISING    ADC_EXTERNALTRIGCONVEDGE_RISING
 #define ADC_EXTERNALTRIG_EDGE_FALLING   ADC_EXTERNALTRIGCONVEDGE_FALLING
-#define ADC_EXTERNALTRIG_EDGE_RISINGFALLING ADC_EXTERNALTRIGCONVEDGE_RISINGFALLING 
+#define ADC_EXTERNALTRIG_EDGE_RISINGFALLING ADC_EXTERNALTRIGCONVEDGE_RISINGFALLING
+#define ADC_SAMPLETIME_2CYCLE_5         ADC_SAMPLETIME_2CYCLES_5
+
+#define HAL_ADC_STATE_BUSY_REG          HAL_ADC_STATE_REG_BUSY
+#define HAL_ADC_STATE_BUSY_INJ          HAL_ADC_STATE_INJ_BUSY
+#define HAL_ADC_STATE_EOC_REG           HAL_ADC_STATE_REG_EOC
+#define HAL_ADC_STATE_EOC_INJ           HAL_ADC_STATE_INJ_EOC
+#define HAL_ADC_STATE_ERROR             HAL_ADC_STATE_ERROR_INTERNAL
+#define HAL_ADC_STATE_BUSY              HAL_ADC_STATE_BUSY_INTERNAL
+#define HAL_ADC_STATE_AWD               HAL_ADC_STATE_AWD1 
 /**
   * @}
   */
@@ -121,11 +130,28 @@
   * @{
   */
   
-#define COMP_WINDOWMODE_DISABLED    COMP_WINDOWMODE_DISABLE
-#define COMP_WINDOWMODE_ENABLED     COMP_WINDOWMODE_ENABLE
-#define COMP_EXTI_LINE_COMP1_EVENT  COMP_EXTI_LINE_COMP1
-#define COMP_EXTI_LINE_COMP2_EVENT  COMP_EXTI_LINE_COMP2
+#define COMP_WINDOWMODE_DISABLED       COMP_WINDOWMODE_DISABLE
+#define COMP_WINDOWMODE_ENABLED        COMP_WINDOWMODE_ENABLE
+#define COMP_EXTI_LINE_COMP1_EVENT     COMP_EXTI_LINE_COMP1
+#define COMP_EXTI_LINE_COMP2_EVENT     COMP_EXTI_LINE_COMP2
+#define COMP_EXTI_LINE_COMP3_EVENT     COMP_EXTI_LINE_COMP3
+#define COMP_EXTI_LINE_COMP4_EVENT     COMP_EXTI_LINE_COMP4
+#define COMP_EXTI_LINE_COMP5_EVENT     COMP_EXTI_LINE_COMP5
+#define COMP_EXTI_LINE_COMP6_EVENT     COMP_EXTI_LINE_COMP6
+#define COMP_EXTI_LINE_COMP7_EVENT     COMP_EXTI_LINE_COMP7
+#define COMP_OUTPUT_COMP6TIM2OCREFCLR  COMP_OUTPUT_COMP6_TIM2OCREFCLR
+#if defined(STM32F373xC) || defined(STM32F378xx)
+#define COMP_OUTPUT_TIM3IC1            COMP_OUTPUT_COMP1_TIM3IC1
+#define COMP_OUTPUT_TIM3OCREFCLR       COMP_OUTPUT_COMP1_TIM3OCREFCLR
+#endif /* STM32F373xC || STM32F378xx */
+/**
+  * @}
+  */
 
+/** @defgroup HAL_CORTEX_Aliased_Defines HAL CORTEX Aliased Defines maintained for legacy purpose
+  * @{
+  */
+#define __HAL_CORTEX_SYSTICKCLK_CONFIG HAL_SYSTICK_CLKSourceConfig
 /**
   * @}
   */
@@ -148,7 +174,7 @@
 #define DAC1_CHANNEL_1                                  DAC_CHANNEL_1
 #define DAC1_CHANNEL_2                                  DAC_CHANNEL_2
 #define DAC2_CHANNEL_1                                  DAC_CHANNEL_1
-#define DAC_WAVE_NONE                                   ((uint32_t)0x00000000)
+#define DAC_WAVE_NONE                                   ((uint32_t)0x00000000U)
 #define DAC_WAVE_NOISE                                  ((uint32_t)DAC_CR_WAVE1_0)
 #define DAC_WAVE_TRIANGLE                               ((uint32_t)DAC_CR_WAVE1_1)                           
 #define DAC_WAVEGENERATION_NONE                         DAC_WAVE_NONE
@@ -257,7 +283,12 @@
 #define OB_WDG_HW                     OB_IWDG_HW
 #define OB_SDADC12_VDD_MONITOR_SET    OB_SDACD_VDD_MONITOR_SET
 #define OB_SDADC12_VDD_MONITOR_RESET  OB_SDACD_VDD_MONITOR_RESET
+#define OB_RAM_PARITY_CHECK_SET       OB_SRAM_PARITY_SET
+#define OB_RAM_PARITY_CHECK_RESET     OB_SRAM_PARITY_RESET
 #define IS_OB_SDADC12_VDD_MONITOR     IS_OB_SDACD_VDD_MONITOR
+#define OB_RDP_LEVEL0                 OB_RDP_LEVEL_0
+#define OB_RDP_LEVEL1                 OB_RDP_LEVEL_1
+#define OB_RDP_LEVEL2                 OB_RDP_LEVEL_2
 /**
   * @}
   */
@@ -333,6 +364,26 @@
 #define GPIO_AF1_LPTIM                            GPIO_AF1_LPTIM1
 #define GPIO_AF2_LPTIM                            GPIO_AF2_LPTIM1
 
+#if defined(STM32L0) || defined(STM32L4) || defined(STM32F4) || defined(STM32F2) || defined(STM32F7)
+#define  GPIO_SPEED_LOW                           GPIO_SPEED_FREQ_LOW     
+#define  GPIO_SPEED_MEDIUM                        GPIO_SPEED_FREQ_MEDIUM     
+#define  GPIO_SPEED_FAST                          GPIO_SPEED_FREQ_HIGH     
+#define  GPIO_SPEED_HIGH                          GPIO_SPEED_FREQ_VERY_HIGH       
+#endif /* STM32L0 || STM32L4 || STM32F4 || STM32F2 || STM32F7 */
+
+#if defined(STM32L1) 
+ #define  GPIO_SPEED_VERY_LOW    GPIO_SPEED_FREQ_LOW     
+ #define  GPIO_SPEED_LOW         GPIO_SPEED_FREQ_MEDIUM     
+ #define  GPIO_SPEED_MEDIUM      GPIO_SPEED_FREQ_HIGH     
+ #define  GPIO_SPEED_HIGH        GPIO_SPEED_FREQ_VERY_HIGH     
+#endif /* STM32L1 */
+
+#if defined(STM32F0) || defined(STM32F3) || defined(STM32F1)
+ #define  GPIO_SPEED_LOW    GPIO_SPEED_FREQ_LOW
+ #define  GPIO_SPEED_MEDIUM GPIO_SPEED_FREQ_MEDIUM
+ #define  GPIO_SPEED_HIGH   GPIO_SPEED_FREQ_HIGH
+#endif /* STM32F0 || STM32F3 || STM32F1 */
+
 /**
   * @}
   */
@@ -349,6 +400,15 @@
 #define HRTIM_TIMDELAYEDPROTECTION_DELAYEDOUT2_DEEV79 HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_DELAYEDOUT2_DEEV7
 #define HRTIM_TIMDELAYEDPROTECTION_DELAYEDBOTH_EEV79  HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_DELAYEDBOTH_EEV7
 #define HRTIM_TIMDELAYEDPROTECTION_BALANCED_EEV79     HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_BALANCED_EEV7
+   
+#define __HAL_HRTIM_SetCounter        __HAL_HRTIM_SETCOUNTER
+#define __HAL_HRTIM_GetCounter        __HAL_HRTIM_GETCOUNTER
+#define __HAL_HRTIM_SetPeriod         __HAL_HRTIM_SETPERIOD
+#define __HAL_HRTIM_GetPeriod         __HAL_HRTIM_GETPERIOD
+#define __HAL_HRTIM_SetClockPrescaler __HAL_HRTIM_SETCLOCKPRESCALER
+#define __HAL_HRTIM_GetClockPrescaler __HAL_HRTIM_GETCLOCKPRESCALER
+#define __HAL_HRTIM_SetCompare        __HAL_HRTIM_SETCOMPARE
+#define __HAL_HRTIM_GetCompare        __HAL_HRTIM_GETCOMPARE
 /**
   * @}
   */
@@ -364,6 +424,8 @@
 #define I2C_NOSTRETCH_ENABLED                   I2C_NOSTRETCH_ENABLE
 #define I2C_ANALOGFILTER_ENABLED                I2C_ANALOGFILTER_ENABLE
 #define I2C_ANALOGFILTER_DISABLED               I2C_ANALOGFILTER_DISABLE
+#define HAL_I2C_STATE_MEM_BUSY_TX               HAL_I2C_STATE_BUSY_TX
+#define HAL_I2C_STATE_MEM_BUSY_RX               HAL_I2C_STATE_BUSY_RX
 /**
   * @}
   */
@@ -749,9 +811,9 @@
 #define CAN_IT_RQCP2                CAN_IT_TME
 #define INAK_TIMEOUT                CAN_TIMEOUT_VALUE
 #define SLAK_TIMEOUT                CAN_TIMEOUT_VALUE
-#define CAN_TXSTATUS_FAILED         ((uint8_t)0x00)
-#define CAN_TXSTATUS_OK             ((uint8_t)0x01)
-#define CAN_TXSTATUS_PENDING        ((uint8_t)0x02)
+#define CAN_TXSTATUS_FAILED         ((uint8_t)0x00U)
+#define CAN_TXSTATUS_OK             ((uint8_t)0x01U)
+#define CAN_TXSTATUS_PENDING        ((uint8_t)0x02U)
 
 /**
   * @}
@@ -770,17 +832,17 @@
 #define MACFCR_CLEAR_MASK       ETH_MACFCR_CLEAR_MASK
 #define DMAOMR_CLEAR_MASK       ETH_DMAOMR_CLEAR_MASK
 
-#define ETH_MMCCR              ((uint32_t)0x00000100)  
-#define ETH_MMCRIR             ((uint32_t)0x00000104)  
-#define ETH_MMCTIR             ((uint32_t)0x00000108)  
-#define ETH_MMCRIMR            ((uint32_t)0x0000010C)  
-#define ETH_MMCTIMR            ((uint32_t)0x00000110)  
-#define ETH_MMCTGFSCCR         ((uint32_t)0x0000014C)  
-#define ETH_MMCTGFMSCCR        ((uint32_t)0x00000150)  
-#define ETH_MMCTGFCR           ((uint32_t)0x00000168)  
-#define ETH_MMCRFCECR          ((uint32_t)0x00000194)  
-#define ETH_MMCRFAECR          ((uint32_t)0x00000198)  
-#define ETH_MMCRGUFCR          ((uint32_t)0x000001C4) 
+#define ETH_MMCCR              ((uint32_t)0x00000100U)  
+#define ETH_MMCRIR             ((uint32_t)0x00000104U)  
+#define ETH_MMCTIR             ((uint32_t)0x00000108U)  
+#define ETH_MMCRIMR            ((uint32_t)0x0000010CU)  
+#define ETH_MMCTIMR            ((uint32_t)0x00000110U)  
+#define ETH_MMCTGFSCCR         ((uint32_t)0x0000014CU)  
+#define ETH_MMCTGFMSCCR        ((uint32_t)0x00000150U)  
+#define ETH_MMCTGFCR           ((uint32_t)0x00000168U)  
+#define ETH_MMCRFCECR          ((uint32_t)0x00000194U)  
+#define ETH_MMCRFAECR          ((uint32_t)0x00000198U)  
+#define ETH_MMCRGUFCR          ((uint32_t)0x000001C4U) 
 
 /**
   * @}
@@ -807,7 +869,8 @@
 /** @defgroup HAL_HASH_Aliased_Functions HAL HASH Aliased Functions maintained for legacy purpose
   * @{
   */ 
-  
+#define HAL_HASH_STATETypeDef        HAL_HASH_StateTypeDef
+#define HAL_HASHPhaseTypeDef         HAL_HASH_PhaseTypeDef
 #define HAL_HMAC_MD5_Finish          HAL_HASH_MD5_Finish
 #define HAL_HMAC_SHA1_Finish         HAL_HASH_SHA1_Finish
 #define HAL_HMAC_SHA224_Finish       HAL_HASH_SHA224_Finish
@@ -1181,23 +1244,166 @@
 /** @defgroup HAL_COMP_Aliased_Macros HAL COMP Aliased Macros maintained for legacy purpose
   * @{
   */
-
+#if defined(STM32F3)
+#define COMP_START                                       __HAL_COMP_ENABLE
+#define COMP_STOP                                        __HAL_COMP_DISABLE
+#define COMP_LOCK                                        __HAL_COMP_LOCK
+   
+#if defined(STM32F301x8) || defined(STM32F302x8) || defined(STM32F318xx) || defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)
+#define __HAL_COMP_EXTI_RISING_IT_ENABLE(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_ENABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_RISING_IT_DISABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_DISABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_ENABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_ENABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_DISABLE(__EXTILINE__) (((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_DISABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_ENABLE_IT(__EXTILINE__)          (((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_IT() : \
+                                                          __HAL_COMP_COMP6_EXTI_ENABLE_IT())
+#define __HAL_COMP_EXTI_DISABLE_IT(__EXTILINE__)         (((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_IT() : \
+                                                          __HAL_COMP_COMP6_EXTI_DISABLE_IT())
+#define __HAL_COMP_EXTI_GET_FLAG(__FLAG__)               (((__FLAG__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_GET_FLAG() : \
+                                                          __HAL_COMP_COMP6_EXTI_GET_FLAG())
+#define __HAL_COMP_EXTI_CLEAR_FLAG(__FLAG__)             (((__FLAG__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_CLEAR_FLAG() : \
+                                                          __HAL_COMP_COMP6_EXTI_CLEAR_FLAG())
+# endif
+# if defined(STM32F302xE) || defined(STM32F302xC)
+#define __HAL_COMP_EXTI_RISING_IT_ENABLE(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_ENABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_RISING_IT_DISABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_DISABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_ENABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_ENABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_DISABLE(__EXTILINE__) (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP6_EXTI_DISABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_ENABLE_IT(__EXTILINE__)          (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_IT() : \
+                                                          __HAL_COMP_COMP6_EXTI_ENABLE_IT())
+#define __HAL_COMP_EXTI_DISABLE_IT(__EXTILINE__)         (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_IT() : \
+                                                          __HAL_COMP_COMP6_EXTI_DISABLE_IT())
+#define __HAL_COMP_EXTI_GET_FLAG(__FLAG__)               (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_GET_FLAG() : \
+                                                          __HAL_COMP_COMP6_EXTI_GET_FLAG())
+#define __HAL_COMP_EXTI_CLEAR_FLAG(__FLAG__)             (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_CLEAR_FLAG() : \
+                                                          __HAL_COMP_COMP6_EXTI_CLEAR_FLAG())
+# endif
+# if defined(STM32F303xE) || defined(STM32F398xx) || defined(STM32F303xC) || defined(STM32F358xx)
+#define __HAL_COMP_EXTI_RISING_IT_ENABLE(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_ENABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_ENABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP7_EXTI_ENABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_RISING_IT_DISABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_DISABLE_RISING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_DISABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP7_EXTI_DISABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_ENABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP7_EXTI_ENABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_DISABLE(__EXTILINE__) (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP7_EXTI_DISABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_ENABLE_IT(__EXTILINE__)          (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_ENABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_ENABLE_IT() : \
+                                                          __HAL_COMP_COMP7_EXTI_ENABLE_IT())
+#define __HAL_COMP_EXTI_DISABLE_IT(__EXTILINE__)         (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_DISABLE_IT() : \
+                                                          ((__EXTILINE__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_DISABLE_IT() : \
+                                                          __HAL_COMP_COMP7_EXTI_DISABLE_IT())
+#define __HAL_COMP_EXTI_GET_FLAG(__FLAG__)               (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_GET_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_GET_FLAG() : \
+                                                          __HAL_COMP_COMP7_EXTI_GET_FLAG())
+#define __HAL_COMP_EXTI_CLEAR_FLAG(__FLAG__)             (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP2) ? __HAL_COMP_COMP2_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP3) ? __HAL_COMP_COMP3_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP4) ? __HAL_COMP_COMP4_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP5) ? __HAL_COMP_COMP5_EXTI_CLEAR_FLAG() : \
+                                                          ((__FLAG__)  == COMP_EXTI_LINE_COMP6) ? __HAL_COMP_COMP6_EXTI_CLEAR_FLAG() : \
+                                                          __HAL_COMP_COMP7_EXTI_CLEAR_FLAG())
+# endif
+# if defined(STM32F373xC) ||defined(STM32F378xx)
 #define __HAL_COMP_EXTI_RISING_IT_ENABLE(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_RISING_EDGE() : \
                                                           __HAL_COMP_COMP2_EXTI_ENABLE_RISING_EDGE())
-#define __HAL_COMP_EXTI_RISING_IT_DISABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_RISING_EDGE() : \
+#define __HAL_COMP_EXTI_RISING_IT_DISABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_RISING_EDGE() : \
                                                           __HAL_COMP_COMP2_EXTI_DISABLE_RISING_EDGE())
 #define __HAL_COMP_EXTI_FALLING_IT_ENABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_FALLING_EDGE() : \
                                                           __HAL_COMP_COMP2_EXTI_ENABLE_FALLING_EDGE())
-#define __HAL_COMP_EXTI_FALLING_IT_DISABLE(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_FALLING_EDGE() : \
+#define __HAL_COMP_EXTI_FALLING_IT_DISABLE(__EXTILINE__) (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_FALLING_EDGE() : \
                                                           __HAL_COMP_COMP2_EXTI_DISABLE_FALLING_EDGE())
-#define __HAL_COMP_EXTI_ENABLE_IT(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_IT() : \
+#define __HAL_COMP_EXTI_ENABLE_IT(__EXTILINE__)          (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_IT() : \
                                                           __HAL_COMP_COMP2_EXTI_ENABLE_IT())
-#define __HAL_COMP_EXTI_DISABLE_IT(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_IT() : \
+#define __HAL_COMP_EXTI_DISABLE_IT(__EXTILINE__)         (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_IT() : \
                                                           __HAL_COMP_COMP2_EXTI_DISABLE_IT())
-#define __HAL_COMP_EXTI_GET_FLAG(__FLAG__)   (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_GET_FLAG() : \
+#define __HAL_COMP_EXTI_GET_FLAG(__FLAG__)               (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_GET_FLAG() : \
                                                           __HAL_COMP_COMP2_EXTI_GET_FLAG())
-#define __HAL_COMP_EXTI_CLEAR_FLAG(__FLAG__)   (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_CLEAR_FLAG() : \
+#define __HAL_COMP_EXTI_CLEAR_FLAG(__FLAG__)             (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_CLEAR_FLAG() : \
                                                           __HAL_COMP_COMP2_EXTI_CLEAR_FLAG())
+# endif
+#else
+#define __HAL_COMP_EXTI_RISING_IT_ENABLE(__EXTILINE__)   (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP2_EXTI_ENABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_RISING_IT_DISABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_RISING_EDGE() : \
+                                                          __HAL_COMP_COMP2_EXTI_DISABLE_RISING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_ENABLE(__EXTILINE__)  (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP2_EXTI_ENABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_FALLING_IT_DISABLE(__EXTILINE__) (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_FALLING_EDGE() : \
+                                                          __HAL_COMP_COMP2_EXTI_DISABLE_FALLING_EDGE())
+#define __HAL_COMP_EXTI_ENABLE_IT(__EXTILINE__)          (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_ENABLE_IT() : \
+                                                          __HAL_COMP_COMP2_EXTI_ENABLE_IT())
+#define __HAL_COMP_EXTI_DISABLE_IT(__EXTILINE__)         (((__EXTILINE__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_DISABLE_IT() : \
+                                                          __HAL_COMP_COMP2_EXTI_DISABLE_IT())
+#define __HAL_COMP_EXTI_GET_FLAG(__FLAG__)               (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_GET_FLAG() : \
+                                                          __HAL_COMP_COMP2_EXTI_GET_FLAG())
+#define __HAL_COMP_EXTI_CLEAR_FLAG(__FLAG__)             (((__FLAG__)  == COMP_EXTI_LINE_COMP1) ? __HAL_COMP_COMP1_EXTI_CLEAR_FLAG() : \
+                                                          __HAL_COMP_COMP2_EXTI_CLEAR_FLAG())
+#endif
+
 #define __HAL_COMP_GET_EXTI_LINE  COMP_GET_EXTI_LINE
 
 /**
@@ -1349,7 +1555,7 @@
 #define __HAL_PWR_INTERNALWAKEUP_ENABLE                          HAL_PWREx_EnableInternalWakeUpLine
 #define __HAL_PWR_PULL_UP_DOWN_CONFIG_DISABLE                    HAL_PWREx_DisablePullUpPullDownConfig
 #define __HAL_PWR_PULL_UP_DOWN_CONFIG_ENABLE                     HAL_PWREx_EnablePullUpPullDownConfig
-#define __HAL_PWR_PVD_EXTI_CLEAR_EGDE_TRIGGER()                  __HAL_PWR_PVD_EXTI_DISABLE_RISING_EDGE();__HAL_PWR_PVD_EXTI_DISABLE_FALLING_EDGE()
+#define __HAL_PWR_PVD_EXTI_CLEAR_EGDE_TRIGGER()                  do { __HAL_PWR_PVD_EXTI_DISABLE_RISING_EDGE();__HAL_PWR_PVD_EXTI_DISABLE_FALLING_EDGE(); } while(0)
 #define __HAL_PWR_PVD_EXTI_EVENT_DISABLE                         __HAL_PWR_PVD_EXTI_DISABLE_EVENT
 #define __HAL_PWR_PVD_EXTI_EVENT_ENABLE                          __HAL_PWR_PVD_EXTI_ENABLE_EVENT
 #define __HAL_PWR_PVD_EXTI_FALLINGTRIGGER_DISABLE                __HAL_PWR_PVD_EXTI_DISABLE_FALLING_EDGE
@@ -1358,8 +1564,8 @@
 #define __HAL_PWR_PVD_EXTI_RISINGTRIGGER_ENABLE                  __HAL_PWR_PVD_EXTI_ENABLE_RISING_EDGE
 #define __HAL_PWR_PVD_EXTI_SET_FALLING_EGDE_TRIGGER              __HAL_PWR_PVD_EXTI_ENABLE_FALLING_EDGE
 #define __HAL_PWR_PVD_EXTI_SET_RISING_EDGE_TRIGGER               __HAL_PWR_PVD_EXTI_ENABLE_RISING_EDGE
-#define __HAL_PWR_PVM_DISABLE()                                  HAL_PWREx_DisablePVM1();HAL_PWREx_DisablePVM2();HAL_PWREx_DisablePVM3();HAL_PWREx_DisablePVM4()
-#define __HAL_PWR_PVM_ENABLE()                                   HAL_PWREx_EnablePVM1();HAL_PWREx_EnablePVM2();HAL_PWREx_EnablePVM3();HAL_PWREx_EnablePVM4()
+#define __HAL_PWR_PVM_DISABLE()                                  do { HAL_PWREx_DisablePVM1();HAL_PWREx_DisablePVM2();HAL_PWREx_DisablePVM3();HAL_PWREx_DisablePVM4(); } while(0)
+#define __HAL_PWR_PVM_ENABLE()                                   do { HAL_PWREx_EnablePVM1();HAL_PWREx_EnablePVM2();HAL_PWREx_EnablePVM3();HAL_PWREx_EnablePVM4(); } while(0)
 #define __HAL_PWR_SRAM2CONTENT_PRESERVE_DISABLE                  HAL_PWREx_DisableSRAM2ContentRetention
 #define __HAL_PWR_SRAM2CONTENT_PRESERVE_ENABLE                   HAL_PWREx_EnableSRAM2ContentRetention
 #define __HAL_PWR_VDDIO2_DISABLE                                 HAL_PWREx_DisableVddIO2
@@ -2215,13 +2421,14 @@
 #define __WWDG_IS_CLK_DISABLED      __HAL_RCC_WWDG_IS_CLK_DISABLED
 
 #if defined(STM32F4)
-#define __HAL_RCC_SDMMC1_CLK_ENABLE        __HAL_RCC_SDIO_CLK_ENABLE
 #define __HAL_RCC_SDMMC1_FORCE_RESET       __HAL_RCC_SDIO_FORCE_RESET
 #define __HAL_RCC_SDMMC1_RELEASE_RESET     __HAL_RCC_SDIO_RELEASE_RESET
 #define __HAL_RCC_SDMMC1_CLK_SLEEP_ENABLE  __HAL_RCC_SDIO_CLK_SLEEP_ENABLE
 #define __HAL_RCC_SDMMC1_CLK_SLEEP_DISABLE __HAL_RCC_SDIO_CLK_SLEEP_DISABLE
 #define __HAL_RCC_SDMMC1_CLK_ENABLE        __HAL_RCC_SDIO_CLK_ENABLE
 #define __HAL_RCC_SDMMC1_CLK_DISABLE       __HAL_RCC_SDIO_CLK_DISABLE
+#define __HAL_RCC_SDMMC1_IS_CLK_ENABLED    __HAL_RCC_SDIO_IS_CLK_ENABLED
+#define __HAL_RCC_SDMMC1_IS_CLK_DISABLED   __HAL_RCC_SDIO_IS_CLK_DISABLED
 #define Sdmmc1ClockSelection               SdioClockSelection
 #define RCC_PERIPHCLK_SDMMC1               RCC_PERIPHCLK_SDIO
 #define RCC_SDMMC1CLKSOURCE_CLK48          RCC_SDIOCLKSOURCE_CK48
@@ -2231,13 +2438,14 @@
 #endif
 
 #if defined(STM32F7) || defined(STM32L4)
-#define __HAL_RCC_SDIO_CLK_ENABLE          __HAL_RCC_SDMMC1_CLK_ENABLE
 #define __HAL_RCC_SDIO_FORCE_RESET         __HAL_RCC_SDMMC1_FORCE_RESET
 #define __HAL_RCC_SDIO_RELEASE_RESET       __HAL_RCC_SDMMC1_RELEASE_RESET
 #define __HAL_RCC_SDIO_CLK_SLEEP_ENABLE    __HAL_RCC_SDMMC1_CLK_SLEEP_ENABLE
 #define __HAL_RCC_SDIO_CLK_SLEEP_DISABLE   __HAL_RCC_SDMMC1_CLK_SLEEP_DISABLE
 #define __HAL_RCC_SDIO_CLK_ENABLE          __HAL_RCC_SDMMC1_CLK_ENABLE
 #define __HAL_RCC_SDIO_CLK_DISABLE         __HAL_RCC_SDMMC1_CLK_DISABLE
+#define __HAL_RCC_SDIO_IS_CLK_ENABLED      __HAL_RCC_SDMMC1_IS_CLK_ENABLED
+#define __HAL_RCC_SDIO_IS_CLK_DISABLED     __HAL_RCC_SDMMC1_IS_CLK_DISABLED
 #define SdioClockSelection                 Sdmmc1ClockSelection
 #define RCC_PERIPHCLK_SDIO                 RCC_PERIPHCLK_SDMMC1
 #define __HAL_RCC_SDIO_CONFIG              __HAL_RCC_SDMMC1_CONFIG
@@ -2252,45 +2460,54 @@
 #define __HAL_RCC_I2SCLK            __HAL_RCC_I2S_CONFIG
 #define __HAL_RCC_I2SCLK_CONFIG     __HAL_RCC_I2S_CONFIG
 
-#define __RCC_PLLSRC           RCC_GET_PLL_OSCSOURCE
+#define __RCC_PLLSRC                RCC_GET_PLL_OSCSOURCE
 
-#define IS_RCC_MSIRANGE        IS_RCC_MSI_CLOCK_RANGE
-#define IS_RCC_RTCCLK_SOURCE   IS_RCC_RTCCLKSOURCE
-#define IS_RCC_SYSCLK_DIV      IS_RCC_HCLK
-#define IS_RCC_HCLK_DIV        IS_RCC_PCLK
+#define IS_RCC_MSIRANGE             IS_RCC_MSI_CLOCK_RANGE
+#define IS_RCC_RTCCLK_SOURCE        IS_RCC_RTCCLKSOURCE
+#define IS_RCC_SYSCLK_DIV           IS_RCC_HCLK
+#define IS_RCC_HCLK_DIV             IS_RCC_PCLK
+#define IS_RCC_PERIPHCLK            IS_RCC_PERIPHCLOCK
 
-#define IS_RCC_MCOSOURCE       IS_RCC_MCO1SOURCE
-#define RCC_MCO_NODIV          RCC_MCODIV_1
-#define RCC_MCO_DIV1           RCC_MCODIV_1
-#define RCC_MCO_DIV2           RCC_MCODIV_2
-#define RCC_MCO_DIV4           RCC_MCODIV_4
-#define RCC_MCO_DIV8           RCC_MCODIV_8
-#define RCC_MCO_DIV16          RCC_MCODIV_16
-#define RCC_MCO_DIV32          RCC_MCODIV_32
-#define RCC_MCO_DIV64          RCC_MCODIV_64
-#define RCC_MCO_DIV128         RCC_MCODIV_128
-#define RCC_MCOSOURCE_NONE         RCC_MCO1SOURCE_NOCLOCK
-#define RCC_MCOSOURCE_LSI          RCC_MCO1SOURCE_LSI
-#define RCC_MCOSOURCE_LSE          RCC_MCO1SOURCE_LSE
-#define RCC_MCOSOURCE_SYSCLK       RCC_MCO1SOURCE_SYSCLK
-#define RCC_MCOSOURCE_HSI          RCC_MCO1SOURCE_HSI
-#define RCC_MCOSOURCE_HSI14        RCC_MCO1SOURCE_HSI14
-#define RCC_MCOSOURCE_HSI48        RCC_MCO1SOURCE_HSI48
-#define RCC_MCOSOURCE_HSE          RCC_MCO1SOURCE_HSE
-#define RCC_MCOSOURCE_PLLCLK_DIV1  RCC_MCO1SOURCE_PLLCLK
-#define RCC_MCOSOURCE_PLLCLK_NODIV RCC_MCO1SOURCE_PLLCLK
-#define RCC_MCOSOURCE_PLLCLK_DIV2  RCC_MCO1SOURCE_PLLCLK_DIV2
+#define RCC_IT_HSI14                RCC_IT_HSI14RDY
 
-#define RCC_RTCCLKSOURCE_NONE  RCC_RTCCLKSOURCE_NO_CLK
+#if defined(STM32L0)
+#define RCC_IT_LSECSS              RCC_IT_CSSLSE 
+#define RCC_IT_CSS                 RCC_IT_CSSHSE
+#endif
 
-#define RCC_USBCLK_PLLSAI1      RCC_USBCLKSOURCE_PLLSAI1
-#define RCC_USBCLK_PLL          RCC_USBCLKSOURCE_PLL
-#define RCC_USBCLK_MSI          RCC_USBCLKSOURCE_MSI
-#define RCC_USBCLKSOURCE_PLLCLK RCC_USBCLKSOURCE_PLL
-#define RCC_USBPLLCLK_DIV1      RCC_USBCLKSOURCE_PLL
-#define RCC_USBPLLCLK_DIV1_5    RCC_USBCLKSOURCE_PLL_DIV1_5
-#define RCC_USBPLLCLK_DIV2      RCC_USBCLKSOURCE_PLL_DIV2
-#define RCC_USBPLLCLK_DIV3      RCC_USBCLKSOURCE_PLL_DIV3
+#define IS_RCC_MCOSOURCE            IS_RCC_MCO1SOURCE
+#define __HAL_RCC_MCO_CONFIG        __HAL_RCC_MCO1_CONFIG
+#define RCC_MCO_NODIV               RCC_MCODIV_1
+#define RCC_MCO_DIV1                RCC_MCODIV_1
+#define RCC_MCO_DIV2                RCC_MCODIV_2
+#define RCC_MCO_DIV4                RCC_MCODIV_4
+#define RCC_MCO_DIV8                RCC_MCODIV_8
+#define RCC_MCO_DIV16               RCC_MCODIV_16
+#define RCC_MCO_DIV32               RCC_MCODIV_32
+#define RCC_MCO_DIV64               RCC_MCODIV_64
+#define RCC_MCO_DIV128              RCC_MCODIV_128
+#define RCC_MCOSOURCE_NONE          RCC_MCO1SOURCE_NOCLOCK
+#define RCC_MCOSOURCE_LSI           RCC_MCO1SOURCE_LSI
+#define RCC_MCOSOURCE_LSE           RCC_MCO1SOURCE_LSE
+#define RCC_MCOSOURCE_SYSCLK        RCC_MCO1SOURCE_SYSCLK
+#define RCC_MCOSOURCE_HSI           RCC_MCO1SOURCE_HSI
+#define RCC_MCOSOURCE_HSI14         RCC_MCO1SOURCE_HSI14
+#define RCC_MCOSOURCE_HSI48         RCC_MCO1SOURCE_HSI48
+#define RCC_MCOSOURCE_HSE           RCC_MCO1SOURCE_HSE
+#define RCC_MCOSOURCE_PLLCLK_DIV1   RCC_MCO1SOURCE_PLLCLK
+#define RCC_MCOSOURCE_PLLCLK_NODIV  RCC_MCO1SOURCE_PLLCLK
+#define RCC_MCOSOURCE_PLLCLK_DIV2   RCC_MCO1SOURCE_PLLCLK_DIV2
+
+#define RCC_RTCCLKSOURCE_NONE       RCC_RTCCLKSOURCE_NO_CLK
+
+#define RCC_USBCLK_PLLSAI1          RCC_USBCLKSOURCE_PLLSAI1
+#define RCC_USBCLK_PLL              RCC_USBCLKSOURCE_PLL
+#define RCC_USBCLK_MSI              RCC_USBCLKSOURCE_MSI
+#define RCC_USBCLKSOURCE_PLLCLK     RCC_USBCLKSOURCE_PLL
+#define RCC_USBPLLCLK_DIV1          RCC_USBCLKSOURCE_PLL
+#define RCC_USBPLLCLK_DIV1_5        RCC_USBCLKSOURCE_PLL_DIV1_5
+#define RCC_USBPLLCLK_DIV2          RCC_USBCLKSOURCE_PLL_DIV2
+#define RCC_USBPLLCLK_DIV3          RCC_USBCLKSOURCE_PLL_DIV3
 
 #define HSION_BitNumber        RCC_HSION_BIT_NUMBER
 #define HSION_BITNUMBER        RCC_HSION_BIT_NUMBER
@@ -2317,7 +2534,7 @@
 #define TIMPRE_BitNumber       RCC_TIMPRE_BIT_NUMBER
 #define RMVF_BitNumber         RCC_RMVF_BIT_NUMBER
 #define RMVF_BITNUMBER         RCC_RMVF_BIT_NUMBER
-
+#define RCC_CR2_HSI14TRIM_BitNumber RCC_HSI14TRIM_BIT_NUMBER
 #define CR_BYTE2_ADDRESS       RCC_CR_BYTE2_ADDRESS
 #define CIR_BYTE1_ADDRESS      RCC_CIR_BYTE1_ADDRESS
 #define CIR_BYTE2_ADDRESS      RCC_CIR_BYTE2_ADDRESS
@@ -2343,6 +2560,13 @@
 #define CR_PLLSAION_BB         RCC_CR_PLLSAION_BB
 #define DCKCFGR_TIMPRE_BB      RCC_DCKCFGR_TIMPRE_BB
 
+#define __HAL_RCC_CRS_ENABLE_FREQ_ERROR_COUNTER     __HAL_RCC_CRS_FREQ_ERROR_COUNTER_ENABLE
+#define __HAL_RCC_CRS_DISABLE_FREQ_ERROR_COUNTER    __HAL_RCC_CRS_FREQ_ERROR_COUNTER_DISABLE
+#define __HAL_RCC_CRS_ENABLE_AUTOMATIC_CALIB        __HAL_RCC_CRS_AUTOMATIC_CALIB_ENABLE
+#define __HAL_RCC_CRS_DISABLE_AUTOMATIC_CALIB       __HAL_RCC_CRS_AUTOMATIC_CALIB_DISABLE
+#define __HAL_RCC_CRS_CALCULATE_RELOADVALUE         __HAL_RCC_CRS_RELOADVALUE_CALCULATE
+
+#define __HAL_RCC_GET_IT_SOURCE                     __HAL_RCC_GET_IT
 /**
   * @}
   */
@@ -2632,28 +2856,18 @@
 #define __HAL_TIM_SetCompare            __HAL_TIM_SET_COMPARE
 #define __HAL_TIM_GetCompare            __HAL_TIM_GET_COMPARE
 
-#define TIM_TS_ITR0                        ((uint32_t)0x0000)
-#define TIM_TS_ITR1                        ((uint32_t)0x0010)
-#define TIM_TS_ITR2                        ((uint32_t)0x0020)
-#define TIM_TS_ITR3                        ((uint32_t)0x0030)
 #define IS_TIM_INTERNAL_TRIGGER_SELECTION(SELECTION) (((SELECTION) == TIM_TS_ITR0) || \
                                                       ((SELECTION) == TIM_TS_ITR1) || \
                                                       ((SELECTION) == TIM_TS_ITR2) || \
                                                       ((SELECTION) == TIM_TS_ITR3))
 
-#define TIM_CHANNEL_1                      ((uint32_t)0x0000)
-#define TIM_CHANNEL_2                      ((uint32_t)0x0004)
 #define IS_TIM_PWMI_CHANNELS(CHANNEL) (((CHANNEL) == TIM_CHANNEL_1) || \
                                        ((CHANNEL) == TIM_CHANNEL_2))
 
-#define TIM_OUTPUTNSTATE_DISABLE            ((uint32_t)0x0000)
 #define TIM_OUTPUTNSTATE_ENABLE             (TIM_CCER_CC1NE)
 
 #define IS_TIM_OUTPUTN_STATE(STATE) (((STATE) == TIM_OUTPUTNSTATE_DISABLE) || \
                                      ((STATE) == TIM_OUTPUTNSTATE_ENABLE))
-
-#define TIM_OUTPUTSTATE_DISABLE            ((uint32_t)0x0000)
-#define TIM_OUTPUTSTATE_ENABLE             (TIM_CCER_CC1E)
 
 #define IS_TIM_OUTPUT_STATE(STATE) (((STATE) == TIM_OUTPUTSTATE_DISABLE) || \
                                     ((STATE) == TIM_OUTPUTSTATE_ENABLE))  

@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_irda.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of IRDA HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -342,6 +342,7 @@ typedef enum
 #define IRDA_CLEAR_FEF                       USART_ICR_FECF            /*!< Framing Error Clear Flag         */
 #define IRDA_CLEAR_NEF                       USART_ICR_NCF             /*!< Noise detected Clear Flag        */
 #define IRDA_CLEAR_OREF                      USART_ICR_ORECF           /*!< OverRun Error Clear Flag         */
+#define IRDA_CLEAR_IDLEF                     USART_ICR_IDLECF          /*!< IDLE line detected Clear Flag    */
 #define IRDA_CLEAR_TCF                       USART_ICR_TCCF            /*!< Transmission Complete Clear Flag */
 /**
   * @}
@@ -386,12 +387,12 @@ typedef enum
   * @param  __HANDLE__: specifies the IRDA Handle.
   * @param  __FLAG__: specifies the flag to check.
   *          This parameter can be any combination of the following values:
-  *            @arg IRDA_CLEAR_PEF
-  *            @arg IRDA_CLEAR_FEF
-  *            @arg IRDA_CLEAR_NEF
-  *            @arg IRDA_CLEAR_OREF
-  *            @arg IRDA_CLEAR_TCF
-  *            @arg IRDA_CLEAR_IDLEF
+  *            @arg @ref IRDA_CLEAR_PEF
+  *            @arg @ref IRDA_CLEAR_FEF
+  *            @arg @ref IRDA_CLEAR_NEF
+  *            @arg @ref IRDA_CLEAR_OREF
+  *            @arg @ref IRDA_CLEAR_TCF
+  *            @arg @ref IRDA_CLEAR_IDLEF
   * @retval None
   */
 #define __HAL_IRDA_CLEAR_FLAG(__HANDLE__, __FLAG__) ((__HANDLE__)->Instance->ICR = (__FLAG__))
@@ -431,19 +432,18 @@ typedef enum
   * @param  __HANDLE__: specifies the IRDA Handle.
   * @param  __FLAG__: specifies the flag to check.
   *        This parameter can be one of the following values:
-  *            @arg IRDA_FLAG_REACK: Receive enable acknowledge flag
-  *            @arg IRDA_FLAG_TEACK: Transmit enable acknowledge flag
-  *            @arg IRDA_FLAG_BUSY:  Busy flag
-  *            @arg IRDA_FLAG_ABRF:  Auto Baud rate detection flag
-  *            @arg IRDA_FLAG_ABRE:  Auto Baud rate detection error flag
-  *            @arg IRDA_FLAG_TXE:   Transmit data register empty flag
-  *            @arg IRDA_FLAG_TC:    Transmission Complete flag
-  *            @arg IRDA_FLAG_RXNE:  Receive data register not empty flag
-  *            @arg IRDA_FLAG_IDLE:  Idle Line detection flag
-  *            @arg IRDA_FLAG_ORE:   OverRun Error flag
-  *            @arg IRDA_FLAG_NE:    Noise Error flag
-  *            @arg IRDA_FLAG_FE:    Framing Error flag
-  *            @arg IRDA_FLAG_PE:    Parity Error flag
+  *            @arg @ref IRDA_FLAG_REACK Receive enable acknowledge flag
+  *            @arg @ref IRDA_FLAG_TEACK Transmit enable acknowledge flag
+  *            @arg @ref IRDA_FLAG_BUSY  Busy flag
+  *            @arg @ref IRDA_FLAG_ABRF  Auto Baud rate detection flag
+  *            @arg @ref IRDA_FLAG_ABRE  Auto Baud rate detection error flag
+  *            @arg @ref IRDA_FLAG_TXE   Transmit data register empty flag
+  *            @arg @ref IRDA_FLAG_TC    Transmission Complete flag
+  *            @arg @ref IRDA_FLAG_RXNE  Receive data register not empty flag
+  *            @arg @ref IRDA_FLAG_ORE   OverRun Error flag
+  *            @arg @ref IRDA_FLAG_NE    Noise Error flag
+  *            @arg @ref IRDA_FLAG_FE    Framing Error flag
+  *            @arg @ref IRDA_FLAG_PE    Parity Error flag
   * @retval The new state of __FLAG__ (TRUE or FALSE).
   */
 #define __HAL_IRDA_GET_FLAG(__HANDLE__, __FLAG__) (((__HANDLE__)->Instance->ISR & (__FLAG__)) == (__FLAG__))
@@ -453,12 +453,12 @@ typedef enum
   * @param  __HANDLE__: specifies the IRDA Handle.
   * @param  __INTERRUPT__: specifies the IRDA interrupt source to enable.
   *          This parameter can be one of the following values:
-  *            @arg IRDA_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg IRDA_IT_TC:   Transmission complete interrupt
-  *            @arg IRDA_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg IRDA_IT_IDLE: Idle line detection interrupt
-  *            @arg IRDA_IT_PE:   Parity Error interrupt
-  *            @arg IRDA_IT_ERR:  Error interrupt(Frame error, noise error, overrun error)
+  *            @arg @ref IRDA_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref IRDA_IT_TC   Transmission complete interrupt
+  *            @arg @ref IRDA_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref IRDA_IT_IDLE Idle line detection interrupt
+  *            @arg @ref IRDA_IT_PE   Parity Error interrupt
+  *            @arg @ref IRDA_IT_ERR  Error interrupt(Frame error, noise error, overrun error)
   * @retval None
   */
 #define __HAL_IRDA_ENABLE_IT(__HANDLE__, __INTERRUPT__)   (((((uint8_t)(__INTERRUPT__)) >> 5U) == 1)? ((__HANDLE__)->Instance->CR1 |= (1U << ((__INTERRUPT__) & IRDA_IT_MASK))): \
@@ -469,12 +469,12 @@ typedef enum
   * @param  __HANDLE__: specifies the IRDA Handle.
   * @param  __INTERRUPT__: specifies the IRDA interrupt source to disable.
   *          This parameter can be one of the following values:
-  *            @arg IRDA_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg IRDA_IT_TC:   Transmission complete interrupt
-  *            @arg IRDA_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg IRDA_IT_IDLE: Idle line detection interrupt
-  *            @arg IRDA_IT_PE:   Parity Error interrupt
-  *            @arg IRDA_IT_ERR:  Error interrupt(Frame error, noise error, overrun error)
+  *            @arg @ref IRDA_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref IRDA_IT_TC   Transmission complete interrupt
+  *            @arg @ref IRDA_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref IRDA_IT_IDLE Idle line detection interrupt
+  *            @arg @ref IRDA_IT_PE   Parity Error interrupt
+  *            @arg @ref IRDA_IT_ERR  Error interrupt(Frame error, noise error, overrun error)
   * @retval None
   */
 #define __HAL_IRDA_DISABLE_IT(__HANDLE__, __INTERRUPT__)  (((((uint8_t)(__INTERRUPT__)) >> 5U) == 1)? ((__HANDLE__)->Instance->CR1 &= ~ (1U << ((__INTERRUPT__) & IRDA_IT_MASK))): \
@@ -486,14 +486,14 @@ typedef enum
   * @param  __HANDLE__: specifies the IRDA Handle.
   * @param  __IT__: specifies the IRDA interrupt source to check.
   *          This parameter can be one of the following values:
-  *            @arg IRDA_IT_TXE: Transmit Data Register empty interrupt
-  *            @arg IRDA_IT_TC:  Transmission complete interrupt
-  *            @arg IRDA_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg IRDA_IT_IDLE: Idle line detection interrupt
-  *            @arg IRDA_IT_ORE: OverRun Error interrupt
-  *            @arg IRDA_IT_NE: Noise Error interrupt
-  *            @arg IRDA_IT_FE: Framing Error interrupt
-  *            @arg IRDA_IT_PE: Parity Error interrupt
+  *            @arg @ref IRDA_IT_TXE Transmit Data Register empty interrupt
+  *            @arg @ref IRDA_IT_TC  Transmission complete interrupt
+  *            @arg @ref IRDA_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref IRDA_IT_IDLE Idle line detection interrupt
+  *            @arg @ref IRDA_IT_ORE OverRun Error interrupt
+  *            @arg @ref IRDA_IT_NE Noise Error interrupt
+  *            @arg @ref IRDA_IT_FE Framing Error interrupt
+  *            @arg @ref IRDA_IT_PE Parity Error interrupt
   * @retval The new state of __IT__ (TRUE or FALSE).
   */
 #define __HAL_IRDA_GET_IT(__HANDLE__, __IT__) ((__HANDLE__)->Instance->ISR & ((uint32_t)1U << ((__IT__)>> 0x08)))
@@ -502,12 +502,12 @@ typedef enum
   * @param  __HANDLE__: specifies the IRDA Handle.
   * @param  __IT__: specifies the IRDA interrupt source to check.
   *          This parameter can be one of the following values:
-  *            @arg IRDA_IT_TXE: Transmit Data Register empty interrupt
-  *            @arg IRDA_IT_TC:  Transmission complete interrupt
-  *            @arg IRDA_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg IRDA_IT_IDLE: Idle line detection interrupt
-  *            @arg IRDA_IT_ERR: Framing, overrun or noise error interrupt
-  *            @arg IRDA_IT_PE: Parity Error interrupt
+  *            @arg @ref IRDA_IT_TXE Transmit Data Register empty interrupt
+  *            @arg @ref IRDA_IT_TC  Transmission complete interrupt
+  *            @arg @ref IRDA_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref IRDA_IT_IDLE Idle line detection interrupt
+  *            @arg @ref IRDA_IT_ERR Framing, overrun or noise error interrupt
+  *            @arg @ref IRDA_IT_PE Parity Error interrupt
   * @retval The new state of __IT__ (TRUE or FALSE).
   */
 #define __HAL_IRDA_GET_IT_SOURCE(__HANDLE__, __IT__) ((((((uint8_t)(__IT__)) >> 5U) == 1)? (__HANDLE__)->Instance->CR1:(((((uint8_t)(__IT__)) >> 5U) == 2)? \
@@ -519,11 +519,11 @@ typedef enum
   * @param  __IT_CLEAR__: specifies the interrupt clear register flag that needs to be set
   *                       to clear the corresponding interrupt
   *          This parameter can be one of the following values:
-  *            @arg IRDA_CLEAR_PEF: Parity Error Clear Flag
-  *            @arg IRDA_CLEAR_FEF: Framing Error Clear Flag
-  *            @arg IRDA_CLEAR_NEF: Noise detected Clear Flag
-  *            @arg IRDA_CLEAR_OREF: OverRun Error Clear Flag
-  *            @arg IRDA_CLEAR_TCF: Transmission Complete Clear Flag
+  *            @arg @ref IRDA_CLEAR_PEF Parity Error Clear Flag
+  *            @arg @ref IRDA_CLEAR_FEF Framing Error Clear Flag
+  *            @arg @ref IRDA_CLEAR_NEF Noise detected Clear Flag
+  *            @arg @ref IRDA_CLEAR_OREF OverRun Error Clear Flag
+  *            @arg @ref IRDA_CLEAR_TCF Transmission Complete Clear Flag
   * @retval None
   */
 #define __HAL_IRDA_CLEAR_IT(__HANDLE__, __IT_CLEAR__) ((__HANDLE__)->Instance->ICR = (uint32_t)(__IT_CLEAR__))
@@ -533,9 +533,9 @@ typedef enum
   * @param  __HANDLE__: specifies the IRDA Handle.
   * @param  __REQ__: specifies the request flag to set
   *          This parameter can be one of the following values:
-  *            @arg IRDA_AUTOBAUD_REQUEST: Auto-Baud Rate Request
-  *            @arg IRDA_RXDATA_FLUSH_REQUEST: Receive Data flush Request
-  *            @arg IRDA_TXDATA_FLUSH_REQUEST: Transmit data flush Request
+  *            @arg @ref IRDA_AUTOBAUD_REQUEST Auto-Baud Rate Request
+  *            @arg @ref IRDA_RXDATA_FLUSH_REQUEST Receive Data flush Request
+  *            @arg @ref IRDA_TXDATA_FLUSH_REQUEST Transmit data flush Request
   *
   * @retval None
   */

@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_adc_ex.h
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   Header file of ADC HAL extension module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -207,7 +207,7 @@ typedef struct
 #if defined (STM32F101xE) || defined (STM32F101xG) || defined (STM32F103xE) || defined (STM32F103xG) || defined (STM32F105xC) || defined (STM32F107xC)
 /*!< Note: TIM8_TRGO is available on ADC1 and ADC2 only in high-density and   */
 /*         XL-density devices.                                                */
-/*         To use it on ADC or ADC2, a rempap of trigger must be done from    */
+/*         To use it on ADC or ADC2, a remap of trigger must be done from     */
 /*         EXTI line 11 to TIM8_TRGO with macro:                              */
 /*           __HAL_AFIO_REMAP_ADC1_ETRGREG_ENABLE()                           */
 /*           __HAL_AFIO_REMAP_ADC2_ETRGREG_ENABLE()                           */
@@ -251,8 +251,8 @@ typedef struct
 #if defined (STM32F101xE) || defined (STM32F101xG) || defined (STM32F103xE) || defined (STM32F103xG) || defined (STM32F105xC) || defined (STM32F107xC)
 /*!< Note: TIM8_CC4 is available on ADC1 and ADC2 only in high-density and    */
 /*         XL-density devices.                                                */
-/*         To use it on ADC or ADC2, a rempap of trigger must be done from    */
-/*         EXTI line 11 to TIM8_TRGO with macro:                              */
+/*         To use it on ADC1 or ADC2, a remap of trigger must be done from    */
+/*         EXTI line 11 to TIM8_CC4 with macro:                               */
 /*           __HAL_AFIO_REMAP_ADC1_ETRGINJ_ENABLE()                           */
 /*           __HAL_AFIO_REMAP_ADC2_ETRGINJ_ENABLE()                           */
 
@@ -301,7 +301,7 @@ typedef struct
   * @{
   */
 /* List of external triggers of regular group for ADC1, ADC2, ADC3 (if ADC    */
-/* instance is availble on the selected device).                              */
+/* instance is available on the selected device).                             */
 /* (used internally by HAL driver. To not use into HAL structure parameters)  */
 
 /* External triggers of regular group for ADC1&ADC2 (if ADCx available) */
@@ -338,7 +338,7 @@ typedef struct
   * @{
   */
 /* List of external triggers of injected group for ADC1, ADC2, ADC3 (if ADC    */
-/* instance is availble on the selected device).                              */
+/* instance is available on the selected device).                             */
 /* (used internally by HAL driver. To not use into HAL structure parameters)  */
 
 /* External triggers of injected group for ADC1&ADC2 (if ADCx available) */

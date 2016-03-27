@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_flash.h
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   Header file of Flash HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -109,9 +109,9 @@ typedef struct
   __IO FLASH_ProcedureTypeDef ProcedureOnGoing; /*!< Internal variable to indicate which procedure is ongoing or not in IT context */
   
   __IO uint32_t               DataRemaining;    /*!< Internal variable to save the remaining pages to erase or half-word to program in IT context */
-  
+
   __IO uint32_t               Address;          /*!< Internal variable to save address selected for program or erase */
-  
+
   __IO uint64_t               Data;             /*!< Internal variable to save data to be programmed */
 
   HAL_LockTypeDef             Lock;             /*!< FLASH locking object                */
@@ -136,7 +136,7 @@ typedef struct
 #define HAL_FLASH_ERROR_NONE      ((uint32_t)0x00)  /*!< No error */
 #define HAL_FLASH_ERROR_PROG      ((uint32_t)0x01)  /*!< Programming error */
 #define HAL_FLASH_ERROR_WRP       ((uint32_t)0x02)  /*!< Write protection error */
-#define HAL_FLASH_ERROR_OPTV      ((uint32_t)0x04)
+#define HAL_FLASH_ERROR_OPTV      ((uint32_t)0x04)  /*!< Option validity error */
 
 /**
   * @}
@@ -220,7 +220,7 @@ typedef struct
   
 /**
   * @brief  Set the FLASH Latency.
-  * @param  __LATENCY__: FLASH Latency                   
+  * @param  __LATENCY__ FLASH Latency                   
   *         The value of this parameter depend on device used within the same series
   * @retval None
   */ 
@@ -230,7 +230,7 @@ typedef struct
 /**
   * @brief  Get the FLASH Latency.
   * @retval FLASH Latency                   
-  *          The value of this parameter depend on device used within the same series
+  *         The value of this parameter depend on device used within the same series
   */ 
 #define __HAL_FLASH_GET_LATENCY()     (READ_BIT((FLASH->ACR), FLASH_ACR_LATENCY))
 
@@ -278,7 +278,7 @@ typedef struct
 HAL_StatusTypeDef HAL_FLASH_Program(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
 HAL_StatusTypeDef HAL_FLASH_Program_IT(uint32_t TypeProgram, uint32_t Address, uint64_t Data);
 
-/* FLASH IRQ handler method */
+/* FLASH IRQ handler function */
 void       HAL_FLASH_IRQHandler(void);
 /* Callbacks in non blocking modes */ 
 void       HAL_FLASH_EndOfOperationCallback(uint32_t ReturnValue);

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_adc.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -232,7 +232,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -677,14 +677,6 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
     /* Reset register CALFACT */
     hadc->Instance->CALFACT &= ~(ADC_CALFACT_CALFACT);
   
-  
-  
-  
-  
-  
-  
-  
-  
     /* ========== Hard reset ADC peripheral ========== */
     /* Performs a global reset of the entire ADC peripheral: ADC state is     */
     /* forced to a similar state after device power-on.                       */
@@ -719,6 +711,9 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_ADC_MspInit could be implemented in the user file
    */ 
@@ -731,6 +726,9 @@ __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspDeInit must be implemented in the user file.
    */ 
@@ -1521,6 +1519,9 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvCpltCallback must be implemented in the user file.
    */
@@ -1533,6 +1534,9 @@ __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvHalfCpltCallback must be implemented in the user file.
    */
@@ -1545,6 +1549,9 @@ __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOoutOfWindowCallback must be implemented in the user file.
    */
@@ -1558,6 +1565,9 @@ __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ErrorCallback must be implemented in the user file.
    */

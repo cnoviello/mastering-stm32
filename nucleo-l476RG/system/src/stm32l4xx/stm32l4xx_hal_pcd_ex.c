@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_pcd_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   PCD Extended HAL module driver.  
   *          This file provides firmware functions to manage the following 
   *          functionalities of the USB Peripheral Controller:
@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -275,6 +275,13 @@ HAL_StatusTypeDef HAL_PCDEx_DeActivateBCD(PCD_HandleTypeDef *hpcd)
   */
 __weak void HAL_PCDEx_LPM_Callback(PCD_HandleTypeDef *hpcd, PCD_LPM_MsgTypeDef msg)
 { 
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+  UNUSED(msg);
+
+  /* NOTE : This function should not be modified, when the callback is needed,
+            the HAL_PCDEx_LPM_Callback could be implemented in the user file
+   */ 
 }
 
 /**
@@ -285,6 +292,13 @@ __weak void HAL_PCDEx_LPM_Callback(PCD_HandleTypeDef *hpcd, PCD_LPM_MsgTypeDef m
   */
 __weak void HAL_PCDEx_BCD_Callback(PCD_HandleTypeDef *hpcd, PCD_BCD_MsgTypeDef msg)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hpcd);
+  UNUSED(msg);
+
+  /* NOTE : This function should not be modified, when the callback is needed,
+            the HAL_PCDEx_BCD_Callback could be implemented in the user file
+   */ 
 }
 
 /**

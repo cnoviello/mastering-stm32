@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_irda.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   IRDA HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the IrDA (Infrared Data Association) Peripheral
@@ -111,7 +111,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -206,35 +206,37 @@ static HAL_StatusTypeDef IRDA_WaitOnFlagUntilTimeout(IRDA_HandleTypeDef *hirda, 
       (++) Word Length
       (++) Parity: If the parity is enabled, then the MSB bit of the data written
            in the data register is transmitted but is changed by the parity bit.
-           Depending on the frame length defined by the M1 and M0 bits (7-bit, 
-           8-bit or 9-bit), the possible IRDA frame formats are listed in the 
-           following table.
-            (+++) Table 1. IRDA frame format.
-            (+++)    +-----------------------------------------------------------------------+
-            (+++)    |  M1 bit |  M0 bit |  PCE bit  |             IRDA frame                |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
-            (+++)    +-----------------------------------------------------------------------+
-
-        (++) Power mode
-        (++) Prescaler setting
-        (++) Receiver/transmitter modes
+      (++) Power mode
+      (++) Prescaler setting
+      (++) Receiver/transmitter modes
 
   [..]
   The HAL_IRDA_Init() API follows the USART asynchronous configuration procedures
   (details for the procedures are available in reference manual).
 
 @endverbatim
+
+  Depending on the frame length defined by the M1 and M0 bits (7-bit, 
+  8-bit or 9-bit), the possible IRDA frame formats are listed in the 
+  following table.
+  
+    Table 1. IRDA frame format.
+    +-----------------------------------------------------------------------+
+    |  M1 bit |  M0 bit |  PCE bit  |             IRDA frame                |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
+    +-----------------------------------------------------------------------+
+
   * @{
   */
 
@@ -331,8 +333,11 @@ HAL_StatusTypeDef HAL_IRDA_DeInit(IRDA_HandleTypeDef *hirda)
   *               the configuration information for the specified IRDA module.
   * @retval None
   */
- __weak void HAL_IRDA_MspInit(IRDA_HandleTypeDef *hirda)
+__weak void HAL_IRDA_MspInit(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_MspInit can be implemented in the user file
    */
@@ -344,8 +349,11 @@ HAL_StatusTypeDef HAL_IRDA_DeInit(IRDA_HandleTypeDef *hirda)
   *               the configuration information for the specified IRDA module.
   * @retval None
   */
- __weak void HAL_IRDA_MspDeInit(IRDA_HandleTypeDef *hirda)
+__weak void HAL_IRDA_MspDeInit(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_MspDeInit can be implemented in the user file
    */
@@ -1025,8 +1033,11 @@ void HAL_IRDA_IRQHandler(IRDA_HandleTypeDef *hirda)
   *                the configuration information for the specified IRDA module.
   * @retval None
   */
- __weak void HAL_IRDA_TxCpltCallback(IRDA_HandleTypeDef *hirda)
+__weak void HAL_IRDA_TxCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_TxCpltCallback can be implemented in the user file.
    */
@@ -1038,8 +1049,11 @@ void HAL_IRDA_IRQHandler(IRDA_HandleTypeDef *hirda)
   *                the configuration information for the specified USART module.
   * @retval None
   */
- __weak void HAL_IRDA_TxHalfCpltCallback(IRDA_HandleTypeDef *hirda)
+__weak void HAL_IRDA_TxHalfCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_TxHalfCpltCallback can be implemented in the user file.
    */
@@ -1053,6 +1067,9 @@ void HAL_IRDA_IRQHandler(IRDA_HandleTypeDef *hirda)
   */
 __weak void HAL_IRDA_RxCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_RxCpltCallback can be implemented in the user file.
    */
@@ -1066,6 +1083,9 @@ __weak void HAL_IRDA_RxCpltCallback(IRDA_HandleTypeDef *hirda)
   */
 __weak void HAL_IRDA_RxHalfCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_IRDA_RxHalfCpltCallback can be implemented in the user file.
    */
@@ -1079,6 +1099,9 @@ __weak void HAL_IRDA_RxHalfCpltCallback(IRDA_HandleTypeDef *hirda)
   */
  __weak void HAL_IRDA_ErrorCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_ErrorCallback can be implemented in the user file.
    */

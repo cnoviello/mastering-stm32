@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_adc.c
   * @author  MCD Application conversion
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -117,7 +117,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -171,9 +171,6 @@
                                        ADC_CFGR_EXTEN  | ADC_CFGR_EXTSEL))   /*!< ADC_CFGR fields of parameters that can be updated 
                                                                                   when no regular conversion is on-going */
                                       
-#define ADC_CFGR_FIELDS_2  ((uint32_t)(ADC_CFGR_DMACFG | ADC_CFGR_AUTDLY))   /*!< ADC_CFGR fields of parameters that can be updated when no conversion
-                                                                                 (neither regular nor injected) is on-going  */
-
 #define ADC_CFGR2_FIELDS  ((uint32_t)(ADC_CFGR2_ROVSE | ADC_CFGR2_OVSR  |\
                                        ADC_CFGR2_OVSS | ADC_CFGR2_TROVS |\
                                        ADC_CFGR2_ROVSM))                     /*!< ADC_CFGR2 fields of parameters that can be updated when no conversion
@@ -615,12 +612,7 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
   SET_BIT(hadc->Instance->CR, ADC_CR_DEEPPWD);    
       
   /* Reset register CFGR */
-  CLEAR_BIT(hadc->Instance->CFGR, ADC_CFGR_AWD1CH  | ADC_CFGR_JAUTO   | ADC_CFGR_JAWD1EN |   
-                                  ADC_CFGR_AWD1EN  | ADC_CFGR_AWD1SGL | ADC_CFGR_JQM     |     
-                                  ADC_CFGR_JDISCEN | ADC_CFGR_DISCNUM | ADC_CFGR_DISCEN  | 
-                                  ADC_CFGR_AUTDLY  | ADC_CFGR_CONT    | ADC_CFGR_OVRMOD  |     
-                                  ADC_CFGR_EXTEN   | ADC_CFGR_EXTSEL  | ADC_CFGR_ALIGN   |     
-                                  ADC_CFGR_RES     | ADC_CFGR_DMACFG  | ADC_CFGR_DMAEN   );
+  CLEAR_BIT(hadc->Instance->CFGR, ADC_CFGR_FIELDS);
   SET_BIT(hadc->Instance->CFGR, ADC_CFGR_JQDIS);  
   
   /* Reset register CFGR2 */
@@ -628,10 +620,7 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
                                   ADC_CFGR2_OVSR  | ADC_CFGR2_JOVSE | ADC_CFGR2_ROVSE    );                                 
   
   /* Reset register SMPR1 */
-  CLEAR_BIT(hadc->Instance->SMPR1, ADC_SMPR1_SMP9 | ADC_SMPR1_SMP8 | ADC_SMPR1_SMP7 | 
-                             ADC_SMPR1_SMP6 | ADC_SMPR1_SMP5 | ADC_SMPR1_SMP4 | 
-                             ADC_SMPR1_SMP3 | ADC_SMPR1_SMP2 | ADC_SMPR1_SMP1 |
-                             ADC_SMPR1_SMP0    );                                 
+  CLEAR_BIT(hadc->Instance->SMPR1, ADC_SMPR1_FIELDS);                                 
   
   /* Reset register SMPR2 */
   CLEAR_BIT(hadc->Instance->SMPR2, ADC_SMPR2_SMP18 | ADC_SMPR2_SMP17 | ADC_SMPR2_SMP16 | 
@@ -752,6 +741,9 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspInit must be implemented in the user file.
    */ 
@@ -765,6 +757,9 @@ __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspDeInit must be implemented in the user file.
    */ 
@@ -1099,12 +1094,12 @@ HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef* hadc, uint32_t Ti
   * @param  hadc: ADC handle
   * @param  EventType: the ADC event type.
   *          This parameter can be one of the following values:
-  *            @arg ADC_EOSMP_EVENT: ADC End of Sampling event            
-  *            @arg ADC_AWD_EVENT: ADC Analog watchdog 1 event
-  *            @arg ADC_AWD2_EVENT: ADC Analog watchdog 2 event
-  *            @arg ADC_AWD3_EVENT: ADC Analog watchdog 3 event
-  *            @arg ADC_OVR_EVENT: ADC Overrun event
-  *            @arg ADC_JQOVF_EVENT: ADC Injected context queue overflow event
+  *            @arg @ref ADC_EOSMP_EVENT  ADC End of Sampling event            
+  *            @arg @ref ADC_AWD_EVENT    ADC Analog watchdog 1 event
+  *            @arg @ref ADC_AWD2_EVENT   ADC Analog watchdog 2 event
+  *            @arg @ref ADC_AWD3_EVENT   ADC Analog watchdog 3 event
+  *            @arg @ref ADC_OVR_EVENT    ADC Overrun event
+  *            @arg @ref ADC_JQOVF_EVENT  ADC Injected context queue overflow event
   * @param  Timeout: Timeout value in millisecond.
   * @note   The relevant flag is cleared if found to be set, except for ADC_FLAG_OVR.
   *         Indeed, the latter is reset only if hadc->Init.Overrun field is set  
@@ -2000,6 +1995,9 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvCpltCallback must be implemented in the user file.
    */
@@ -2012,6 +2010,9 @@ __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvHalfCpltCallback must be implemented in the user file.
   */
@@ -2024,6 +2025,9 @@ __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOutOfWindowCallback must be implemented in the user file.
   */
@@ -2037,6 +2041,9 @@ __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ErrorCallback must be implemented in the user file.
   */
@@ -2168,16 +2175,12 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
         /* For channels 10 to 18 */
         if (sConfig->Channel >= ADC_CHANNEL_10)
         {
-          MODIFY_REG(hadc->Instance->SMPR2, 
-                    ADC_SMPR2(ADC_SMPR2_SMP10, sConfig->Channel), 
-                    ADC_SMPR2(sConfig->SamplingTime, sConfig->Channel));      
+          ADC_SMPR2_SETTING(hadc, sConfig->SamplingTime, sConfig->Channel);                
         }
         else /* For channels 0 to 9 */
         {
-          MODIFY_REG(hadc->Instance->SMPR1, 
-                    ADC_SMPR1(ADC_SMPR1_SMP0, sConfig->Channel), 
-                    ADC_SMPR1(sConfig->SamplingTime, sConfig->Channel));         
-       }
+          ADC_SMPR1_SETTING(hadc, sConfig->SamplingTime, sConfig->Channel);                       
+        }
       
   
        /* Configure the offset: offset enable/disable, channel, offset value */
@@ -2264,19 +2267,14 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
         /* Sampling time configuration of channel ADC_IN+1 (negative input)     */
         /* Clear the old sample time then set the new one for the selected      */
         /* channel.                                                             */        
-        /* For channels 9 to 15 (ADC1, ADC2) or to 11 (ADC3), SMPR2 register
-           must be configured */
+        /* Starting from channel 9, SMPR2 register must be configured           */
         if (sConfig->Channel >= ADC_CHANNEL_9)
         {
-          MODIFY_REG(hadc->Instance->SMPR2, 
-                  ADC_SMPR2(ADC_SMPR2_SMP10, sConfig->Channel +1), 
-                  ADC_SMPR2(sConfig->SamplingTime, sConfig->Channel +1));             
+          ADC_SMPR2_SETTING(hadc, sConfig->SamplingTime, sConfig->Channel+1);                                
         }
         else /* For channels 0 to 8, SMPR1 must be configured */
         {
-          MODIFY_REG(hadc->Instance->SMPR1, 
-              ADC_SMPR1(ADC_SMPR1_SMP0, sConfig->Channel +1), 
-               ADC_SMPR1(sConfig->SamplingTime, sConfig->Channel +1));  
+          ADC_SMPR1_SETTING(hadc, sConfig->SamplingTime, sConfig->Channel+1);      
         }
       }
     
@@ -2640,9 +2638,9 @@ uint32_t HAL_ADC_GetError(ADC_HandleTypeDef *hadc)
   * @param  hadc: ADC handle
   * @param  ConversionGroup: ADC group regular and/or injected.
   *          This parameter can be one of the following values:
-  *            @arg ADC_REGULAR_GROUP: ADC regular conversion type.
-  *            @arg ADC_INJECTED_GROUP: ADC injected conversion type.
-  *            @arg ADC_REGULAR_INJECTED_GROUP: ADC regular and injected conversion type.
+  *            @arg @ref ADC_REGULAR_GROUP           ADC regular conversion type.
+  *            @arg @ref ADC_INJECTED_GROUP          ADC injected conversion type.
+  *            @arg @ref ADC_REGULAR_INJECTED_GROUP  ADC regular and injected conversion type.
   * @retval HAL status.
   */
 HAL_StatusTypeDef ADC_ConversionStop(ADC_HandleTypeDef* hadc, uint32_t ConversionGroup)

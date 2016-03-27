@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_qspi.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   QSPI HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the QuadSPI interface (QSPI).
@@ -126,7 +126,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -340,8 +340,11 @@ HAL_StatusTypeDef HAL_QSPI_DeInit(QSPI_HandleTypeDef *hqspi)
   * @param hqspi: QSPI handle
   * @retval None
   */
- __weak void HAL_QSPI_MspInit(QSPI_HandleTypeDef *hqspi)
+__weak void HAL_QSPI_MspInit(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_QSPI_MspInit can be implemented in the user file
    */ 
@@ -352,8 +355,11 @@ HAL_StatusTypeDef HAL_QSPI_DeInit(QSPI_HandleTypeDef *hqspi)
   * @param hqspi: QSPI handle
   * @retval None
   */
- __weak void HAL_QSPI_MspDeInit(QSPI_HandleTypeDef *hqspi)
+__weak void HAL_QSPI_MspDeInit(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_QSPI_MspDeInit can be implemented in the user file
    */ 
@@ -408,13 +414,15 @@ void HAL_QSPI_IRQHandler(QSPI_HandleTypeDef *hqspi)
       {
         if (hqspi->TxXferCount > 0)
         {
-          /* Fill the FIFO until it is full */
+          /* Fill the FIFO until the threshold is reached */
           *(__IO uint8_t *)data_reg = *hqspi->pTxBuffPtr++;
           hqspi->TxXferCount--;
         }
         else
         {
           /* No more data available for the transfer */
+          /* Disable the QSPI FIFO Threshold Interrupt */
+          __HAL_QSPI_DISABLE_IT(hqspi, QSPI_IT_FT);
           break;
         }
       }
@@ -426,13 +434,15 @@ void HAL_QSPI_IRQHandler(QSPI_HandleTypeDef *hqspi)
       {
         if (hqspi->RxXferCount > 0)
         {
-          /* Read the FIFO until it is empty */
+          /* Read the FIFO until the threshold is reached */
           *hqspi->pRxBuffPtr++ = *(__IO uint8_t *)data_reg;
           hqspi->RxXferCount--;
         }
         else
         {
           /* All data have been received for the transfer */
+          /* Disable the QSPI FIFO Threshold Interrupt */
+          __HAL_QSPI_DISABLE_IT(hqspi, QSPI_IT_FT);
           break;
         }
       }
@@ -1066,7 +1076,7 @@ HAL_StatusTypeDef HAL_QSPI_Transmit_DMA(QSPI_HandleTypeDef *hqspi, uint8_t *pDat
     }
     else
     {
-      status = HAL_OK;
+      status = HAL_ERROR;
     }
   }
   else
@@ -1443,6 +1453,9 @@ HAL_StatusTypeDef HAL_QSPI_MemoryMapped(QSPI_HandleTypeDef *hqspi, QSPI_CommandT
   */
 __weak void HAL_QSPI_ErrorCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_QSPI_ErrorCallback could be implemented in the user file
    */
@@ -1455,6 +1468,9 @@ __weak void HAL_QSPI_ErrorCallback(QSPI_HandleTypeDef *hqspi)
   */
 __weak void HAL_QSPI_CmdCpltCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_QSPI_CmdCpltCallback could be implemented in the user file
    */
@@ -1467,6 +1483,9 @@ __weak void HAL_QSPI_CmdCpltCallback(QSPI_HandleTypeDef *hqspi)
   */
 __weak void HAL_QSPI_RxCpltCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_QSPI_RxCpltCallback could be implemented in the user file
    */
@@ -1479,6 +1498,9 @@ __weak void HAL_QSPI_RxCpltCallback(QSPI_HandleTypeDef *hqspi)
   */
  __weak void HAL_QSPI_TxCpltCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_QSPI_TxCpltCallback could be implemented in the user file
    */ 
@@ -1491,6 +1513,9 @@ __weak void HAL_QSPI_RxCpltCallback(QSPI_HandleTypeDef *hqspi)
   */
 __weak void HAL_QSPI_RxHalfCpltCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_QSPI_RxHalfCpltCallback could be implemented in the user file
    */
@@ -1501,8 +1526,11 @@ __weak void HAL_QSPI_RxHalfCpltCallback(QSPI_HandleTypeDef *hqspi)
   * @param  hqspi: QSPI handle
   * @retval None
   */
- __weak void HAL_QSPI_TxHalfCpltCallback(QSPI_HandleTypeDef *hqspi)
+__weak void HAL_QSPI_TxHalfCpltCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_QSPI_TxHalfCpltCallback could be implemented in the user file
    */ 
@@ -1515,6 +1543,9 @@ __weak void HAL_QSPI_RxHalfCpltCallback(QSPI_HandleTypeDef *hqspi)
   */
 __weak void HAL_QSPI_FifoThresholdCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_QSPI_FIFOThresholdCallback could be implemented in the user file
    */
@@ -1527,6 +1558,9 @@ __weak void HAL_QSPI_FifoThresholdCallback(QSPI_HandleTypeDef *hqspi)
   */
 __weak void HAL_QSPI_StatusMatchCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_QSPI_StatusMatchCallback could be implemented in the user file
    */
@@ -1539,6 +1573,9 @@ __weak void HAL_QSPI_StatusMatchCallback(QSPI_HandleTypeDef *hqspi)
   */
 __weak void HAL_QSPI_TimeOutCallback(QSPI_HandleTypeDef *hqspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hqspi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_QSPI_TimeOutCallback could be implemented in the user file
    */

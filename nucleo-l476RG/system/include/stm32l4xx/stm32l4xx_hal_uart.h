@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_uart.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of UART HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -232,9 +232,10 @@ typedef struct
 /** @defgroup UART_Stop_Bits   UART Number of Stop Bits
   * @{
   */
-#define UART_STOPBITS_1                     ((uint32_t)0x00000000)                            /*!< UART frame with 1 stop bit    */
-#define UART_STOPBITS_1_5                   ((uint32_t)(USART_CR2_STOP_0 | USART_CR2_STOP_1)) /*!< UART frame with 1.5 stop bits */
-#define UART_STOPBITS_2                     ((uint32_t)USART_CR2_STOP_1)                      /*!< UART frame with 2 stop bits   */
+#define UART_STOPBITS_0_5                    USART_CR2_STOP_0                     /*!< UART frame with 0.5 stop bit  */
+#define UART_STOPBITS_1                     ((uint32_t)0x00000000)                /*!< UART frame with 1 stop bit    */
+#define UART_STOPBITS_1_5                   (USART_CR2_STOP_0 | USART_CR2_STOP_1) /*!< UART frame with 1.5 stop bits */
+#define UART_STOPBITS_2                      USART_CR2_STOP_1                     /*!< UART frame with 2 stop bits   */
 /**
   * @}
   */
@@ -622,7 +623,7 @@ typedef struct
 #define UART_CLEAR_PEF                       USART_ICR_PECF            /*!< Parity Error Clear Flag           */
 #define UART_CLEAR_FEF                       USART_ICR_FECF            /*!< Framing Error Clear Flag          */
 #define UART_CLEAR_NEF                       USART_ICR_NCF             /*!< Noise detected Clear Flag         */
-#define UART_CLEAR_OREF                      USART_ICR_ORECF           /*!< OverRun Error Clear Flag          */
+#define UART_CLEAR_OREF                      USART_ICR_ORECF           /*!< Overrun Error Clear Flag          */
 #define UART_CLEAR_IDLEF                     USART_ICR_IDLECF          /*!< IDLE line detected Clear Flag     */
 #define UART_CLEAR_TCF                       USART_ICR_TCCF            /*!< Transmission Complete Clear Flag  */
 #define UART_CLEAR_LBDF                      USART_ICR_LBDCF           /*!< LIN Break Detection Clear Flag    */
@@ -665,18 +666,18 @@ typedef struct
   * @param  __HANDLE__: specifies the UART Handle.
   * @param  __FLAG__: specifies the flag to check.
   *          This parameter can be any combination of the following values:
-  *            @arg UART_CLEAR_PEF,      Parity Error Clear Flag           
-  *            @arg UART_CLEAR_FEF,      Framing Error Clear Flag          
-  *            @arg UART_CLEAR_NEF,      Noise detected Clear Flag         
-  *            @arg UART_CLEAR_OREF,     OverRun Error Clear Flag          
-  *            @arg UART_CLEAR_IDLEF,    IDLE line detected Clear Flag     
-  *            @arg UART_CLEAR_TCF,      Transmission Complete Clear Flag  
-  *            @arg UART_CLEAR_LBDF,     LIN Break Detection Clear Flag    
-  *            @arg UART_CLEAR_CTSF,     CTS Interrupt Clear Flag          
-  *            @arg UART_CLEAR_RTOF,     Receiver Time Out Clear Flag      
-  *            @arg UART_CLEAR_EOBF,     End Of Block Clear Flag           
-  *            @arg UART_CLEAR_CMF,      Character Match Clear Flag        
-  *            @arg UART_CLEAR_WUF,      Wake Up from stop mode Clear Flag 
+  *            @arg @ref UART_CLEAR_PEF      Parity Error Clear Flag           
+  *            @arg @ref UART_CLEAR_FEF      Framing Error Clear Flag          
+  *            @arg @ref UART_CLEAR_NEF      Noise detected Clear Flag         
+  *            @arg @ref UART_CLEAR_OREF     Overrun Error Clear Flag          
+  *            @arg @ref UART_CLEAR_IDLEF    IDLE line detected Clear Flag     
+  *            @arg @ref UART_CLEAR_TCF      Transmission Complete Clear Flag  
+  *            @arg @ref UART_CLEAR_LBDF     LIN Break Detection Clear Flag    
+  *            @arg @ref UART_CLEAR_CTSF     CTS Interrupt Clear Flag          
+  *            @arg @ref UART_CLEAR_RTOF     Receiver Time Out Clear Flag      
+  *            @arg @ref UART_CLEAR_EOBF     End Of Block Clear Flag           
+  *            @arg @ref UART_CLEAR_CMF      Character Match Clear Flag        
+  *            @arg @ref UART_CLEAR_WUF      Wake Up from stop mode Clear Flag 
   * @retval None
   */
 #define __HAL_UART_CLEAR_FLAG(__HANDLE__, __FLAG__) ((__HANDLE__)->Instance->ICR = (__FLAG__))
@@ -715,27 +716,27 @@ typedef struct
   * @param  __HANDLE__: specifies the UART Handle.
   * @param  __FLAG__: specifies the flag to check.
   *        This parameter can be one of the following values:
-  *            @arg UART_FLAG_REACK: Receive enable acknowledge flag
-  *            @arg UART_FLAG_TEACK: Transmit enable acknowledge flag
-  *            @arg UART_FLAG_WUF:   Wake up from stop mode flag
-  *            @arg UART_FLAG_RWU:   Receiver wake up flag (if the UART in mute mode)
-  *            @arg UART_FLAG_SBKF:  Send Break flag
-  *            @arg UART_FLAG_CMF:   Character match flag
-  *            @arg UART_FLAG_BUSY:  Busy flag
-  *            @arg UART_FLAG_ABRF:  Auto Baud rate detection flag
-  *            @arg UART_FLAG_ABRE:  Auto Baud rate detection error flag
-  *            @arg UART_FLAG_EOBF:  End of block flag
-  *            @arg UART_FLAG_RTOF:  Receiver timeout flag
-  *            @arg UART_FLAG_CTS:   CTS Change flag
-  *            @arg UART_FLAG_LBD:   LIN Break detection flag
-  *            @arg UART_FLAG_TXE:   Transmit data register empty flag
-  *            @arg UART_FLAG_TC:    Transmission Complete flag
-  *            @arg UART_FLAG_RXNE:  Receive data register not empty flag
-  *            @arg UART_FLAG_IDLE:  Idle Line detection flag
-  *            @arg UART_FLAG_ORE:   OverRun Error flag
-  *            @arg UART_FLAG_NE:    Noise Error flag
-  *            @arg UART_FLAG_FE:    Framing Error flag
-  *            @arg UART_FLAG_PE:    Parity Error flag
+  *            @arg @ref UART_FLAG_REACK Receive enable acknowledge flag
+  *            @arg @ref UART_FLAG_TEACK Transmit enable acknowledge flag
+  *            @arg @ref UART_FLAG_WUF   Wake up from stop mode flag
+  *            @arg @ref UART_FLAG_RWU   Receiver wake up flag (if the UART in mute mode)
+  *            @arg @ref UART_FLAG_SBKF  Send Break flag
+  *            @arg @ref UART_FLAG_CMF   Character match flag
+  *            @arg @ref UART_FLAG_BUSY  Busy flag
+  *            @arg @ref UART_FLAG_ABRF  Auto Baud rate detection flag
+  *            @arg @ref UART_FLAG_ABRE  Auto Baud rate detection error flag
+  *            @arg @ref UART_FLAG_EOBF  End of block flag
+  *            @arg @ref UART_FLAG_RTOF  Receiver timeout flag
+  *            @arg @ref UART_FLAG_CTS   CTS Change flag
+  *            @arg @ref UART_FLAG_LBDF  LIN Break detection flag
+  *            @arg @ref UART_FLAG_TXE   Transmit data register empty flag
+  *            @arg @ref UART_FLAG_TC    Transmission Complete flag
+  *            @arg @ref UART_FLAG_RXNE  Receive data register not empty flag
+  *            @arg @ref UART_FLAG_IDLE  Idle Line detection flag
+  *            @arg @ref UART_FLAG_ORE   Overrun Error flag
+  *            @arg @ref UART_FLAG_NE    Noise Error flag
+  *            @arg @ref UART_FLAG_FE    Framing Error flag
+  *            @arg @ref UART_FLAG_PE    Parity Error flag
   * @retval The new state of __FLAG__ (TRUE or FALSE).
   */
 #define __HAL_UART_GET_FLAG(__HANDLE__, __FLAG__) (((__HANDLE__)->Instance->ISR & (__FLAG__)) == (__FLAG__))
@@ -744,16 +745,16 @@ typedef struct
   * @param  __HANDLE__: specifies the UART Handle.
   * @param  __INTERRUPT__: specifies the UART interrupt source to enable.
   *          This parameter can be one of the following values:
-  *            @arg UART_IT_WUF:  Wakeup from stop mode interrupt
-  *            @arg UART_IT_CM:   Character match interrupt
-  *            @arg UART_IT_CTS:  CTS change interrupt
-  *            @arg UART_IT_LBD:  LIN Break detection interrupt
-  *            @arg UART_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg UART_IT_TC:   Transmission complete interrupt
-  *            @arg UART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg UART_IT_IDLE: Idle line detection interrupt
-  *            @arg UART_IT_PE:   Parity Error interrupt
-  *            @arg UART_IT_ERR:  Error interrupt (Frame error, noise error, overrun error)
+  *            @arg @ref UART_IT_WUF  Wakeup from stop mode interrupt
+  *            @arg @ref UART_IT_CM   Character match interrupt
+  *            @arg @ref UART_IT_CTS  CTS change interrupt
+  *            @arg @ref UART_IT_LBD  LIN Break detection interrupt
+  *            @arg @ref UART_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref UART_IT_TC   Transmission complete interrupt
+  *            @arg @ref UART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref UART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref UART_IT_PE   Parity Error interrupt
+  *            @arg @ref UART_IT_ERR  Error interrupt (Frame error, noise error, overrun error)
   * @retval None
   */
 #define __HAL_UART_ENABLE_IT(__HANDLE__, __INTERRUPT__)   (((((uint8_t)(__INTERRUPT__)) >> 5U) == 1)? ((__HANDLE__)->Instance->CR1 |= (1U << ((__INTERRUPT__) & UART_IT_MASK))): \
@@ -765,16 +766,16 @@ typedef struct
   * @param  __HANDLE__: specifies the UART Handle.
   * @param  __INTERRUPT__: specifies the UART interrupt source to disable.
   *          This parameter can be one of the following values:
-  *            @arg UART_IT_WUF:  Wakeup from stop mode interrupt
-  *            @arg UART_IT_CM:   Character match interrupt
-  *            @arg UART_IT_CTS:  CTS change interrupt
-  *            @arg UART_IT_LBD:  LIN Break detection interrupt
-  *            @arg UART_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg UART_IT_TC:   Transmission complete interrupt
-  *            @arg UART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg UART_IT_IDLE: Idle line detection interrupt
-  *            @arg UART_IT_PE:   Parity Error interrupt
-  *            @arg UART_IT_ERR:  Error interrupt (Frame error, noise error, overrun error)
+  *            @arg @ref UART_IT_WUF  Wakeup from stop mode interrupt
+  *            @arg @ref UART_IT_CM   Character match interrupt
+  *            @arg @ref UART_IT_CTS  CTS change interrupt
+  *            @arg @ref UART_IT_LBD  LIN Break detection interrupt
+  *            @arg @ref UART_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref UART_IT_TC   Transmission complete interrupt
+  *            @arg @ref UART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref UART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref UART_IT_PE   Parity Error interrupt
+  *            @arg @ref UART_IT_ERR  Error interrupt (Frame error, noise error, overrun error)
   * @retval None
   */
 #define __HAL_UART_DISABLE_IT(__HANDLE__, __INTERRUPT__)  (((((uint8_t)(__INTERRUPT__)) >> 5U) == 1)? ((__HANDLE__)->Instance->CR1 &= ~ (1U << ((__INTERRUPT__) & UART_IT_MASK))): \
@@ -785,18 +786,18 @@ typedef struct
   * @param  __HANDLE__: specifies the UART Handle.
   * @param  __IT__: specifies the UART interrupt to check.
   *          This parameter can be one of the following values:
-  *            @arg UART_IT_WUF:  Wakeup from stop mode interrupt
-  *            @arg UART_IT_CM:   Character match interrupt
-  *            @arg UART_IT_CTS:  CTS change interrupt
-  *            @arg UART_IT_LBD:  LIN Break detection interrupt
-  *            @arg UART_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg UART_IT_TC:   Transmission complete interrupt
-  *            @arg UART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg UART_IT_IDLE: Idle line detection interrupt
-  *            @arg UART_IT_ORE:  OverRun Error interrupt
-  *            @arg UART_IT_NE:   Noise Error interrupt
-  *            @arg UART_IT_FE:   Framing Error interrupt
-  *            @arg UART_IT_PE:   Parity Error interrupt
+  *            @arg @ref UART_IT_WUF  Wakeup from stop mode interrupt
+  *            @arg @ref UART_IT_CM   Character match interrupt
+  *            @arg @ref UART_IT_CTS  CTS change interrupt
+  *            @arg @ref UART_IT_LBD  LIN Break detection interrupt
+  *            @arg @ref UART_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref UART_IT_TC   Transmission complete interrupt
+  *            @arg @ref UART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref UART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref UART_IT_ORE  Overrun Error interrupt
+  *            @arg @ref UART_IT_NE   Noise Error interrupt   
+  *            @arg @ref UART_IT_FE   Framing Error interrupt   
+  *            @arg @ref UART_IT_PE   Parity Error interrupt
   * @retval The new state of __IT__ (TRUE or FALSE).
   */
 #define __HAL_UART_GET_IT(__HANDLE__, __IT__) ((__HANDLE__)->Instance->ISR & ((uint32_t)1 << ((__IT__)>> 0x08)))
@@ -805,18 +806,16 @@ typedef struct
   * @param  __HANDLE__: specifies the UART Handle.
   * @param  __IT__: specifies the UART interrupt source to check.
   *          This parameter can be one of the following values:
-  *            @arg UART_IT_WUF:  Wakeup from stop mode interrupt
-  *            @arg UART_IT_CM:   Character match interrupt  
-  *            @arg UART_IT_CTS:  CTS change interrupt
-  *            @arg UART_IT_LBD:  LIN Break detection interrupt
-  *            @arg UART_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg UART_IT_TC:   Transmission complete interrupt
-  *            @arg UART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg UART_IT_IDLE: Idle line detection interrupt
-  *            @arg UART_IT_ORE:  OverRun Error interrupt
-  *            @arg UART_IT_NE:   Noise Error interrupt
-  *            @arg UART_IT_FE:   Framing Error interrupt
-  *            @arg UART_IT_PE:   Parity Error interrupt
+  *            @arg @ref UART_IT_WUF  Wakeup from stop mode interrupt
+  *            @arg @ref UART_IT_CM   Character match interrupt  
+  *            @arg @ref UART_IT_CTS  CTS change interrupt
+  *            @arg @ref UART_IT_LBD  LIN Break detection interrupt
+  *            @arg @ref UART_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref UART_IT_TC   Transmission complete interrupt
+  *            @arg @ref UART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref UART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref UART_IT_ERR  Error interrupt (Frame error, noise error, overrun error)
+  *            @arg @ref UART_IT_PE   Parity Error interrupt
   * @retval The new state of __IT__ (TRUE or FALSE).
   */
 #define __HAL_UART_GET_IT_SOURCE(__HANDLE__, __IT__) ((((((uint8_t)(__IT__)) >> 5U) == 1)? (__HANDLE__)->Instance->CR1:(((((uint8_t)(__IT__)) >> 5U) == 2)? \
@@ -827,18 +826,16 @@ typedef struct
   * @param  __IT_CLEAR__: specifies the interrupt clear register flag that needs to be set
   *                       to clear the corresponding interrupt
   *          This parameter can be one of the following values:
-  *            @arg UART_CLEAR_PEF: Parity Error Clear Flag
-  *            @arg UART_CLEAR_FEF: Framing Error Clear Flag
-  *            @arg UART_CLEAR_NEF: Noise detected Clear Flag
-  *            @arg UART_CLEAR_OREF: OverRun Error Clear Flag
-  *            @arg UART_CLEAR_IDLEF: IDLE line detected Clear Flag
-  *            @arg UART_CLEAR_TCF: Transmission Complete Clear Flag
-  *            @arg UART_CLEAR_LBDF: LIN Break Detection Clear Flag
-  *            @arg UART_CLEAR_CTSF: CTS Interrupt Clear Flag
-  *            @arg UART_CLEAR_RTOF: Receiver Time Out Clear Flag
-  *            @arg UART_CLEAR_EOBF: End Of Block Clear Flag
-  *            @arg UART_CLEAR_CMF: Character Match Clear Flag
-  *            @arg UART_CLEAR_WUF:  Wake Up from stop mode Clear Flag
+  *            @arg @ref UART_CLEAR_PEF Parity Error Clear Flag
+  *            @arg @ref UART_CLEAR_FEF Framing Error Clear Flag
+  *            @arg @ref UART_CLEAR_NEF Noise detected Clear Flag
+  *            @arg @ref UART_CLEAR_OREF Overrun Error Clear Flag
+  *            @arg @ref UART_CLEAR_IDLEF IDLE line detected Clear Flag
+  *            @arg @ref UART_CLEAR_TCF Transmission Complete Clear Flag
+  *            @arg @ref UART_CLEAR_LBDF LIN Break Detection Clear Flag
+  *            @arg @ref UART_CLEAR_CTSF CTS Interrupt Clear Flag
+  *            @arg @ref UART_CLEAR_CMF Character Match Clear Flag
+  *            @arg @ref UART_CLEAR_WUF  Wake Up from stop mode Clear Flag
   * @retval None
   */
 #define __HAL_UART_CLEAR_IT(__HANDLE__, __IT_CLEAR__) ((__HANDLE__)->Instance->ICR = (uint32_t)(__IT_CLEAR__))
@@ -847,11 +844,11 @@ typedef struct
   * @param  __HANDLE__: specifies the UART Handle.
   * @param  __REQ__: specifies the request flag to set
   *          This parameter can be one of the following values:
-  *            @arg UART_AUTOBAUD_REQUEST: Auto-Baud Rate Request
-  *            @arg UART_SENDBREAK_REQUEST: Send Break Request
-  *            @arg UART_MUTE_MODE_REQUEST: Mute Mode Request
-  *            @arg UART_RXDATA_FLUSH_REQUEST: Receive Data flush Request
-  *            @arg UART_TXDATA_FLUSH_REQUEST: Transmit data flush Request
+  *            @arg @ref UART_AUTOBAUD_REQUEST Auto-Baud Rate Request
+  *            @arg @ref UART_SENDBREAK_REQUEST Send Break Request
+  *            @arg @ref UART_MUTE_MODE_REQUEST Mute Mode Request
+  *            @arg @ref UART_RXDATA_FLUSH_REQUEST Receive Data flush Request
+  *            @arg @ref UART_TXDATA_FLUSH_REQUEST Transmit data flush Request
   * @retval None
   */
 #define __HAL_UART_SEND_REQ(__HANDLE__, __REQ__) ((__HANDLE__)->Instance->RQR |= (uint32_t)(__REQ__))
@@ -1010,11 +1007,20 @@ typedef struct
 /**
   * @brief Ensure that UART frame number of stop bits is valid.
   * @param __STOPBITS__: UART frame number of stop bits. 
+  * @retval SET (__STOPBITS__ is valid) or RESET (__STOPBITS__ is invalid)  UART_STOPBITS_1_5
+  */
+#define IS_UART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == UART_STOPBITS_0_5) || \
+                                        ((__STOPBITS__) == UART_STOPBITS_1)   || \
+                                        ((__STOPBITS__) == UART_STOPBITS_1_5) || \
+                                        ((__STOPBITS__) == UART_STOPBITS_2))
+
+/**
+  * @brief Ensure that LPUART frame number of stop bits is valid.
+  * @param __STOPBITS__: LPUART frame number of stop bits. 
   * @retval SET (__STOPBITS__ is valid) or RESET (__STOPBITS__ is invalid)
   */ 
-#define IS_UART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == UART_STOPBITS_1) || \
-                                        ((__STOPBITS__) == UART_STOPBITS_2) || \
-                                        ((__STOPBITS__) == UART_STOPBITS_1_5))
+#define IS_LPUART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == UART_STOPBITS_1) || \
+                                          ((__STOPBITS__) == UART_STOPBITS_2))
 
 /**
   * @brief Ensure that UART frame parity is valid.
@@ -1255,14 +1261,6 @@ typedef struct
   */
 #define IS_UART_DE_POLARITY(__POLARITY__)    (((__POLARITY__) == UART_DE_POLARITY_HIGH) || \
                                               ((__POLARITY__) == UART_DE_POLARITY_LOW))
-
-/**
-  * @brief Ensure that LPUART frame number of stop bits is valid.
-  * @param __STOPBITS__: LPUART frame number of stop bits. 
-  * @retval SET (__STOPBITS__ is valid) or RESET (__STOPBITS__ is invalid)
-  */ 
-#define IS_LPUART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == UART_STOPBITS_1) || \
-                                          ((__STOPBITS__) == UART_STOPBITS_2))
 
 /**
   * @}

@@ -1,78 +1,80 @@
-typedef unsigned long uint32_t;
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f0xx_hal.h"
+#include <nucleo_hal_bsp.h>
+#include <string.h>
 
-/* memory and peripheral start addresses */
-#define FLASH_BASE      0x08000000
-#define SRAM_BASE       0x20000000
-#define PERIPH_BASE     0x40000000
-
-/* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       8*1024     // STM32F030R8 has 8 KB of RAM
-#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
-
-/* RCC peripheral addresses applicable to GPIOA */
-#define RCC_BASE        (PERIPH_BASE + 0x21000)
-#define RCC_AHBENR      ((uint32_t*)(RCC_BASE + (0x14)))
-
-/* GPIOA peripheral addresses */
-#define GPIOA_BASE      (PERIPH_BASE + 0x8000000)
-#define GPIOA_MODER     ((uint32_t*)(GPIOA_BASE + 0x00))
-#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
-
-/* User functions */
-void _start (void);
-int main(void);
-void delay(uint32_t count);
-
-/* Minimal vector table */
-uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)_start        // main as Reset_Handler
-};
-
-// Begin address for the initialisation values of the .data section.
-// defined in linker script
-extern uint32_t _sidata;
-// Begin address for the .data section; defined in linker script
-extern uint32_t _sdata;
-// End address for the .data section; defined in linker script
-extern uint32_t _edata;
+/* Private variables ---------------------------------------------------------*/
+TIM_HandleTypeDef htim6;
+DMA_HandleTypeDef hdma_tim6_up;
 
 
-volatile uint32_t dataVar = 0x3f;
+static void MX_DMA_Init(void);
 
-inline void
-__attribute__((always_inline))
-__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
+int main(void) {
+  uint8_t data[] = {0xFF, 0x0};
+
+  HAL_Init();
+  Nucleo_BSP_Init();
+  MX_DMA_Init();
+
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 47999; //48MHz/48000 = 1000Hz
+  htim6.Init.Period = 499;      //1000HZ / 500 = 2Hz = 0.5s
+  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  __TIM6_CLK_ENABLE();
+
+  HAL_TIM_Base_Init(&htim6);
+  HAL_TIM_Base_Start(&htim6);
+
+  hdma_tim6_up.Instance = DMA1_Channel3;
+  hdma_tim6_up.Init.Direction = DMA_MEMORY_TO_PERIPH;
+  hdma_tim6_up.Init.PeriphInc = DMA_PINC_DISABLE;
+  hdma_tim6_up.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_tim6_up.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_tim6_up.Init.MemDataAlignment = DMA_MDATAALIGN_BYTE;
+  hdma_tim6_up.Init.Mode = DMA_CIRCULAR;
+  hdma_tim6_up.Init.Priority = DMA_PRIORITY_LOW;
+  HAL_DMA_Init(&hdma_tim6_up);
+
+  HAL_DMA_Start(&hdma_tim6_up, (uint32_t)data, (uint32_t)&GPIOA->ODR, 2);
+  __HAL_TIM_ENABLE_DMA(&htim6, TIM_DMA_UPDATE);
+
+  while (1);
+}
+
+/* Enable DMA controller clock */
+void MX_DMA_Init(void)
 {
-  // Iterate and copy word by word.
-  // It is assumed that the pointers are word aligned.
-  uint32_t*p = region_begin;
-  while (p < region_end)
-    *p++ = *from++;
+  /* DMA controller clock enable */
+  __DMA1_CLK_ENABLE();
 }
 
-void __attribute__ ((noreturn,weak))
-_start (void)
+#ifdef USE_FULL_ASSERT
+
+/**
+   * @brief Reports the name of the source file and the source line number
+   * where the assert_param error has occurred.
+   * @param file: pointer to the source file name
+   * @param line: assert_param error line source number
+   * @retval None
+   */
+void assert_failed(uint8_t* file, uint32_t line)
 {
-	__initialize_data(&_sidata, &_sdata, &_edata);
-	main();
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
 
-	for(;;);
 }
 
-int main() {
-  /* enable clock on GPIOA peripheral */
-  *RCC_AHBENR |= 0x1 << 17;
-  *GPIOA_MODER |= 0x400; // Sets MODER[27:26] = 0x1
+#endif
 
-  while(dataVar == 0x3f) {
-    *GPIOA_ODR = 0x20;
-    delay(1000000);
-    *GPIOA_ODR = 0x0;
-    delay(1000000);
-  }
-}
+/**
+  * @}
+  */ 
 
-void delay(unsigned long count) {
-    while(count--);
-}
+/**
+  * @}
+*/ 
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

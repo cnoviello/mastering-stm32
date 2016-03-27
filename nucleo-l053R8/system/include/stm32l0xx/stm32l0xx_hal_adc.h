@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_adc.h
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   This file contains all the functions prototypes for the ADC firmware 
   *          library.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -392,7 +392,9 @@ typedef struct
 #define ADC_CHANNEL_13          ((uint32_t)(ADC_CHSELR_CHSEL13)| ADC_CFGR1_AWDCH_3| ADC_CFGR1_AWDCH_2| ADC_CFGR1_AWDCH_0)
 #define ADC_CHANNEL_14          ((uint32_t)(ADC_CHSELR_CHSEL14)| ADC_CFGR1_AWDCH_3| ADC_CFGR1_AWDCH_2| ADC_CFGR1_AWDCH_1)
 #define ADC_CHANNEL_15          ((uint32_t)(ADC_CHSELR_CHSEL15)| ADC_CFGR1_AWDCH_3| ADC_CFGR1_AWDCH_2| ADC_CFGR1_AWDCH_1| ADC_CFGR1_AWDCH_0)
+#if defined (STM32L053xx) || defined (STM32L063xx) || defined (STM32L073xx) || defined (STM32L083xx)
 #define ADC_CHANNEL_16          ((uint32_t)(ADC_CHSELR_CHSEL16)| ADC_CFGR1_AWDCH_4)
+#endif
 #define ADC_CHANNEL_17          ((uint32_t)(ADC_CHSELR_CHSEL17)| ADC_CFGR1_AWDCH_4| ADC_CFGR1_AWDCH_0)
 #define ADC_CHANNEL_18          ((uint32_t)(ADC_CHSELR_CHSEL18)| ADC_CFGR1_AWDCH_4| ADC_CFGR1_AWDCH_1)
 

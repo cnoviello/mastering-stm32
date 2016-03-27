@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_nor.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   NOR HAL module driver.
   *          This file provides a generic firmware to drive NOR memories mounted 
   *          as external device.
@@ -55,7 +55,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -260,6 +260,9 @@ HAL_StatusTypeDef HAL_NOR_DeInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspInit(NOR_HandleTypeDef *hnor)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_NOR_MspInit could be implemented in the user file
    */ 
@@ -273,6 +276,9 @@ __weak void HAL_NOR_MspInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspDeInit(NOR_HandleTypeDef *hnor)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_NOR_MspDeInit could be implemented in the user file
    */ 
@@ -287,6 +293,10 @@ __weak void HAL_NOR_MspDeInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspWait(NOR_HandleTypeDef *hnor, uint32_t Timeout)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
+  UNUSED(Timeout);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_NOR_MspWait could be implemented in the user file
    */ 
@@ -760,6 +770,9 @@ HAL_StatusTypeDef HAL_NOR_Erase_Chip(NOR_HandleTypeDef *hnor, uint32_t Address)
 {
   uint32_t deviceaddress = 0;
   
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(Address);
+
   /* Process Locked */
   __HAL_LOCK(hnor);
   

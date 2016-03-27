@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_sd.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   SD card HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Secure Digital (SD) peripheral:
@@ -152,7 +152,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -412,6 +412,9 @@ HAL_StatusTypeDef HAL_SD_DeInit(SD_HandleTypeDef *hsd)
   */
 __weak void HAL_SD_MspInit(SD_HandleTypeDef *hsd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsd);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_MspInit could be implemented in the user file
    */
@@ -424,6 +427,9 @@ __weak void HAL_SD_MspInit(SD_HandleTypeDef *hsd)
   */
 __weak void HAL_SD_MspDeInit(SD_HandleTypeDef *hsd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsd);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_MspDeInit could be implemented in the user file
    */
@@ -1378,6 +1384,9 @@ void HAL_SD_IRQHandler(SD_HandleTypeDef *hsd)
   */
 __weak void HAL_SD_XferCpltCallback(SD_HandleTypeDef *hsd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsd);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_XferCpltCallback could be implemented in the user file
    */ 
@@ -1390,6 +1399,9 @@ __weak void HAL_SD_XferCpltCallback(SD_HandleTypeDef *hsd)
   */
 __weak void HAL_SD_XferErrorCallback(SD_HandleTypeDef *hsd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsd);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_XferErrorCallback could be implemented in the user file
    */ 
@@ -1403,6 +1415,9 @@ __weak void HAL_SD_XferErrorCallback(SD_HandleTypeDef *hsd)
   */
 __weak void HAL_SD_DMA_RxCpltCallback(DMA_HandleTypeDef *hdma)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdma);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_DMA_RxCpltCallback could be implemented in the user file
    */ 
@@ -1416,6 +1431,9 @@ __weak void HAL_SD_DMA_RxCpltCallback(DMA_HandleTypeDef *hdma)
   */
 __weak void HAL_SD_DMA_RxErrorCallback(DMA_HandleTypeDef *hdma)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdma);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_DMA_RxErrorCallback could be implemented in the user file
    */ 
@@ -1429,6 +1447,9 @@ __weak void HAL_SD_DMA_RxErrorCallback(DMA_HandleTypeDef *hdma)
   */
 __weak void HAL_SD_DMA_TxCpltCallback(DMA_HandleTypeDef *hdma)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdma);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_DMA_TxCpltCallback could be implemented in the user file
    */ 
@@ -1442,6 +1463,9 @@ __weak void HAL_SD_DMA_TxCpltCallback(DMA_HandleTypeDef *hdma)
   */
 __weak void HAL_SD_DMA_TxErrorCallback(DMA_HandleTypeDef *hdma)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdma);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SD_DMA_TxErrorCallback could be implemented in the user file
    */ 
@@ -1564,7 +1588,7 @@ HAL_SD_ErrorTypedef HAL_SD_Get_CardInfo(SD_HandleTypeDef *hsd, HAL_SD_CardInfoTy
     /* Byte 10 */
     tmp = (uint8_t)((hsd->CSD[2] & 0x0000FF00) >> 8);
     
-    pCardInfo->CardCapacity  = ((pCardInfo->SD_csd.DeviceSize + 1)) * 512 * 1024;
+    pCardInfo->CardCapacity = (uint64_t)(((uint64_t)pCardInfo->SD_csd.DeviceSize + 1) * 512 * 1024);
     pCardInfo->CardBlockSize = 512;    
   }
   else

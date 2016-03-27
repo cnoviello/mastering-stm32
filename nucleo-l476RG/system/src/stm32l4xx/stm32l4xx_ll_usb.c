@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_usb.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   USB Low Layer HAL module driver.
   *   
   *          This file provides firmware functions to manage the following 
@@ -28,7 +28,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -102,6 +102,9 @@ static HAL_StatusTypeDef USB_CoreReset(USB_OTG_GlobalTypeDef *USBx);
   */
 HAL_StatusTypeDef USB_CoreInit(USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef cfg)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(cfg);
+
   /* Select FS Embedded PHY */
   USBx->GUSBCFG |= USB_OTG_GUSBCFG_PHYSEL;
   
@@ -1021,6 +1024,9 @@ HAL_StatusTypeDef  USB_ActivateSetup (USB_OTG_GlobalTypeDef *USBx)
   */
 HAL_StatusTypeDef USB_EP0_OutStart(USB_OTG_GlobalTypeDef *USBx, uint8_t dma, uint8_t *psetup)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(psetup);
+
   USBx_OUTEP(0)->DOEPTSIZ = 0;
   USBx_OUTEP(0)->DOEPTSIZ |= (USB_OTG_DOEPTSIZ_PKTCNT & (1 << 19)) ;
   USBx_OUTEP(0)->DOEPTSIZ |= (3 * 8);

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_usart.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   USART HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Universal Synchronous Asynchronous Receiver Transmitter (USART) peripheral:
@@ -109,7 +109,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -319,6 +319,8 @@ HAL_StatusTypeDef HAL_USART_DeInit(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_MspInit(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_MspInit can be implemented in the user file
    */ 
@@ -332,6 +334,8 @@ HAL_StatusTypeDef HAL_USART_DeInit(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_MspDeInit(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_MspDeInit can be implemented in the user file
    */ 
@@ -1146,7 +1150,6 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   /* USART parity error interrupt occurred -----------------------------------*/
   if((tmp_flag != RESET) && (tmp_it_source != RESET))
   {
-    __HAL_USART_CLEAR_PEFLAG(husart);
     husart->ErrorCode |= HAL_USART_ERROR_PE;
   }
 
@@ -1155,7 +1158,6 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   /* USART frame error interrupt occurred ------------------------------------*/
   if((tmp_flag != RESET) && (tmp_it_source != RESET))
   {
-    __HAL_USART_CLEAR_FEFLAG(husart);
     husart->ErrorCode |= HAL_USART_ERROR_FE;
   }
 
@@ -1163,7 +1165,6 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   /* USART noise error interrupt occurred ------------------------------------*/
   if((tmp_flag != RESET) && (tmp_it_source != RESET))
   {
-    __HAL_USART_CLEAR_NEFLAG(husart);
     husart->ErrorCode |= HAL_USART_ERROR_NE;
   }
 
@@ -1171,12 +1172,14 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   /* USART Over-Run interrupt occurred ---------------------------------------*/
   if((tmp_flag != RESET) && (tmp_it_source != RESET))
   {
-    __HAL_USART_CLEAR_OREFLAG(husart);
     husart->ErrorCode |= HAL_USART_ERROR_ORE;
   }
 
   if(husart->ErrorCode != HAL_USART_ERROR_NONE)
   {
+    /* Clear all the error flag at once */
+    __HAL_USART_CLEAR_PEFLAG(husart);
+
     /* Set the USART state ready to be able to start again the process */
     husart->State = HAL_USART_STATE_READY;
     
@@ -1232,6 +1235,8 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_TxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_TxCpltCallback can be implemented in the user file
    */
@@ -1245,6 +1250,8 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_TxHalfCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_TxHalfCpltCallback can be implemented in the user file
    */
@@ -1258,6 +1265,8 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_RxCpltCallback can be implemented in the user file
    */
@@ -1271,6 +1280,8 @@ __weak void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_RxHalfCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_RxHalfCpltCallback can be implemented in the user file
    */
@@ -1284,6 +1295,8 @@ __weak void HAL_USART_RxHalfCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_TxRxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_TxRxCpltCallback can be implemented in the user file
    */
@@ -1297,6 +1310,8 @@ __weak void HAL_USART_TxRxCpltCallback(USART_HandleTypeDef *husart)
   */
  __weak void HAL_USART_ErrorCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_ErrorCallback can be implemented in the user file
    */ 

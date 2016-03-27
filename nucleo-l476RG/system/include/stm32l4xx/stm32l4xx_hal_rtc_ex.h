@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_rtc_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of RTC HAL Extended module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -173,9 +173,13 @@ typedef struct
 /** @defgroup RTCEx_Tamper_Pins_Definitions RTC Tamper Pins Definitions
   * @{
   */
+#if defined(RTC_TAMPER1_SUPPORT)
 #define RTC_TAMPER_1                       RTC_TAMPCR_TAMP1E
+#endif /* RTC_TAMPER1_SUPPORT */
 #define RTC_TAMPER_2                       RTC_TAMPCR_TAMP2E
+#if defined(RTC_TAMPER3_SUPPORT)
 #define RTC_TAMPER_3                       RTC_TAMPCR_TAMP3E
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
@@ -183,9 +187,13 @@ typedef struct
 /** @defgroup RTCEx_Tamper_Interrupt_Definitions RTC Tamper Interrupts Definitions
   * @{
   */
+#if defined(RTC_TAMPER1_SUPPORT)
 #define RTC_TAMPER1_INTERRUPT              RTC_TAMPCR_TAMP1IE
+#endif /* RTC_TAMPER1_SUPPORT */
 #define RTC_TAMPER2_INTERRUPT              RTC_TAMPCR_TAMP2IE
+#if defined(RTC_TAMPER3_SUPPORT)
 #define RTC_TAMPER3_INTERRUPT              RTC_TAMPCR_TAMP3IE
+#endif /* RTC_TAMPER3_SUPPORT */
 #define RTC_ALL_TAMPER_INTERRUPT           RTC_TAMPCR_TAMPIE
 /**
   * @}
@@ -893,14 +901,22 @@ HAL_StatusTypeDef HAL_RTCEx_SetTamper_IT(RTC_HandleTypeDef *hrtc, RTC_TamperType
 HAL_StatusTypeDef HAL_RTCEx_DeactivateTamper(RTC_HandleTypeDef *hrtc, uint32_t Tamper);
 void              HAL_RTCEx_TamperTimeStampIRQHandler(RTC_HandleTypeDef *hrtc);
 
+#if defined(RTC_TAMPER1_SUPPORT)
 void              HAL_RTCEx_Tamper1EventCallback(RTC_HandleTypeDef *hrtc);
+#endif /* RTC_TAMPER1_SUPPORT */
 void              HAL_RTCEx_Tamper2EventCallback(RTC_HandleTypeDef *hrtc);
+#if defined(RTC_TAMPER3_SUPPORT)
 void              HAL_RTCEx_Tamper3EventCallback(RTC_HandleTypeDef *hrtc);
+#endif /* RTC_TAMPER3_SUPPORT */
 void              HAL_RTCEx_TimeStampEventCallback(RTC_HandleTypeDef *hrtc);
 HAL_StatusTypeDef HAL_RTCEx_PollForTimeStampEvent(RTC_HandleTypeDef *hrtc, uint32_t Timeout);
+#if defined(RTC_TAMPER1_SUPPORT)
 HAL_StatusTypeDef HAL_RTCEx_PollForTamper1Event(RTC_HandleTypeDef *hrtc, uint32_t Timeout);
+#endif /* RTC_TAMPER1_SUPPORT */
 HAL_StatusTypeDef HAL_RTCEx_PollForTamper2Event(RTC_HandleTypeDef *hrtc, uint32_t Timeout);
+#if defined(RTC_TAMPER3_SUPPORT)
 HAL_StatusTypeDef HAL_RTCEx_PollForTamper3Event(RTC_HandleTypeDef *hrtc, uint32_t Timeout);
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
@@ -927,7 +943,7 @@ HAL_StatusTypeDef HAL_RTCEx_PollForWakeUpTimerEvent(RTC_HandleTypeDef *hrtc, uin
 void HAL_RTCEx_BKUPWrite(RTC_HandleTypeDef *hrtc, uint32_t BackupRegister, uint32_t Data);
 uint32_t HAL_RTCEx_BKUPRead(RTC_HandleTypeDef *hrtc, uint32_t BackupRegister);
 
-HAL_StatusTypeDef HAL_RTCEx_SetSmoothCalib(RTC_HandleTypeDef *hrtc, uint32_t SmoothCalibPeriod, uint32_t SmoothCalibPlusPulses, uint32_t SmouthCalibMinusPulsesValue);
+HAL_StatusTypeDef HAL_RTCEx_SetSmoothCalib(RTC_HandleTypeDef *hrtc, uint32_t SmoothCalibPeriod, uint32_t SmoothCalibPlusPulses, uint32_t SmoothCalibMinusPulsesValue);
 HAL_StatusTypeDef HAL_RTCEx_SetSynchroShift(RTC_HandleTypeDef *hrtc, uint32_t ShiftAdd1S, uint32_t ShiftSubFS);
 HAL_StatusTypeDef HAL_RTCEx_SetCalibrationOutPut(RTC_HandleTypeDef *hrtc, uint32_t CalibOutput);
 HAL_StatusTypeDef HAL_RTCEx_DeactivateCalibrationOutPut(RTC_HandleTypeDef *hrtc);

@@ -1,94 +1,100 @@
-typedef unsigned long uint32_t;
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f3xx_hal.h"
+#include <nucleo_hal_bsp.h>
+#include <string.h>
 
-/* memory and peripheral start addresses */
-#define FLASH_BASE      0x08000000
-#define SRAM_BASE       0x20000000
-#define PERIPH_BASE     0x40000000
+/* Private variables ---------------------------------------------------------*/
+TIM_HandleTypeDef htim1;
 
-/* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       16*1024     // STM32F302R8 has 16 KB of RAM
-#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
+void MX_TIM1_Init(void);
 
-/* RCC peripheral addresses applicable to GPIOB */
-#define RCC_BASE        (PERIPH_BASE + 0x21000)
-#define RCC_AHBENR      ((uint32_t*)(RCC_BASE + (0x14)))
+int main(void) {
+  HAL_Init();
 
-/* GPIOB peripheral addresses */
-#define GPIOB_BASE      (PERIPH_BASE + 0x8000400)
-#define GPIOB_MODER     ((uint32_t*)(GPIOB_BASE + 0x00))
-#define GPIOB_ODR       ((uint32_t*)(GPIOB_BASE + 0x14))
+  Nucleo_BSP_Init();
+  MX_TIM1_Init();
 
-/* User functions */
-void _start (void);
-int main(void);
-void delay(uint32_t count);
+  HAL_TIM_Base_Start_IT(&htim1);
 
-/* Minimal vector table */
-uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)_start        // main as Reset_Handler
-};
+  while (1);
+}
 
-// Begin address for the initialisation values of the .data section.
-// defined in linker script
-extern uint32_t _sidata;
-// Begin address for the .data section; defined in linker script
-extern uint32_t _sdata;
-// End address for the .data section; defined in linker script
-extern uint32_t _edata;
-// Begin address for the .bss section; defined in linker script
-extern uint32_t _sbss;
-// End address for the .bss section; defined in linker script
-extern uint32_t _ebss;
+/* TIM1 init function */
+void MX_TIM1_Init(void) {
+  TIM_SlaveConfigTypeDef sSlaveConfig;
 
-inline void
-__attribute__((always_inline))
-__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 0;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = 16383;
+  htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_Base_Init(&htim1);
+
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_EXTERNAL1;
+  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
+  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
+  sSlaveConfig.TriggerFilter = 0;
+  HAL_TIM_SlaveConfigSynchronization(&htim1, &sSlaveConfig);
+
+  HAL_NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
+}
+
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+  if(htim_base->Instance==TIM1)  {
+    /* Peripheral clock enable */
+    __TIM1_CLK_ENABLE();
+
+    /**TIM3 GPIO Configuration
+    PC0     ------> TIM1_CH1
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF2_TIM1;
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+ }
+}
+
+void TIM1_UP_TIM16_IRQHandler(void) {
+  HAL_TIM_IRQHandler(&htim1);
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if(htim->Instance == TIM1)
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}
+
+
+#ifdef USE_FULL_ASSERT
+
+/**
+   * @brief Reports the name of the source file and the source line number
+   * where the assert_param error has occurred.
+   * @param file: pointer to the source file name
+   * @param line: assert_param error line source number
+   * @retval None
+   */
+void assert_failed(uint8_t* file, uint32_t line)
 {
-  // Iterate and copy word by word.
-  // It is assumed that the pointers are word aligned.
-  uint32_t *p = region_begin;
-  while (p < region_end)
-    *p++ = *from++;
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+
 }
 
-inline void
-__attribute__((always_inline))
-__initialize_bss (uint32_t* region_begin, uint32_t* region_end)
-{
-  // Iterate and copy word by word.
-  // It is assumed that the pointers are word aligned.
-  uint32_t *p = region_begin;
-  while (p < region_end)
-    *p++ = 0;
-}
+#endif
 
-void __attribute__ ((noreturn,weak))
-_start (void)
-{
-	__initialize_data(&_sidata, &_sdata, &_edata);
-	__initialize_bss(&_sbss, &_ebss);
-	main();
+/**
+  * @}
+  */ 
 
-	for(;;);
-}
+/**
+  * @}
+*/ 
 
-const char msg[] = "Hello World!";
-const float vals[] = {3.14, 0,43, 1,414};
-
-int main() {
-    /* enable clock on GPIOB peripheral */
-    *RCC_AHBENR |= 0x1 << 18;
-    *GPIOB_MODER |= 0x4000000; // Sets MODER[27:26] = 0x1
-
-    while(vals[0] >= 3.14) {
-      *GPIOB_ODR = 0x2000;
-      delay(1000000);
-      *GPIOB_ODR = 0x0;
-      delay(1000000);
-   	}
-}
-
-void delay(uint32_t count) {
-    while(count--);
-}
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

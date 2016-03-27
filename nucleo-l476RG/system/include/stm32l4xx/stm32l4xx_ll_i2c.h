@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_i2c.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of I2C LL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -60,10 +60,75 @@ extern "C" {
 /* Private variables ---------------------------------------------------------*/
 
 /* Private constants ---------------------------------------------------------*/
+/** @defgroup I2C_LL_Private_Constants I2C Private Constants
+  * @{
+  */
+/* Defines used for the bit position in the register and perform offsets */
+#define I2C_POSITION_CR1_DNF            (uint32_t)POSITION_VAL(I2C_CR1_DNF)
+#define I2C_POSITION_CR2_NBYTES         (uint32_t)POSITION_VAL(I2C_CR2_NBYTES)
+#define I2C_POSITION_TIMINGR_PRESC      (uint32_t)POSITION_VAL(I2C_TIMINGR_PRESC)
+#define I2C_POSITION_TIMINGR_SCLDEL     (uint32_t)POSITION_VAL(I2C_TIMINGR_SCLDEL)
+#define I2C_POSITION_TIMINGR_SDADEL     (uint32_t)POSITION_VAL(I2C_TIMINGR_SDADEL)
+#define I2C_POSITION_TIMINGR_SCLH       (uint32_t)POSITION_VAL(I2C_TIMINGR_SCLH)
+#define I2C_POSITION_TIMINGR_SCLL       (uint32_t)POSITION_VAL(I2C_TIMINGR_SCLL)
+#define I2C_POSITION_ISR_ADDCODE        (uint32_t)POSITION_VAL(I2C_ISR_ADDCODE)
+/**
+  * @}
+  */
 
 /* Private macros ------------------------------------------------------------*/
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup I2C_LL_Private_Macros I2C Private Macros
+  * @{
+  */
+/**
+  * @}
+  */
+#endif /*USE_FULL_LL_DRIVER*/
 
 /* Exported types ------------------------------------------------------------*/
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup I2C_LL_ES_INIT I2C Exported Init structure
+  * @{
+  */
+typedef struct
+{
+  uint32_t Timing;              /*!< Specifies the SDA setup, hold time and the SCL high, low period values.
+                                     This parameter must be set by referring to the STM32CubeMX Tool and
+                                     the helper macro @ref __LL_I2C_CONVERT_TIMINGS()
+
+                                     This feature can be modified afterwards using unitary function @ref LL_I2C_SetTiming(). */
+
+  uint32_t AnalogFilter;        /*!< Enables or disables analog noise filter.
+                                     This parameter can be a value of @ref I2C_LL_EC_ANALOGFILTER_SELECTION
+
+                                     This feature can be modified afterwards using unitary functions @ref LL_I2C_EnableAnalogFilter() or LL_I2C_DisableAnalogFilter(). */
+
+  uint32_t DigitalFilter;       /*!< Configures the digital noise filter.
+                                     This parameter can be a number between Min_Data = 0x00 and Max_Data = 0x0F
+
+                                     This feature can be modified afterwards using unitary function @ref LL_I2C_SetDigitalFilter(). */
+
+  uint32_t OwnAddress1;         /*!< Specifies the device own address 1.
+                                     This parameter must be a value between Min_Data = 0x00 and Max_Data = 0x3FF
+
+                                     This feature can be modified afterwards using unitary function @ref LL_I2C_SetOwnAddress1(). */
+
+  uint32_t TypeAcknowledge;     /*!< Specifies the ACKnowledge or Non ACKnowledge condition after the address receive match code or next received byte.
+                                     This parameter can be a value of @ref I2C_LL_EC_I2C_ACKNOWLEDGE
+
+                                     This feature can be modified afterwards using unitary function @ref LL_I2C_AcknowledgeNextData(). */
+
+  uint32_t OwnAddrSize;         /*!< Specifies the device own address 1 size (7-bit or 10-bit).
+                                     This parameter can be a value of @ref I2C_LL_EC_OWNADDRESS1
+
+                                     This feature can be modified afterwards using unitary function @ref LL_I2C_SetOwnAddress1(). */
+}LL_I2C_InitTypeDef;
+/**
+  * @}
+  */
+#endif /*USE_FULL_LL_DRIVER*/
+
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup I2C_LL_Exported_Constants I2C Exported Constants
   * @{
@@ -73,12 +138,12 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_I2C_WriteReg function
   * @{
   */
-#define LL_I2C_ICR_ADDRCF                   I2C_ICR_ADDRCF
-#define LL_I2C_ICR_NACKCF                   I2C_ICR_NACKCF
-#define LL_I2C_ICR_STOPCF                   I2C_ICR_STOPCF
-#define LL_I2C_ICR_BERRCF                   I2C_ICR_BERRCF
-#define LL_I2C_ICR_ARLOCF                   I2C_ICR_ARLOCF
-#define LL_I2C_ICR_OVRCF                    I2C_ICR_OVRCF
+#define LL_I2C_ICR_ADDRCF                   I2C_ICR_ADDRCF          /*!< Address Matched flag */
+#define LL_I2C_ICR_NACKCF                   I2C_ICR_NACKCF          /*!< Not Acknowledge flag */
+#define LL_I2C_ICR_STOPCF                   I2C_ICR_STOPCF          /*!< Stop detection flag */
+#define LL_I2C_ICR_BERRCF                   I2C_ICR_BERRCF          /*!< Bus error flag */
+#define LL_I2C_ICR_ARLOCF                   I2C_ICR_ARLOCF          /*!< Arbitration Lost flag */
+#define LL_I2C_ICR_OVRCF                    I2C_ICR_OVRCF           /*!< Overrun/Underrun flag */
 /**
   * @}
   */
@@ -87,18 +152,18 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_I2C_ReadReg function
   * @{
   */
-#define LL_I2C_ISR_TXE                      I2C_ISR_TXE
-#define LL_I2C_ISR_TXIS                     I2C_ISR_TXIS
-#define LL_I2C_ISR_RXNE                     I2C_ISR_RXNE
-#define LL_I2C_ISR_ADDR                     I2C_ISR_ADDR
-#define LL_I2C_ISR_NACKF                    I2C_ISR_NACKF
-#define LL_I2C_ISR_STOPF                    I2C_ISR_STOPF
-#define LL_I2C_ISR_TC                       I2C_ISR_TC
-#define LL_I2C_ISR_TCR                      I2C_ISR_TCR
-#define LL_I2C_ISR_BERR                     I2C_ISR_BERR
-#define LL_I2C_ISR_ARLO                     I2C_ISR_ARLO
-#define LL_I2C_ISR_OVR                      I2C_ISR_OVR
-#define LL_I2C_ISR_BUSY                     I2C_ISR_BUSY
+#define LL_I2C_ISR_TXE                      I2C_ISR_TXE             /*!< Transmit data register empty */
+#define LL_I2C_ISR_TXIS                     I2C_ISR_TXIS            /*!< Transmit interrupt status */
+#define LL_I2C_ISR_RXNE                     I2C_ISR_RXNE            /*!< Receive data register not empty */
+#define LL_I2C_ISR_ADDR                     I2C_ISR_ADDR            /*!< Address matched (slave mode) */
+#define LL_I2C_ISR_NACKF                    I2C_ISR_NACKF           /*!< Not Acknowledge received flag */
+#define LL_I2C_ISR_STOPF                    I2C_ISR_STOPF           /*!< Stop detection flag */
+#define LL_I2C_ISR_TC                       I2C_ISR_TC              /*!< Transfer Complete (master mode) */
+#define LL_I2C_ISR_TCR                      I2C_ISR_TCR             /*!< Transfer Complete Reload */
+#define LL_I2C_ISR_BERR                     I2C_ISR_BERR            /*!< Bus error */
+#define LL_I2C_ISR_ARLO                     I2C_ISR_ARLO            /*!< Arbitration lost */
+#define LL_I2C_ISR_OVR                      I2C_ISR_OVR             /*!< Overrun/Underrun (slave mode) */
+#define LL_I2C_ISR_BUSY                     I2C_ISR_BUSY            /*!< Bus busy */
 /**
   * @}
   */
@@ -107,36 +172,45 @@ extern "C" {
   * @brief    IT defines which can be used with LL_I2C_ReadReg and  LL_I2C_WriteReg functions
   * @{
   */
-#define LL_I2C_CR1_TXIE                     I2C_CR1_TXIE
-#define LL_I2C_CR1_RXIE                     I2C_CR1_RXIE
-#define LL_I2C_CR1_ADDRIE                   I2C_CR1_ADDRIE
-#define LL_I2C_CR1_NACKIE                   I2C_CR1_NACKIE
-#define LL_I2C_CR1_STOPIE                   I2C_CR1_STOPIE
-#define LL_I2C_CR1_TCIE                     I2C_CR1_TCIE
-#define LL_I2C_CR1_ERRIE                    I2C_CR1_ERRIE
+#define LL_I2C_CR1_TXIE                     I2C_CR1_TXIE            /*!< TX Interrupt enable */
+#define LL_I2C_CR1_RXIE                     I2C_CR1_RXIE            /*!< RX Interrupt enable */
+#define LL_I2C_CR1_ADDRIE                   I2C_CR1_ADDRIE          /*!< Address match Interrupt enable (slave only) */
+#define LL_I2C_CR1_NACKIE                   I2C_CR1_NACKIE          /*!< Not acknowledge received Interrupt enable */
+#define LL_I2C_CR1_STOPIE                   I2C_CR1_STOPIE          /*!< STOP detection Interrupt enable */
+#define LL_I2C_CR1_TCIE                     I2C_CR1_TCIE            /*!< Transfer Complete interrupt enable */
+#define LL_I2C_CR1_ERRIE                    I2C_CR1_ERRIE           /*!< Error interrupts enable */
 /**
   * @}
   */
 
-/** @defgroup I2C_LL_EC_ADDRESSING_MODE ADDRESSING MODE
+/** @defgroup I2C_LL_EC_ANALOGFILTER_SELECTION I2C Analog Filter Selection
   * @{
   */
-#define LL_I2C_ADDRESSING_MODE_7BIT         ((uint32_t) 0x00000000)  /*!<Master operates in 7-bit addressing mode. */
-#define LL_I2C_ADDRESSING_MODE_10BIT        I2C_CR2_ADD10            /*!<Master operates in 10-bit addressing mode.*/
+#define LL_I2C_ANALOGFILTER_ENABLE          ((uint32_t)0x00000000U) /*!< Analog filter is enabled.  */
+#define LL_I2C_ANALOGFILTER_DISABLE         I2C_CR1_ANFOFF          /*!< Analog filter is disabled. */
 /**
   * @}
   */
 
-/** @defgroup I2C_LL_EC_OWNADDRESS1 OWNADDRESS1
+/** @defgroup I2C_LL_EC_ADDRESSING_MODE Master Addressing Mode
   * @{
   */
-#define LL_I2C_OWNADDRESS1_7BIT             ((uint32_t)0x00000000)  /*!<Own address 1 is a 7-bit address. */
-#define LL_I2C_OWNADDRESS1_10BIT            I2C_OAR1_OA1MODE        /*!<Own address 1 is a 10-bit address.*/
+#define LL_I2C_ADDRESSING_MODE_7BIT         ((uint32_t) 0x00000000U)  /*!<Master operates in 7-bit addressing mode. */
+#define LL_I2C_ADDRESSING_MODE_10BIT        I2C_CR2_ADD10             /*!<Master operates in 10-bit addressing mode.*/
 /**
   * @}
   */
 
-/** @defgroup I2C_LL_EC_OWNADDRESS2 OWNADDRESS2
+/** @defgroup I2C_LL_EC_OWNADDRESS1 Own Address 1 Length
+  * @{
+  */
+#define LL_I2C_OWNADDRESS1_7BIT             ((uint32_t)0x00000000U)  /*!<Own address 1 is a 7-bit address. */
+#define LL_I2C_OWNADDRESS1_10BIT            I2C_OAR1_OA1MODE         /*!<Own address 1 is a 10-bit address.*/
+/**
+  * @}
+  */
+
+/** @defgroup I2C_LL_EC_OWNADDRESS2 Own Address 2 Masks
   * @{
   */
 #define LL_I2C_OWNADDRESS2_NOMASK           I2C_OAR2_OA2NOMASK      /*!<Own Address2 No mask.                                */
@@ -151,38 +225,38 @@ extern "C" {
   * @}
   */
 
-/** @defgroup I2C_LL_EC_I2C_ACKNOWLEDGE ACKNOWLEDGE
+/** @defgroup I2C_LL_EC_I2C_ACKNOWLEDGE Acknowledge Generation
   * @{
   */
-#define LL_I2C_ACK                          ((uint32_t) 0x00000000) /*!<ACK is sent after current received byte. */
-#define LL_I2C_NACK                         I2C_CR2_NACK            /*!<NACK is sent after current received byte.*/
+#define LL_I2C_ACK                          ((uint32_t) 0x00000000U) /*!<ACK is sent after current received byte. */
+#define LL_I2C_NACK                         I2C_CR2_NACK             /*!<NACK is sent after current received byte.*/
 /**
   * @}
   */
 
-/** @defgroup I2C_LL_EC_ADDRSLAVE ADDRSLAVE
+/** @defgroup I2C_LL_EC_ADDRSLAVE Slave Address Length
   * @{
   */
-#define LL_I2C_ADDRSLAVE_7BIT               ((uint32_t)0x00000000)  /*!<Slave Address in 7-bit. */
-#define LL_I2C_ADDRSLAVE_10BIT              I2C_CR2_ADD10           /*!<Slave Address in 10-bit.*/
+#define LL_I2C_ADDRSLAVE_7BIT               ((uint32_t)0x00000000U)  /*!<Slave Address in 7-bit. */
+#define LL_I2C_ADDRSLAVE_10BIT              I2C_CR2_ADD10            /*!<Slave Address in 10-bit.*/
 /**
   * @}
   */
 
-/** @defgroup I2C_LL_EC_MODE MODE
+/** @defgroup I2C_LL_EC_MODE Transfer End Mode
   * @{
   */
-#define LL_I2C_MODE_RELOAD                  I2C_CR2_RELOAD          /*!<Enable Reload mode.       */
-#define LL_I2C_MODE_AUTOEND                 I2C_CR2_AUTOEND         /*!<Enable Automatic end mode.*/
-#define LL_I2C_MODE_SOFTEND                 ((uint32_t)0x00000000)  /*!<Enable Software end mode. */
+#define LL_I2C_MODE_RELOAD                  I2C_CR2_RELOAD           /*!<Enable Reload mode.       */
+#define LL_I2C_MODE_AUTOEND                 I2C_CR2_AUTOEND          /*!<Enable Automatic end mode.*/
+#define LL_I2C_MODE_SOFTEND                 ((uint32_t)0x00000000U)  /*!<Enable Software end mode. */
 /**
   * @}
   */
 
-/** @defgroup I2C_LL_EC_GENERATE GENERATE
+/** @defgroup I2C_LL_EC_GENERATE Start And Stop Generation
   * @{
   */
-#define LL_I2C_GENERATE_NOSTARTSTOP         ((uint32_t)0x00000000)                                       /*!<Don't Generate Stop and Start condition.                */
+#define LL_I2C_GENERATE_NOSTARTSTOP         ((uint32_t)0x00000000U)                                      /*!<Don't Generate Stop and Start condition.                */
 #define LL_I2C_GENERATE_STOP                I2C_CR2_STOP                                                 /*!<Generate Stop condition (Size should be set to 0).      */
 #define LL_I2C_GENERATE_START_READ          (uint32_t)(I2C_CR2_START | I2C_CR2_RD_WRN)                   /*!<Generate Start for read request.                        */
 #define LL_I2C_GENERATE_START_WRITE         I2C_CR2_START                                                /*!<Generate Start for write request.                       */
@@ -194,20 +268,20 @@ extern "C" {
   * @}
   */
 
-/** @defgroup I2C_LL_EC_DIRECTION DIRECTION
+/** @defgroup I2C_LL_EC_DIRECTION Read Write Direction
   * @{
   */
-#define LL_I2C_DIRECTION_WRITE              ((uint32_t)0x00000000)  /*!<Write transfer, slave enters receiver mode. */
-#define LL_I2C_DIRECTION_READ               I2C_ISR_DIR             /*!<Read transfer, slave enters transmitter mode.*/
+#define LL_I2C_DIRECTION_WRITE              ((uint32_t)0x00000000U)  /*!<Write transfer, slave enters receiver mode. */
+#define LL_I2C_DIRECTION_READ               I2C_ISR_DIR              /*!<Read transfer, slave enters transmitter mode.*/
 /**
   * @}
   */
 
-/** @defgroup I2C_LL_EC_DMA_REG_DATA DMA register data
+/** @defgroup I2C_LL_EC_DMA_REG_DATA DMA Register Data
   * @{
   */
-#define LL_I2C_DMA_REG_DATA_TRANSMIT        (uint32_t)0  /*!<Get address of data register used for transmission */
-#define LL_I2C_DMA_REG_DATA_RECEIVE         (uint32_t)1  /*!<Get address of data register used for reception */
+#define LL_I2C_DMA_REG_DATA_TRANSMIT        ((uint32_t)0x00000000U)  /*!<Get address of data register used for transmission */
+#define LL_I2C_DMA_REG_DATA_RECEIVE         ((uint32_t)0x00000001U)  /*!<Get address of data register used for reception */
 /**
   * @}
   */
@@ -258,11 +332,11 @@ extern "C" {
   * @retval Value between 0 and 0xFFFFFFFF
   */
 #define __LL_I2C_CONVERT_TIMINGS(__PRESCALER__, __DATA_SETUP_TIME__, __DATA_HOLD_TIME__, __CLOCK_HIGH_PERIOD__, __CLOCK_LOW_PERIOD__)   \
-        ((((uint32_t)(__PRESCALER__)         << (uint32_t)POSITION_VAL(I2C_TIMINGR_PRESC))  & I2C_TIMINGR_PRESC)   | \
-         (((uint32_t)(__DATA_SETUP_TIME__)   << (uint32_t)POSITION_VAL(I2C_TIMINGR_SCLDEL)) & I2C_TIMINGR_SCLDEL)  | \
-         (((uint32_t)(__DATA_HOLD_TIME__)    << (uint32_t)POSITION_VAL(I2C_TIMINGR_SDADEL)) & I2C_TIMINGR_SDADEL)  | \
-         (((uint32_t)(__CLOCK_HIGH_PERIOD__) << (uint32_t)POSITION_VAL(I2C_TIMINGR_SCLH))   & I2C_TIMINGR_SCLH)    | \
-         (((uint32_t)(__CLOCK_LOW_PERIOD__)  << (uint32_t)POSITION_VAL(I2C_TIMINGR_SCLL))   & I2C_TIMINGR_SCLL))
+        ((((uint32_t)(__PRESCALER__)         << I2C_POSITION_TIMINGR_PRESC)  & I2C_TIMINGR_PRESC)   | \
+         (((uint32_t)(__DATA_SETUP_TIME__)   << I2C_POSITION_TIMINGR_SCLDEL) & I2C_TIMINGR_SCLDEL)  | \
+         (((uint32_t)(__DATA_HOLD_TIME__)    << I2C_POSITION_TIMINGR_SDADEL) & I2C_TIMINGR_SDADEL)  | \
+         (((uint32_t)(__CLOCK_HIGH_PERIOD__) << I2C_POSITION_TIMINGR_SCLH)   & I2C_TIMINGR_SCLH)    | \
+         (((uint32_t)(__CLOCK_LOW_PERIOD__)  << I2C_POSITION_TIMINGR_SCLL)   & I2C_TIMINGR_SCLL))
 /**
   * @}
   */
@@ -317,28 +391,49 @@ __STATIC_INLINE uint32_t LL_I2C_IsEnabled(I2C_TypeDef* I2Cx)
 }
 
 /**
+  * @brief  Configure Noise Filters (Analog and Digital).
+  * @note   The filters can only be programmed when the I2C is disabled (PE = 0).
+  * @rmtoll CR1          DNF           LL_I2C_ConfigFilters
+  * @rmtoll CR1          ANFOFF        LL_I2C_ConfigFilters
+  * @param  I2Cx I2C Instance.
+  * @param  AnalogFilter This parameter can be one of the following values:
+  *         @arg @ref LL_I2C_ANALOGFILTER_ENABLE
+  *         @arg @ref LL_I2C_ANALOGFILTER_DISABLE
+  * @param  DigitalFilter This parameter must be a value between 0x00 (Digital filter disabled) and 0x0F (Digital filter enabled and filtering capability up to 15*ti2cclk).
+  *         This parameter is used to configure the digital noise filter on SDA and SCL input.
+  *         The digital filter will filter spikes with a length of up to DNF[3:0]*ti2cclk.
+  * @retval None
+  */
+__STATIC_INLINE void LL_I2C_ConfigFilters(I2C_TypeDef* I2Cx, uint32_t AnalogFilter, uint32_t DigitalFilter)
+{
+  MODIFY_REG(I2Cx->CR1, I2C_CR1_ANFOFF | I2C_CR1_DNF, AnalogFilter | (DigitalFilter << I2C_POSITION_CR1_DNF));
+}
+
+/**
   * @brief  Configure Digital Noise Filter.
   * @note   If the analog filter is also enabled, the digital filter is added to analog filter.
   *         This filter can only be programmed when the I2C is disabled (PE = 0).
   * @rmtoll CR1          DNF           LL_I2C_SetDigitalFilter
   * @param  I2Cx I2C Instance.
-  * @param  DigitalFilter This parameter must be a value between 0x00 (Digital filter disabled) and 0x0F (Digital filter enabled and filtering capability up to 15*ti2cclk). This parameter is used to configure the digital noise filter on SDA and SCL input. The digital filter will filter spikes with a length of up to DNF[3:0]*ti2cclk.
+  * @param  DigitalFilter This parameter must be a value between 0x00 (Digital filter disabled) and 0x0F (Digital filter enabled and filtering capability up to 15*ti2cclk).
+  *         This parameter is used to configure the digital noise filter on SDA and SCL input.
+  *         The digital filter will filter spikes with a length of up to DNF[3:0]*ti2cclk.
   * @retval None
   */
 __STATIC_INLINE void LL_I2C_SetDigitalFilter(I2C_TypeDef* I2Cx, uint32_t DigitalFilter)
 {
-  MODIFY_REG(I2Cx->CR1, I2C_CR1_DNF, DigitalFilter << POSITION_VAL(I2C_CR1_DNF));
+  MODIFY_REG(I2Cx->CR1, I2C_CR1_DNF, DigitalFilter << I2C_POSITION_CR1_DNF);
 }
 
 /**
   * @brief  Get the current Digital Noise Filter configuration.
   * @rmtoll CR1          DNF           LL_I2C_GetDigitalFilter
   * @param  I2Cx I2C Instance.
-  * @retval 0..0xF
+  * @retval Value between Min_Data=0x0 and Max_Data=0xF
   */
 __STATIC_INLINE uint32_t LL_I2C_GetDigitalFilter(I2C_TypeDef* I2Cx)
 {
-  return (uint32_t)(READ_BIT(I2Cx->CR1, I2C_CR1_DNF) >> POSITION_VAL(I2C_CR1_DNF));
+  return (uint32_t)(READ_BIT(I2Cx->CR1, I2C_CR1_DNF) >> I2C_POSITION_CR1_DNF);
 }
 
 /**
@@ -454,7 +549,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsEnabledDMAReq_RX(I2C_TypeDef* I2Cx)
   */
 __STATIC_INLINE uint32_t LL_I2C_DMA_GetRegAddr(I2C_TypeDef * I2Cx, uint32_t Direction)
 {
-  register uint32_t data_reg_addr = 0;
+  register uint32_t data_reg_addr = 0U;
 
   if (Direction == LL_I2C_DMA_REG_DATA_TRANSMIT)
   {
@@ -607,15 +702,15 @@ __STATIC_INLINE uint32_t LL_I2C_GetMasterAddressingMode(I2C_TypeDef* I2Cx)
   * @rmtoll OAR1         OA1           LL_I2C_SetOwnAddress1\n
   *         OAR1         OA1MODE       LL_I2C_SetOwnAddress1
   * @param  I2Cx I2C Instance.
-  * @param  OwnAddr This parameter must be a value between 0 and 0x7F.
+  * @param  OwnAddress1 This parameter must be a value between 0 and 0x3FF.
   * @param  OwnAddrSize This parameter can be one of the following values:
   *         @arg @ref LL_I2C_OWNADDRESS1_7BIT
   *         @arg @ref LL_I2C_OWNADDRESS1_10BIT
   * @retval None
   */
-__STATIC_INLINE void LL_I2C_SetOwnAddress1(I2C_TypeDef* I2Cx, uint32_t OwnAddr, uint32_t OwnAddrSize)
+__STATIC_INLINE void LL_I2C_SetOwnAddress1(I2C_TypeDef* I2Cx, uint32_t OwnAddress1, uint32_t OwnAddrSize)
 {
-  MODIFY_REG(I2Cx->OAR1, I2C_OAR1_OA1 | I2C_OAR1_OA1MODE, OwnAddr | OwnAddrSize);
+  MODIFY_REG(I2Cx->OAR1, I2C_OAR1_OA1 | I2C_OAR1_OA1MODE, OwnAddress1 | OwnAddrSize);
 }
 
 /**
@@ -657,7 +752,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsEnabledOwnAddress1(I2C_TypeDef* I2Cx)
   * @rmtoll OAR2         OA2           LL_I2C_SetOwnAddress2\n
   *         OAR2         OA2MSK        LL_I2C_SetOwnAddress2
   * @param  I2Cx I2C Instance.
-  * @param  OwnAddr Value between 0 and 0x7F.
+  * @param  OwnAddress2 Value between 0 and 0x7F.
   * @param  OwnAddrMask This parameter can be one of the following values:
   *         @arg @ref LL_I2C_OWNADDRESS2_NOMASK
   *         @arg @ref LL_I2C_OWNADDRESS2_MASK01
@@ -669,9 +764,9 @@ __STATIC_INLINE uint32_t LL_I2C_IsEnabledOwnAddress1(I2C_TypeDef* I2Cx)
   *         @arg @ref LL_I2C_OWNADDRESS2_MASK07
   * @retval None
   */
-__STATIC_INLINE void LL_I2C_SetOwnAddress2(I2C_TypeDef* I2Cx, uint32_t OwnAddr, uint32_t OwnAddrMask)
+__STATIC_INLINE void LL_I2C_SetOwnAddress2(I2C_TypeDef* I2Cx, uint32_t OwnAddress2, uint32_t OwnAddrMask)
 {
-  MODIFY_REG(I2Cx->OAR2, I2C_OAR2_OA2 | I2C_OAR2_OA2MSK, OwnAddr | OwnAddrMask);
+  MODIFY_REG(I2Cx->OAR2, I2C_OAR2_OA2 | I2C_OAR2_OA2MSK, OwnAddress2 | OwnAddrMask);
 }
 
 /**
@@ -712,68 +807,68 @@ __STATIC_INLINE uint32_t LL_I2C_IsEnabledOwnAddress2(I2C_TypeDef* I2Cx)
   * @note   This bit can only be programmed when the I2C is disabled (PE = 0).
   * @rmtoll TIMINGR      TIMINGR       LL_I2C_SetTiming
   * @param  I2Cx I2C Instance.
-  * @param  TimingValue This parameter must be a value between  0 and 0xFFFFFFFF.
+  * @param  Timing This parameter must be a value between  0 and 0xFFFFFFFF.
   * @note   This parameter is computed with the STM32CubeMX Tool.
   * @retval None
   */
-__STATIC_INLINE void LL_I2C_SetTiming(I2C_TypeDef* I2Cx, uint32_t TimingValue)
+__STATIC_INLINE void LL_I2C_SetTiming(I2C_TypeDef* I2Cx, uint32_t Timing)
 {
-  WRITE_REG(I2Cx->TIMINGR, TimingValue);
+  WRITE_REG(I2Cx->TIMINGR, Timing);
 }
 
 /**
   * @brief  Get the Timing Prescaler setting.
   * @rmtoll TIMINGR      PRESC         LL_I2C_GetTimingPrescaler
   * @param  I2Cx I2C Instance.
-  * @retval 0..0xF
+  * @retval Value between Min_Data=0x0 and Max_Data=0xF
   */
 __STATIC_INLINE uint32_t LL_I2C_GetTimingPrescaler(I2C_TypeDef* I2Cx)
 {
-  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_PRESC) >> POSITION_VAL(I2C_TIMINGR_PRESC));
+  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_PRESC) >> I2C_POSITION_TIMINGR_PRESC);
 }
 
 /**
   * @brief  Get the SCL low period setting.
   * @rmtoll TIMINGR      SCLL          LL_I2C_GetClockLowPeriod
   * @param  I2Cx I2C Instance.
-  * @retval 0..0xFF
+  * @retval Value between Min_Data=0x00 and Max_Data=0xFF
   */
 __STATIC_INLINE uint32_t LL_I2C_GetClockLowPeriod(I2C_TypeDef* I2Cx)
 {
-  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SCLL) >> POSITION_VAL(I2C_TIMINGR_SCLL));
+  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SCLL) >> I2C_POSITION_TIMINGR_SCLL);
 }
 
 /**
   * @brief  Get the SCL high period setting.
   * @rmtoll TIMINGR      SCLH          LL_I2C_GetClockHighPeriod
   * @param  I2Cx I2C Instance.
-  * @retval 0..0xFF
+  * @retval Value between Min_Data=0x00 and Max_Data=0xFF
   */
 __STATIC_INLINE uint32_t LL_I2C_GetClockHighPeriod(I2C_TypeDef* I2Cx)
 {
-  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SCLH) >> POSITION_VAL(I2C_TIMINGR_SCLH));
+  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SCLH) >> I2C_POSITION_TIMINGR_SCLH);
 }
 
 /**
   * @brief  Get the SDA hold time.
   * @rmtoll TIMINGR      SDADEL        LL_I2C_GetDataHoldTime
   * @param  I2Cx I2C Instance.
-  * @retval 0..0xF
+  * @retval Value between Min_Data=0x0 and Max_Data=0xF
   */
 __STATIC_INLINE uint32_t LL_I2C_GetDataHoldTime(I2C_TypeDef* I2Cx)
 {
-  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SDADEL) >> POSITION_VAL(I2C_TIMINGR_SDADEL));
+  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SDADEL) >> I2C_POSITION_TIMINGR_SDADEL);
 }
 
 /**
   * @brief  Get the SDA setup time.
   * @rmtoll TIMINGR      SCLDEL        LL_I2C_GetDataSetupTime
   * @param  I2Cx I2C Instance.
-  * @retval 0..0xF
+  * @retval Value between Min_Data=0x0 and Max_Data=0xF
   */
 __STATIC_INLINE uint32_t LL_I2C_GetDataSetupTime(I2C_TypeDef* I2Cx)
 {
-  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SCLDEL) >> POSITION_VAL(I2C_TIMINGR_SCLDEL));
+  return (uint32_t)(READ_BIT(I2Cx->TIMINGR, I2C_TIMINGR_SCLDEL) >> I2C_POSITION_TIMINGR_SCLDEL);
 }
 
 /**
@@ -1039,7 +1134,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsEnabledIT_ERR(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Transmit data register empty flag.
-  *         RESET: When next data is written in Transmit data register.
+  * @note   RESET: When next data is written in Transmit data register.
   *         SET: When Transmit data register is empty.
   * @rmtoll ISR          TXE           LL_I2C_IsActiveFlag_TXE
   * @param  I2Cx I2C Instance.
@@ -1052,7 +1147,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_TXE(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Transmit interrupt flag.
-  *         RESET: When next data is written in Transmit data register.
+  * @note   RESET: When next data is written in Transmit data register.
   *         SET: When Transmit data register is empty.
   * @rmtoll ISR          TXIS          LL_I2C_IsActiveFlag_TXIS
   * @param  I2Cx I2C Instance.
@@ -1065,7 +1160,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_TXIS(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Receive data register not empty flag.
-  *         RESET: When Receive data register is read.
+  * @note   RESET: When Receive data register is read.
   *         SET: When the received data is copied in Receive data register.
   * @rmtoll ISR          RXNE          LL_I2C_IsActiveFlag_RXNE
   * @param  I2Cx I2C Instance.
@@ -1078,7 +1173,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_RXNE(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Address matched flag (slave mode).
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When the received slave address matched with one of the enabled slave address.
   * @rmtoll ISR          ADDR          LL_I2C_IsActiveFlag_ADDR
   * @param  I2Cx I2C Instance.
@@ -1091,7 +1186,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_ADDR(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Not Acknowledge received flag.
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When a NACK is received after a byte transmission.
   * @rmtoll ISR          NACKF         LL_I2C_IsActiveFlag_NACK
   * @param  I2Cx I2C Instance.
@@ -1104,7 +1199,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_NACK(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Stop detection flag.
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When a Stop condition is detected.
   * @rmtoll ISR          STOPF         LL_I2C_IsActiveFlag_STOP
   * @param  I2Cx I2C Instance.
@@ -1117,7 +1212,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_STOP(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Transfer complete flag (master mode).
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When RELOAD=0, AUTOEND=0 and NBYTES date have been transferred.
   * @rmtoll ISR          TC            LL_I2C_IsActiveFlag_TC
   * @param  I2Cx I2C Instance.
@@ -1130,7 +1225,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_TC(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Transfer complete flag (master mode).
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When RELOAD=1 and NBYTES date have been transferred.
   * @rmtoll ISR          TCR           LL_I2C_IsActiveFlag_TCR
   * @param  I2Cx I2C Instance.
@@ -1143,7 +1238,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_TCR(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Bus error flag.
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When a misplaced Start or Stop condition is detected.
   * @rmtoll ISR          BERR          LL_I2C_IsActiveFlag_BERR
   * @param  I2Cx I2C Instance.
@@ -1156,7 +1251,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_BERR(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Arbitration lost flag.
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When arbitration lost.
   * @rmtoll ISR          ARLO          LL_I2C_IsActiveFlag_ARLO
   * @param  I2Cx I2C Instance.
@@ -1169,8 +1264,8 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_ARLO(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Overrun/Underrun flag (slave mode).
-  *         RESET: Clear default value.
-  *         SET: When an overrun/underrun error occures (Clock Stretching Disabled).
+  * @note   RESET: Clear default value.
+  *         SET: When an overrun/underrun error occurs (Clock Stretching Disabled).
   * @rmtoll ISR          OVR           LL_I2C_IsActiveFlag_OVR
   * @param  I2Cx I2C Instance.
   * @retval State of bit (1 or 0).
@@ -1182,7 +1277,7 @@ __STATIC_INLINE uint32_t LL_I2C_IsActiveFlag_OVR(I2C_TypeDef* I2Cx)
 
 /**
   * @brief  Indicate the status of Bus Busy flag.
-  *         RESET: Clear default value.
+  * @note   RESET: Clear default value.
   *         SET: When a Start condition is detected.
   * @rmtoll ISR          BUSY          LL_I2C_IsActiveFlag_BUSY
   * @param  I2Cx I2C Instance.
@@ -1235,7 +1330,7 @@ __STATIC_INLINE void LL_I2C_ClearFlag_STOP(I2C_TypeDef* I2Cx)
   */
 __STATIC_INLINE void LL_I2C_ClearFlag_TXE(I2C_TypeDef* I2Cx)
 {
-  I2Cx->ISR = I2C_ISR_TXE;
+  WRITE_REG(I2Cx->ISR, I2C_ISR_TXE);
 }
 
 /**
@@ -1310,7 +1405,8 @@ __STATIC_INLINE void LL_I2C_AcknowledgeNextData(I2C_TypeDef* I2Cx, uint32_t Type
   * @param  SlaveAddrSize This parameter can be one of the following values:
   *         @arg @ref LL_I2C_ADDRSLAVE_7BIT
   *         @arg @ref LL_I2C_ADDRSLAVE_10BIT
-  * @param  TransferSize Specifies the number of bytes to be programmed. This parameter must be a value between 0 and 255.
+  * @param  TransferSize Specifies the number of bytes to be programmed.
+  *         This parameter must be a value between 0 and 255.
   * @param  EndMode This parameter can be one of the following values:
   *         @arg @ref LL_I2C_MODE_RELOAD
   *         @arg @ref LL_I2C_MODE_AUTOEND
@@ -1329,12 +1425,12 @@ __STATIC_INLINE void LL_I2C_AcknowledgeNextData(I2C_TypeDef* I2Cx, uint32_t Type
 __STATIC_INLINE void LL_I2C_HandleTransfer(I2C_TypeDef* I2Cx, uint32_t SlaveAddr, uint32_t SlaveAddrSize, uint32_t TransferSize, uint32_t EndMode, uint32_t Request)
 {
   MODIFY_REG(I2Cx->CR2, I2C_CR2_SADD | I2C_CR2_ADD10 | I2C_CR2_RD_WRN | I2C_CR2_START | I2C_CR2_STOP | I2C_CR2_RELOAD | I2C_CR2_NBYTES | I2C_CR2_AUTOEND | I2C_CR2_HEAD10R, 
-                          SlaveAddr | SlaveAddrSize | TransferSize << POSITION_VAL(I2C_CR2_NBYTES) | EndMode | Request);
+                          SlaveAddr | SlaveAddrSize | TransferSize << I2C_POSITION_CR2_NBYTES | EndMode | Request);
 }
 
 /**
   * @brief  Indicate the value of transfer direction (slave mode).
-  *         RESET: Write transfer, Slave enters in receiver mode.
+  * @note   RESET: Write transfer, Slave enters in receiver mode.
   *         SET: Read transfer, Slave enters in transmitter mode.
   * @rmtoll ISR          DIR           LL_I2C_GetTransferDirection
   * @param  I2Cx I2C Instance.
@@ -1351,18 +1447,18 @@ __STATIC_INLINE uint32_t LL_I2C_GetTransferDirection(I2C_TypeDef* I2Cx)
   * @brief  Return the slave matched address.
   * @rmtoll ISR          ADDCODE       LL_I2C_GetAddressMatchCode
   * @param  I2Cx I2C Instance.
-  * @retval 0..0x3F
+  * Value between Min_Data=0x00 and Max_Data=0x3F
   */
 __STATIC_INLINE uint32_t LL_I2C_GetAddressMatchCode(I2C_TypeDef* I2Cx)
 {
-  return (uint32_t)(READ_BIT(I2Cx->ISR, I2C_ISR_ADDCODE) >> POSITION_VAL(I2C_ISR_ADDCODE) << 1);
+  return (uint32_t)(READ_BIT(I2Cx->ISR, I2C_ISR_ADDCODE) >> I2C_POSITION_ISR_ADDCODE << 1);
 }
 
 /**
   * @brief  Read Receive Data register.
   * @rmtoll RXDR         RXDATA        LL_I2C_ReceiveData8
   * @param  I2Cx I2C Instance.
-  * @retval 0..0xFF
+  * @retval Value between Min_Data=0x00 and Max_Data=0xFF
   */
 __STATIC_INLINE uint8_t LL_I2C_ReceiveData8(I2C_TypeDef* I2Cx)
 {
@@ -1373,7 +1469,7 @@ __STATIC_INLINE uint8_t LL_I2C_ReceiveData8(I2C_TypeDef* I2Cx)
   * @brief  Write in Transmit Data Register .
   * @rmtoll TXDR         TXDATA        LL_I2C_TransmitData8
   * @param  I2Cx I2C Instance.
-  * @param  Data 0..0xFF
+  * @param  Data Value between Min_Data=0x00 and Max_Data=0xFF
   * @retval None
   */
 __STATIC_INLINE void LL_I2C_TransmitData8(I2C_TypeDef* I2Cx, uint8_t Data)
@@ -1385,6 +1481,20 @@ __STATIC_INLINE void LL_I2C_TransmitData8(I2C_TypeDef* I2Cx, uint8_t Data)
   * @}
   */
 
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup I2C_LL_EF_Init Initialization and de-initialization functions
+  * @{
+  */
+  
+uint32_t LL_I2C_Init(I2C_TypeDef* I2Cx, LL_I2C_InitTypeDef* I2C_InitStruct);
+uint32_t LL_I2C_DeInit(I2C_TypeDef* I2Cx);
+void LL_I2C_StructInit(LL_I2C_InitTypeDef* I2C_InitStruct);
+
+
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
 
 /**
   * @}

@@ -1,124 +1,126 @@
-#include <stdlib.h>
+/* Includes ------------------------------------------------------------------*/
+#include "stm32l1xx_hal.h"
+#include <nucleo_hal_bsp.h>
 #include <string.h>
-#include <errno.h>
 
-typedef unsigned long uint32_t;
+/* Private variables ---------------------------------------------------------*/
+TIM_HandleTypeDef htim3, htim2;
 
-/* memory and peripheral start addresses */
-#define FLASH_BASE      0x08000000
-#define SRAM_BASE       0x20000000
-#define PERIPH_BASE     0x40000000
+void MX_TIM2_Init(void);
+void MX_TIM3_Init(void);
 
-/* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       80*1024     // STM32L152RE has 80 KB of RAM
-#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
+int main(void) {
+  HAL_Init();
 
-/* RCC peripheral addresses applicable to GPIOA */
-#define RCC_BASE        (PERIPH_BASE + 0x23800)
-#define RCC_AHBENR      ((uint32_t*)(RCC_BASE + 0x1C))
+  Nucleo_BSP_Init();
+  MX_TIM2_Init();
+  MX_TIM3_Init();
 
-/* GPIOA peripheral addresses */
-#define GPIOA_BASE      (PERIPH_BASE + 0x20000)
-#define GPIOA_MODER     ((uint32_t*)(GPIOA_BASE + 0x00))
-#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
+  HAL_TIM_Base_Start_IT(&htim3);
 
-/* User functions */
-void *_sbrk(int incr);
-void _start (void);
-int main(void);
-void delay(uint32_t count);
-
-/* Minimal vector table */
-uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)_start        // main as Reset_Handler
-};
-
-// Begin address for the initialisation values of the .data section.
-// defined in linker script
-extern uint32_t _sidata;
-// Begin address for the .data section; defined in linker script
-extern uint32_t _sdata;
-// End address for the .data section; defined in linker script
-extern uint32_t _edata;
-// Begin address for the .bss section; defined in linker script
-extern uint32_t _sbss;
-// End address for the .bss section; defined in linker script
-extern uint32_t _ebss;
-
-inline void
-__attribute__((always_inline))
-__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
-{
-  // Iterate and copy word by word.
-  // It is assumed that the pointers are word aligned.
-  uint32_t *p = region_begin;
-  while (p < region_end)
-    *p++ = *from++;
+  while (1);
 }
 
-inline void
-__attribute__((always_inline))
-__initialize_bss (uint32_t* region_begin, uint32_t* region_end)
-{
-  // Iterate and copy word by word.
-  // It is assumed that the pointers are word aligned.
-  uint32_t *p = region_begin;
-  while (p < region_end)
-    *p++ = 0;
+void MX_TIM2_Init(void) {
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_SlaveConfigTypeDef sSlaveConfig;
+
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 31999;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 249;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_Base_Init(&htim2);
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig);
+
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_TRIGGER;
+  sSlaveConfig.InputTrigger = TIM_TS_TI1FP1;
+  sSlaveConfig.TriggerPolarity = TIM_TRIGGERPOLARITY_RISING;
+  sSlaveConfig.TriggerFilter = 15;
+  HAL_TIM_SlaveConfigSynchronization(&htim2, &sSlaveConfig);
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_ENABLE;
+  HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig);
 }
 
-void __attribute__ ((noreturn,weak))
-_start (void)
-{
-	__initialize_data(&_sidata, &_sdata, &_edata);
-	__initialize_bss(&_sbss, &_ebss);
-	main();
+void MX_TIM3_Init(void) {
+  TIM_SlaveConfigTypeDef sSlaveConfig;
 
-	for(;;);
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 0;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 1;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  HAL_TIM_Base_Init(&htim3);
+
+  sSlaveConfig.SlaveMode = TIM_SLAVEMODE_EXTERNAL1;
+  sSlaveConfig.InputTrigger = TIM_TS_ITR1;
+  HAL_TIM_SlaveConfigSynchronization(&htim3, &sSlaveConfig);
+
+  HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM3_IRQn);
 }
 
-void *_sbrk(int incr) {
-    extern uint32_t _end_static; /* Defined by the linker */
-    extern uint32_t _Heap_Limit;
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
+  GPIO_InitTypeDef GPIO_InitStruct;
+  if(htim_base->Instance==TIM2) {
+    __TIM2_CLK_ENABLE();
 
-    static uint32_t *heap_end;
-    uint32_t *prev_heap_end;
+    /**TIM2 GPIO Configuration    
+    PA0     ------> TIM2_CH1 
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+  }
 
-    if (heap_end == 0) {
-      heap_end = &_end_static;
-    }
-    prev_heap_end = heap_end;
+  if(htim_base->Instance==TIM3)
+    __TIM3_CLK_ENABLE();
+}
 
-#ifdef __ARM_ARCH_6M__ //If we are on a Cortex-M0/0+ MCU
-    incr = (incr + 0x3) & (0xFFFFFFFC); /* This ensure that memory chunks are always multiple of 4 */
+void TIM3_IRQHandler(void) {
+  HAL_TIM_IRQHandler(&htim3);
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if(htim->Instance == TIM3)
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}
+
+
+#ifdef USE_FULL_ASSERT
+
+/**
+   * @brief Reports the name of the source file and the source line number
+   * where the assert_param error has occurred.
+   * @param file: pointer to the source file name
+   * @param line: assert_param error line source number
+   * @retval None
+   */
+void assert_failed(uint8_t* file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+
+}
+
 #endif
-    if (heap_end + incr > &_Heap_Limit) {
-      asm("BKPT");
-    }
 
-    heap_end += incr;
-    return (void*) prev_heap_end;
-}
+/**
+  * @}
+  */ 
 
-const char msg[] = "Hello World!";
+/**
+  * @}
+*/ 
 
-int main() {
-    /* enable clock on GPIOA peripheral */
-    *RCC_AHBENR = 0x1;
-    *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
-
-    char *heapMsg = (char*)malloc(sizeof(char)*strlen(msg));
-    strcpy(heapMsg, msg);
-
-    while(strcmp(heapMsg, msg) == 0) {
-      *GPIOA_ODR = 0x20;
-      delay(200000);
-      *GPIOA_ODR = 0x0;
-      delay(200000);
-   	}
-}
-
-void delay(uint32_t count) {
-    while(count--);
-}
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

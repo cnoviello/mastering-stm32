@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal_dac_ex.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   Extended DAC HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of DAC extension peripheral:
@@ -25,7 +25,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -274,6 +274,9 @@ HAL_StatusTypeDef HAL_DACEx_DualSetValue(DAC_HandleTypeDef* hdac, uint32_t Align
   */
 __weak void HAL_DACEx_ConvCpltCallbackCh2(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DACEx_ConvCpltCallbackCh2 could be implemented in the user file
    */
@@ -287,6 +290,9 @@ __weak void HAL_DACEx_ConvCpltCallbackCh2(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DACEx_ConvHalfCpltCallbackCh2(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DACEx_ConvHalfCpltCallbackCh2 could be implemented in the user file
    */
@@ -300,6 +306,9 @@ __weak void HAL_DACEx_ConvHalfCpltCallbackCh2(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DACEx_ErrorCallbackCh2(DAC_HandleTypeDef *hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DACEx_ErrorCallbackCh2 could be implemented in the user file
    */
@@ -313,6 +322,9 @@ __weak void HAL_DACEx_ErrorCallbackCh2(DAC_HandleTypeDef *hdac)
   */
 __weak void HAL_DACEx_DMAUnderrunCallbackCh2(DAC_HandleTypeDef *hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DAC_DMAUnderrunCallbackCh2 could be implemented in the user file
    */

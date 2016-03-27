@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_fmc.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of FMC HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -78,6 +78,7 @@
 #define IS_FMC_PAGESIZE(__SIZE__)              (((__SIZE__) == FMC_PAGE_SIZE_NONE) || \
                                                 ((__SIZE__) == FMC_PAGE_SIZE_128) || \
                                                 ((__SIZE__) == FMC_PAGE_SIZE_256) || \
+                                                ((__SIZE__) == FMC_PAGE_SIZE_512) || \
                                                 ((__SIZE__) == FMC_PAGE_SIZE_1024))
 
 #define IS_FMC_WRITE_BURST(__BURST__)          (((__BURST__) == FMC_WRITE_BURST_DISABLE) || \
@@ -85,10 +86,6 @@
 
 #define IS_FMC_CONTINOUS_CLOCK(__CCLOCK__)     (((__CCLOCK__) == FMC_CONTINUOUS_CLOCK_SYNC_ONLY) || \
                                                 ((__CCLOCK__) == FMC_CONTINUOUS_CLOCK_SYNC_ASYNC)) 
-
-#define IS_FMC_WRITE_FIFO(__FIFO__)            (((__FIFO__) == FMC_WRITE_FIFO_DISABLE) || \
-                                                ((__FIFO__) == FMC_WRITE_FIFO_ENABLE)) 
-
 
 #define IS_FMC_ACCESS_MODE(__MODE__)           (((__MODE__) == FMC_ACCESS_MODE_A) || \
                                                 ((__MODE__) == FMC_ACCESS_MODE_B) || \
@@ -331,7 +328,8 @@ typedef struct
   uint32_t WriteFifo;                    /*!< Enables or disables the write FIFO used by the FMC controller.
                                               This parameter is only enabled through the FMC_BCR1 register, and don't care 
                                               through FMC_BCR2..4 registers.
-                                              @note This parameter is not available for STM32L47x/L48x devices.         */
+                                              This parameter can be a value of @ref FMC_Write_FIFO.
+                                              @note This Parameter is not available for STM32L47x/L48x devices.         */
 
   uint32_t PageSize;                     /*!< Specifies the memory page size.
                                               This parameter can be a value of @ref FMC_Page_Size                        */
@@ -574,6 +572,7 @@ typedef struct
 #define FMC_PAGE_SIZE_NONE                      ((uint32_t)0x00000000)
 #define FMC_PAGE_SIZE_128                       ((uint32_t)FMC_BCRx_CPSIZE_0)
 #define FMC_PAGE_SIZE_256                       ((uint32_t)FMC_BCRx_CPSIZE_1)
+#define FMC_PAGE_SIZE_512                       ((uint32_t)(FMC_BCRx_CPSIZE_0 | FMC_BCRx_CPSIZE_1))
 #define FMC_PAGE_SIZE_1024                      ((uint32_t)FMC_BCRx_CPSIZE_2)
 /**
   * @}
@@ -593,15 +592,6 @@ typedef struct
   */
 #define FMC_CONTINUOUS_CLOCK_SYNC_ONLY          ((uint32_t)0x00000000)
 #define FMC_CONTINUOUS_CLOCK_SYNC_ASYNC         ((uint32_t)FMC_BCR1_CCLKEN)
-/**
-  * @}
-  */
-
-/** @defgroup FMC_Write_FIFO FMC Write FIFO
-  * @{
-  */
-#define FMC_WRITE_FIFO_DISABLE                  ((uint32_t)0x00000000)
-#define FMC_WRITE_FIFO_ENABLE                   ((uint32_t)FMC_BCR1_WFDIS)
 /**
   * @}
   */
@@ -895,7 +885,7 @@ HAL_StatusTypeDef  FMC_NAND_GetECC(FMC_NAND_TypeDef *Device, uint32_t *ECCval, u
 /**
   * @}
   */
-  
+
 #ifdef __cplusplus
 }
 #endif

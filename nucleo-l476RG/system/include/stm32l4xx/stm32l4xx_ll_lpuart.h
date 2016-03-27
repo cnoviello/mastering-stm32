@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_lpuart.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of LPUART LL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -69,17 +69,72 @@ extern "C" {
 #define LPUART_POSITION_CR1_DEAT      (uint32_t)POSITION_VAL(USART_CR1_DEAT)
 #define LPUART_POSITION_CR2_ADD       (uint32_t)POSITION_VAL(USART_CR2_ADD)
 
-/* Defines used in Baudrate related macros and corresponding register setting computation */
+/* Defines used in Baud Rate related macros and corresponding register setting computation */
 #define LPUART_LPUARTDIV_FREQ_MUL     (uint32_t)(256)
 #define LPUART_BRR_MASK               (uint32_t)(0x000FFFFF)
+#define LPUART_BRR_MIN_VALUE          (uint32_t)(0x00000300)
 /**
   * @}
   */
 
 
 /* Private macros ------------------------------------------------------------*/
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup LPUART_LL_Private_Macros LPUART Private Macros
+  * @{
+  */
+/**
+  * @}
+  */
+#endif /*USE_FULL_LL_DRIVER*/
 
 /* Exported types ------------------------------------------------------------*/
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup LPUART_LL_ES_INIT LPUART Exported Init structures
+  * @{
+  */
+
+/**
+  * @brief LL LPUART Init Structure definition
+  */
+typedef struct
+{
+  uint32_t BaudRate;                  /*!< This field defines expected LPUART communication baud rate.
+
+                                           This feature can be modified afterwards using unitary function @ref LL_LPUART_SetBaudRate().*/
+
+  uint32_t DataWidth;                 /*!< Specifies the number of data bits transmitted or received in a frame.
+                                           This parameter can be a value of @ref LPUART_LL_EC_DATAWIDTH.
+
+                                           This feature can be modified afterwards using unitary function @ref LL_LPUART_SetDataWidth().*/
+
+  uint32_t StopBits;                  /*!< Specifies the number of stop bits transmitted.
+                                           This parameter can be a value of @ref LPUART_LL_EC_STOPBITS.
+
+                                           This feature can be modified afterwards using unitary function @ref LL_LPUART_SetStopBitsLength().*/
+
+  uint32_t Parity;                    /*!< Specifies the parity mode.
+                                           This parameter can be a value of @ref LPUART_LL_EC_PARITY.
+
+                                           This feature can be modified afterwards using unitary function @ref LL_LPUART_SetParity().*/
+
+  uint32_t TransferDirection;         /*!< Specifies whether the Receive and/or Transmit mode is enabled or disabled.
+                                           This parameter can be a value of @ref LPUART_LL_EC_DIRECTION.
+
+                                           This feature can be modified afterwards using unitary function @ref LL_LPUART_SetTransferDirection().*/
+
+  uint32_t HardwareFlowControl;       /*!< Specifies whether the hardware flow control mode is enabled or disabled.
+                                           This parameter can be a value of @ref LPUART_LL_EC_HWCONTROL.
+
+                                           This feature can be modified afterwards using unitary function @ref LL_LPUART_SetHWFlowCtrl().*/
+
+} LL_LPUART_InitTypeDef;
+
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
+
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup LPUART_LL_Exported_Constants LPUART Exported Constants
   * @{
@@ -89,15 +144,15 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_LPUART_WriteReg function
   * @{
   */
-#define LL_LPUART_ICR_PECF                 USART_ICR_PECF
-#define LL_LPUART_ICR_FECF                 USART_ICR_FECF
-#define LL_LPUART_ICR_NCF                  USART_ICR_NCF
-#define LL_LPUART_ICR_ORECF                USART_ICR_ORECF
-#define LL_LPUART_ICR_IDLECF               USART_ICR_IDLECF
-#define LL_LPUART_ICR_TCCF                 USART_ICR_TCCF
-#define LL_LPUART_ICR_CTSCF                USART_ICR_CTSCF
-#define LL_LPUART_ICR_CMCF                 USART_ICR_CMCF
-#define LL_LPUART_ICR_WUCF                 USART_ICR_WUCF
+#define LL_LPUART_ICR_PECF                 USART_ICR_PECF                /*!< Parity error flag */
+#define LL_LPUART_ICR_FECF                 USART_ICR_FECF                /*!< Framing error flag */
+#define LL_LPUART_ICR_NCF                  USART_ICR_NCF                 /*!< Noise detected flag */
+#define LL_LPUART_ICR_ORECF                USART_ICR_ORECF               /*!< Overrun error flag */
+#define LL_LPUART_ICR_IDLECF               USART_ICR_IDLECF              /*!< Idle line detected flag */
+#define LL_LPUART_ICR_TCCF                 USART_ICR_TCCF                /*!< Transmission complete flag */
+#define LL_LPUART_ICR_CTSCF                USART_ICR_CTSCF               /*!< CTS flag */
+#define LL_LPUART_ICR_CMCF                 USART_ICR_CMCF                /*!< Character match flag */
+#define LL_LPUART_ICR_WUCF                 USART_ICR_WUCF                /*!< Wakeup from Stop mode flag */
 /**
   * @}
   */
@@ -106,23 +161,23 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_LPUART_ReadReg function
   * @{
   */
-#define LL_LPUART_ISR_PE                   USART_ISR_PE
-#define LL_LPUART_ISR_FE                   USART_ISR_FE
-#define LL_LPUART_ISR_NE                   USART_ISR_NE
-#define LL_LPUART_ISR_ORE                  USART_ISR_ORE
-#define LL_LPUART_ISR_IDLE                 USART_ISR_IDLE
-#define LL_LPUART_ISR_RXNE                 USART_ISR_RXNE
-#define LL_LPUART_ISR_TC                   USART_ISR_TC
-#define LL_LPUART_ISR_TXE                  USART_ISR_TXE
-#define LL_LPUART_ISR_CTSIF                USART_ISR_CTSIF
-#define LL_LPUART_ISR_CTS                  USART_ISR_CTS
-#define LL_LPUART_ISR_BUSY                 USART_ISR_BUSY
-#define LL_LPUART_ISR_CMF                  USART_ISR_CMF
-#define LL_LPUART_ISR_SBKF                 USART_ISR_SBKF
-#define LL_LPUART_ISR_RWU                  USART_ISR_RWU
-#define LL_LPUART_ISR_WUF                  USART_ISR_WUF
-#define LL_LPUART_ISR_TEACK                USART_ISR_TEACK
-#define LL_LPUART_ISR_REACK                USART_ISR_REACK
+#define LL_LPUART_ISR_PE                   USART_ISR_PE                  /*!< Parity error flag */
+#define LL_LPUART_ISR_FE                   USART_ISR_FE                  /*!< Framing error flag */
+#define LL_LPUART_ISR_NE                   USART_ISR_NE                  /*!< Noise detected flag */
+#define LL_LPUART_ISR_ORE                  USART_ISR_ORE                 /*!< Overrun error flag */
+#define LL_LPUART_ISR_IDLE                 USART_ISR_IDLE                /*!< Idle line detected flag */
+#define LL_LPUART_ISR_RXNE                 USART_ISR_RXNE                /*!< Read data register not empty flag */
+#define LL_LPUART_ISR_TC                   USART_ISR_TC                  /*!< Transmission complete flag */
+#define LL_LPUART_ISR_TXE                  USART_ISR_TXE                 /*!< Transmit data register empty flag */
+#define LL_LPUART_ISR_CTSIF                USART_ISR_CTSIF               /*!< CTS interrupt flag */
+#define LL_LPUART_ISR_CTS                  USART_ISR_CTS                 /*!< CTS flag */
+#define LL_LPUART_ISR_BUSY                 USART_ISR_BUSY                /*!< Busy flag */
+#define LL_LPUART_ISR_CMF                  USART_ISR_CMF                 /*!< Character match flag */
+#define LL_LPUART_ISR_SBKF                 USART_ISR_SBKF                /*!< Send break flag */
+#define LL_LPUART_ISR_RWU                  USART_ISR_RWU                 /*!< Receiver wakeup from Mute mode flag */
+#define LL_LPUART_ISR_WUF                  USART_ISR_WUF                 /*!< Wakeup from Stop mode flag */
+#define LL_LPUART_ISR_TEACK                USART_ISR_TEACK               /*!< Transmit enable acknowledge flag */
+#define LL_LPUART_ISR_REACK                USART_ISR_REACK               /*!< Receive enable acknowledge flag */
 /**
   * @}
   */
@@ -131,20 +186,20 @@ extern "C" {
   * @brief    IT defines which can be used with LL_LPUART_ReadReg and  LL_LPUART_WriteReg functions
   * @{
   */
-#define LL_LPUART_CR1_IDLEIE               USART_CR1_IDLEIE
-#define LL_LPUART_CR1_RXNEIE               USART_CR1_RXNEIE
-#define LL_LPUART_CR1_TCIE                 USART_CR1_TCIE
-#define LL_LPUART_CR1_TXEIE                USART_CR1_TXEIE
-#define LL_LPUART_CR1_PEIE                 USART_CR1_PEIE
-#define LL_LPUART_CR1_CMIE                 USART_CR1_CMIE
-#define LL_LPUART_CR3_EIE                  USART_CR3_EIE
-#define LL_LPUART_CR3_CTSIE                USART_CR3_CTSIE
-#define LL_LPUART_CR3_WUFIE                USART_CR3_WUFIE
+#define LL_LPUART_CR1_IDLEIE               USART_CR1_IDLEIE              /*!< IDLE interrupt enable */
+#define LL_LPUART_CR1_RXNEIE               USART_CR1_RXNEIE              /*!< Read data register not empty interrupt enable */
+#define LL_LPUART_CR1_TCIE                 USART_CR1_TCIE                /*!< Transmission complete interrupt enable */
+#define LL_LPUART_CR1_TXEIE                USART_CR1_TXEIE               /*!< Transmit data register empty interrupt enable */
+#define LL_LPUART_CR1_PEIE                 USART_CR1_PEIE                /*!< Parity error */
+#define LL_LPUART_CR1_CMIE                 USART_CR1_CMIE                /*!< Character match interrupt enable */
+#define LL_LPUART_CR3_EIE                  USART_CR3_EIE                 /*!< Error interrupt enable */
+#define LL_LPUART_CR3_CTSIE                USART_CR3_CTSIE               /*!< CTS interrupt enable */
+#define LL_LPUART_CR3_WUFIE                USART_CR3_WUFIE               /*!< Wakeup from Stop mode interrupt enable */
 /**
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_DIRECTION DIRECTION
+/** @defgroup LPUART_LL_EC_DIRECTION Direction
   * @{
   */
 #define LL_LPUART_DIRECTION_NONE           (uint32_t)0x00000000               /*!< Transmitter and Receiver are disabled */
@@ -155,7 +210,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_PARITY PARITY
+/** @defgroup LPUART_LL_EC_PARITY Parity Control
   * @{
   */
 #define LL_LPUART_PARITY_NONE              (uint32_t)0x00000000               /*!< Parity control disabled */
@@ -165,16 +220,16 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_WAKEUP WAKEUP
+/** @defgroup LPUART_LL_EC_WAKEUP Wakeup
   * @{
   */
-#define LL_LPUART_WAKEUP_IDLELINE          (uint32_t)0x00000000               /*!<  LPUART wakeup from Mute mode on Idle Line */
-#define LL_LPUART_WAKEUP_ADDRESSMARK       USART_CR1_WAKE                     /*!<  LPUART wakeup from Mute mode on Address Mark */
+#define LL_LPUART_WAKEUP_IDLELINE          (uint32_t)0x00000000               /*!<  LPUART wake up from Mute mode on Idle Line */
+#define LL_LPUART_WAKEUP_ADDRESSMARK       USART_CR1_WAKE                     /*!<  LPUART wake up from Mute mode on Address Mark */
 /**
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_DATAWIDTH DATAWIDTH
+/** @defgroup LPUART_LL_EC_DATAWIDTH Datawidth
   * @{
   */
 #define LL_LPUART_DATAWIDTH_7B             USART_CR1_M1                       /*!< 7 bits word length : Start bit, 7 data bits, n stop bits */
@@ -184,7 +239,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_STOPBITS STOPBITS
+/** @defgroup LPUART_LL_EC_STOPBITS Stop Bits
   * @{
   */
 #define LL_LPUART_STOPBITS_1               (uint32_t)0x00000000               /*!< 1 stop bit */
@@ -193,7 +248,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_TXRX TXRX
+/** @defgroup LPUART_LL_EC_TXRX TX RX Pins Swap
   * @{
   */
 #define LL_LPUART_TXRX_STANDARD            (uint32_t)0x00000000               /*!< TX/RX pins are used as defined in standard pinout */
@@ -202,7 +257,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_RXPIN_LEVEL RXPIN LEVEL
+/** @defgroup LPUART_LL_EC_RXPIN_LEVEL RX Pin Active Level Inversion
   * @{
   */
 #define LL_LPUART_RXPIN_LEVEL_STANDARD     (uint32_t)0x00000000               /*!< RX pin signal works using the standard logic levels */
@@ -211,7 +266,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_TXPIN_LEVEL TXPIN LEVEL
+/** @defgroup LPUART_LL_EC_TXPIN_LEVEL TX Pin Active Level Inversion
   * @{
   */
 #define LL_LPUART_TXPIN_LEVEL_STANDARD     (uint32_t)0x00000000               /*!< TX pin signal works using the standard logic levels */
@@ -220,7 +275,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_BINARY_LOGIC BINARY LOGIC
+/** @defgroup LPUART_LL_EC_BINARY_LOGIC Binary Data Inversion
   * @{
   */
 #define LL_LPUART_BINARY_LOGIC_POSITIVE    (uint32_t)0x00000000               /*!< Logical data from the data register are send/received in positive/direct logic. (1=H, 0=L) */
@@ -229,7 +284,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_BITORDER BITORDER
+/** @defgroup LPUART_LL_EC_BITORDER Bit Order
   * @{
   */
 #define LL_LPUART_BITORDER_LSBFIRST        (uint32_t)0x00000000               /*!< data is transmitted/received with data bit 0 first, following the start bit */
@@ -238,7 +293,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_ADDRESS_DETECT ADDRESS DETECT
+/** @defgroup LPUART_LL_EC_ADDRESS_DETECT Address Length Detection
   * @{
   */
 #define LL_LPUART_ADDRESS_DETECT_4B        (uint32_t)0x00000000               /*!< 4-bit address detection method selected */
@@ -247,7 +302,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_HWCONTROL HWCONTROL
+/** @defgroup LPUART_LL_EC_HWCONTROL Hardware Control
   * @{
   */
 #define LL_LPUART_HWCONTROL_NONE           (uint32_t)0x00000000               /*!< CTS and RTS hardware flow control disabled */
@@ -258,17 +313,17 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_WAKEUP_ON WAKEUP ON
+/** @defgroup LPUART_LL_EC_WAKEUP_ON Wakeup Activation
   * @{
   */
-#define LL_LPUART_WAKEUP_ON_ADDRESS        (uint32_t)0x00000000                    /*!< Wakeup active on address match */
-#define LL_LPUART_WAKEUP_ON_STARTBIT       USART_CR3_WUS_1                         /*!< Wakeup active on Start bit detection */
-#define LL_LPUART_WAKEUP_ON_RXNE           (USART_CR3_WUS_0 | USART_CR3_WUS_1)     /*!< Wakeup active on RXNE */
+#define LL_LPUART_WAKEUP_ON_ADDRESS        (uint32_t)0x00000000                    /*!< Wake up active on address match */
+#define LL_LPUART_WAKEUP_ON_STARTBIT       USART_CR3_WUS_1                         /*!< Wake up active on Start bit detection */
+#define LL_LPUART_WAKEUP_ON_RXNE           (USART_CR3_WUS_0 | USART_CR3_WUS_1)     /*!< Wake up active on RXNE */
 /**
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_DE_POLARITY DE POLARITY
+/** @defgroup LPUART_LL_EC_DE_POLARITY Driver Enable Polarity
   * @{
   */
 #define LL_LPUART_DE_POLARITY_HIGH         (uint32_t)0x00000000               /*!< DE signal is active high */
@@ -277,7 +332,7 @@ extern "C" {
   * @}
   */
 
-/** @defgroup LPUART_LL_EC_DMA_REG_DATA DMA register data
+/** @defgroup LPUART_LL_EC_DMA_REG_DATA DMA Register Data
   * @{
   */
 #define LL_LPUART_DMA_REG_DATA_TRANSMIT    (uint32_t)0                        /*!< Get address of data register used for transmission */
@@ -325,9 +380,9 @@ extern "C" {
 
 /**
   * @brief  Compute LPUARTDIV value according to Peripheral Clock and
-  *         expected Baudrate (20-bit value of LPUARTDIV is returned)
+  *         expected Baud Rate (20-bit value of LPUARTDIV is returned)
   * @param  __PERIPHCLK__ Peripheral Clock frequency used for LPUART Instance
-  * @param  __BAUDRATE__ Baudrate value to achieve
+  * @param  __BAUDRATE__ Baud Rate value to achieve
   * @retval LPUARTDIV value to be used for BRR register filling
   */
 #define __LL_LPUART_DIV(__PERIPHCLK__, __BAUDRATE__) ((((uint64_t)(__PERIPHCLK__)*LPUART_LPUARTDIV_FREQ_MUL)/(__BAUDRATE__)) & LPUART_BRR_MASK)
@@ -477,16 +532,16 @@ __STATIC_INLINE void LL_LPUART_DisableDirectionTx(USART_TypeDef *LPUARTx)
   * @rmtoll CR1          RE            LL_LPUART_SetTransferDirection\n
   *         CR1          TE            LL_LPUART_SetTransferDirection
   * @param  LPUARTx LPUART Instance
-  * @param  Direction This parameter can be one of the following values:
+  * @param  TransferDirection This parameter can be one of the following values:
   *         @arg @ref LL_LPUART_DIRECTION_NONE
   *         @arg @ref LL_LPUART_DIRECTION_RX
   *         @arg @ref LL_LPUART_DIRECTION_TX
   *         @arg @ref LL_LPUART_DIRECTION_TX_RX
   * @retval None
   */
-__STATIC_INLINE void LL_LPUART_SetTransferDirection(USART_TypeDef *LPUARTx, uint32_t Direction)
+__STATIC_INLINE void LL_LPUART_SetTransferDirection(USART_TypeDef *LPUARTx, uint32_t TransferDirection)
 {
-  MODIFY_REG(LPUARTx->CR1, USART_CR1_RE | USART_CR1_TE, Direction);
+  MODIFY_REG(LPUARTx->CR1, USART_CR1_RE | USART_CR1_TE, TransferDirection);
 }
 
 /**
@@ -513,15 +568,15 @@ __STATIC_INLINE uint32_t LL_LPUART_GetTransferDirection(USART_TypeDef *LPUARTx)
   * @rmtoll CR1          PS            LL_LPUART_SetParity\n
   *         CR1          PCE           LL_LPUART_SetParity
   * @param  LPUARTx LPUART Instance
-  * @param  ParityMode This parameter can be one of the following values:
+  * @param  Parity This parameter can be one of the following values:
   *         @arg @ref LL_LPUART_PARITY_NONE
   *         @arg @ref LL_LPUART_PARITY_EVEN
   *         @arg @ref LL_LPUART_PARITY_ODD
   * @retval None
   */
-__STATIC_INLINE void LL_LPUART_SetParity(USART_TypeDef *LPUARTx, uint32_t ParityMode)
+__STATIC_INLINE void LL_LPUART_SetParity(USART_TypeDef *LPUARTx, uint32_t Parity)
 {
-  MODIFY_REG(LPUARTx->CR1, USART_CR1_PS | USART_CR1_PCE, ParityMode);
+  MODIFY_REG(LPUARTx->CR1, USART_CR1_PS | USART_CR1_PCE, Parity);
 }
 
 /**
@@ -540,7 +595,7 @@ __STATIC_INLINE uint32_t LL_LPUART_GetParity(USART_TypeDef *LPUARTx)
 }
 
 /**
-  * @brief  Set Receiver Wakeup method from Mute mode.
+  * @brief  Set Receiver Wake Up method from Mute mode.
   * @rmtoll CR1          WAKE          LL_LPUART_SetWakeUpMethod
   * @param  LPUARTx LPUART Instance
   * @param  Method This parameter can be one of the following values:
@@ -554,7 +609,7 @@ __STATIC_INLINE void LL_LPUART_SetWakeUpMethod(USART_TypeDef *LPUARTx, uint32_t 
 }
 
 /**
-  * @brief  Return Receiver Wakeup method from Mute mode
+  * @brief  Return Receiver Wake Up method from Mute mode
   * @rmtoll CR1          WAKE          LL_LPUART_GetWakeUpMethod
   * @param  LPUARTx LPUART Instance
   * @retval Returned value can be one of the following values:
@@ -670,7 +725,7 @@ __STATIC_INLINE uint32_t LL_LPUART_GetStopBitsLength(USART_TypeDef *LPUARTx)
   *         @arg @ref LL_LPUART_DATAWIDTH_7B
   *         @arg @ref LL_LPUART_DATAWIDTH_8B
   *         @arg @ref LL_LPUART_DATAWIDTH_9B
-  * @param  ParityMode This parameter can be one of the following values:
+  * @param  Parity This parameter can be one of the following values:
   *         @arg @ref LL_LPUART_PARITY_NONE
   *         @arg @ref LL_LPUART_PARITY_EVEN
   *         @arg @ref LL_LPUART_PARITY_ODD
@@ -679,10 +734,10 @@ __STATIC_INLINE uint32_t LL_LPUART_GetStopBitsLength(USART_TypeDef *LPUARTx)
   *         @arg @ref LL_LPUART_STOPBITS_2
   * @retval None
   */
-__STATIC_INLINE void LL_LPUART_ConfigCharacter(USART_TypeDef *LPUARTx, uint32_t DataWidth, uint32_t ParityMode,
+__STATIC_INLINE void LL_LPUART_ConfigCharacter(USART_TypeDef *LPUARTx, uint32_t DataWidth, uint32_t Parity,
                                                uint32_t StopBits)
 {
-  MODIFY_REG(LPUARTx->CR1, USART_CR1_PS | USART_CR1_PCE | USART_CR1_M, ParityMode | DataWidth);
+  MODIFY_REG(LPUARTx->CR1, USART_CR1_PS | USART_CR1_PCE | USART_CR1_M, Parity | DataWidth);
   MODIFY_REG(LPUARTx->CR2, USART_CR2_STOP, StopBits);
 }
 
@@ -769,7 +824,7 @@ __STATIC_INLINE uint32_t LL_LPUART_GetTXPinLevel(USART_TypeDef *LPUARTx)
 
 /**
   * @brief  Configure Binary data logic.
-  * 
+  *
   * @note   Allow to define how Logical data from the data register are send/received :
   *         either in positive/direct logic (1=H, 0=L) or in negative/inverse logic (1=L, 0=H)
   * @rmtoll CR2          DATAINV       LL_LPUART_SetBinaryDataLogic
@@ -830,14 +885,13 @@ __STATIC_INLINE uint32_t LL_LPUART_GetTransferBitOrder(USART_TypeDef *LPUARTx)
 
 /**
   * @brief  Set Address of the LPUART node.
-  * 
   * @note   This is used in multiprocessor communication during Mute mode or Stop mode,
-  *         for wakeup with address mark detection.
+  *         for wake up with address mark detection.
   * @note   4bits address node is used when 4-bit Address Detection is selected in ADDM7.
   *         (b7-b4 should be set to 0)
   *         8bits address node is used when 7-bit Address Detection is selected in ADDM7.
   *         (This is used in multiprocessor communication during Mute mode or Stop mode,
-  *         for wakeup with 7-bit address mark detection.
+  *         for wake up with 7-bit address mark detection.
   *         The MSB of the character sent by the transmitter should be equal to 1.
   *         It may also be used for character detection during normal reception,
   *         Mute mode inactive (for example, end of block detection in ModBus protocol).
@@ -866,7 +920,7 @@ __STATIC_INLINE void LL_LPUART_ConfigNodeAddress(USART_TypeDef *LPUARTx, uint32_
   *         only 8bits (b7-b0) of returned value are relevant (b31-b8 are not relevant)
   * @rmtoll CR2          ADD           LL_LPUART_GetNodeAddress
   * @param  LPUARTx LPUART Instance
-  * @retval Address of the LPUART node (0..255)
+  * @retval Address of the LPUART node (Value between Min_Data=0 and Max_Data=255)
   */
 __STATIC_INLINE uint32_t LL_LPUART_GetNodeAddress(USART_TypeDef *LPUARTx)
 {
@@ -935,16 +989,16 @@ __STATIC_INLINE void LL_LPUART_DisableCTSHWFlowCtrl(USART_TypeDef *LPUARTx)
   * @rmtoll CR3          RTSE          LL_LPUART_SetHWFlowCtrl\n
   *         CR3          CTSE          LL_LPUART_SetHWFlowCtrl
   * @param  LPUARTx LPUART Instance
-  * @param  HWFlowCtrlMode This parameter can be one of the following values:
+  * @param  HardwareFlowControl This parameter can be one of the following values:
   *         @arg @ref LL_LPUART_HWCONTROL_NONE
   *         @arg @ref LL_LPUART_HWCONTROL_RTS
   *         @arg @ref LL_LPUART_HWCONTROL_CTS
   *         @arg @ref LL_LPUART_HWCONTROL_RTS_CTS
   * @retval None
   */
-__STATIC_INLINE void LL_LPUART_SetHWFlowCtrl(USART_TypeDef *LPUARTx, uint32_t HWFlowCtrlMode)
+__STATIC_INLINE void LL_LPUART_SetHWFlowCtrl(USART_TypeDef *LPUARTx, uint32_t HardwareFlowControl)
 {
-  MODIFY_REG(LPUARTx->CR3, USART_CR3_RTSE | USART_CR3_CTSE, HWFlowCtrlMode);
+  MODIFY_REG(LPUARTx->CR3, USART_CR3_RTSE | USART_CR3_CTSE, HardwareFlowControl);
 }
 
 /**
@@ -1026,17 +1080,19 @@ __STATIC_INLINE uint32_t LL_LPUART_GetWKUPType(USART_TypeDef *LPUARTx)
 }
 
 /**
-  * @brief  Configure LPUART BRR register for achieving expected Baudrate value.
-  * 
+  * @brief  Configure LPUART BRR register for achieving expected Baud Rate value.
+  *
   * @note   Compute and set LPUARTDIV value in BRR Register (full BRR content)
-  *         according to used Peripheral Clock and expected BaudRate values
+  *         according to used Peripheral Clock and expected Baud Rate values
+  * @note   Peripheral clock and Baud Rate values provided as function parameters should be valid
+  *         (Baud rate value != 0).
   * @note   Provided that LPUARTx_BRR must be > = 0x300 and LPUART_BRR is 20-bit,
-  *         a care should be taken when generating high baudrates using high PeriphClk
+  *         a care should be taken when generating high baud rates using high PeriphClk
   *         values. PeriphClk must be in the range [3 x BaudRate, 4096 x BaudRate].
   * @rmtoll BRR          BRR           LL_LPUART_SetBaudRate
   * @param  LPUARTx LPUART Instance
   * @param  PeriphClk Peripheral Clock
-  * @param  BaudRate Baudrate
+  * @param  BaudRate Baud Rate
   * @retval None
   */
 __STATIC_INLINE void LL_LPUART_SetBaudRate(USART_TypeDef *LPUARTx, uint32_t PeriphClk, uint32_t BaudRate)
@@ -1045,16 +1101,27 @@ __STATIC_INLINE void LL_LPUART_SetBaudRate(USART_TypeDef *LPUARTx, uint32_t Peri
 }
 
 /**
-  * @brief  Return current Baudrate value, according to LPUARTDIV present in BRR register
+  * @brief  Return current Baud Rate value, according to LPUARTDIV present in BRR register
   *         (full BRR content), and to used Peripheral Clock values
+  * @note   In case of non-initialized or invalid value stored in BRR register, value 0 will be returned.
   * @rmtoll BRR          BRR           LL_LPUART_GetBaudRate
   * @param  LPUARTx LPUART Instance
   * @param  PeriphClk Peripheral Clock
-  * @retval BaudRate
+  * @retval Baud Rate
   */
 __STATIC_INLINE uint32_t LL_LPUART_GetBaudRate(USART_TypeDef *LPUARTx, uint32_t PeriphClk)
 {
-  return (uint32_t)(((uint64_t)(PeriphClk) * LPUART_LPUARTDIV_FREQ_MUL) / LPUARTx->BRR);
+  register uint32_t lpuartdiv = 0x0;
+  register uint32_t brrresult = 0x0;
+
+  lpuartdiv = LPUARTx->BRR & LPUART_BRR_MASK;
+
+  if (lpuartdiv >= LPUART_BRR_MIN_VALUE)
+  {
+    brrresult = (uint32_t)(((uint64_t)(PeriphClk) * LPUART_LPUARTDIV_FREQ_MUL) / lpuartdiv);
+  }
+
+  return (brrresult);
 }
 
 /**
@@ -1107,10 +1174,10 @@ __STATIC_INLINE uint32_t LL_LPUART_IsEnabledHalfDuplex(USART_TypeDef *LPUARTx)
   */
 
 /**
-  * @brief  Set DEDT (Driver Enable Deassertion Time), Time value expressed on 5 bits ([4:0] bits).
+  * @brief  Set DEDT (Driver Enable De-Assertion Time), Time value expressed on 5 bits ([4:0] bits).
   * @rmtoll CR1          DEDT          LL_LPUART_SetDEDeassertionTime
   * @param  LPUARTx LPUART Instance
-  * @param  Time 0..31
+  * @param  Time Value between Min_Data=0 and Max_Data=31
   * @retval None
   */
 __STATIC_INLINE void LL_LPUART_SetDEDeassertionTime(USART_TypeDef *LPUARTx, uint32_t Time)
@@ -1119,10 +1186,10 @@ __STATIC_INLINE void LL_LPUART_SetDEDeassertionTime(USART_TypeDef *LPUARTx, uint
 }
 
 /**
-  * @brief  Return DEDT (Driver Enable Deassertion Time)
+  * @brief  Return DEDT (Driver Enable De-Assertion Time)
   * @rmtoll CR1          DEDT          LL_LPUART_GetDEDeassertionTime
   * @param  LPUARTx LPUART Instance
-  * @retval Time value expressed on 5 bits ([4:0] bits) : 0..31
+  * @retval Time value expressed on 5 bits ([4:0] bits) : c
   */
 __STATIC_INLINE uint32_t LL_LPUART_GetDEDeassertionTime(USART_TypeDef *LPUARTx)
 {
@@ -1133,7 +1200,7 @@ __STATIC_INLINE uint32_t LL_LPUART_GetDEDeassertionTime(USART_TypeDef *LPUARTx)
   * @brief  Set DEAT (Driver Enable Assertion Time), Time value expressed on 5 bits ([4:0] bits).
   * @rmtoll CR1          DEAT          LL_LPUART_SetDEAssertionTime
   * @param  LPUARTx LPUART Instance
-  * @param  Time 0..31
+  * @param  Time Value between Min_Data=0 and Max_Data=31
   * @retval None
   */
 __STATIC_INLINE void LL_LPUART_SetDEAssertionTime(USART_TypeDef *LPUARTx, uint32_t Time)
@@ -1145,7 +1212,7 @@ __STATIC_INLINE void LL_LPUART_SetDEAssertionTime(USART_TypeDef *LPUARTx, uint32
   * @brief  Return DEAT (Driver Enable Assertion Time)
   * @rmtoll CR1          DEAT          LL_LPUART_GetDEAssertionTime
   * @param  LPUARTx LPUART Instance
-  * @retval Time value expressed on 5 bits ([4:0] bits) : 0..31
+  * @retval Time value expressed on 5 bits ([4:0] bits) : Time Value between Min_Data=0 and Max_Data=31
   */
 __STATIC_INLINE uint32_t LL_LPUART_GetDEAssertionTime(USART_TypeDef *LPUARTx)
 {
@@ -1584,8 +1651,8 @@ __STATIC_INLINE void LL_LPUART_EnableIT_CM(USART_TypeDef *LPUARTx)
   * @brief  Enable Error Interrupt
   * @note   When set, Error Interrupt Enable Bit is enabling interrupt generation in case of a framing
   *         error, overrun error or noise flag (FE=1 or ORE=1 or NF=1 in the LPUARTx_ISR register).
-  *         0: Interrupt is inhibited
-  *         1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the LPUARTx_ISR register.
+  *         - 0: Interrupt is inhibited
+  *         - 1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the LPUARTx_ISR register.
   * @rmtoll CR3          EIE           LL_LPUART_EnableIT_ERROR
   * @param  LPUARTx LPUART Instance
   * @retval None
@@ -1607,7 +1674,7 @@ __STATIC_INLINE void LL_LPUART_EnableIT_CTS(USART_TypeDef *LPUARTx)
 }
 
 /**
-  * @brief  Enable WakeUp from Stop Mode Interrupt
+  * @brief  Enable Wake Up from Stop Mode Interrupt
   * @rmtoll CR3          WUFIE         LL_LPUART_EnableIT_WKUP
   * @param  LPUARTx LPUART Instance
   * @retval None
@@ -1687,8 +1754,8 @@ __STATIC_INLINE void LL_LPUART_DisableIT_CM(USART_TypeDef *LPUARTx)
   * @brief  Disable Error Interrupt
   * @note   When set, Error Interrupt Enable Bit is enabling interrupt generation in case of a framing
   *         error, overrun error or noise flag (FE=1 or ORE=1 or NF=1 in the LPUARTx_ISR register).
-  *         0: Interrupt is inhibited
-  *         1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the LPUARTx_ISR register.
+  *         - 0: Interrupt is inhibited
+  *         - 1: An interrupt is generated when FE=1 or ORE=1 or NF=1 in the LPUARTx_ISR register.
   * @rmtoll CR3          EIE           LL_LPUART_DisableIT_ERROR
   * @param  LPUARTx LPUART Instance
   * @retval None
@@ -1710,7 +1777,7 @@ __STATIC_INLINE void LL_LPUART_DisableIT_CTS(USART_TypeDef *LPUARTx)
 }
 
 /**
-  * @brief  Disable WakeUp from Stop Mode Interrupt
+  * @brief  Disable Wake Up from Stop Mode Interrupt
   * @rmtoll CR3          WUFIE         LL_LPUART_DisableIT_WKUP
   * @param  LPUARTx LPUART Instance
   * @retval None
@@ -1809,7 +1876,7 @@ __STATIC_INLINE uint32_t LL_LPUART_IsEnabledIT_CTS(USART_TypeDef *LPUARTx)
 }
 
 /**
-  * @brief  Check if the LPUART WakeUp from Stop Mode Interrupt is enabled or disabled.
+  * @brief  Check if the LPUART Wake Up from Stop Mode Interrupt is enabled or disabled.
   * @rmtoll CR3          WUFIE         LL_LPUART_IsEnabledIT_WKUP
   * @param  LPUARTx LPUART Instance
   * @retval State of bit (1 or 0).
@@ -1943,12 +2010,12 @@ __STATIC_INLINE uint32_t LL_LPUART_DMA_GetRegAddr(USART_TypeDef *LPUARTx, uint32
   if (Direction == LL_LPUART_DMA_REG_DATA_TRANSMIT)
   {
     /* return address of TDR register */
-    data_reg_addr = (uint32_t)&(LPUARTx->TDR);
+    data_reg_addr = (uint32_t) &(LPUARTx->TDR);
   }
   else
   {
     /* return address of RDR register */
-    data_reg_addr = (uint32_t)&(LPUARTx->RDR);
+    data_reg_addr = (uint32_t) &(LPUARTx->RDR);
   }
 
   return data_reg_addr;
@@ -1966,7 +2033,7 @@ __STATIC_INLINE uint32_t LL_LPUART_DMA_GetRegAddr(USART_TypeDef *LPUARTx, uint32
   * @brief  Read Receiver Data register (Receive Data value, 8 bits)
   * @rmtoll RDR          RDR           LL_LPUART_ReceiveData8
   * @param  LPUARTx LPUART Instance
-  * @retval 0..0xFF
+  * @retval Time Value between Min_Data=0x00 and Max_Data=0xFF
   */
 __STATIC_INLINE uint8_t LL_LPUART_ReceiveData8(USART_TypeDef *LPUARTx)
 {
@@ -1977,7 +2044,7 @@ __STATIC_INLINE uint8_t LL_LPUART_ReceiveData8(USART_TypeDef *LPUARTx)
   * @brief  Read Receiver Data register (Receive Data value, 9 bits)
   * @rmtoll RDR          RDR           LL_LPUART_ReceiveData9
   * @param  LPUARTx LPUART Instance
-  * @retval 0..0x1FF
+  * @retval Time Value between Min_Data=0x00 and Max_Data=0x1FF
   */
 __STATIC_INLINE uint16_t LL_LPUART_ReceiveData9(USART_TypeDef *LPUARTx)
 {
@@ -1988,7 +2055,7 @@ __STATIC_INLINE uint16_t LL_LPUART_ReceiveData9(USART_TypeDef *LPUARTx)
   * @brief  Write in Transmitter Data Register (Transmit Data value, 8 bits)
   * @rmtoll TDR          TDR           LL_LPUART_TransmitData8
   * @param  LPUARTx LPUART Instance
-  * @param  Value 0..0xFF
+  * @param  Value between Min_Data=0x00 and Max_Data=0xFF
   * @retval None
   */
 __STATIC_INLINE void LL_LPUART_TransmitData8(USART_TypeDef *LPUARTx, uint8_t Value)
@@ -2000,7 +2067,7 @@ __STATIC_INLINE void LL_LPUART_TransmitData8(USART_TypeDef *LPUARTx, uint8_t Val
   * @brief  Write in Transmitter Data Register (Transmit Data value, 9 bits)
   * @rmtoll TDR          TDR           LL_LPUART_TransmitData9
   * @param  LPUARTx LPUART Instance
-  * @param  Value 0..0x1FF
+  * @param  Value between Min_Data=0x00 and Max_Data=0x1FF
   * @retval None
   */
 __STATIC_INLINE void LL_LPUART_TransmitData9(USART_TypeDef *LPUARTx, uint16_t Value)
@@ -2053,6 +2120,17 @@ __STATIC_INLINE void LL_LPUART_RequestRxDataFlush(USART_TypeDef *LPUARTx)
   * @}
   */
 
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup LPUART_LL_EF_Init Initialization and de-initialization functions
+  * @{
+  */
+ErrorStatus LL_LPUART_DeInit(USART_TypeDef *LPUARTx);
+ErrorStatus LL_LPUART_Init(USART_TypeDef *LPUARTx, LL_LPUART_InitTypeDef *LPUART_InitStruct);
+void        LL_LPUART_StructInit(LL_LPUART_InitTypeDef *LPUART_InitStruct);
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
 
 /**
   * @}

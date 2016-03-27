@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_usart.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of USART HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -183,10 +183,11 @@ typedef struct
 
 /** @defgroup USART_Stop_Bits  USART Number of Stop Bits
   * @{
-  */                                                                                             
-#define USART_STOPBITS_1                    ((uint32_t)0x00000000)                            /*!< USART frame with 1 stop bit    */   
-#define USART_STOPBITS_1_5                  ((uint32_t)(USART_CR2_STOP_0 | USART_CR2_STOP_1)) /*!< USART frame with 1.5 stop bits */ 
-#define USART_STOPBITS_2                    ((uint32_t)USART_CR2_STOP_1)                      /*!< USART frame with 2 stop bits   */ 
+  */
+#define USART_STOPBITS_0_5                   USART_CR2_STOP_0                     /*!< USART frame with 0.5 stop bit  */
+#define USART_STOPBITS_1                   ((uint32_t)0x00000000)                 /*!< USART frame with 1 stop bit    */   
+#define USART_STOPBITS_1_5                  (USART_CR2_STOP_0 | USART_CR2_STOP_1) /*!< USART frame with 1.5 stop bits */ 
+#define USART_STOPBITS_2                     USART_CR2_STOP_1                     /*!< USART frame with 2 stop bits   */ 
 /**
   * @}
   */
@@ -321,7 +322,6 @@ typedef struct
 #define USART_CLEAR_OREF                      USART_ICR_ORECF           /*!< OverRun Error Clear Flag         */
 #define USART_CLEAR_IDLEF                     USART_ICR_IDLECF          /*!< IDLE line detected Clear Flag    */
 #define USART_CLEAR_TCF                       USART_ICR_TCCF            /*!< Transmission Complete Clear Flag */
-#define USART_CLEAR_CTSF                      USART_ICR_CTSCF           /*!< CTS Interrupt Clear Flag         */
 /**
   * @}
   */
@@ -353,18 +353,18 @@ typedef struct
   * @param  __HANDLE__: specifies the USART Handle
   * @param  __FLAG__: specifies the flag to check.
   *        This parameter can be one of the following values:
-  *            @arg USART_FLAG_REACK: Receive enable acknowledge flag
-  *            @arg USART_FLAG_TEACK: Transmit enable acknowledge flag
-  *            @arg USART_FLAG_BUSY:  Busy flag
-  *            @arg USART_FLAG_CTS:   CTS Change flag
-  *            @arg USART_FLAG_TXE:   Transmit data register empty flag
-  *            @arg USART_FLAG_TC:    Transmission Complete flag
-  *            @arg USART_FLAG_RXNE:  Receive data register not empty flag
-  *            @arg USART_FLAG_IDLE:  Idle Line detection flag
-  *            @arg USART_FLAG_ORE:   OverRun Error flag
-  *            @arg USART_FLAG_NE:    Noise Error flag
-  *            @arg USART_FLAG_FE:    Framing Error flag
-  *            @arg USART_FLAG_PE:    Parity Error flag
+  *            @arg @ref USART_FLAG_REACK Receive enable acknowledge flag
+  *            @arg @ref USART_FLAG_TEACK Transmit enable acknowledge flag
+  *            @arg @ref USART_FLAG_BUSY  Busy flag
+  *            @arg @ref USART_FLAG_CTS   CTS Change flag
+  *            @arg @ref USART_FLAG_TXE   Transmit data register empty flag
+  *            @arg @ref USART_FLAG_TC    Transmission Complete flag
+  *            @arg @ref USART_FLAG_RXNE  Receive data register not empty flag
+  *            @arg @ref USART_FLAG_IDLE  Idle Line detection flag
+  *            @arg @ref USART_FLAG_ORE   OverRun Error flag
+  *            @arg @ref USART_FLAG_NE    Noise Error flag
+  *            @arg @ref USART_FLAG_FE    Framing Error flag
+  *            @arg @ref USART_FLAG_PE    Parity Error flag
   * @retval The new state of __FLAG__ (TRUE or FALSE).
   */
 #define __HAL_USART_GET_FLAG(__HANDLE__, __FLAG__) (((__HANDLE__)->Instance->ISR & (__FLAG__)) == (__FLAG__))
@@ -373,18 +373,12 @@ typedef struct
   * @param  __HANDLE__: specifies the USART Handle.
   * @param  __FLAG__: specifies the flag to check.
   *          This parameter can be any combination of the following values:
-  *            @arg USART_CLEAR_PEF
-  *            @arg USART_CLEAR_FEF
-  *            @arg USART_CLEAR_NEF
-  *            @arg USART_CLEAR_OREF
-  *            @arg USART_CLEAR_IDLEF
-  *            @arg USART_CLEAR_TCF
-  *            @arg USART_CLEAR_LBDF
-  *            @arg USART_CLEAR_CTSF
-  *            @arg USART_CLEAR_RTOF
-  *            @arg USART_CLEAR_EOBF
-  *            @arg USART_CLEAR_CMF
-  *            @arg USART_CLEAR_WUF
+  *            @arg @ref USART_CLEAR_PEF
+  *            @arg @ref USART_CLEAR_FEF
+  *            @arg @ref USART_CLEAR_NEF
+  *            @arg @ref USART_CLEAR_OREF
+  *            @arg @ref USART_CLEAR_IDLEF
+  *            @arg @ref USART_CLEAR_TCF
   * @retval None
   */
 #define __HAL_USART_CLEAR_FLAG(__HANDLE__, __FLAG__) ((__HANDLE__)->Instance->ICR = (__FLAG__))
@@ -423,12 +417,12 @@ typedef struct
   * @param  __HANDLE__: specifies the USART Handle.
   * @param  __INTERRUPT__: specifies the USART interrupt source to enable.
   *          This parameter can be one of the following values:
-  *            @arg USART_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg USART_IT_TC:   Transmission complete interrupt
-  *            @arg USART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg USART_IT_IDLE: Idle line detection interrupt
-  *            @arg USART_IT_PE:   Parity Error interrupt
-  *            @arg USART_IT_ERR:  Error interrupt(Frame error, noise error, overrun error)
+  *            @arg @ref USART_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref USART_IT_TC   Transmission complete interrupt
+  *            @arg @ref USART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref USART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref USART_IT_PE   Parity Error interrupt
+  *            @arg @ref USART_IT_ERR  Error interrupt(Frame error, noise error, overrun error)
   * @retval None
   */
 #define __HAL_USART_ENABLE_IT(__HANDLE__, __INTERRUPT__)   (((((uint8_t)(__INTERRUPT__)) >> 5U) == 1)? ((__HANDLE__)->Instance->CR1 |= (1U << ((__INTERRUPT__) & USART_IT_MASK))): \
@@ -439,12 +433,12 @@ typedef struct
   * @param  __HANDLE__: specifies the USART Handle.
   * @param  __INTERRUPT__: specifies the USART interrupt source to disable.
   *          This parameter can be one of the following values:
-  *            @arg USART_IT_TXE:  Transmit Data Register empty interrupt
-  *            @arg USART_IT_TC:   Transmission complete interrupt
-  *            @arg USART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg USART_IT_IDLE: Idle line detection interrupt
-  *            @arg USART_IT_PE:   Parity Error interrupt
-  *            @arg USART_IT_ERR:  Error interrupt(Frame error, noise error, overrun error)
+  *            @arg @ref USART_IT_TXE  Transmit Data Register empty interrupt
+  *            @arg @ref USART_IT_TC   Transmission complete interrupt
+  *            @arg @ref USART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref USART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref USART_IT_PE   Parity Error interrupt
+  *            @arg @ref USART_IT_ERR  Error interrupt(Frame error, noise error, overrun error)
   * @retval None
   */
 #define __HAL_USART_DISABLE_IT(__HANDLE__, __INTERRUPT__)  (((((uint8_t)(__INTERRUPT__)) >> 5U) == 1)? ((__HANDLE__)->Instance->CR1 &= ~ (1U << ((__INTERRUPT__) & USART_IT_MASK))): \
@@ -456,14 +450,14 @@ typedef struct
   * @param  __HANDLE__: specifies the USART Handle.
   * @param  __IT__: specifies the USART interrupt source to check.
   *          This parameter can be one of the following values:
-  *            @arg USART_IT_TXE: Transmit Data Register empty interrupt
-  *            @arg USART_IT_TC:  Transmission complete interrupt
-  *            @arg USART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg USART_IT_IDLE: Idle line detection interrupt
-  *            @arg USART_IT_ORE: OverRun Error interrupt
-  *            @arg USART_IT_NE: Noise Error interrupt
-  *            @arg USART_IT_FE: Framing Error interrupt
-  *            @arg USART_IT_PE: Parity Error interrupt
+  *            @arg @ref USART_IT_TXE Transmit Data Register empty interrupt
+  *            @arg @ref USART_IT_TC  Transmission complete interrupt
+  *            @arg @ref USART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref USART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref USART_IT_ORE OverRun Error interrupt
+  *            @arg @ref USART_IT_NE Noise Error interrupt
+  *            @arg @ref USART_IT_FE Framing Error interrupt
+  *            @arg @ref USART_IT_PE Parity Error interrupt
   * @retval The new state of __IT__ (TRUE or FALSE).
   */
 #define __HAL_USART_GET_IT(__HANDLE__, __IT__) ((__HANDLE__)->Instance->ISR & ((uint32_t)1 << ((__IT__)>> 0x08)))
@@ -472,14 +466,14 @@ typedef struct
   * @param  __HANDLE__: specifies the USART Handle.
   * @param  __IT__: specifies the USART interrupt source to check.
   *          This parameter can be one of the following values:
-  *            @arg USART_IT_TXE: Transmit Data Register empty interrupt
-  *            @arg USART_IT_TC:  Transmission complete interrupt
-  *            @arg USART_IT_RXNE: Receive Data register not empty interrupt
-  *            @arg USART_IT_IDLE: Idle line detection interrupt
-  *            @arg USART_IT_ORE: OverRun Error interrupt
-  *            @arg USART_IT_NE: Noise Error interrupt
-  *            @arg USART_IT_FE: Framing Error interrupt
-  *            @arg USART_IT_PE: Parity Error interrupt
+  *            @arg @ref USART_IT_TXE Transmit Data Register empty interrupt
+  *            @arg @ref USART_IT_TC  Transmission complete interrupt
+  *            @arg @ref USART_IT_RXNE Receive Data register not empty interrupt
+  *            @arg @ref USART_IT_IDLE Idle line detection interrupt
+  *            @arg @ref USART_IT_ORE OverRun Error interrupt
+  *            @arg @ref USART_IT_NE Noise Error interrupt
+  *            @arg @ref USART_IT_FE Framing Error interrupt
+  *            @arg @ref USART_IT_PE Parity Error interrupt
   * @retval The new state of __IT__ (TRUE or FALSE).
   */
 #define __HAL_USART_GET_IT_SOURCE(__HANDLE__, __IT__) ((((((uint8_t)(__IT__)) >> 5) == 1)? (__HANDLE__)->Instance->CR1:(((((uint8_t)(__IT__)) >> 5) == 2)? \
@@ -492,13 +486,12 @@ typedef struct
   * @param  __IT_CLEAR__: specifies the interrupt clear register flag that needs to be set
   *                       to clear the corresponding interrupt.
   *          This parameter can be one of the following values:
-  *            @arg USART_CLEAR_PEF: Parity Error Clear Flag
-  *            @arg USART_CLEAR_FEF: Framing Error Clear Flag
-  *            @arg USART_CLEAR_NEF: Noise detected Clear Flag
-  *            @arg USART_CLEAR_OREF: OverRun Error Clear Flag
-  *            @arg USART_CLEAR_IDLEF: IDLE line detected Clear Flag
-  *            @arg USART_CLEAR_TCF: Transmission Complete Clear Flag
-  *            @arg USART_CLEAR_CTSF: CTS Interrupt Clear Flag
+  *            @arg @ref USART_CLEAR_PEF Parity Error Clear Flag
+  *            @arg @ref USART_CLEAR_FEF Framing Error Clear Flag
+  *            @arg @ref USART_CLEAR_NEF Noise detected Clear Flag
+  *            @arg @ref USART_CLEAR_OREF OverRun Error Clear Flag
+  *            @arg @ref USART_CLEAR_IDLEF IDLE line detected Clear Flag
+  *            @arg @ref USART_CLEAR_TCF Transmission Complete Clear Flag
   * @retval None
   */
 #define __HAL_USART_CLEAR_IT(__HANDLE__, __IT_CLEAR__) ((__HANDLE__)->Instance->ICR = (uint32_t)(__IT_CLEAR__))
@@ -507,8 +500,8 @@ typedef struct
   * @param  __HANDLE__: specifies the USART Handle.
   * @param  __REQ__: specifies the request flag to set.
   *          This parameter can be one of the following values:
-  *            @arg USART_RXDATA_FLUSH_REQUEST: Receive Data flush Request
-  *            @arg USART_TXDATA_FLUSH_REQUEST: Transmit data flush Request
+  *            @arg @ref USART_RXDATA_FLUSH_REQUEST Receive Data flush Request
+  *            @arg @ref USART_TXDATA_FLUSH_REQUEST Transmit data flush Request
   *
   * @retval None
   */
@@ -632,7 +625,8 @@ typedef struct
   * @param __STOPBITS__: USART frame number of stop bits. 
   * @retval SET (__STOPBITS__ is valid) or RESET (__STOPBITS__ is invalid)
   */
-#define IS_USART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == USART_STOPBITS_1) || \
+#define IS_USART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == USART_STOPBITS_0_5) || \
+                                         ((__STOPBITS__) == USART_STOPBITS_1)   || \
                                          ((__STOPBITS__) == USART_STOPBITS_1_5) || \
                                          ((__STOPBITS__) == USART_STOPBITS_2))
 

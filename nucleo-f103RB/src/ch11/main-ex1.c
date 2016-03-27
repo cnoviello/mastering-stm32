@@ -1,46 +1,67 @@
-typedef unsigned long uint32_t;
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f1xx_hal.h"
+#include <nucleo_hal_bsp.h>
+#include <string.h>
 
-/* memory and peripheral start addresses */
-#define FLASH_BASE      0x08000000
-#define SRAM_BASE       0x20000000
-#define PERIPH_BASE     0x40000000
+/* Private variables ---------------------------------------------------------*/
+TIM_HandleTypeDef htim1;
 
-/* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       20*1024     // STM32F103RB has 20 KB of RAM
-#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
+int main(void) {
+  HAL_Init();
 
-/* RCC peripheral addresses applicable to GPIOA */
-#define RCC_BASE        (PERIPH_BASE + 0x21000)
-#define RCC_APB2ENR      ((uint32_t*)(RCC_BASE + (0x18)))
+  Nucleo_BSP_Init();
 
-/* GPIOA peripheral addresses */
-#define GPIOA_BASE      (PERIPH_BASE + 0x10800)
-#define GPIOA_CRL       ((uint32_t*)(GPIOA_BASE + 0x00))
-#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0xC))
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = 31999; //64MHz/32000 = 2000Hz
+  htim1.Init.Period = 999;      //2000HZ / 1000 = 2Hz = 0.5s
 
-/* User functions */
-int main(void);
-void delay(uint32_t count);
+  __TIM1_CLK_ENABLE();
 
-/* Minimal vector table */
-uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)main        // main as Reset_Handler
-};
+  HAL_NVIC_SetPriority(TIM1_UP_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM1_UP_IRQn);
 
-int main() {
-    /* enable clock on GPIOA peripheral */
-    *RCC_APB2ENR |= 0x1 | (0x1 << 2);
-    *GPIOA_CRL = 0x44244444; // Sets MODER[27:26] = 0x1
+  HAL_TIM_Base_Init(&htim1);
+  HAL_TIM_Base_Start_IT(&htim1);
 
-    while(1) {
-    	*GPIOA_ODR = 0x20;
-      delay(100000);
-    	*GPIOA_ODR = 0x0;
-      delay(100000);
-    }
+  while (1);
 }
 
-void delay(uint32_t count) {
-    while(count--);
+void TIM1_UP_IRQHandler(void) {
+  HAL_TIM_IRQHandler(&htim1);
 }
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if(htim->Instance == TIM1)
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}
+
+
+#ifdef USE_FULL_ASSERT
+
+/**
+   * @brief Reports the name of the source file and the source line number
+   * where the assert_param error has occurred.
+   * @param file: pointer to the source file name
+   * @param line: assert_param error line source number
+   * @retval None
+   */
+void assert_failed(uint8_t* file, uint32_t line)
+{
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+
+}
+
+#endif
+
+/**
+  * @}
+  */ 
+
+/**
+  * @}
+*/ 
+
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

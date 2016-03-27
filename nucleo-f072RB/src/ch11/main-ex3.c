@@ -1,94 +1,101 @@
-typedef unsigned long uint32_t;
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f0xx_hal.h"
+#include <nucleo_hal_bsp.h>
+#include <string.h>
 
-/* memory and peripheral start addresses */
-#define FLASH_BASE      0x08000000
-#define SRAM_BASE       0x20000000
-#define PERIPH_BASE     0x40000000
+/* Private variables ---------------------------------------------------------*/
+TIM_HandleTypeDef htim3;
 
-/* Work out end of RAM address as initial stack pointer */
-#define SRAM_SIZE       16*1024     // STM32F072RB has 16 KB of RAM
-#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
+void MX_TIM3_Init(void);
 
-/* RCC peripheral addresses applicable to GPIOA */
-#define RCC_BASE        (PERIPH_BASE + 0x21000)
-#define RCC_AHBENR      ((uint32_t*)(RCC_BASE + (0x14)))
+int main(void) {
+  HAL_Init();
 
-/* GPIOA peripheral addresses */
-#define GPIOA_BASE      (PERIPH_BASE + 0x8000000)
-#define GPIOA_MODER     ((uint32_t*)(GPIOA_BASE + 0x00))
-#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
+  Nucleo_BSP_Init();
+  MX_TIM3_Init();
 
-/* User functions */
-void _start (void);
-int main(void);
-void delay(uint32_t count);
+  HAL_TIM_Base_Start_IT(&htim3);
 
-/* Minimal vector table */
-uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *)SRAM_END,   // initial stack pointer
-    (uint32_t *)_start        // main as Reset_Handler
-};
+  while (1);
+}
 
-// Begin address for the initialisation values of the .data section.
-// defined in linker script
-extern uint32_t _sidata;
-// Begin address for the .data section; defined in linker script
-extern uint32_t _sdata;
-// End address for the .data section; defined in linker script
-extern uint32_t _edata;
-// Begin address for the .bss section; defined in linker script
-extern uint32_t _sbss;
-// End address for the .bss section; defined in linker script
-extern uint32_t _ebss;
+/* TIM3 init function */
+void MX_TIM3_Init(void) {
+  TIM_ClockConfigTypeDef sClockSourceConfig;
 
-inline void
-__attribute__((always_inline))
-__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 0;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 16383;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.RepetitionCounter = 0;
+  HAL_TIM_Base_Init(&htim3);
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_ETRMODE2;
+  sClockSourceConfig.ClockPolarity = TIM_CLOCKPOLARITY_NONINVERTED;
+  sClockSourceConfig.ClockPrescaler = TIM_CLOCKPRESCALER_DIV1;
+  sClockSourceConfig.ClockFilter = 0;
+  HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig);
+
+  HAL_NVIC_SetPriority(TIM3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM3_IRQn);
+}
+
+void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* htim_base) {
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+  if(htim_base->Instance==TIM3)  {
+    /* Peripheral clock enable */
+    __TIM3_CLK_ENABLE();
+    __GPIOD_CLK_ENABLE();
+
+    /**TIM3 GPIO Configuration
+    PD2     ------> TIM3_ETR
+    */
+    GPIO_InitStruct.Pin = GPIO_PIN_2;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF0_TIM3;
+    HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+ }
+}
+
+void TIM3_IRQHandler(void) {
+  HAL_TIM_IRQHandler(&htim3);
+}
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
+  if(htim->Instance == TIM3)
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}
+
+#ifdef USE_FULL_ASSERT
+
+/**
+   * @brief Reports the name of the source file and the source line number
+   * where the assert_param error has occurred.
+   * @param file: pointer to the source file name
+   * @param line: assert_param error line source number
+   * @retval None
+   */
+void assert_failed(uint8_t* file, uint32_t line)
 {
-  // Iterate and copy word by word.
-  // It is assumed that the pointers are word aligned.
-  uint32_t *p = region_begin;
-  while (p < region_end)
-    *p++ = *from++;
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
+
 }
 
-inline void
-__attribute__((always_inline))
-__initialize_bss (uint32_t* region_begin, uint32_t* region_end)
-{
-  // Iterate and copy word by word.
-  // It is assumed that the pointers are word aligned.
-  uint32_t *p = region_begin;
-  while (p < region_end)
-    *p++ = 0;
-}
+#endif
 
-void __attribute__ ((noreturn,weak))
-_start (void)
-{
-	__initialize_data(&_sidata, &_sdata, &_edata);
-	__initialize_bss(&_sbss, &_ebss);
-	main();
+/**
+  * @}
+  */ 
 
-	for(;;);
-}
+/**
+  * @}
+*/ 
 
-volatile uint32_t dataVar = 0x3f;
-volatile uint32_t bssVar;
-
-int main() {
-  /* enable clock on GPIOA peripheral */
-  *RCC_AHBENR |= 0x1 << 17;
-  *GPIOA_MODER |= 0x400; // Sets MODER[27:26] = 0x1
-
-  while(bssVar == 0) {
-    *GPIOA_ODR = 0x20;
-    delay(1000000);
-    *GPIOA_ODR = 0x0;
-    delay(1000000);
-  }
-}
-
-void delay(unsigned long count) {
-    while(count--);
-}
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

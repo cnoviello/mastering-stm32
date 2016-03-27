@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_ll_usb.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   USB Low Layer HAL module driver.
   *
   *          This file provides firmware functions to manage the following 
@@ -28,7 +28,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -205,12 +205,7 @@ HAL_StatusTypeDef USB_DevInit (USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef c
   
   /*Activate VBUS Sensing B */
   USBx->GCCFG |= USB_OTG_GCCFG_VBUSBSEN;
-  
-  if (cfg.vbus_sensing_enable == 0)
-  {
-    USBx->GCCFG |= USB_OTG_GCCFG_NOVBUSSENS;
-  }
-  
+
   /* Restart the Phy Clock */
   USBx_PCGCCTL = 0;
   
@@ -939,7 +934,6 @@ HAL_StatusTypeDef USB_HostInit (USB_OTG_GlobalTypeDef *USBx, USB_OTG_CfgTypeDef 
   /* no VBUS sensing*/
   USBx->GCCFG &=~ (USB_OTG_GCCFG_VBUSASEN);
   USBx->GCCFG &=~ (USB_OTG_GCCFG_VBUSBSEN);
-  USBx->GCCFG |= USB_OTG_GCCFG_NOVBUSSENS;
   
   /* Disable the FS/LS support mode only */
   if((cfg.speed == USB_OTG_SPEED_FULL)&&

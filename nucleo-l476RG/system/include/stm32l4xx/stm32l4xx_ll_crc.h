@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_crc.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of CRC LL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -50,7 +50,7 @@ extern "C" {
   * @{
   */
 
-#if defined (CRC)
+#if defined(CRC)
 
 /** @defgroup CRC_LL CRC
   * @{
@@ -67,43 +67,43 @@ extern "C" {
   * @{
   */
 
-/** @defgroup CRC_LL_EC_POLYLENGTH POLYLENGTH
+/** @defgroup CRC_LL_EC_POLYLENGTH Polynomial lenght
   * @{
   */
-#define LL_CRC_POLYLENGTH_32B          (uint32_t)0x00000000                     /*!< 32 bits Polynomial size */
-#define LL_CRC_POLYLENGTH_16B          CRC_CR_POLYSIZE_0                        /*!< 16 bits Polynomial size */
-#define LL_CRC_POLYLENGTH_8B           CRC_CR_POLYSIZE_1                        /*!< 8 bits Polynomial size */
-#define LL_CRC_POLYLENGTH_7B           (CRC_CR_POLYSIZE_1 | CRC_CR_POLYSIZE_0)  /*!< 7 bits Polynomial size */
+#define LL_CRC_POLYLENGTH_32B              (uint32_t)0x00000000                     /*!< 32 bits Polynomial size */
+#define LL_CRC_POLYLENGTH_16B              CRC_CR_POLYSIZE_0                        /*!< 16 bits Polynomial size */
+#define LL_CRC_POLYLENGTH_8B               CRC_CR_POLYSIZE_1                        /*!< 8 bits Polynomial size */
+#define LL_CRC_POLYLENGTH_7B               (CRC_CR_POLYSIZE_1 | CRC_CR_POLYSIZE_0)  /*!< 7 bits Polynomial size */
 /**
   * @}
   */
 
-/** @defgroup CRC_LL_EC_INDATA_REVERSE INDATA REVERSE
+/** @defgroup CRC_LL_EC_INDATA_REVERSE Input Data Reverse
   * @{
   */
-#define LL_CRC_INDATA_REVERSE_NONE     (uint32_t)0x00000000                     /*!< Input Data bit order not affected */
-#define LL_CRC_INDATA_REVERSE_BYTE     CRC_CR_REV_IN_0                          /*!< Input Data bit reversal done by byte */
-#define LL_CRC_INDATA_REVERSE_HALFWORD CRC_CR_REV_IN_1                          /*!< Input Data bit reversal done by half-word */
-#define LL_CRC_INDATA_REVERSE_WORD     (CRC_CR_REV_IN_1 | CRC_CR_REV_IN_0)      /*!< Input Data bit reversal done by word */
+#define LL_CRC_INDATA_REVERSE_NONE         (uint32_t)0x00000000                     /*!< Input Data bit order not affected */
+#define LL_CRC_INDATA_REVERSE_BYTE         CRC_CR_REV_IN_0                          /*!< Input Data bit reversal done by byte */
+#define LL_CRC_INDATA_REVERSE_HALFWORD     CRC_CR_REV_IN_1                          /*!< Input Data bit reversal done by half-word */
+#define LL_CRC_INDATA_REVERSE_WORD         (CRC_CR_REV_IN_1 | CRC_CR_REV_IN_0)      /*!< Input Data bit reversal done by word */
 /**
   * @}
   */
 
-/** @defgroup CRC_LL_EC_OUTDATA_REVERSE OUTDATA REVERSE
+/** @defgroup CRC_LL_EC_OUTDATA_REVERSE Output Data Reverse
   * @{
   */
-#define LL_CRC_OUTDATA_REVERSE_NONE    (uint32_t)0x00000000                      /*!< Output Data bit order not affected */
-#define LL_CRC_OUTDATA_REVERSE_BIT     CRC_CR_REV_OUT                            /*!< Output Data bit reversal done by bit */
+#define LL_CRC_OUTDATA_REVERSE_NONE        (uint32_t)0x00000000                      /*!< Output Data bit order not affected */
+#define LL_CRC_OUTDATA_REVERSE_BIT         CRC_CR_REV_OUT                            /*!< Output Data bit reversal done by bit */
 /**
   * @}
   */
 
 /** @defgroup CRC_LL_EC_Default_Polynomial_Value    Default CRC generating polynomial value
-  * @brief    Normal representation of this polynomial value is 
+  * @brief    Normal representation of this polynomial value is
   *           X^32 + X^26 + X^23 + X^22 + X^16 + X^12 + X^11 + X^10 +X^8 + X^7 + X^5 + X^4 + X^2 + X + 1 .
   * @{
   */
-#define LL_CRC_DEFAULT_CRC32_POLY      0x04C11DB7                                /*!< Default CRC generating polynomial value */
+#define LL_CRC_DEFAULT_CRC32_POLY          (uint32_t)0x04C11DB7U                     /*!< Default CRC generating polynomial value */
 /**
   * @}
   */
@@ -111,7 +111,7 @@ extern "C" {
 /** @defgroup CRC_LL_EC_Default_InitValue    Default CRC computation initialization value
   * @{
   */
-#define LL_CRC_DEFAULT_CRC_INITVALUE   0xFFFFFFFF                                /*!< Default CRC computation initialization value */
+#define LL_CRC_DEFAULT_CRC_INITVALUE       (uint32_t)0xFFFFFFFFU                     /*!< Default CRC computation initialization value */
 /**
   * @}
   */
@@ -128,6 +128,7 @@ extern "C" {
 /** @defgroup CRC_LL_EM_WRITE_READ Common Write and read registers Macros
   * @{
   */
+
 /**
   * @brief  Write a value in CRC register
   * @param  __INSTANCE__ CRC Instance
@@ -152,6 +153,7 @@ extern "C" {
   * @}
   */
 
+
 /* Exported functions --------------------------------------------------------*/
 /** @defgroup CRC_LL_Exported_Functions CRC Exported Functions
   * @{
@@ -163,7 +165,7 @@ extern "C" {
 
 /**
   * @brief  Reset the CRC calculation unit.
-  * 
+  *
   * @note   If Programmable Initial CRC value feature
   *         is available, also set the Data Register to the value stored in the
   *         CRC_INIT register, otherwise, reset Data Register to its default value.
@@ -267,7 +269,6 @@ __STATIC_INLINE uint32_t LL_CRC_GetOutputDataReverseMode(CRC_TypeDef *CRCx)
 
 /**
   * @brief  Initialize the Programmable initial CRC value.
-  * 
   * @note   If the CRC size is less than 32 bits, the least significant bits
   *         are used to write the correct value
   * @note   LL_CRC_DEFAULT_CRC_INITVALUE could be used as value for InitCrc parameter.
@@ -283,7 +284,6 @@ __STATIC_INLINE void LL_CRC_SetInitialData(CRC_TypeDef *CRCx, uint32_t InitCrc)
 
 /**
   * @brief  Return current Initial CRC value.
-  * 
   * @note   If the CRC size is less than 32 bits, the least significant bits
   *         are used to read the correct value
   * @rmtoll INIT         INIT          LL_CRC_GetInitialData
@@ -298,7 +298,6 @@ __STATIC_INLINE uint32_t LL_CRC_GetInitialData(CRC_TypeDef *CRCx)
 /**
   * @brief  Initialize the Programmable polynomial value
   *         (coefficients of the polynomial to be used for CRC calculation).
-  * 
   * @note   LL_CRC_DEFAULT_CRC32_POLY could be used as value for PolynomCoef parameter.
   * @note   Please check Reference Manual and existing Errata Sheets,
   *         regarding possible limitations for Polynomial values usage.
@@ -339,7 +338,7 @@ __STATIC_INLINE uint32_t LL_CRC_GetPolynomialCoef(CRC_TypeDef *CRCx)
   * @brief  Write given 32-bit data to the CRC calculator
   * @rmtoll DR           DR            LL_CRC_FeedData32
   * @param  CRCx CRC Instance
-  * @param  InData 0 .. 0xFFFFFFFF : Value to be provided to CRC calculator.
+  * @param  InData value to be provided to CRC calculator between between Min_Data=0 and Max_Data=0xFFFFFFFF
   * @retval None
   */
 __STATIC_INLINE void LL_CRC_FeedData32(CRC_TypeDef *CRCx, uint32_t InData)
@@ -351,7 +350,7 @@ __STATIC_INLINE void LL_CRC_FeedData32(CRC_TypeDef *CRCx, uint32_t InData)
   * @brief  Write given 16-bit data to the CRC calculator
   * @rmtoll DR           DR            LL_CRC_FeedData16
   * @param  CRCx CRC Instance
-  * @param  InData 0 .. 0xFFFF : 16 bit value to be provided to CRC calculator.
+  * @param  InData 16 bit value to be provided to CRC calculator between between Min_Data=0 and Max_Data=0xFFFF
   * @retval None
   */
 __STATIC_INLINE void LL_CRC_FeedData16(CRC_TypeDef *CRCx, uint16_t InData)
@@ -363,7 +362,7 @@ __STATIC_INLINE void LL_CRC_FeedData16(CRC_TypeDef *CRCx, uint16_t InData)
   * @brief  Write given 8-bit data to the CRC calculator
   * @rmtoll DR           DR            LL_CRC_FeedData8
   * @param  CRCx CRC Instance
-  * @param  InData 0 .. 0xFF : 8 bit value to be provided to CRC calculator.
+  * @param  InData 8 bit value to be provided to CRC calculator between between Min_Data=0 and Max_Data=0xFF
   * @retval None
   */
 __STATIC_INLINE void LL_CRC_FeedData8(CRC_TypeDef *CRCx, uint8_t InData)
@@ -392,7 +391,6 @@ __STATIC_INLINE uint32_t LL_CRC_ReadData32(CRC_TypeDef *CRCx)
 __STATIC_INLINE uint16_t LL_CRC_ReadData16(CRC_TypeDef *CRCx)
 {
   return (uint16_t)READ_REG(CRCx->DR);
-
 }
 
 /**
@@ -421,7 +419,6 @@ __STATIC_INLINE uint8_t LL_CRC_ReadData7(CRC_TypeDef *CRCx)
 
 /**
   * @brief  Return data stored in the Independent Data(IDR) register.
-  * 
   * @note   This register can be used as a temporary storage location for one byte.
   * @rmtoll IDR          IDR           LL_CRC_Read_IDR
   * @param  CRCx CRC Instance
@@ -434,11 +431,10 @@ __STATIC_INLINE uint32_t LL_CRC_Read_IDR(CRC_TypeDef *CRCx)
 
 /**
   * @brief  Store data in the Independent Data(IDR) register.
-  * 
   * @note   This register can be used as a temporary storage location for one byte.
   * @rmtoll IDR          IDR           LL_CRC_Write_IDR
   * @param  CRCx CRC Instance
-  * @param  InData 0 .. 0xFF : Value to be stored in CRC_IDR register (General-purpose 8-bit data register).
+  * @param  InData value to be stored in CRC_IDR register (8-bit) between between Min_Data=0 and Max_Data=0xFF
   * @retval None
   */
 __STATIC_INLINE void LL_CRC_Write_IDR(CRC_TypeDef *CRCx, uint32_t InData)
@@ -450,6 +446,17 @@ __STATIC_INLINE void LL_CRC_Write_IDR(CRC_TypeDef *CRCx, uint32_t InData)
   * @}
   */
 
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup CRC_LL_EF_Init Initialization and de-initialization functions
+  * @{
+  */
+
+ErrorStatus LL_CRC_DeInit(CRC_TypeDef *CRCx);
+
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
 
 /**
   * @}
@@ -459,7 +466,7 @@ __STATIC_INLINE void LL_CRC_Write_IDR(CRC_TypeDef *CRCx, uint32_t InData)
   * @}
   */
 
-#endif /* CRC */
+#endif /* defined(CRC) */
 
 /**
   * @}

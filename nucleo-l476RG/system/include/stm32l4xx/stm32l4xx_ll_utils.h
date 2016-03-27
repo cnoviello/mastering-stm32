@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_utils.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of UTILS LL module.
   @verbatim
   ==============================================================================
@@ -14,12 +14,13 @@
     used by user:
       (+) Device electronic signature
       (+) Timing functions
+      (+) PLL configuration functions
 
   @endverbatim
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -74,42 +75,112 @@ extern "C" {
   */
 
 /* Max delay can be used in LL_mDelay */
-#define LL_MAX_DELAY                  (uint32_t)0xFFFFFFFF
+#define LL_MAX_DELAY                  (uint32_t)0xFFFFFFFFU
 
 /**
  * @brief Unique device ID register base address
  */
-#define UID_BASE_ADDRESS              (uint32_t)0x1FFF7590
+#define UID_BASE_ADDRESS              UID_BASE
 
 /**
  * @brief Flash size data register base address
  */
-#define FLASHSIZE_BASE_ADDRESS        (uint32_t)0x1FFF75E0
+#define FLASHSIZE_BASE_ADDRESS        FLASHSIZE_BASE
 
 /**
  * @brief Package data register base address
  */
-#define PACKAGESIZE_BASE_ADDRESS      (uint32_t)0x1FFF7500
+#define PACKAGE_BASE_ADDRESS          PACKAGE_BASE
 
 /**
   * @}
   */
 
 /* Private macros ------------------------------------------------------------*/
-
+/** @defgroup UTILS_LL_Private_Macros UTILS Private Macros
+  * @{
+  */
+/**
+  * @}
+  */
 /* Exported types ------------------------------------------------------------*/
+/** @defgroup UTILS_LL_ES_INIT UTILS Exported structures
+  * @{
+  */
+/**
+  * @brief  UTILS PLL structure definition
+  */
+typedef struct
+{
+  uint32_t PLLM;   /*!< Division factor for PLL VCO input clock.
+                        This parameter can be a value of @ref RCC_LL_EC_PLLM_DIV
+
+                        This feature can be modified afterwards using unitary function
+                        @ref LL_RCC_PLL_ConfigDomain_SYS(). */
+
+  uint32_t PLLN;   /*!< Multiplication factor for PLL VCO output clock.
+                        This parameter must be a number between Min_Data = 0x00 and Max_Data = 0x7F
+
+                        This feature can be modified afterwards using unitary function
+                        @ref LL_RCC_PLL_ConfigDomain_SYS(). */
+
+  uint32_t PLLR;   /*!< Division for the main system clock.
+                        This parameter must be a number between Min_Data = 0x00 and Max_Data = 0x7FFF
+
+                        This feature can be modified afterwards using unitary function
+                        @ref LL_RCC_PLL_ConfigDomain_SYS(). */
+} LL_UTILS_PLLInitTypeDef;
+
+/**
+  * @brief  UTILS System, AHB and APB buses clock configuration structure definition
+  */
+typedef struct
+{
+  uint32_t AHBCLKDivider;         /*!< The AHB clock (HCLK) divider. This clock is derived from the system clock (SYSCLK).
+                                       This parameter can be a value of @ref RCC_LL_EC_SYSCLK_DIV
+
+                                       This feature can be modified afterwards using unitary function
+                                       @ref LL_RCC_SetAHBPrescaler(). */
+
+  uint32_t APB1CLKDivider;        /*!< The APB1 clock (PCLK1) divider. This clock is derived from the AHB clock (HCLK).
+                                       This parameter can be a value of @ref RCC_LL_EC_APB1_DIV
+
+                                       This feature can be modified afterwards using unitary function
+                                       @ref LL_RCC_SetAPB1Prescaler(). */
+
+  uint32_t APB2CLKDivider;        /*!< The APB2 clock (PCLK2) divider. This clock is derived from the AHB clock (HCLK).
+                                       This parameter can be a value of @ref RCC_LL_EC_APB2_DIV
+
+                                       This feature can be modified afterwards using unitary function
+                                       @ref LL_RCC_SetAPB2Prescaler(). */
+
+} LL_UTILS_ClkInitTypeDef;
+
+/**
+  * @}
+  */
+
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup UTILS_LL_Exported_Constants UTILS Exported Constants
   * @{
   */
 
+/** @defgroup UTILS_EC_HSE_BYPASS HSE Bypass activation
+  * @{
+  */
+#define LL_UTILS_HSEBYPASS_OFF        (uint32_t)0x00000000U       /*!< HSE Bypass is not enabled                */
+#define LL_UTILS_HSEBYPASS_ON         (uint32_t)0x00000001U       /*!< HSE Bypass is enabled                    */
+/**
+  * @}
+  */
+
 /** @defgroup UTILS_EC_PACKAGETYPE PACKAGE TYPE
   * @{
   */
-#define LL_UTILS_PACKAGETYPE_LQFP64         (uint32_t)0x00000000   /*!< LQFP64 package type                      */
-#define LL_UTILS_PACKAGETYPE_LQPF100        (uint32_t)0x00000002   /*!< LQFP100 package type                     */
-#define LL_UTILS_PACKAGETYPE_BGA132         (uint32_t)0x00000003   /*!< BGA132 package type                      */
-#define LL_UTILS_PACKAGETYPE_LQFP144_CSP72  (uint32_t)0x00000004   /*!< LQFP144, WLCSP81 or WLCSP72 package type */
+#define LL_UTILS_PACKAGETYPE_LQFP64         (uint32_t)0x00000000U /*!< LQFP64 package type                      */
+#define LL_UTILS_PACKAGETYPE_LQPF100        (uint32_t)0x00000002U /*!< LQFP100 package type                     */
+#define LL_UTILS_PACKAGETYPE_BGA132         (uint32_t)0x00000003U /*!< BGA132 package type                      */
+#define LL_UTILS_PACKAGETYPE_LQFP144_CSP72  (uint32_t)0x00000004U /*!< LQFP144, WLCSP81 or WLCSP72 package type */
 /**
   * @}
   */
@@ -144,16 +215,16 @@ __STATIC_INLINE uint32_t LL_GetUID_Word0(void)
   */
 __STATIC_INLINE uint32_t LL_GetUID_Word1(void)
 {
-  return (uint32_t)(READ_REG(*((uint32_t *)(UID_BASE_ADDRESS + 4))));
+  return (uint32_t)(READ_REG(*((uint32_t *)(UID_BASE_ADDRESS + 4U))));
 }
 
 /**
   * @brief  Get Word2 of the unique device identifier (UID based on 96 bits)
-  * @retval UID[95:64]: Lot number (ASCII encoded) - LOT_NUM[31:24]
+  * @retval UID[95:64]: Lot number (ASCII encoded) - LOT_NUM[55:24]
   */
 __STATIC_INLINE uint32_t LL_GetUID_Word2(void)
 {
-  return (uint32_t)(READ_REG(*((uint32_t *)(UID_BASE_ADDRESS + 8))));
+  return (uint32_t)(READ_REG(*((uint32_t *)(UID_BASE_ADDRESS + 8U))));
 }
 
 /**
@@ -177,59 +248,36 @@ __STATIC_INLINE uint32_t LL_GetFlashSize(void)
   */
 __STATIC_INLINE uint32_t LL_GetPackageType(void)
 {
-  return (uint8_t)(READ_REG(*((uint32_t *)PACKAGESIZE_BASE_ADDRESS)) & (uint32_t)0x1F);
+  return (uint8_t)(READ_REG(*((uint32_t *)PACKAGE_BASE_ADDRESS)) & (uint32_t)0x1FU);
 }
 
 /**
   * @}
   */
 
-/** @defgroup UTILS_EF_DELAY DELAY
+/** @defgroup UTILS_LL_EF_DELAY DELAY
   * @{
   */
 
 /**
-  * @brief  This function provides accurate delay (in milliseconds) based
-  *         on SysTick counter flag
-  * @note   To respect 1ms timebase, user should call LL_InitTick function which
-  *         will configure Systick to 1ms
-  * @param  Delay specifies the delay time length, in milliseconds.
-  * @retval None
-  */
-__STATIC_INLINE void LL_mDelay(uint32_t Delay)
-{
-  volatile uint32_t  tmp = SysTick->CTRL;  /* Clear the COUNTFLAG first */
-  ((void)tmp);
-
-  /* Add a period to guaranty minimum wait */
-  if (Delay < LL_MAX_DELAY)
-  {
-    Delay++;
-  }
-
-  while (Delay)
-  {
-    if ((SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) != 0)
-    {
-      Delay--;
-    }
-  }
-}
-
-/**
-  * @brief  This function configures the source of the time base.
-  * @note   The time source is configured to have 1ms time base.
+  * @brief  This function configures the Cortex-M SysTick source of the time base.
   * @param  HCLKFrequency HCLK frequency in Hz (can be calculated thanks to RCC helper macro)
+  * @note   When a RTOS is used, it is recommended to avoid changing the SysTick 
+  *         configuration by calling this function, for a delay use rather osDelay RTOS service.
+  * @param  Ticks Number of ticks
   * @retval None
   */
-__STATIC_INLINE void LL_Init1msTick(uint32_t HCLKFrequency)
+__STATIC_INLINE void LL_InitTick(uint32_t HCLKFrequency, uint32_t Ticks)
 {
   /* Configure the SysTick to have interrupt in 1ms time base */
-  SysTick->LOAD  = (uint32_t)((HCLKFrequency / 1000) - 1UL);  /* set reload register */
+  SysTick->LOAD  = (uint32_t)((HCLKFrequency / Ticks) - 1UL);  /* set reload register */
   SysTick->VAL   = 0UL;                                       /* Load the SysTick Counter Value */
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
                    SysTick_CTRL_ENABLE_Msk;                   /* Enable the Systick Timer */
 }
+
+void        LL_Init1msTick(uint32_t HCLKFrequency);
+void        LL_mDelay(uint32_t Delay);
 
 /**
   * @}
@@ -239,22 +287,17 @@ __STATIC_INLINE void LL_Init1msTick(uint32_t HCLKFrequency)
   * @{
   */
 
-/**
-  * @brief  This function sets directly SystemCoreClock CMSIS variable.
-  * @note   Variable can be calculated also through SystemCoreClockUpdate function.
-  * @param  HCLKFrequency HCLK frequency in Hz (can be calculated thanks to RCC helper macro)
-  * @retval None
-  */
-__STATIC_INLINE void LL_SetSystemCoreClock(uint32_t HCLKFrequency)
-{
-  /* HCLK clock frequency */
-  SystemCoreClock = HCLKFrequency;
-}
+void        LL_SetSystemCoreClock(uint32_t HCLKFrequency);
+ErrorStatus LL_PLL_ConfigSystemClock_MSI(LL_UTILS_PLLInitTypeDef *UTILS_PLLInitStruct,
+                                         LL_UTILS_ClkInitTypeDef *UTILS_ClkInitStruct);
+ErrorStatus LL_PLL_ConfigSystemClock_HSI(LL_UTILS_PLLInitTypeDef *UTILS_PLLInitStruct,
+                                         LL_UTILS_ClkInitTypeDef *UTILS_ClkInitStruct);
+ErrorStatus LL_PLL_ConfigSystemClock_HSE(uint32_t HSEFrequency, uint32_t HSEBypass,
+                                         LL_UTILS_PLLInitTypeDef *UTILS_PLLInitStruct, LL_UTILS_ClkInitTypeDef *UTILS_ClkInitStruct);
 
 /**
   * @}
   */
-
 
 /**
   * @}

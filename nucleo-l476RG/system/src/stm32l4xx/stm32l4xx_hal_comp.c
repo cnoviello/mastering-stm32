@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_comp.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   COMP HAL module driver.  
   *          This file provides firmware functions to manage the following 
   *          functionalities of the COMP peripheral:
@@ -20,14 +20,14 @@
            
   [..]       
       The STM32L4xx device family integrates two analog comparators COMP1 and COMP2:
-      (#) The non inverting input and inverting input can be set to GPIO pins
-          as shown in Table 1. COMP Inputs below.
+      (#) The inverting input (input minus) and non inverting input (input plus) can be set to the GPIO pins
+          listed in the Reference Manual "COMP function description" chapter.
   
       (#) The COMP output is not configurable by the HAL COMP as on STM32F3 and STM32F0 
           series: redirection to TIMER peripheral is to set with HAL TIM input remapping functions.
   
       (#) The COMP output level is available using HAL_COMP_GetOutputLevel()
-          and can be set on GPIO pins. Refer to Table 2. COMP Outputs below.
+          and available on GPIO pins listed in the Reference Manual "COMP function description" chapter.
   
       (#) The comparators COMP1 and COMP2 can be combined in window mode.
   
@@ -39,36 +39,7 @@
           From the corresponding IRQ handler, the right interrupt source can be retrieved with the 
           macros __HAL_COMP_COMP1_EXTI_GET_FLAG() and __HAL_COMP_COMP2_EXTI_GET_FLAG().
 
-
-[..] Table 1. COMP Inputs for the STM32L4xx devices
- (+)  +---------------------------------------------------------+     
- (+)  |                        |                | COMP1 | COMP2 | 
- (+)  |------------------------|----------------|---------------|
- (+)  |                        | 1/4 VREFINT    |  OK   |  OK   |  
- (+)  |                        | 1/2 VREFINT    |  OK   |  OK   |
- (+)  |                        | 3/4 VREFINT    |  OK   |  OK   |
- (+)  | Inverting Input        | VREFINT        |  OK   |  OK   | 
- (+)  | (minus)                | DAC1 OUT       |  OK   |  OK   |  
- (+)  |                        | DAC2 OUT       |  OK   |  OK   |  
- (+)  |                        | IO1            |  PB1  |  PB3  |  
- (+)  |                        | IO2            |  PC4  |  PB7  |  
- (+)  |------------------------|----------------|-------|-------|
- (+)  |  Non Inverting Input   | IO1            |  PC5  |  PB4  |  
- (+)  |  (plus)                | IO2            |  PB2  |  PB6  |
- (+)  +--------------------------------------------------+  
-  
- [..] Table 2. COMP Outputs for the STM32L4xx devices
- (+)   +------------------------------------+     
- (+)   |       COMP1      |      COMP2      | 
- (+)   |------------------|-----------------|
- (+)   |      PB0 (AF)    |     PB5 (AF)    | 
- (+)   |      PB10 (AF)   |     PB11 (AF)   | 
- (+)   |------------------|-----------------|
- (+)   |  Embedded TIMERS | Embedded TIMERS | 
- (+)   |  (cf. HAL TIM)   | (cf. HAL TIM)   | 
- (+)   +------------------------------------+
-
-    
+          
             ##### How to use this driver #####
 ================================================================================
   [..]
@@ -115,9 +86,39 @@
       
   @endverbatim
   ******************************************************************************
+  
+      Table 1. COMP Inputs for the STM32L4xx devices
+      +---------------------------------------------------------+     
+      |                        |                | COMP1 | COMP2 | 
+      |------------------------|----------------|---------------|
+      |                        | 1/4 VREFINT    |  OK   |  OK   |  
+      |                        | 1/2 VREFINT    |  OK   |  OK   |
+      |                        | 3/4 VREFINT    |  OK   |  OK   |
+      | Inverting Input        | VREFINT        |  OK   |  OK   | 
+      | (minus)                | DAC1 OUT       |  OK   |  OK   |  
+      |                        | DAC2 OUT       |  OK   |  OK   |  
+      |                        | IO1            |  PB1  |  PB3  |  
+      |                        | IO2            |  PC4  |  PB7  |  
+      |------------------------|----------------|-------|-------|
+      |  Non Inverting Input   | IO1            |  PC5  |  PB4  |  
+      |  (plus)                | IO2            |  PB2  |  PB6  |
+      +--------------------------------------------------+  
+  
+      Table 2. COMP Outputs for the STM32L4xx devices
+      +------------------------------------+     
+      |       COMP1      |      COMP2      | 
+      |------------------|-----------------|
+      |      PB0 (AF)    |     PB5 (AF)    | 
+      |      PB10 (AF)   |     PB11 (AF)   | 
+      |------------------|-----------------|
+      |  Embedded TIMERS | Embedded TIMERS | 
+      |  (cf. HAL TIM)   | (cf. HAL TIM)   | 
+      +------------------------------------+
+
+  ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -174,7 +175,7 @@
 #define COMP_LOCK_DISABLE                   ((uint32_t)0x00000000)
 #define COMP_LOCK_ENABLE                    COMP_CSR_LOCK
 
-#define COMP_STATE_BIT_LOCK                 ((uint32_t)0x10)
+#define COMP_STATE_BIT_LOCK                 ((uint8_t)0x10)
 
 /**
   * @}
@@ -250,9 +251,6 @@ HAL_StatusTypeDef HAL_COMP_Init(COMP_HandleTypeDef *hcomp)
       hcomp->Lock = HAL_UNLOCKED;
     }
 
-    /* Change COMP peripheral state */
-    hcomp->State = HAL_COMP_STATE_BUSY;
-
     /* Set COMP parameters */
     /*     Set INMSEL bits according to hcomp->Init.InvertingInput value       */
     /*     Set INPSEL bits according to hcomp->Init.NonInvertingInput value    */
@@ -288,8 +286,13 @@ HAL_StatusTypeDef HAL_COMP_Init(COMP_HandleTypeDef *hcomp)
     
     MODIFY_REG(hcomp->Instance->CSR, COMP_CSR_UPDATE_PARAMETERS_MASK, tmpcsr);
 
-    /* Initialize the COMP state*/
-    hcomp->State = HAL_COMP_STATE_READY;
+    /* Update the COMP state*/
+    if (hcomp->State == HAL_COMP_STATE_RESET)
+    {
+      /* From RESET state to READY State */
+      hcomp->State = HAL_COMP_STATE_READY;
+    }
+    /* else: remain in READY or BUSY state (no update) */
   }
   
   return status;
@@ -338,6 +341,9 @@ HAL_StatusTypeDef HAL_COMP_DeInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_COMP_MspInit could be implemented in the user file
    */
@@ -350,6 +356,9 @@ __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspDeInit(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_COMP_MspDeInit could be implemented in the user file
    */
@@ -580,7 +589,7 @@ HAL_StatusTypeDef HAL_COMP_Stop_IT(COMP_HandleTypeDef *hcomp)
 /**
   * @brief  Comparator IRQ Handler.
   * @param  hcomp  COMP handle
-  * @retval HAL status
+  * @retval None
   */
 void HAL_COMP_IRQHandler(COMP_HandleTypeDef *hcomp)
 {
@@ -616,8 +625,10 @@ void HAL_COMP_IRQHandler(COMP_HandleTypeDef *hcomp)
   */
 
 /**
-  * @brief  Lock the selected comparator configuration. 
+  * @brief  Lock the selected comparator configuration.
   * @note   A system reset is required to unlock the comparator configuration.
+  * @note   Locking the comparator from its reset state is possible provided
+  *         __HAL_RCC_SYSCFG_CLK_ENABLE() is being called before.
   * @param  hcomp  COMP handle
   * @retval HAL status
   */
@@ -635,20 +646,7 @@ HAL_StatusTypeDef HAL_COMP_Lock(COMP_HandleTypeDef *hcomp)
     /* Check the parameter */
     assert_param(IS_COMP_ALL_INSTANCE(hcomp->Instance));
 
-    /* Set lock flag on state */
-    switch(hcomp->State)
-    {
-    case HAL_COMP_STATE_BUSY:
-      hcomp->State = HAL_COMP_STATE_BUSY_LOCKED;
-      break;
-    case HAL_COMP_STATE_READY:
-      hcomp->State = HAL_COMP_STATE_READY_LOCKED;
-      break;
-    default:
-      /* unexpected state */
-      status = HAL_ERROR;
-      break;
-    }
+    hcomp->State = ((HAL_COMP_StateTypeDef)(hcomp->State | COMP_STATE_BIT_LOCK));
   }
   
   if(status == HAL_OK)
@@ -694,6 +692,9 @@ uint32_t HAL_COMP_GetOutputLevel(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_COMP_TriggerCallback should be implemented in the user file
    */

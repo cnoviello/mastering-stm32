@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_system.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of SYSTEM LL module.
   @verbatim
   ==============================================================================
@@ -21,7 +21,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -83,9 +83,9 @@ extern "C" {
 /**
  * @brief Power-down in Run mode Flash key
  */
-#define FLASH_PDKEY1                  ((uint32_t)0x04152637) /*!< Flash power down key1 */
-#define FLASH_PDKEY2                  ((uint32_t)0xFAFBFCFD) /*!< Flash power down key2: used with FLASH_PDKEY1 
-                                                              to unlock the RUN_PD bit in FLASH_ACR */
+#define FLASH_PDKEY1                  ((uint32_t)0x04152637U) /*!< Flash power down key1 */
+#define FLASH_PDKEY2                  ((uint32_t)0xFAFBFCFDU) /*!< Flash power down key2: used with FLASH_PDKEY1 
+                                                                   to unlock the RUN_PD bit in FLASH_ACR */
 
 /**
   * @}
@@ -104,13 +104,16 @@ extern "C" {
 */
 #define LL_SYSCFG_REMAP_FLASH              (uint32_t)0x00000000                                  /*!< Main Flash memory mapped at 0x00000000              */
 #define LL_SYSCFG_REMAP_SYSTEMFLASH        SYSCFG_MEMRMP_MEM_MODE_0                              /*!< System Flash memory mapped at 0x00000000            */
-#define LL_SYSCFG_REMAP_SRAM               (SYSCFG_MEMRMP_MEM_MODE_1 | SYSCFG_MEMRMP_MEM_MODE_0) /*!< FMC bank 1 (NOR/PSRAM 1 and 2) mapped at 0x00000000 */
-#define LL_SYSCFG_REMAP_FMC                SYSCFG_MEMRMP_MEM_MODE_1                              /*!< SRAM1 mapped at 0x00000000                          */
+#define LL_SYSCFG_REMAP_SRAM               (SYSCFG_MEMRMP_MEM_MODE_1 | SYSCFG_MEMRMP_MEM_MODE_0) /*!< SRAM1 mapped at 0x00000000                          */
+#if defined(FMC_Bank1_R)
+#define LL_SYSCFG_REMAP_FMC                SYSCFG_MEMRMP_MEM_MODE_1                              /*!< FMC bank 1 (NOR/PSRAM 1 and 2) mapped at 0x00000000 */
+#endif /* FMC_Bank1_R */
 #define LL_SYSCFG_REMAP_QUADSPI            (SYSCFG_MEMRMP_MEM_MODE_2 | SYSCFG_MEMRMP_MEM_MODE_1) /*!< QUADSPI memory mapped at 0x00000000                 */
 /**
   * @}
   */
 
+#if defined(SYSCFG_MEMRMP_FB_MODE)
 /** @defgroup SYSTEM_LL_EC_BANKMODE SYSCFG BANK MODE
   * @{
   */
@@ -122,6 +125,7 @@ extern "C" {
   * @}
   */
 
+#endif /* SYSCFG_MEMRMP_FB_MODE */
 /** @defgroup SYSTEM_LL_EC_I2C_FASTMODEPLUS SYSCFG I2C FASTMODEPLUS
   * @{
   */
@@ -144,8 +148,12 @@ extern "C" {
 #define LL_SYSCFG_EXTI_PORTC               (uint32_t)2               /*!< EXTI PORT C                        */
 #define LL_SYSCFG_EXTI_PORTD               (uint32_t)3               /*!< EXTI PORT D                        */
 #define LL_SYSCFG_EXTI_PORTE               (uint32_t)4               /*!< EXTI PORT E                        */
+#if defined(GPIOF)
 #define LL_SYSCFG_EXTI_PORTF               (uint32_t)5               /*!< EXTI PORT F                        */
+#endif /* GPIOF */
+#if defined(GPIOG)
 #define LL_SYSCFG_EXTI_PORTG               (uint32_t)6               /*!< EXTI PORT G                        */
+#endif /* GPIOG */
 #define LL_SYSCFG_EXTI_PORTH               (uint32_t)7               /*!< EXTI PORT H                        */
 /**
   * @}
@@ -209,6 +217,7 @@ extern "C" {
 #define LL_SYSCFG_SRAM2WRP_PAGE13          SYSCFG_SWPR_PAGE13 /*!< SRAM2 Write protection page 13 */
 #define LL_SYSCFG_SRAM2WRP_PAGE14          SYSCFG_SWPR_PAGE14 /*!< SRAM2 Write protection page 14 */
 #define LL_SYSCFG_SRAM2WRP_PAGE15          SYSCFG_SWPR_PAGE15 /*!< SRAM2 Write protection page 15 */
+#if defined(SYSCFG_SWPR_PAGE16)
 #define LL_SYSCFG_SRAM2WRP_PAGE16          SYSCFG_SWPR_PAGE16 /*!< SRAM2 Write protection page 16 */
 #define LL_SYSCFG_SRAM2WRP_PAGE17          SYSCFG_SWPR_PAGE17 /*!< SRAM2 Write protection page 17 */
 #define LL_SYSCFG_SRAM2WRP_PAGE18          SYSCFG_SWPR_PAGE18 /*!< SRAM2 Write protection page 18 */
@@ -225,6 +234,7 @@ extern "C" {
 #define LL_SYSCFG_SRAM2WRP_PAGE29          SYSCFG_SWPR_PAGE29 /*!< SRAM2 Write protection page 29 */
 #define LL_SYSCFG_SRAM2WRP_PAGE30          SYSCFG_SWPR_PAGE30 /*!< SRAM2 Write protection page 30 */
 #define LL_SYSCFG_SRAM2WRP_PAGE31          SYSCFG_SWPR_PAGE31 /*!< SRAM2 Write protection page 31 */
+#endif /* SYSCFG_SWPR_PAGE16 */
 /**
   * @}
   */
@@ -294,11 +304,11 @@ extern "C" {
 /** @defgroup SYSTEM_LL_EC_LATENCY FLASH LATENCY
   * @{
   */
-#define LL_FLASH_LATENCY_0                 FLASH_ACR_LATENCY_0WS  /*!< FLASH Zero wait state */
-#define LL_FLASH_LATENCY_1                 FLASH_ACR_LATENCY_1WS  /*!< FLASH One wait state */
-#define LL_FLASH_LATENCY_2                 FLASH_ACR_LATENCY_2WS  /*!< FLASH Two wait states */
-#define LL_FLASH_LATENCY_3                 FLASH_ACR_LATENCY_3WS  /*!< FLASH Three wait states */
-#define LL_FLASH_LATENCY_4                 FLASH_ACR_LATENCY_4WS  /*!< FLASH Four wait states */
+#define LL_FLASH_LATENCY_0                 FLASH_ACR_LATENCY_0WS   /*!< FLASH Zero wait state */
+#define LL_FLASH_LATENCY_1                 FLASH_ACR_LATENCY_1WS   /*!< FLASH One wait state */
+#define LL_FLASH_LATENCY_2                 FLASH_ACR_LATENCY_2WS   /*!< FLASH Two wait states */
+#define LL_FLASH_LATENCY_3                 FLASH_ACR_LATENCY_3WS   /*!< FLASH Three wait states */
+#define LL_FLASH_LATENCY_4                 FLASH_ACR_LATENCY_4WS   /*!< FLASH Four wait states */
 /**
   * @}
   */
@@ -325,8 +335,10 @@ extern "C" {
   *         @arg @ref LL_SYSCFG_REMAP_FLASH
   *         @arg @ref LL_SYSCFG_REMAP_SYSTEMFLASH
   *         @arg @ref LL_SYSCFG_REMAP_SRAM
-  *         @arg @ref LL_SYSCFG_REMAP_FMC
+  *         @arg @ref LL_SYSCFG_REMAP_FMC (*)
   *         @arg @ref LL_SYSCFG_REMAP_QUADSPI
+  *
+  *         (*) value not defined in all devices
   * @retval None
   */
 __STATIC_INLINE void LL_SYSCFG_SetRemapMemory(uint32_t Memory)
@@ -341,14 +353,17 @@ __STATIC_INLINE void LL_SYSCFG_SetRemapMemory(uint32_t Memory)
   *         @arg @ref LL_SYSCFG_REMAP_FLASH
   *         @arg @ref LL_SYSCFG_REMAP_SYSTEMFLASH
   *         @arg @ref LL_SYSCFG_REMAP_SRAM
-  *         @arg @ref LL_SYSCFG_REMAP_FMC
+  *         @arg @ref LL_SYSCFG_REMAP_FMC (*)
   *         @arg @ref LL_SYSCFG_REMAP_QUADSPI
+  *
+  *         (*) value not defined in all devices
   */
 __STATIC_INLINE uint32_t LL_SYSCFG_GetRemapMemory(void)
 {
   return (uint32_t)(READ_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_MEM_MODE));
 }
 
+#if defined(SYSCFG_MEMRMP_FB_MODE)
 /**
   * @brief  Select Flash bank mode (Bank flashed at 0x08000000)
   * @rmtoll SYSCFG_MEMRMP FB_MODE       LL_SYSCFG_SetFlashBankMode
@@ -373,6 +388,7 @@ __STATIC_INLINE uint32_t LL_SYSCFG_GetFlashBankMode(void)
 {
   return (uint32_t)(READ_BIT(SYSCFG->MEMRMP, SYSCFG_MEMRMP_FB_MODE));
 }
+#endif /* SYSCFG_MEMRMP_FB_MODE */
 
 /**
   * @brief  Firewall protection enabled
@@ -396,13 +412,13 @@ __STATIC_INLINE uint32_t LL_SYSCFG_IsEnabledFirewall(void)
 
 /**
   * @brief  Enable I/O analog switch voltage booster.
-  * @note   When voltage booster is enabled, I/O analog switches are supplied 
-  *         by a dedicated voltage booster from VDD power domain. This is 
+  * @note   When voltage booster is enabled, I/O analog switches are supplied
+  *         by a dedicated voltage booster, from VDD power domain. This is
   *         the recommended configuration with low VDDA voltage operation.
-  * @note   The I/O analog switch voltage booster is relevant for peripherals 
-  *         using I/O in analog input: ADC, COMP and OPAMP. 
-  *         However, COMP and OPAMP inputs have a high impedance and 
-  *         voltage booster does not impact performance significantly.
+  * @note   The I/O analog switch voltage booster is relevant for peripherals
+  *         using I/O in analog input: ADC, COMP, OPAMP.
+  *         However, COMP and OPAMP inputs have a high impedance and
+  *         voltage booster do not impact performance significantly.
   *         Therefore, the voltage booster is mainly intended for
   *         usage with ADC.
   * @rmtoll SYSCFG_CFGR1 BOOSTEN       LL_SYSCFG_EnableAnalogBooster
@@ -415,6 +431,15 @@ __STATIC_INLINE void LL_SYSCFG_EnableAnalogBooster(void)
 
 /**
   * @brief  Disable I/O analog switch voltage booster.
+  * @note   When voltage booster is enabled, I/O analog switches are supplied
+  *         by a dedicated voltage booster, from VDD power domain. This is
+  *         the recommended configuration with low VDDA voltage operation.
+  * @note   The I/O analog switch voltage booster is relevant for peripherals
+  *         using I/O in analog input: ADC, COMP, OPAMP.
+  *         However, COMP and OPAMP inputs have a high impedance and
+  *         voltage booster do not impact performance significantly.
+  *         Therefore, the voltage booster is mainly intended for
+  *         usage with ADC.
   * @rmtoll SYSCFG_CFGR1 BOOSTEN       LL_SYSCFG_DisableAnalogBooster
   * @retval None
   */
@@ -653,9 +678,11 @@ __STATIC_INLINE uint32_t LL_SYSCFG_IsEnabledIT_FPU_IXC(void)
   *         @arg @ref LL_SYSCFG_EXTI_PORTC
   *         @arg @ref LL_SYSCFG_EXTI_PORTD
   *         @arg @ref LL_SYSCFG_EXTI_PORTE
-  *         @arg @ref LL_SYSCFG_EXTI_PORTF
-  *         @arg @ref LL_SYSCFG_EXTI_PORTG
+  *         @arg @ref LL_SYSCFG_EXTI_PORTF (*)
+  *         @arg @ref LL_SYSCFG_EXTI_PORTG (*)
   *         @arg @ref LL_SYSCFG_EXTI_PORTH
+  *
+  *         (*) value not defined in all devices
   * @param  Line This parameter can be one of the following values:
   *         @arg @ref LL_SYSCFG_EXTI_LINE0
   *         @arg @ref LL_SYSCFG_EXTI_LINE1
@@ -709,9 +736,11 @@ __STATIC_INLINE void LL_SYSCFG_SetEXTISource(uint32_t Port, uint32_t Line)
   *         @arg @ref LL_SYSCFG_EXTI_PORTC
   *         @arg @ref LL_SYSCFG_EXTI_PORTD
   *         @arg @ref LL_SYSCFG_EXTI_PORTE
-  *         @arg @ref LL_SYSCFG_EXTI_PORTF
-  *         @arg @ref LL_SYSCFG_EXTI_PORTG
+  *         @arg @ref LL_SYSCFG_EXTI_PORTF (*)
+  *         @arg @ref LL_SYSCFG_EXTI_PORTG (*)
   *         @arg @ref LL_SYSCFG_EXTI_PORTH
+  *
+  *         (*) value not defined in all devices
   */
 __STATIC_INLINE uint32_t LL_SYSCFG_GetEXTISource(uint32_t Line)
 {
@@ -822,22 +851,24 @@ __STATIC_INLINE void LL_SYSCFG_ClearFlag_SP(void)
   *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE13
   *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE14
   *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE15
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE16
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE17
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE18
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE19
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE20
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE21
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE22
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE23
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE24
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE25
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE26
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE27
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE28
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE29
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE30
-  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE31
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE16 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE17 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE18 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE19 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE20 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE21 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE22 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE23 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE24 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE25 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE26 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE27 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE28 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE29 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE30 (*)
+  *         @arg @ref LL_SYSCFG_SRAM2WRP_PAGE31 (*)
+  *
+  *         (*) value not defined in all devices
   * @retval None
   */
 __STATIC_INLINE void LL_SYSCFG_EnableSRAM2PageWRP(uint32_t SRAM2WRP)
@@ -878,9 +909,9 @@ __STATIC_INLINE void LL_SYSCFG_UnlockSRAM2WRP(void)
   */
 
 /**
-  * @brief  Returns the device identifier
+  * @brief  Return the device identifier
   * @rmtoll DBGMCU_IDCODE DEV_ID        LL_DBGMCU_GetDeviceID
-  * @retval Values between 0x00 and 0xFFFF (ex: device ID is 0x6415)
+  * @retval Values between Min_Data=0x00 and Max_Data=0xFFFF (ex: device ID is 0x6415)
   */
 __STATIC_INLINE uint32_t LL_DBGMCU_GetDeviceID(void)
 {
@@ -888,9 +919,10 @@ __STATIC_INLINE uint32_t LL_DBGMCU_GetDeviceID(void)
 }
 
 /**
-  * @brief  Returns the device revision identifier
+  * @brief  Return the device revision identifier
+  * @note This field indicates the revision of the device.
   * @rmtoll DBGMCU_IDCODE REV_ID        LL_DBGMCU_GetRevisionID
-  * @retval Values between 0x00 and 0xFFFF (ex: This field indicates the revision of the device.
+  * @retval Values between Min_Data=0x00 and Max_Data=0xFFFF
   */
 __STATIC_INLINE uint32_t LL_DBGMCU_GetRevisionID(void)
 {
@@ -1099,7 +1131,6 @@ __STATIC_INLINE void LL_DBGMCU_ABP2_GRP1_UnFreezePeriph(uint32_t Periphs)
 /**
   * @}
   */
-
 
 /** @defgroup SYSTEM_LL_EF_VREFBUF VREFBUF
   * @{

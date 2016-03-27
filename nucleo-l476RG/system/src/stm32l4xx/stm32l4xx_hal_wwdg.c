@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_wwdg.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   WWDG HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Window Watchdog (WWDG) peripheral:
@@ -71,7 +71,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -238,6 +238,9 @@ HAL_StatusTypeDef HAL_WWDG_DeInit(WWDG_HandleTypeDef *hwwdg)
   */
 __weak void HAL_WWDG_MspInit(WWDG_HandleTypeDef *hwwdg)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hwwdg);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_WWDG_MspInit could be implemented in the user file
    */
@@ -251,6 +254,9 @@ __weak void HAL_WWDG_MspInit(WWDG_HandleTypeDef *hwwdg)
   */
 __weak void HAL_WWDG_MspDeInit(WWDG_HandleTypeDef *hwwdg)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hwwdg);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_WWDG_MspDeInit could be implemented in the user file
    */
@@ -403,6 +409,9 @@ void HAL_WWDG_IRQHandler(WWDG_HandleTypeDef *hwwdg)
   */
 __weak void HAL_WWDG_WakeupCallback(WWDG_HandleTypeDef* hwwdg)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hwwdg);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_WWDG_WakeupCallback could be implemented in the user file
    */

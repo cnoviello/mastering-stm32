@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_rcc_ex.h
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   Header file of RCC HAL Extension module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -410,7 +410,7 @@ typedef struct
   * @{
   */
 #define RCC_USBCLKSOURCE_PLL              RCC_CFGR_USBPRE
-#define RCC_USBCLKSOURCE_PLL_DIV1_5       ((uint32_t)0x00000000)
+#define RCC_USBCLKSOURCE_PLL_DIV1_5            ((uint32_t)0x00000000)
 
 /**
   * @}
@@ -604,7 +604,7 @@ typedef struct
   * @{
   */
 #define RCC_IT_PLL2RDY                   ((uint8_t)RCC_CIR_PLL2RDYF)
-#define RCC_IT_PLLI2SRDY                   ((uint8_t)RCC_CIR_PLL3RDYF)
+#define RCC_IT_PLLI2SRDY                 ((uint8_t)RCC_CIR_PLL3RDYF)
 /**
   * @}
   */  
@@ -1603,7 +1603,7 @@ typedef struct
   * @note   Predivision factor can not be changed if PLL is used as system clock
   *         In this case, you have to select another source of the system clock, disable the PLL and
   *         then change the HSE predivision factor.
-  * @param  __HSE_PREDIV_VALUE__: specifies the division value applied to HSE.
+  * @param  __HSE_PREDIV_VALUE__ specifies the division value applied to HSE.
   *         This parameter must be a number between RCC_HSE_PREDIV_DIV1 and RCC_HSE_PREDIV_DIV16.
   */
 #define __HAL_RCC_HSE_PREDIV_CONFIG(__HSE_PREDIV_VALUE__) MODIFY_REG(RCC->CFGR2, RCC_CFGR2_PREDIV1, (uint32_t)(__HSE_PREDIV_VALUE__))
@@ -1613,7 +1613,7 @@ typedef struct
   * @note   Predivision factor can not be changed if PLL is used as system clock
   *         In this case, you have to select another source of the system clock, disable the PLL and
   *         then change the HSE predivision factor.
-  * @param  __HSE_PREDIV_VALUE__: specifies the division value applied to HSE.
+  * @param  __HSE_PREDIV_VALUE__ specifies the division value applied to HSE.
   *         This parameter must be a number between RCC_HSE_PREDIV_DIV1 and RCC_HSE_PREDIV_DIV2.
   */
 #define __HAL_RCC_HSE_PREDIV_CONFIG(__HSE_PREDIV_VALUE__) \
@@ -1661,17 +1661,17 @@ typedef struct
 /** @brief macros to configure the main PLLI2S multiplication factor.
   * @note   This function must be used only when the main PLLI2S is disabled.
   *  
-  * @param  __PLLI2SMUL__: specifies the multiplication factor for PLLI2S VCO output clock
+  * @param  __PLLI2SMUL__ specifies the multiplication factor for PLLI2S VCO output clock
   *          This parameter can be one of the following values:
-  *             @arg RCC_PLLI2S_MUL8: PLLI2SVCO = PLLI2S clock entry x 8
-  *             @arg RCC_PLLI2S_MUL9: PLLI2SVCO = PLLI2S clock entry x 9
-  *             @arg RCC_PLLI2S_MUL10: PLLI2SVCO = PLLI2S clock entry x 10
-  *             @arg RCC_PLLI2S_MUL11: PLLI2SVCO = PLLI2S clock entry x 11
-  *             @arg RCC_PLLI2S_MUL12: PLLI2SVCO = PLLI2S clock entry x 12
-  *             @arg RCC_PLLI2S_MUL13: PLLI2SVCO = PLLI2S clock entry x 13
-  *             @arg RCC_PLLI2S_MUL14: PLLI2SVCO = PLLI2S clock entry x 14
-  *             @arg RCC_PLLI2S_MUL16: PLLI2SVCO = PLLI2S clock entry x 16
-  *             @arg RCC_PLLI2S_MUL20: PLLI2SVCO = PLLI2S clock entry x 20
+  *             @arg @ref RCC_PLLI2S_MUL8 PLLI2SVCO = PLLI2S clock entry x 8
+  *             @arg @ref RCC_PLLI2S_MUL9 PLLI2SVCO = PLLI2S clock entry x 9
+  *             @arg @ref RCC_PLLI2S_MUL10 PLLI2SVCO = PLLI2S clock entry x 10
+  *             @arg @ref RCC_PLLI2S_MUL11 PLLI2SVCO = PLLI2S clock entry x 11
+  *             @arg @ref RCC_PLLI2S_MUL12 PLLI2SVCO = PLLI2S clock entry x 12
+  *             @arg @ref RCC_PLLI2S_MUL13 PLLI2SVCO = PLLI2S clock entry x 13
+  *             @arg @ref RCC_PLLI2S_MUL14 PLLI2SVCO = PLLI2S clock entry x 14
+  *             @arg @ref RCC_PLLI2S_MUL16 PLLI2SVCO = PLLI2S clock entry x 16
+  *             @arg @ref RCC_PLLI2S_MUL20 PLLI2SVCO = PLLI2S clock entry x 20
   *   
   */
 #define __HAL_RCC_PLLI2S_CONFIG(__PLLI2SMUL__)\
@@ -1691,18 +1691,18 @@ typedef struct
 #if defined(STM32F102x6) || defined(STM32F102xB) || defined(STM32F103x6)\
  || defined(STM32F103xB) || defined(STM32F103xE) || defined(STM32F103xG)
 /** @brief  Macro to configure the USB clock.
-  * @param  __USBCLKSOURCE__: specifies the USB clock source.
+  * @param  __USBCLKSOURCE__ specifies the USB clock source.
   *          This parameter can be one of the following values:
-  *            @arg RCC_USBCLKSOURCE_PLL: PLL clock divided by 1 selected as USB clock
-  *            @arg RCC_USBCLKSOURCE_PLL_DIV1_5: PLL clock divided by 1.5 selected as USB clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL PLL clock divided by 1 selected as USB clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL_DIV1_5 PLL clock divided by 1.5 selected as USB clock
   */
 #define __HAL_RCC_USB_CONFIG(__USBCLKSOURCE__) \
                   MODIFY_REG(RCC->CFGR, RCC_CFGR_USBPRE, (uint32_t)(__USBCLKSOURCE__))
 
 /** @brief  Macro to get the USB clock (USBCLK).
   * @retval The clock source can be one of the following values:
-  *            @arg RCC_USBCLKSOURCE_PLL: PLL clock divided by 1 selected as USB clock
-  *            @arg RCC_USBCLKSOURCE_PLL_DIV1_5: PLL clock divided by 1.5 selected as USB clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL PLL clock divided by 1 selected as USB clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL_DIV1_5 PLL clock divided by 1.5 selected as USB clock
   */
 #define __HAL_RCC_GET_USB_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_USBPRE)))
 
@@ -1711,40 +1711,40 @@ typedef struct
 #if defined(STM32F105xC) || defined(STM32F107xC)
 
 /** @brief  Macro to configure the USB OTSclock.
-  * @param  __USBCLKSOURCE__: specifies the USB clock source.
+  * @param  __USBCLKSOURCE__ specifies the USB clock source.
   *          This parameter can be one of the following values:
-  *            @arg RCC_USBCLKSOURCE_PLL_DIV2: PLL clock divided by 2 selected as USB OTG FS clock
-  *            @arg RCC_USBCLKSOURCE_PLL_DIV3: PLL clock divided by 3 selected as USB OTG FS clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL_DIV2 PLL clock divided by 2 selected as USB OTG FS clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL_DIV3 PLL clock divided by 3 selected as USB OTG FS clock
   */
 #define __HAL_RCC_USB_CONFIG(__USBCLKSOURCE__) \
                   MODIFY_REG(RCC->CFGR, RCC_CFGR_OTGFSPRE, (uint32_t)(__USBCLKSOURCE__))
 
 /** @brief  Macro to get the USB clock (USBCLK).
   * @retval The clock source can be one of the following values:
-  *            @arg RCC_USBCLKSOURCE_PLL_DIV2: PLL clock divided by 2 selected as USB OTG FS clock
-  *            @arg RCC_USBCLKSOURCE_PLL_DIV3: PLL clock divided by 3 selected as USB OTG FS clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL_DIV2 PLL clock divided by 2 selected as USB OTG FS clock
+  *            @arg @ref RCC_USBCLKSOURCE_PLL_DIV3 PLL clock divided by 3 selected as USB OTG FS clock
   */
 #define __HAL_RCC_GET_USB_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_OTGFSPRE)))
 
 #endif /* STM32F105xC || STM32F107xC */
 
 /** @brief  Macro to configure the ADCx clock (x=1 to 3 depending on devices).
-  * @param  __ADCCLKSOURCE__: specifies the ADC clock source.
+  * @param  __ADCCLKSOURCE__ specifies the ADC clock source.
   *          This parameter can be one of the following values:
-  *            @arg RCC_ADCPCLK2_DIV2: PCLK2 clock divided by 2 selected as ADC clock
-  *            @arg RCC_ADCPCLK2_DIV4: PCLK2 clock divided by 4 selected as ADC clock
-  *            @arg RCC_ADCPCLK2_DIV6: PCLK2 clock divided by 6 selected as ADC clock
-  *            @arg RCC_ADCPCLK2_DIV8: PCLK2 clock divided by 8 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV2 PCLK2 clock divided by 2 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV4 PCLK2 clock divided by 4 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV6 PCLK2 clock divided by 6 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV8 PCLK2 clock divided by 8 selected as ADC clock
   */
 #define __HAL_RCC_ADC_CONFIG(__ADCCLKSOURCE__) \
                   MODIFY_REG(RCC->CFGR, RCC_CFGR_ADCPRE, (uint32_t)(__ADCCLKSOURCE__))
 
 /** @brief  Macro to get the ADC clock (ADCxCLK, x=1 to 3 depending on devices).
   * @retval The clock source can be one of the following values:
-  *            @arg RCC_ADCPCLK2_DIV2: PCLK2 clock divided by 2 selected as ADC clock
-  *            @arg RCC_ADCPCLK2_DIV4: PCLK2 clock divided by 4 selected as ADC clock
-  *            @arg RCC_ADCPCLK2_DIV6: PCLK2 clock divided by 6 selected as ADC clock
-  *            @arg RCC_ADCPCLK2_DIV8: PCLK2 clock divided by 8 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV2 PCLK2 clock divided by 2 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV4 PCLK2 clock divided by 4 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV6 PCLK2 clock divided by 6 selected as ADC clock
+  *            @arg @ref RCC_ADCPCLK2_DIV8 PCLK2 clock divided by 8 selected as ADC clock
   */
 #define __HAL_RCC_GET_ADC_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_ADCPRE)))
 
@@ -1763,7 +1763,7 @@ typedef struct
   * @note   Predivision factor can not be changed if PLL2 is used indirectly as system clock
   *         In this case, you have to select another source of the system clock, disable the PLL2 and PLLI2S and
   *         then change the PREDIV2 factor.
-  * @param  __HSE_PREDIV2_VALUE__: specifies the PREDIV2 value applied to PLL2 & PLLI2S.
+  * @param  __HSE_PREDIV2_VALUE__ specifies the PREDIV2 value applied to PLL2 & PLLI2S.
   *         This parameter must be a number between RCC_HSE_PREDIV2_DIV1 and RCC_HSE_PREDIV2_DIV16.
   */
 #define __HAL_RCC_HSE_PREDIV2_CONFIG(__HSE_PREDIV2_VALUE__) \
@@ -1799,17 +1799,17 @@ typedef struct
 /** @brief macros to configure the main PLL2 multiplication factor.
   * @note   This function must be used only when the main PLL2 is disabled.
   *  
-  * @param  __PLL2MUL__: specifies the multiplication factor for PLL2 VCO output clock
+  * @param  __PLL2MUL__ specifies the multiplication factor for PLL2 VCO output clock
   *          This parameter can be one of the following values:
-  *             @arg RCC_PLL2_MUL8: PLL2VCO = PLL2 clock entry x 8
-  *             @arg RCC_PLL2_MUL9: PLL2VCO = PLL2 clock entry x 9
-  *             @arg RCC_PLL2_MUL10: PLL2VCO = PLL2 clock entry x 10
-  *             @arg RCC_PLL2_MUL11: PLL2VCO = PLL2 clock entry x 11
-  *             @arg RCC_PLL2_MUL12: PLL2VCO = PLL2 clock entry x 12
-  *             @arg RCC_PLL2_MUL13: PLL2VCO = PLL2 clock entry x 13
-  *             @arg RCC_PLL2_MUL14: PLL2VCO = PLL2 clock entry x 14
-  *             @arg RCC_PLL2_MUL16: PLL2VCO = PLL2 clock entry x 16
-  *             @arg RCC_PLL2_MUL20: PLL2VCO = PLL2 clock entry x 20
+  *             @arg @ref RCC_PLL2_MUL8 PLL2VCO = PLL2 clock entry x 8
+  *             @arg @ref RCC_PLL2_MUL9 PLL2VCO = PLL2 clock entry x 9
+  *             @arg @ref RCC_PLL2_MUL10 PLL2VCO = PLL2 clock entry x 10
+  *             @arg @ref RCC_PLL2_MUL11 PLL2VCO = PLL2 clock entry x 11
+  *             @arg @ref RCC_PLL2_MUL12 PLL2VCO = PLL2 clock entry x 12
+  *             @arg @ref RCC_PLL2_MUL13 PLL2VCO = PLL2 clock entry x 13
+  *             @arg @ref RCC_PLL2_MUL14 PLL2VCO = PLL2 clock entry x 14
+  *             @arg @ref RCC_PLL2_MUL16 PLL2VCO = PLL2 clock entry x 16
+  *             @arg @ref RCC_PLL2_MUL20 PLL2VCO = PLL2 clock entry x 20
   *   
   */
 #define __HAL_RCC_PLL2_CONFIG(__PLL2MUL__)\
@@ -1825,34 +1825,34 @@ typedef struct
   */  
 
 /** @brief  Macro to configure the I2S2 clock.
-  * @param  __I2S2CLKSOURCE__: specifies the I2S2 clock source.
+  * @param  __I2S2CLKSOURCE__ specifies the I2S2 clock source.
   *          This parameter can be one of the following values:
-  *            @arg RCC_I2S2CLKSOURCE_SYSCLK: system clock selected as I2S3 clock entry
-  *            @arg RCC_I2S2CLKSOURCE_PLLI2S_VCO: PLLI2S VCO clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S2CLKSOURCE_SYSCLK system clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S2CLKSOURCE_PLLI2S_VCO PLLI2S VCO clock selected as I2S3 clock entry
   */
 #define __HAL_RCC_I2S2_CONFIG(__I2S2CLKSOURCE__) \
                   MODIFY_REG(RCC->CFGR2, RCC_CFGR2_I2S2SRC, (uint32_t)(__I2S2CLKSOURCE__))
 
 /** @brief  Macro to get the I2S2 clock (I2S2CLK).
   * @retval The clock source can be one of the following values:
-  *            @arg RCC_I2S2CLKSOURCE_SYSCLK: system clock selected as I2S3 clock entry
-  *            @arg RCC_I2S2CLKSOURCE_PLLI2S_VCO: PLLI2S VCO clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S2CLKSOURCE_SYSCLK system clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S2CLKSOURCE_PLLI2S_VCO PLLI2S VCO clock selected as I2S3 clock entry
   */
 #define __HAL_RCC_GET_I2S2_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR2, RCC_CFGR2_I2S2SRC)))
 
 /** @brief  Macro to configure the I2S3 clock.
-  * @param  __I2S2CLKSOURCE__: specifies the I2S3 clock source.
+  * @param  __I2S2CLKSOURCE__ specifies the I2S3 clock source.
   *          This parameter can be one of the following values:
-  *            @arg RCC_I2S3CLKSOURCE_SYSCLK: system clock selected as I2S3 clock entry
-  *            @arg RCC_I2S3CLKSOURCE_PLLI2S_VCO: PLLI2S VCO clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S3CLKSOURCE_SYSCLK system clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S3CLKSOURCE_PLLI2S_VCO PLLI2S VCO clock selected as I2S3 clock entry
   */
 #define __HAL_RCC_I2S3_CONFIG(__I2S2CLKSOURCE__) \
                   MODIFY_REG(RCC->CFGR2, RCC_CFGR2_I2S3SRC, (uint32_t)(__I2S2CLKSOURCE__))
 
 /** @brief  Macro to get the I2S3 clock (I2S3CLK).
   * @retval The clock source can be one of the following values:
-  *            @arg RCC_I2S3CLKSOURCE_SYSCLK: system clock selected as I2S3 clock entry
-  *            @arg RCC_I2S3CLKSOURCE_PLLI2S_VCO: PLLI2S VCO clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S3CLKSOURCE_SYSCLK system clock selected as I2S3 clock entry
+  *            @arg @ref RCC_I2S3CLKSOURCE_PLLI2S_VCO PLLI2S VCO clock selected as I2S3 clock entry
   */
 #define __HAL_RCC_GET_I2S3_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR2, RCC_CFGR2_I2S3SRC)))
 

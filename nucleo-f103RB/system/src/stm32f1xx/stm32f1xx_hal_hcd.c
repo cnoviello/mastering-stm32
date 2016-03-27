@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_hcd.c
   * @author  MCD Application Team
-  * @version V1.0.1
-  * @date    31-July-2015
+  * @version V1.0.3
+  * @date    11-January-2016
   * @brief   HCD HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the USB Peripheral Controller:
@@ -42,7 +42,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -267,6 +267,8 @@ HAL_StatusTypeDef HAL_HCD_DeInit(HCD_HandleTypeDef *hhcd)
   */
 __weak void  HAL_HCD_MspInit(HCD_HandleTypeDef *hhcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhcd);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_HCD_MspInit could be implemented in the user file
    */
@@ -279,6 +281,8 @@ __weak void  HAL_HCD_MspInit(HCD_HandleTypeDef *hhcd)
   */
 __weak void  HAL_HCD_MspDeInit(HCD_HandleTypeDef *hhcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhcd);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_HCD_MspDeInit could be implemented in the user file
    */
@@ -557,6 +561,8 @@ void HAL_HCD_IRQHandler(HCD_HandleTypeDef *hhcd)
   */
 __weak void HAL_HCD_SOF_Callback(HCD_HandleTypeDef *hhcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhcd);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_HCD_SOF_Callback could be implemented in the user file
    */
@@ -569,6 +575,8 @@ __weak void HAL_HCD_SOF_Callback(HCD_HandleTypeDef *hhcd)
   */
 __weak void HAL_HCD_Connect_Callback(HCD_HandleTypeDef *hhcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhcd);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_HCD_Connect_Callback could be implemented in the user file
    */
@@ -581,6 +589,8 @@ __weak void HAL_HCD_Connect_Callback(HCD_HandleTypeDef *hhcd)
   */
 __weak void HAL_HCD_Disconnect_Callback(HCD_HandleTypeDef *hhcd)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhcd);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_HCD_Disconnect_Callback could be implemented in the user file
    */
@@ -603,6 +613,10 @@ __weak void HAL_HCD_Disconnect_Callback(HCD_HandleTypeDef *hhcd)
   */
 __weak void HAL_HCD_HC_NotifyURBChange_Callback(HCD_HandleTypeDef *hhcd, uint8_t chnum, HCD_URBStateTypeDef urb_state)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhcd);
+  UNUSED(chnum);
+  UNUSED(urb_state);
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_HCD_HC_NotifyURBChange_Callback could be implemented in the user file
    */

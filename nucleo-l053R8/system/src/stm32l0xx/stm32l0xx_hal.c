@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l0xx_hal.c
   * @author  MCD Application Team
-  * @version V1.4.0
-  * @date    16-October-2015
+  * @version V1.5.0
+  * @date    8-January-2016
   * @brief   HAL module driver.
   *          This is the common part of the HAL initialization
   *
@@ -23,7 +23,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -73,10 +73,10 @@
   */
 
 /**
- * @brief STM32L0xx HAL Driver version number V1.4.0
+ * @brief STM32L0xx HAL Driver version number V1.5.0
  */
 #define __STM32L0xx_HAL_VERSION_MAIN   (0x01) /*!< [31:24] main version */
-#define __STM32L0xx_HAL_VERSION_SUB1   (0x04) /*!< [23:16] sub1 version */
+#define __STM32L0xx_HAL_VERSION_SUB1   (0x05) /*!< [23:16] sub1 version */
 #define __STM32L0xx_HAL_VERSION_SUB2   (0x00) /*!< [15:8]  sub2 version */
 #define __STM32L0xx_HAL_VERSION_RC     (0x00) /*!< [7:0]  release candidate */
 #define __STM32L0xx_HAL_VERSION         ((__STM32L0xx_HAL_VERSION_MAIN << 24)\

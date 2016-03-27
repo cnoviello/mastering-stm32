@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_tim.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   TIM HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Timer (TIM) peripheral:
@@ -98,7 +98,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -258,6 +258,9 @@ HAL_StatusTypeDef HAL_TIM_Base_DeInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_Base_MspInit could be implemented in the user file
    */
@@ -270,6 +273,9 @@ __weak void HAL_TIM_Base_MspInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_Base_MspDeInit could be implemented in the user file
    */
@@ -529,6 +535,9 @@ HAL_StatusTypeDef HAL_TIM_OC_DeInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_OC_MspInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_OC_MspInit could be implemented in the user file
    */
@@ -541,6 +550,9 @@ __weak void HAL_TIM_OC_MspInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_OC_MspDeInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_OC_MspDeInit could be implemented in the user file
    */
@@ -1041,6 +1053,9 @@ HAL_StatusTypeDef HAL_TIM_PWM_DeInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_PWM_MspInit could be implemented in the user file
    */
@@ -1053,6 +1068,9 @@ __weak void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_PWM_MspDeInit could be implemented in the user file
    */
@@ -1548,6 +1566,9 @@ HAL_StatusTypeDef HAL_TIM_IC_DeInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_IC_MspInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_IC_MspInit could be implemented in the user file
    */
@@ -1560,6 +1581,9 @@ __weak void HAL_TIM_IC_MspInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_IC_MspDeInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_IC_MspDeInit could be implemented in the user file
    */
@@ -2024,6 +2048,9 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_DeInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_OnePulse_MspInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_OnePulse_MspInit could be implemented in the user file
    */
@@ -2036,6 +2063,9 @@ __weak void HAL_TIM_OnePulse_MspInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_OnePulse_MspDeInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_OnePulse_MspDeInit could be implemented in the user file
    */
@@ -2052,6 +2082,9 @@ __weak void HAL_TIM_OnePulse_MspDeInit(TIM_HandleTypeDef *htim)
 */
 HAL_StatusTypeDef HAL_TIM_OnePulse_Start(TIM_HandleTypeDef *htim, uint32_t OutputChannel)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(OutputChannel);
+
   /* Enable the Capture compare and the Input Capture channels
     (in the OPM Mode the two possible channels that can be used are TIM_CHANNEL_1 and TIM_CHANNEL_2)
     if TIM_CHANNEL_1 is used as output, the TIM_CHANNEL_2 will be used as input and
@@ -2085,6 +2118,9 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_Start(TIM_HandleTypeDef *htim, uint32_t Outpu
 */
 HAL_StatusTypeDef HAL_TIM_OnePulse_Stop(TIM_HandleTypeDef *htim, uint32_t OutputChannel)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(OutputChannel);
+
   /* Disable the Capture compare and the Input Capture channels
   (in the OPM Mode the two possible channels that can be used are TIM_CHANNEL_1 and TIM_CHANNEL_2)
   if TIM_CHANNEL_1 is used as output, the TIM_CHANNEL_2 will be used as input and
@@ -2118,6 +2154,9 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_Stop(TIM_HandleTypeDef *htim, uint32_t Output
 */
 HAL_StatusTypeDef HAL_TIM_OnePulse_Start_IT(TIM_HandleTypeDef *htim, uint32_t OutputChannel)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(OutputChannel);
+
   /* Enable the Capture compare and the Input Capture channels
     (in the OPM Mode the two possible channels that can be used are TIM_CHANNEL_1 and TIM_CHANNEL_2)
     if TIM_CHANNEL_1 is used as output, the TIM_CHANNEL_2 will be used as input and
@@ -2157,6 +2196,9 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_Start_IT(TIM_HandleTypeDef *htim, uint32_t Ou
 */
 HAL_StatusTypeDef HAL_TIM_OnePulse_Stop_IT(TIM_HandleTypeDef *htim, uint32_t OutputChannel)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(OutputChannel);
+
   /* Disable the TIM Capture/Compare 1 interrupt */
   __HAL_TIM_DISABLE_IT(htim, TIM_IT_CC1);
 
@@ -2334,6 +2376,9 @@ HAL_StatusTypeDef HAL_TIM_Encoder_DeInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_Encoder_MspInit could be implemented in the user file
    */
@@ -2346,6 +2391,9 @@ __weak void HAL_TIM_Encoder_MspInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_Encoder_MspDeInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_Encoder_MspDeInit could be implemented in the user file
    */
@@ -4235,6 +4283,9 @@ uint32_t HAL_TIM_ReadCapturedValue(TIM_HandleTypeDef *htim, uint32_t Channel)
   */
 __weak void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the __HAL_TIM_PeriodElapsedCallback could be implemented in the user file
    */
@@ -4247,6 +4298,9 @@ __weak void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the __HAL_TIM_OC_DelayElapsedCallback could be implemented in the user file
    */
@@ -4258,6 +4312,9 @@ __weak void HAL_TIM_OC_DelayElapsedCallback(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the __HAL_TIM_IC_CaptureCallback could be implemented in the user file
    */
@@ -4270,6 +4327,9 @@ __weak void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the __HAL_TIM_PWM_PulseFinishedCallback could be implemented in the user file
    */
@@ -4282,6 +4342,9 @@ __weak void HAL_TIM_PWM_PulseFinishedCallback(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_TriggerCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_TriggerCallback could be implemented in the user file
    */
@@ -4294,6 +4357,9 @@ __weak void HAL_TIM_TriggerCallback(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIM_ErrorCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIM_ErrorCallback could be implemented in the user file
    */

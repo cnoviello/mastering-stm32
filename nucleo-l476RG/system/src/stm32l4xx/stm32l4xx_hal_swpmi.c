@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_swpmi.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   SWPMI HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Single Wire Protocol Master Interface (SWPMI).
@@ -49,7 +49,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -240,8 +240,11 @@ HAL_StatusTypeDef HAL_SWPMI_DeInit(SWPMI_HandleTypeDef *hswpmi)
   * @param hswpmi: SWPMI handle
   * @retval None
   */
- __weak void HAL_SWPMI_MspInit(SWPMI_HandleTypeDef *hswpmi)
+__weak void HAL_SWPMI_MspInit(SWPMI_HandleTypeDef *hswpmi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hswpmi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SWPMI_MspInit can be implemented in the user file
    */
@@ -252,8 +255,11 @@ HAL_StatusTypeDef HAL_SWPMI_DeInit(SWPMI_HandleTypeDef *hswpmi)
   * @param hswpmi: SWPMI handle
   * @retval None
   */
- __weak void HAL_SWPMI_MspDeInit(SWPMI_HandleTypeDef *hswpmi)
+__weak void HAL_SWPMI_MspDeInit(SWPMI_HandleTypeDef *hswpmi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hswpmi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SWPMI_MspDeInit can be implemented in the user file
    */
@@ -989,8 +995,11 @@ void HAL_SWPMI_IRQHandler(SWPMI_HandleTypeDef *hswpmi)
   * @param hswpmi: SWPMI handle
   * @retval None
   */
- __weak void HAL_SWPMI_TxCpltCallback(SWPMI_HandleTypeDef *hswpmi)
+__weak void HAL_SWPMI_TxCpltCallback(SWPMI_HandleTypeDef *hswpmi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hswpmi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SWPMI_TxCpltCallback is to be implemented in the user file
    */
@@ -1001,8 +1010,11 @@ void HAL_SWPMI_IRQHandler(SWPMI_HandleTypeDef *hswpmi)
   * @param  hswpmi: SWPMI handle
   * @retval None
   */
- __weak void HAL_SWPMI_TxHalfCpltCallback(SWPMI_HandleTypeDef *hswpmi)
+__weak void HAL_SWPMI_TxHalfCpltCallback(SWPMI_HandleTypeDef *hswpmi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hswpmi);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_SWPMI_TxHalfCpltCallback is to be implemented in the user file
    */
@@ -1015,6 +1027,9 @@ void HAL_SWPMI_IRQHandler(SWPMI_HandleTypeDef *hswpmi)
   */
 __weak void HAL_SWPMI_RxCpltCallback(SWPMI_HandleTypeDef *hswpmi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hswpmi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SWPMI_RxCpltCallback is to be implemented in the user file
    */
@@ -1027,6 +1042,9 @@ __weak void HAL_SWPMI_RxCpltCallback(SWPMI_HandleTypeDef *hswpmi)
   */
 __weak void HAL_SWPMI_RxHalfCpltCallback(SWPMI_HandleTypeDef *hswpmi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hswpmi);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_SWPMI_RxHalfCpltCallback is to be implemented in the user file
    */
@@ -1037,8 +1055,11 @@ __weak void HAL_SWPMI_RxHalfCpltCallback(SWPMI_HandleTypeDef *hswpmi)
   * @param hswpmi: SWPMI handle
   * @retval None
   */
- __weak void HAL_SWPMI_ErrorCallback(SWPMI_HandleTypeDef *hswpmi)
+__weak void HAL_SWPMI_ErrorCallback(SWPMI_HandleTypeDef *hswpmi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hswpmi);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SWPMI_ErrorCallback is to be implemented in the user file
    */
