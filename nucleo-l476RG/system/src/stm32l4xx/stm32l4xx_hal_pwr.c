@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_pwr.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   PWR HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Power Controller (PWR) peripheral:
@@ -13,7 +13,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -263,14 +263,14 @@ void HAL_PWR_DisableBkUpAccess(void)
 
       (++) Entry:                                    
           (+++) The Standby mode is entered thru HAL_PWR_EnterSTANDBYMode() API. 
-           SRAM1 and register contents are lost except for registers in the Backup domain and 
-           Standby circuitry. SRAM2 content can be preserved if the bit RRS is set in PWR_CR3 register. 
-           To enable this feature, the user can resort to HAL_PWREx_EnableSRAM2ContentRetention() API 
-           to set RRS bit.   
+                SRAM1 and register contents are lost except for registers in the Backup domain and 
+                Standby circuitry. SRAM2 content can be preserved if the bit RRS is set in PWR_CR3 register. 
+                To enable this feature, the user can resort to HAL_PWREx_EnableSRAM2ContentRetention() API 
+                to set RRS bit.   
           
       (++) Exit:
           (+++) WKUP pin rising edge, RTC alarm or wakeup, tamper event, time-stamp event, 
-               external reset in NRST pin, IWDG reset.
+                external reset in NRST pin, IWDG reset.
                 
       [..]    After waking up from Standby mode, program execution restarts in the same way as after a Reset.
           
@@ -395,15 +395,15 @@ void HAL_PWR_DisablePVD(void)
   * @param WakeUpPinPolarity: Specifies which Wake-Up pin to enable.
   *         This parameter can be one of the following legacy values which set the default polarity 
   *         i.e. detection on high level (rising edge):
-  *           @arg PWR_WAKEUP_PIN1, PWR_WAKEUP_PIN2, PWR_WAKEUP_PIN3, PWR_WAKEUP_PIN4, PWR_WAKEUP_PIN5
+  *           @arg @ref PWR_WAKEUP_PIN1, PWR_WAKEUP_PIN2, PWR_WAKEUP_PIN3, PWR_WAKEUP_PIN4, PWR_WAKEUP_PIN5
   *             
   *         or one of the following value where the user can explicitly specify the enabled pin and
   *         the chosen polarity:  
-  *           @arg PWR_WAKEUP_PIN1_HIGH or PWR_WAKEUP_PIN1_LOW 
-  *           @arg PWR_WAKEUP_PIN2_HIGH or PWR_WAKEUP_PIN2_LOW 
-  *           @arg PWR_WAKEUP_PIN3_HIGH or PWR_WAKEUP_PIN3_LOW 
-  *           @arg PWR_WAKEUP_PIN4_HIGH or PWR_WAKEUP_PIN4_LOW
-  *           @arg PWR_WAKEUP_PIN5_HIGH or PWR_WAKEUP_PIN5_LOW 
+  *           @arg @ref PWR_WAKEUP_PIN1_HIGH or PWR_WAKEUP_PIN1_LOW 
+  *           @arg @ref PWR_WAKEUP_PIN2_HIGH or PWR_WAKEUP_PIN2_LOW 
+  *           @arg @ref PWR_WAKEUP_PIN3_HIGH or PWR_WAKEUP_PIN3_LOW 
+  *           @arg @ref PWR_WAKEUP_PIN4_HIGH or PWR_WAKEUP_PIN4_LOW
+  *           @arg @ref PWR_WAKEUP_PIN5_HIGH or PWR_WAKEUP_PIN5_LOW 
   * @note  PWR_WAKEUP_PINx and PWR_WAKEUP_PINx_HIGH are equivalent.               
   * @retval None
   */
@@ -425,14 +425,14 @@ void HAL_PWR_EnableWakeUpPin(uint32_t WakeUpPinPolarity)
   * @brief Disable the WakeUp PINx functionality.
   * @param WakeUpPinx: Specifies the Power Wake-Up pin to disable.
   *         This parameter can be one of the following values:
-  *           @arg PWR_WAKEUP_PIN1, PWR_WAKEUP_PIN2, PWR_WAKEUP_PIN3, PWR_WAKEUP_PIN4, PWR_WAKEUP_PIN5 
+  *           @arg @ref PWR_WAKEUP_PIN1, PWR_WAKEUP_PIN2, PWR_WAKEUP_PIN3, PWR_WAKEUP_PIN4, PWR_WAKEUP_PIN5 
   * @retval None
   */
 void HAL_PWR_DisableWakeUpPin(uint32_t WakeUpPinx)
 {
   assert_param(IS_PWR_WAKEUP_PIN(WakeUpPinx));
 
-  CLEAR_BIT(PWR->CR3, WakeUpPinx); 
+  CLEAR_BIT(PWR->CR3, (PWR_CR3_EWUP & WakeUpPinx)); 
 }
 
 
@@ -441,8 +441,8 @@ void HAL_PWR_DisableWakeUpPin(uint32_t WakeUpPinx)
   * @note  In Sleep/Low-power Sleep mode, all I/O pins keep the same state as in Run mode.
   * @param Regulator: Specifies the regulator state in Sleep/Low-power Sleep mode.
   *          This parameter can be one of the following values:
-  *            @arg PWR_MAINREGULATOR_ON: Sleep mode (regulator in main mode)
-  *            @arg PWR_LOWPOWERREGULATOR_ON: Low-power Sleep mode (regulator in low-power mode) 
+  *            @arg @ref PWR_MAINREGULATOR_ON Sleep mode (regulator in main mode)
+  *            @arg @ref PWR_LOWPOWERREGULATOR_ON Low-power Sleep mode (regulator in low-power mode) 
   * @note  Low-power Sleep mode is entered from Low-power Run mode. Therefore, if not yet 
   *        in Low-power Run mode before calling HAL_PWR_EnterSLEEPMode() with Regulator set 
   *        to PWR_LOWPOWERREGULATOR_ON, the user can optionally configure the    
@@ -454,8 +454,8 @@ void HAL_PWR_DisableWakeUpPin(uint32_t WakeUpPinx)
   *        Run mode, the user must resort to HAL_PWREx_DisableLowPowerRunMode() API.       
   * @param SLEEPEntry: Specifies if Sleep mode is entered with WFI or WFE instruction.
   *           This parameter can be one of the following values:
-  *            @arg PWR_SLEEPENTRY_WFI: enter Sleep or Low-power Sleep mode with WFI instruction
-  *            @arg PWR_SLEEPENTRY_WFE: enter Sleep or Low-power Sleep mode with WFE instruction
+  *            @arg @ref PWR_SLEEPENTRY_WFI enter Sleep or Low-power Sleep mode with WFI instruction
+  *            @arg @ref PWR_SLEEPENTRY_WFE enter Sleep or Low-power Sleep mode with WFE instruction
   * @note  When WFI entry is used, tick interrupt have to be disabled if not desired as 
   *        the interrupt wake up source.   
   * @retval None

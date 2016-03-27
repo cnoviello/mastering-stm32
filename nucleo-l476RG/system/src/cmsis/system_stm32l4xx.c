@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    system_stm32l4xx.c
   * @author  MCD Application Team
-  * @version V1.0.2
-  * @date    25-November-2015
+  * @version V1.0.3
+  * @date    29-January-2016
   * @brief   CMSIS Cortex-M4 Device Peripheral Access Layer System Source File
   *
   *   This file provides two functions and one global variable to be called from
@@ -68,7 +68,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -159,7 +159,7 @@
 /** @addtogroup STM32L4xx_System_Private_Variables
   * @{
   */
-  /* This variable is updated in three ways:
+  /* The SystemCoreClock variable is updated in three ways:
       1) by calling CMSIS function SystemCoreClockUpdate()
       2) by calling HAL API function HAL_RCC_GetHCLKFreq()
       3) each time HAL_RCC_ClockConfig() is called to configure the system clock frequency
@@ -170,6 +170,7 @@
   uint32_t SystemCoreClock = 4000000;
 
   const uint8_t  AHBPrescTable[16] = {0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 6, 7, 8, 9};
+  const uint8_t  APBPrescTable[8] =  {0, 0, 0, 0, 1, 2, 3, 4};
   const uint32_t MSIRangeTable[12] = {100000, 200000, 400000, 800000, 1000000, 2000000, \
                                       4000000, 8000000, 16000000, 24000000, 32000000, 48000000};
 /**

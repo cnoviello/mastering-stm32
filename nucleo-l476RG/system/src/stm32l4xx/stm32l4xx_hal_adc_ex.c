@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_adc_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -88,7 +88,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -209,8 +209,8 @@
   * @param  hadc: ADC handle.
   * @param  SingleDiff: Selection of single-ended or differential input
   *          This parameter can be one of the following values:
-  *            @arg ADC_SINGLE_ENDED: Channel in mode input single ended
-  *            @arg ADC_DIFFERENTIAL_ENDED: Channel in mode input differential ended
+  *            @arg @ref ADC_SINGLE_ENDED       Channel in mode input single ended
+  *            @arg @ref ADC_DIFFERENTIAL_ENDED Channel in mode input differential ended
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_ADCEx_Calibration_Start(ADC_HandleTypeDef* hadc, uint32_t SingleDiff)
@@ -288,8 +288,8 @@ HAL_StatusTypeDef HAL_ADCEx_Calibration_Start(ADC_HandleTypeDef* hadc, uint32_t 
   * @param  hadc: ADC handle.
   * @param  SingleDiff: Selection of single-ended or differential input
   *          This parameter can be one of the following values:
-  *            @arg ADC_SINGLE_ENDED: Channel in mode input single ended
-  *            @arg ADC_DIFFERENTIAL_ENDED: Channel in mode input differential ended
+  *            @arg @ref ADC_SINGLE_ENDED       Channel in mode input single ended
+  *            @arg @ref ADC_DIFFERENTIAL_ENDED Channel in mode input differential ended
   * @retval Converted value
   */
 uint32_t HAL_ADCEx_Calibration_GetValue(ADC_HandleTypeDef* hadc, uint32_t SingleDiff)
@@ -316,8 +316,8 @@ uint32_t HAL_ADCEx_Calibration_GetValue(ADC_HandleTypeDef* hadc, uint32_t Single
   * @param  hadc: ADC handle.
   * @param  SingleDiff: Selection of single-ended or differential input.
   *          This parameter can be one of the following values:
-  *            @arg ADC_SINGLE_ENDED: Channel in mode input single ended
-  *            @arg ADC_DIFFERENTIAL_ENDED: Channel in mode input differential ended
+  *            @arg @ref ADC_SINGLE_ENDED       Channel in mode input single ended
+  *            @arg @ref ADC_DIFFERENTIAL_ENDED Channel in mode input differential ended
   * @param  CalibrationFactor: Calibration factor (coded on 7 bits maximum)
   * @retval HAL state
   */
@@ -912,7 +912,6 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedStop_IT(ADC_HandleTypeDef* hadc)
 }
 
 
-
 /**
   * @brief  Enable ADC, start MultiMode conversion and transfer regular results through DMA.
   * @note   Multimode must have been previously configured using 
@@ -1171,10 +1170,10 @@ uint32_t HAL_ADCEx_MultiModeGetValue(ADC_HandleTypeDef* hadc)
   * @param  hadc: ADC handle
   * @param  InjectedRank: the converted ADC injected rank.
   *          This parameter can be one of the following values:
-  *            @arg ADC_INJECTED_RANK_1: Injected Channel1 selected
-  *            @arg ADC_INJECTED_RANK_2: Injected Channel2 selected
-  *            @arg ADC_INJECTED_RANK_3: Injected Channel3 selected
-  *            @arg ADC_INJECTED_RANK_4: Injected Channel4 selected
+  *            @arg @ref ADC_INJECTED_RANK_1 Injected Channel1 selected
+  *            @arg @ref ADC_INJECTED_RANK_2 Injected Channel2 selected
+  *            @arg @ref ADC_INJECTED_RANK_3 Injected Channel3 selected
+  *            @arg @ref ADC_INJECTED_RANK_4 Injected Channel4 selected
   * @note   Reading JDRy register automatically clears JEOC flag. To reset JEOS 
   *         flag the user must resort to the macro 
   *         __HAL_ADC_CLEAR_FLAG(hadc, ADC_FLAG_JEOS).    
@@ -1218,6 +1217,9 @@ uint32_t HAL_ADCEx_InjectedGetValue(ADC_HandleTypeDef* hadc, uint32_t InjectedRa
   */
 __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADCEx_InjectedConvCpltCallback must be implemented in the user file.
   */
@@ -1235,6 +1237,9 @@ __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_InjectedQueueOverflowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADCEx_InjectedQueueOverflowCallback must be implemented in the user file.
   */
@@ -1247,6 +1252,9 @@ __weak void HAL_ADCEx_InjectedQueueOverflowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADCEx_LevelOutOfWindow2Callback must be implemented in the user file.
   */
@@ -1259,6 +1267,9 @@ __weak void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_LevelOutOfWindow3Callback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADCEx_LevelOutOfWindow3Callback must be implemented in the user file.
   */
@@ -1272,6 +1283,9 @@ __weak void HAL_ADCEx_LevelOutOfWindow3Callback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_EndOfSamplingCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADCEx_EndOfSamplingCallback must be implemented in the user file.
   */
@@ -1468,7 +1482,6 @@ HAL_StatusTypeDef HAL_ADCEx_RegularStop_DMA(ADC_HandleTypeDef* hadc)
 }
 
 
-
 /**
   * @brief  Stop DMA-based multimode ADC conversion, disable ADC DMA transfer, disable ADC peripheral if no injected conversion is on-going.
   * @note   Multimode is kept enabled after this function. Multimode DMA bits
@@ -1599,6 +1612,7 @@ HAL_StatusTypeDef HAL_ADCEx_RegularMultiModeStop_DMA(ADC_HandleTypeDef* hadc)
   /* Return function status */
   return tmp_status;
 }
+
 
 /**
   * @}
@@ -1947,16 +1961,12 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedConfigChannel(ADC_HandleTypeDef* hadc, ADC_I
     if (sConfigInjected->InjectedChannel >= ADC_CHANNEL_10)
     {
       /* Clear the old sample time and set the new one */
-            MODIFY_REG(hadc->Instance->SMPR2, 
-                ADC_SMPR2(ADC_SMPR2_SMP10, sConfigInjected->InjectedChannel), 
-                ADC_SMPR2(sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel));      
+      ADC_SMPR2_SETTING(hadc, sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel);                
     }
     else /* if ADC_Channel_0 ... ADC_Channel_9 is selected */
     {
      /* Clear the old sample time and set the new one */
-            MODIFY_REG(hadc->Instance->SMPR1, 
-                ADC_SMPR1(ADC_SMPR1_SMP0, sConfigInjected->InjectedChannel), 
-                ADC_SMPR1(sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel));    
+      ADC_SMPR1_SETTING(hadc, sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel);             
     }
     
         
@@ -2059,16 +2069,12 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedConfigChannel(ADC_HandleTypeDef* hadc, ADC_I
       if (sConfigInjected->InjectedChannel >= ADC_CHANNEL_9)
       {
         /* Clear the old sample time and set the new one */
-        MODIFY_REG(hadc->Instance->SMPR2, 
-                ADC_SMPR2(ADC_SMPR2_SMP10, sConfigInjected->InjectedChannel +1), 
-                ADC_SMPR2(sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel +1));           
+        ADC_SMPR2_SETTING(hadc, sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel+1);                     
       }
       else /* For channels 0 to 8 */
       {
          /* Clear the old sample time and set the new one */
-        MODIFY_REG(hadc->Instance->SMPR1, 
-            ADC_SMPR1(ADC_SMPR1_SMP0, sConfigInjected->InjectedChannel +1), 
-             ADC_SMPR1(sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel +1));          
+        ADC_SMPR1_SETTING(hadc, sConfigInjected->InjectedSamplingTime, sConfigInjected->InjectedChannel+1);                 
       }
     }
     
@@ -2149,7 +2155,6 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedConfigChannel(ADC_HandleTypeDef* hadc, ADC_I
   /* Return function status */
   return tmp_status;
 }
-
 
 
 
@@ -2243,7 +2248,6 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeConfigChannel(ADC_HandleTypeDef* hadc, ADC_
   /* Return function status */
   return tmp_status;
 } 
-
 
 
 /**

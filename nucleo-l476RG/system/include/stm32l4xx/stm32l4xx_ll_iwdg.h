@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_iwdg.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of IWDG LL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -64,10 +64,10 @@ extern "C" {
   * @{
   */
 
-#define LL_IWDG_KEY_RELOAD                 ((uint32_t)0x0000AAAA)                /*!< IWDG Reload Counter Enable   */
-#define LL_IWDG_KEY_ENABLE                 ((uint32_t)0x0000CCCC)                /*!< IWDG Peripheral Enable       */
-#define LL_IWDG_KEY_WR_ACCESS_ENABLE       ((uint32_t)0x00005555)                /*!< IWDG KR Write Access Enable  */
-#define LL_IWDG_KEY_WR_ACCESS_DISABLE      ((uint32_t)0x00000000)                /*!< IWDG KR Write Access Disable */
+#define LL_IWDG_KEY_RELOAD                 ((uint32_t)0x0000AAAAU)               /*!< IWDG Reload Counter Enable   */
+#define LL_IWDG_KEY_ENABLE                 ((uint32_t)0x0000CCCCU)               /*!< IWDG Peripheral Enable       */
+#define LL_IWDG_KEY_WR_ACCESS_ENABLE       ((uint32_t)0x00005555U)               /*!< IWDG KR Write Access Enable  */
+#define LL_IWDG_KEY_WR_ACCESS_DISABLE      ((uint32_t)0x00000000U)               /*!< IWDG KR Write Access Disable */
 
 /**
   * @}
@@ -85,24 +85,24 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_IWDG_ReadReg function
   * @{
   */
-#define LL_IWDG_SR_PVU                     IWDG_SR_PVU
-#define LL_IWDG_SR_RVU                     IWDG_SR_RVU
-#define LL_IWDG_SR_WVU                     IWDG_SR_WVU
+#define LL_IWDG_SR_PVU                     IWDG_SR_PVU                           /*!< Watchdog prescaler value update */
+#define LL_IWDG_SR_RVU                     IWDG_SR_RVU                           /*!< Watchdog counter reload value update */
+#define LL_IWDG_SR_WVU                     IWDG_SR_WVU                           /*!< Watchdog counter window value update */
 
 /**
   * @}
   */
 
-/** @defgroup IWDG_LL_EC_PRESCALER  PRESCALER
+/** @defgroup IWDG_LL_EC_PRESCALER  Prescaler Divider
   * @{
   */
-#define LL_IWDG_PRESCALER_4                ((uint32_t)0x00000000)                         /*!< Divider by 4   */
-#define LL_IWDG_PRESCALER_8                (IWDG_PR_PR_0)                                 /*!< Divider by 8   */
-#define LL_IWDG_PRESCALER_16               (IWDG_PR_PR_1)                                 /*!< Divider by 16  */
-#define LL_IWDG_PRESCALER_32               (IWDG_PR_PR_1 | IWDG_PR_PR_0)                  /*!< Divider by 32  */
-#define LL_IWDG_PRESCALER_64               (IWDG_PR_PR_2)                                 /*!< Divider by 64  */
-#define LL_IWDG_PRESCALER_128              (IWDG_PR_PR_2 | IWDG_PR_PR_0)                  /*!< Divider by 128 */
-#define LL_IWDG_PRESCALER_256              (IWDG_PR_PR_2 | IWDG_PR_PR_1)                  /*!< Divider by 256 */
+#define LL_IWDG_PRESCALER_4                ((uint32_t)0x00000000U)               /*!< Divider by 4   */
+#define LL_IWDG_PRESCALER_8                (IWDG_PR_PR_0)                        /*!< Divider by 8   */
+#define LL_IWDG_PRESCALER_16               (IWDG_PR_PR_1)                        /*!< Divider by 16  */
+#define LL_IWDG_PRESCALER_32               (IWDG_PR_PR_1 | IWDG_PR_PR_0)         /*!< Divider by 32  */
+#define LL_IWDG_PRESCALER_64               (IWDG_PR_PR_2)                        /*!< Divider by 64  */
+#define LL_IWDG_PRESCALER_128              (IWDG_PR_PR_2 | IWDG_PR_PR_0)         /*!< Divider by 128 */
+#define LL_IWDG_PRESCALER_256              (IWDG_PR_PR_2 | IWDG_PR_PR_1)         /*!< Divider by 256 */
 /**
   * @}
   */
@@ -236,10 +236,10 @@ __STATIC_INLINE uint32_t LL_IWDG_GetPrescaler(IWDG_TypeDef *IWDGx)
 }
 
 /**
-  * @brief  Specifies the IWDG down-counter reload value
+  * @brief  Specify the IWDG down-counter reload value
   * @rmtoll RLR          RL            LL_IWDG_SetReloadCounter
   * @param  IWDGx IWDG Instance
-  * @param  Counter 0..0x0FFF
+  * @param  Counter Value between Min_Data=0 and Max_Data=0x0FFF
   * @retval None
   */
 __STATIC_INLINE void LL_IWDG_SetReloadCounter(IWDG_TypeDef *IWDGx, uint32_t Counter)
@@ -251,7 +251,7 @@ __STATIC_INLINE void LL_IWDG_SetReloadCounter(IWDG_TypeDef *IWDGx, uint32_t Coun
   * @brief  Get the specified IWDG down-counter reload value
   * @rmtoll RLR          RL            LL_IWDG_GetReloadCounter
   * @param  IWDGx IWDG Instance
-  * @retval 0..0x0FFF
+  * @retval Value between Min_Data=0 and Max_Data=0x0FFF
   */
 __STATIC_INLINE uint32_t LL_IWDG_GetReloadCounter(IWDG_TypeDef *IWDGx)
 {
@@ -259,10 +259,10 @@ __STATIC_INLINE uint32_t LL_IWDG_GetReloadCounter(IWDG_TypeDef *IWDGx)
 }
 
 /**
-  * @brief  Specifies high limit of the window value to be compared to the down-counter.
+  * @brief  Specify high limit of the window value to be compared to the down-counter.
   * @rmtoll WINR         WIN           LL_IWDG_SetWindow
   * @param  IWDGx IWDG Instance
-  * @param  Window 0..0x0FFF
+  * @param  Window Value between Min_Data=0 and Max_Data=0x0FFF
   * @retval None
   */
 __STATIC_INLINE void LL_IWDG_SetWindow(IWDG_TypeDef *IWDGx, uint32_t Window)
@@ -274,7 +274,7 @@ __STATIC_INLINE void LL_IWDG_SetWindow(IWDG_TypeDef *IWDGx, uint32_t Window)
   * @brief  Get the high limit of the window value specified.
   * @rmtoll WINR         WIN           LL_IWDG_GetWindow
   * @param  IWDGx IWDG Instance
-  * @retval 0..0x0FFF
+  * @retval Value between Min_Data=0 and Max_Data=0x0FFF
   */
 __STATIC_INLINE uint32_t LL_IWDG_GetWindow(IWDG_TypeDef *IWDGx)
 {

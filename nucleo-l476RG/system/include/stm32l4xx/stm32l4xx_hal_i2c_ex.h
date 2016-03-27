@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_i2c_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of I2C HAL Extended module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
+  */
 
 /* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef __STM32L4xx_HAL_I2C_EX_H
@@ -44,7 +44,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32l4xx_hal_def.h"  
+#include "stm32l4xx_hal_def.h"
 
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
@@ -54,14 +54,14 @@
   * @{
   */ 
 
-/* Exported types ------------------------------------------------------------*/ 
+/* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 
-/** @defgroup I2CEx_Exported_Constants I2CEx Exported Constants
+/** @defgroup I2CEx_Exported_Constants I2C Extended Exported Constants
   * @{
   */
 
-/** @defgroup I2CEx_Analog_Filter I2CEx Analog Filter
+/** @defgroup I2CEx_Analog_Filter I2C Extended Analog Filter
   * @{
   */
 #define I2C_ANALOGFILTER_ENABLE         ((uint32_t)0x00000000)
@@ -83,15 +83,24 @@
 /**
   * @}
   */
-    
+
 /**
   * @}
   */ 
-  
+
 /* Exported macro ------------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/
 
-/* Peripheral Control methods  ************************************************/
+/** @addtogroup I2CEx_Exported_Functions I2C Extended Exported Functions
+  * @{
+  */
+
+/** @addtogroup I2CEx_Exported_Functions_Group1 Extended features functions
+  * @brief    Extended features functions
+  * @{
+  */
+
+/* Peripheral Control functions  ************************************************/
 HAL_StatusTypeDef HAL_I2CEx_ConfigAnalogFilter(I2C_HandleTypeDef *hi2c, uint32_t AnalogFilter);
 HAL_StatusTypeDef HAL_I2CEx_ConfigDigitalFilter(I2C_HandleTypeDef *hi2c, uint32_t DigitalFilter);
 HAL_StatusTypeDef HAL_I2CEx_EnableWakeUp(I2C_HandleTypeDef *hi2c);
@@ -106,7 +115,7 @@ void HAL_I2CEx_DisableFastModePlus(uint32_t ConfigFastModePlus);
 
 /**
   * @}
-  */ 
+  */
 
 /* Private macros ------------------------------------------------------------*/
 /** @defgroup I2C_Private_Macro I2C Private Macros
@@ -135,21 +144,28 @@ void HAL_I2CEx_DisableFastModePlus(uint32_t ConfigFastModePlus);
 /* Private functions are defined in stm32l4xx_hal_i2c_ex.c file */
 /**
   * @}
-  */ 
-
-/**
-  * @}
-  */ 
+  */
 
 /**
   * @}
   */
-  
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
 #ifdef __cplusplus
 }
 #endif
 
 #endif /* __STM32L4xx_HAL_I2C_EX_H */
-
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

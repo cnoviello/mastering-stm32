@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_swpmi.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of SWPMI LL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -58,12 +58,56 @@ extern "C" {
 
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
 /* Private constants ---------------------------------------------------------*/
-
 /* Private macros ------------------------------------------------------------*/
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup SWPMI_LL_Private_Macros SWPMI Private Macros
+  * @{
+  */
+/**
+  * @}
+  */
+#endif /*USE_FULL_LL_DRIVER*/
 
 /* Exported types ------------------------------------------------------------*/
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup SWPMI_LL_ES_INIT SWPMI Exported Init structure
+  * @{
+  */
+
+/**
+  * @brief  SWPMI Init structures definition
+  */
+typedef struct
+{
+  uint32_t VoltageClass;           /*!< Specifies the SWP Voltage Class.
+                                        This parameter can be a value of @ref SWPMI_LL_EC_VOLTAGE_CLASS
+
+                                        This feature can be modified afterwards using unitary function @ref LL_SWPMI_SetVoltageClass. */
+
+  uint32_t BitRatePrescaler;       /*!< Specifies the SWPMI bitrate prescaler.
+                                        This parameter must be a number between Min_Data=0 and Max_Data=63.
+
+                                        The value can be calculated thanks to helper macro @ref __LL_SWPMI_CALC_BITRATE_PRESCALER
+
+                                        This feature can be modified afterwards using unitary function @ref LL_SWPMI_SetBitRatePrescaler. */
+
+  uint32_t TxBufferingMode;        /*!< Specifies the transmission buffering mode.
+                                        This parameter can be a value of @ref SWPMI_LL_EC_SW_BUFFER_TX
+
+                                        This feature can be modified afterwards using unitary function @ref LL_SWPMI_SetTransmissionMode. */
+
+  uint32_t RxBufferingMode;        /*!< Specifies the reception buffering mode.
+                                        This parameter can be a value of @ref SWPMI_LL_EC_SW_BUFFER_RX
+
+                                        This feature can be modified afterwards using unitary function @ref LL_SWPMI_SetReceptionMode. */
+} LL_SWPMI_InitTypeDef;
+
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
+
 /* Exported constants --------------------------------------------------------*/
 /** @defgroup SWPMI_LL_Exported_Constants SWPMI Exported Constants
   * @{
@@ -73,13 +117,13 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_SWPMI_WriteReg function
   * @{
   */
-#define LL_SWPMI_ICR_CRXBFF          SWPMI_ICR_CRXBFF
-#define LL_SWPMI_ICR_CTXBEF          SWPMI_ICR_CTXBEF
-#define LL_SWPMI_ICR_CRXBERF         SWPMI_ICR_CRXBERF
-#define LL_SWPMI_ICR_CRXOVRF         SWPMI_ICR_CRXOVRF
-#define LL_SWPMI_ICR_CTXUNRF         SWPMI_ICR_CTXUNRF
-#define LL_SWPMI_ICR_CTCF            SWPMI_ICR_CTCF
-#define LL_SWPMI_ICR_CSRF            SWPMI_ICR_CSRF
+#define LL_SWPMI_ICR_CRXBFF                SWPMI_ICR_CRXBFF  /*!< Clear receive buffer full flag     */
+#define LL_SWPMI_ICR_CTXBEF                SWPMI_ICR_CTXBEF  /*!< Clear transmit buffer empty flag   */
+#define LL_SWPMI_ICR_CRXBERF               SWPMI_ICR_CRXBERF /*!< Clear receive CRC error flag       */
+#define LL_SWPMI_ICR_CRXOVRF               SWPMI_ICR_CRXOVRF /*!< Clear receive overrun error flag   */
+#define LL_SWPMI_ICR_CTXUNRF               SWPMI_ICR_CTXUNRF /*!< Clear transmit underrun error flag */
+#define LL_SWPMI_ICR_CTCF                  SWPMI_ICR_CTCF    /*!< Clear transfer complete flag       */
+#define LL_SWPMI_ICR_CSRF                  SWPMI_ICR_CSRF    /*!< Clear slave resume flag            */
 /**
   * @}
   */
@@ -88,17 +132,17 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_SWPMI_ReadReg function
   * @{
   */
-#define LL_SWPMI_ISR_RXBFF           SWPMI_ISR_RXBFF
-#define LL_SWPMI_ISR_TXBEF           SWPMI_ISR_TXBEF
-#define LL_SWPMI_ISR_RXBERF          SWPMI_ISR_RXBERF
-#define LL_SWPMI_ISR_RXOVRF          SWPMI_ISR_RXOVRF
-#define LL_SWPMI_ISR_TXUNRF          SWPMI_ISR_TXUNRF
-#define LL_SWPMI_ISR_RXNE            SWPMI_ISR_RXNE
-#define LL_SWPMI_ISR_TXE             SWPMI_ISR_TXE
-#define LL_SWPMI_ISR_TCF             SWPMI_ISR_TCF
-#define LL_SWPMI_ISR_SRF             SWPMI_ISR_SRF
-#define LL_SWPMI_ISR_SUSP            SWPMI_ISR_SUSP
-#define LL_SWPMI_ISR_DEACTF          SWPMI_ISR_DEACTF
+#define LL_SWPMI_ISR_RXBFF                 SWPMI_ISR_RXBFF   /*!< Receive buffer full flag           */
+#define LL_SWPMI_ISR_TXBEF                 SWPMI_ISR_TXBEF   /*!< Transmit buffer empty flag         */
+#define LL_SWPMI_ISR_RXBERF                SWPMI_ISR_RXBERF  /*!< Receive CRC error flag             */
+#define LL_SWPMI_ISR_RXOVRF                SWPMI_ISR_RXOVRF  /*!< Receive overrun error flag         */
+#define LL_SWPMI_ISR_TXUNRF                SWPMI_ISR_TXUNRF  /*!< Transmit underrun error flag       */
+#define LL_SWPMI_ISR_RXNE                  SWPMI_ISR_RXNE    /*!< Receive data register not empty    */
+#define LL_SWPMI_ISR_TXE                   SWPMI_ISR_TXE     /*!< Transmit data register empty       */
+#define LL_SWPMI_ISR_TCF                   SWPMI_ISR_TCF     /*!< Transfer complete flag             */
+#define LL_SWPMI_ISR_SRF                   SWPMI_ISR_SRF     /*!< Slave resume flag                  */
+#define LL_SWPMI_ISR_SUSP                  SWPMI_ISR_SUSP    /*!< SUSPEND flag                       */
+#define LL_SWPMI_ISR_DEACTF                SWPMI_ISR_DEACTF  /*!< DEACTIVATED flag                   */
 /**
   * @}
   */
@@ -107,15 +151,15 @@ extern "C" {
   * @brief    IT defines which can be used with LL_SWPMI_ReadReg and  LL_SWPMI_WriteReg functions
   * @{
   */
-#define LL_SWPMI_IER_SRIE            SWPMI_IER_SRIE
-#define LL_SWPMI_IER_TCIE            SWPMI_IER_TCIE
-#define LL_SWPMI_IER_TIE             SWPMI_IER_TIE
-#define LL_SWPMI_IER_RIE             SWPMI_IER_RIE
-#define LL_SWPMI_IER_TXUNRIE         SWPMI_IER_TXUNRIE
-#define LL_SWPMI_IER_RXOVRIE         SWPMI_IER_RXOVRIE
-#define LL_SWPMI_IER_RXBERIE         SWPMI_IER_RXBERIE
-#define LL_SWPMI_IER_TXBEIE          SWPMI_IER_TXBEIE
-#define LL_SWPMI_IER_RXBFIE          SWPMI_IER_RXBFIE
+#define LL_SWPMI_IER_SRIE                  SWPMI_IER_SRIE    /*!< Slave resume interrupt enable            */
+#define LL_SWPMI_IER_TCIE                  SWPMI_IER_TCIE    /*!< Transmit complete interrupt enable       */
+#define LL_SWPMI_IER_TIE                   SWPMI_IER_TIE     /*!< Transmit interrupt enable                */
+#define LL_SWPMI_IER_RIE                   SWPMI_IER_RIE     /*!< Receive interrupt enable                 */
+#define LL_SWPMI_IER_TXUNRIE               SWPMI_IER_TXUNRIE /*!< Transmit underrun error interrupt enable */
+#define LL_SWPMI_IER_RXOVRIE               SWPMI_IER_RXOVRIE /*!< Receive overrun error interrupt enable   */
+#define LL_SWPMI_IER_RXBERIE               SWPMI_IER_RXBERIE /*!< Receive CRC error interrupt enable       */
+#define LL_SWPMI_IER_TXBEIE                SWPMI_IER_TXBEIE  /*!< Transmit buffer empty interrupt enable   */
+#define LL_SWPMI_IER_RXBFIE                SWPMI_IER_RXBFIE  /*!< Receive buffer full interrupt enable     */
 /**
   * @}
   */
@@ -123,8 +167,8 @@ extern "C" {
 /** @defgroup SWPMI_LL_EC_SW_BUFFER_RX SW BUFFER RX
   * @{
   */
-#define LL_SWPMI_SW_BUFFER_RX_SINGLE ((uint32_t)0x00000000) /*!< Single software buffer mode for reception */
-#define LL_SWPMI_SW_BUFFER_RX_MULTI  SWPMI_CR_RXMODE        /*!< Multi software buffermode for reception */
+#define LL_SWPMI_SW_BUFFER_RX_SINGLE ((uint32_t)0x00000000)  /*!< Single software buffer mode for reception */
+#define LL_SWPMI_SW_BUFFER_RX_MULTI  SWPMI_CR_RXMODE         /*!< Multi software buffermode for reception   */
 /**
   * @}
   */
@@ -132,8 +176,8 @@ extern "C" {
 /** @defgroup SWPMI_LL_EC_SW_BUFFER_TX SW BUFFER TX
   * @{
   */
-#define LL_SWPMI_SW_BUFFER_TX_SINGLE ((uint32_t)0x00000000) /*!< Single software buffer mode for transmission */
-#define LL_SWPMI_SW_BUFFER_TX_MULTI  SWPMI_CR_TXMODE        /*!< Multi software buffermode for transmission */
+#define LL_SWPMI_SW_BUFFER_TX_SINGLE ((uint32_t)0x00000000)  /*!< Single software buffer mode for transmission */
+#define LL_SWPMI_SW_BUFFER_TX_MULTI  SWPMI_CR_TXMODE         /*!< Multi software buffermode for transmission   */
 /**
   * @}
   */
@@ -141,8 +185,8 @@ extern "C" {
 /** @defgroup SWPMI_LL_EC_VOLTAGE_CLASS VOLTAGE CLASS
   * @{
   */
-#define LL_SWPMI_VOLTAGE_CLASS_C     ((uint32_t)0x00000000) /*!< SWPMI_IO uses directly VDD voltage to operate in class C */
-#define LL_SWPMI_VOLTAGE_CLASS_B     SWPMI_OR_CLASS         /*!< SWPMI_IO uses an internal voltage regulator to operate in class B */
+#define LL_SWPMI_VOLTAGE_CLASS_C     ((uint32_t)0x00000000)  /*!< SWPMI_IO uses directly VDD voltage to operate in class C          */
+#define LL_SWPMI_VOLTAGE_CLASS_B     SWPMI_OR_CLASS          /*!< SWPMI_IO uses an internal voltage regulator to operate in class B */
 /**
   * @}
   */
@@ -150,8 +194,8 @@ extern "C" {
 /** @defgroup SWPMI_LL_EC_DMA_REG_DATA DMA register data
   * @{
   */
-#define LL_SWPMI_DMA_REG_DATA_TRANSMIT     (uint32_t)0      /*!< Get address of data register used for transmission */
-#define LL_SWPMI_DMA_REG_DATA_RECEIVE      (uint32_t)1      /*!< Get address of data register used for reception */
+#define LL_SWPMI_DMA_REG_DATA_TRANSMIT     (uint32_t)0       /*!< Get address of data register used for transmission */
+#define LL_SWPMI_DMA_REG_DATA_RECEIVE      (uint32_t)1       /*!< Get address of data register used for reception    */
 /**
   * @}
   */
@@ -194,10 +238,10 @@ extern "C" {
   */
 
 /**
-  * @brief  Helper macro to calculate bit rate value to set in BRR register (LL_SWPMI_SetBitRatePrescaler function)
-  * @note ex: __LL_SWPMI_CALC_BITRATE_PRESCALER(2000000, 80000000);
-  * @param  __FSWP__ Within the following range: from 100 kbit/s up to 2Mbit/s (in bit/s)
-  * @param  __FSWPCLK__ PCLK or HSI frequency (in hz)
+  * @brief  Helper macro to calculate bit rate value to set in BRR register (@ref LL_SWPMI_SetBitRatePrescaler function)
+  * @note ex: @ref __LL_SWPMI_CALC_BITRATE_PRESCALER(2000000, 80000000);
+  * @param  __FSWP__ Within the following range: from 100 Kbit/s up to 2Mbit/s (in bit/s)
+  * @param  __FSWPCLK__ PCLK or HSI frequency (in Hz)
   * @retval Bitrate prescaler (BRR register)
   */
 #define __LL_SWPMI_CALC_BITRATE_PRESCALER(__FSWP__, __FSWPCLK__)   ((uint32_t)(((__FSWPCLK__) / ((__FSWP__) * 4)) - 1))
@@ -221,17 +265,17 @@ extern "C" {
 
 /**
   * @brief  Set Reception buffering mode
-  * @note If Multi software buffer mode is chosen, RXDMA bits must also be set.
+  * @note   If Multi software buffer mode is chosen, RXDMA bits must also be set.
   * @rmtoll CR           RXMODE        LL_SWPMI_SetReceptionMode
   * @param  SWPMIx SWPMI Instance
-  * @param  Mode This parameter can be one of the following values:
+  * @param  RxBufferingMode This parameter can be one of the following values:
   *         @arg @ref LL_SWPMI_SW_BUFFER_RX_SINGLE
   *         @arg @ref LL_SWPMI_SW_BUFFER_RX_MULTI
   * @retval None
   */
-__STATIC_INLINE void LL_SWPMI_SetReceptionMode(SWPMI_TypeDef *SWPMIx, uint32_t Mode)
+__STATIC_INLINE void LL_SWPMI_SetReceptionMode(SWPMI_TypeDef *SWPMIx, uint32_t RxBufferingMode)
 {
-  MODIFY_REG(SWPMIx->CR, SWPMI_CR_RXMODE, Mode);
+  MODIFY_REG(SWPMIx->CR, SWPMI_CR_RXMODE, RxBufferingMode);
 }
 
 /**
@@ -249,17 +293,17 @@ __STATIC_INLINE uint32_t LL_SWPMI_GetReceptionMode(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Set Transmission buffering mode
-  * @note If Multi software buffer mode is chosen, TXDMA bits must also be set.
+  * @note   If Multi software buffer mode is chosen, TXDMA bits must also be set.
   * @rmtoll CR           TXMODE        LL_SWPMI_SetTransmissionMode
   * @param  SWPMIx SWPMI Instance
-  * @param  Mode This parameter can be one of the following values:
+  * @param  TxBufferingMode This parameter can be one of the following values:
   *         @arg @ref LL_SWPMI_SW_BUFFER_TX_SINGLE
   *         @arg @ref LL_SWPMI_SW_BUFFER_TX_MULTI
   * @retval None
   */
-__STATIC_INLINE void LL_SWPMI_SetTransmissionMode(SWPMI_TypeDef *SWPMIx, uint32_t Mode)
+__STATIC_INLINE void LL_SWPMI_SetTransmissionMode(SWPMI_TypeDef *SWPMIx, uint32_t TxBufferingMode)
 {
-  MODIFY_REG(SWPMIx->CR, SWPMI_CR_TXMODE, Mode);
+  MODIFY_REG(SWPMIx->CR, SWPMI_CR_TXMODE, TxBufferingMode);
 }
 
 /**
@@ -276,7 +320,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_GetTransmissionMode(SWPMI_TypeDef *SWPMIx)
 }
 
 /**
-  * @brief  Enable Loopback mode
+  * @brief  Enable loopback mode
   * @rmtoll CR           LPBK          LL_SWPMI_EnableLoopback
   * @param  SWPMIx SWPMI Instance
   * @retval None
@@ -287,7 +331,7 @@ __STATIC_INLINE void LL_SWPMI_EnableLoopback(SWPMI_TypeDef *SWPMIx)
 }
 
 /**
-  * @brief  Disable Loopback mode
+  * @brief  Disable loopback mode
   * @rmtoll CR           LPBK          LL_SWPMI_DisableLoopback
   * @param  SWPMIx SWPMI Instance
   * @retval None
@@ -299,10 +343,10 @@ __STATIC_INLINE void LL_SWPMI_DisableLoopback(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Activate Single wire protocol bus (SUSPENDED or ACTIVATED state)
-  * @note SWP bus stays in the ACTIVATED state as long as there is a communication
-  * with the slave, either in transmission or in reception. The SWP bus switches back
-  * to the SUSPENDED state as soon as there is no more transmission or reception
-  * activity, after 7 idle bits.
+  * @note   SWP bus stays in the ACTIVATED state as long as there is a communication
+  *         with the slave, either in transmission or in reception. The SWP bus switches back
+  *         to the SUSPENDED state as soon as there is no more transmission or reception
+  *         activity, after 7 idle bits.
   * @rmtoll CR           SWPACT        LL_SWPMI_Activate
   * @param  SWPMIx SWPMI Instance
   * @retval None
@@ -317,8 +361,19 @@ __STATIC_INLINE void LL_SWPMI_Activate(SWPMI_TypeDef *SWPMIx)
 }
 
 /**
+  * @brief  Check if Single wire protocol bus is in ACTIVATED state.
+  * @rmtoll CR           SWPACT        LL_SWPMI_Activate
+  * @param  SWPMIx SWPMI Instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_SWPMI_IsActivated(SWPMI_TypeDef *SWPMIx)
+{
+  return (READ_BIT(SWPMIx->CR, SWPMI_CR_SWPACT) == (SWPMI_CR_SWPACT));
+}
+
+/**
   * @brief  Deactivate immediately Single wire protocol bus (immediate transition to
-  * DEACTIVATED state)
+  *         DEACTIVATED state)
   * @rmtoll CR           SWPACT        LL_SWPMI_Deactivate
   * @param  SWPMIx SWPMI Instance
   * @retval None
@@ -330,7 +385,7 @@ __STATIC_INLINE void LL_SWPMI_Deactivate(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Request a deactivation of Single wire protocol bus (request to go in DEACTIVATED
-  * state if no resume from slave)
+  *         state if no resume from slave)
   * @rmtoll CR           DEACT         LL_SWPMI_RequestDeactivation
   * @param  SWPMIx SWPMI Instance
   * @retval None
@@ -344,19 +399,19 @@ __STATIC_INLINE void LL_SWPMI_RequestDeactivation(SWPMI_TypeDef *SWPMIx)
   * @brief  Set Bitrate prescaler SWPMI_freq = SWPMI_clk / (((BitRate) + 1)  * 4)
   * @rmtoll BRR          BR            LL_SWPMI_SetBitRatePrescaler
   * @param  SWPMIx SWPMI Instance
-  * @param  Prescaler A number between 0 and 63
+  * @param  BitRatePrescaler A number between Min_Data=0 and Max_Data=63
   * @retval None
   */
-__STATIC_INLINE void LL_SWPMI_SetBitRatePrescaler(SWPMI_TypeDef *SWPMIx, uint32_t Prescaler)
+__STATIC_INLINE void LL_SWPMI_SetBitRatePrescaler(SWPMI_TypeDef *SWPMIx, uint32_t BitRatePrescaler)
 {
-  WRITE_REG(SWPMIx->BRR, Prescaler);
+  WRITE_REG(SWPMIx->BRR, BitRatePrescaler);
 }
 
 /**
   * @brief  Get Bitrate prescaler
   * @rmtoll BRR          BR            LL_SWPMI_GetBitRatePrescaler
   * @param  SWPMIx SWPMI Instance
-  * @retval A number between 0 and 63
+  * @retval A number between Min_Data=0 and Max_Data=63
   */
 __STATIC_INLINE uint32_t LL_SWPMI_GetBitRatePrescaler(SWPMI_TypeDef *SWPMIx)
 {
@@ -367,14 +422,14 @@ __STATIC_INLINE uint32_t LL_SWPMI_GetBitRatePrescaler(SWPMI_TypeDef *SWPMIx)
   * @brief  Set SWP Voltage Class
   * @rmtoll OR           CLASS         LL_SWPMI_SetVoltageClass
   * @param  SWPMIx SWPMI Instance
-  * @param  Class This parameter can be one of the following values:
+  * @param  VoltageClass This parameter can be one of the following values:
   *         @arg @ref LL_SWPMI_VOLTAGE_CLASS_C
   *         @arg @ref LL_SWPMI_VOLTAGE_CLASS_B
   * @retval None
   */
-__STATIC_INLINE void LL_SWPMI_SetVoltageClass(SWPMI_TypeDef *SWPMIx, uint32_t Class)
+__STATIC_INLINE void LL_SWPMI_SetVoltageClass(SWPMI_TypeDef *SWPMIx, uint32_t VoltageClass)
 {
-  MODIFY_REG(SWPMIx->OR, SWPMI_OR_CLASS, Class);
+  MODIFY_REG(SWPMIx->OR, SWPMI_OR_CLASS, VoltageClass);
 }
 
 /**
@@ -399,7 +454,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_GetVoltageClass(SWPMI_TypeDef *SWPMIx)
   */
 
 /**
-  * @brief  Check if the last word of the frame underreception has arrived in SWPMI_RDR.
+  * @brief  Check if the last word of the frame under reception has arrived in SWPMI_RDR.
   * @rmtoll ISR          RXBFF         LL_SWPMI_IsActiveFlag_RXBF
   * @param  SWPMIx SWPMI Instance
   * @retval State of bit (1 or 0).
@@ -443,7 +498,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_IsActiveFlag_RXOVR(SWPMI_TypeDef *SWPMIx)
 }
 
 /**
-  * @brief  Check if Underrun error in transmission has been detected
+  * @brief  Check if underrun error in transmission has been detected
   * @rmtoll ISR          TXUNRF        LL_SWPMI_IsActiveFlag_TXUNR
   * @param  SWPMIx SWPMI Instance
   * @retval State of bit (1 or 0).
@@ -455,7 +510,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_IsActiveFlag_TXUNR(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Check if Receive data register not empty (it means that Received data is ready
-  * to be read in the SWPMI_RDR register)
+  *         to be read in the SWPMI_RDR register)
   * @rmtoll ISR          RXNE          LL_SWPMI_IsActiveFlag_RXNE
   * @param  SWPMIx SWPMI Instance
   * @retval State of bit (1 or 0).
@@ -467,7 +522,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_IsActiveFlag_RXNE(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Check if Transmit data register is empty (it means that Data written in transmit
-  * data register SWPMI_TDR has been transmitted and SWPMI_TDR can be written to again)
+  *         data register SWPMI_TDR has been transmitted and SWPMI_TDR can be written to again)
   * @rmtoll ISR          TXE           LL_SWPMI_IsActiveFlag_TXE
   * @param  SWPMIx SWPMI Instance
   * @retval State of bit (1 or 0).
@@ -479,7 +534,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_IsActiveFlag_TXE(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Check if Both transmission and reception are completed and SWP is switched to
-  * the SUSPENDED state
+  *         the SUSPENDED state
   * @rmtoll ISR          TCF           LL_SWPMI_IsActiveFlag_TC
   * @param  SWPMIx SWPMI Instance
   * @retval State of bit (1 or 0).
@@ -491,7 +546,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_IsActiveFlag_TC(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Check if a Resume by slave state has been detected during the SWP bus SUSPENDED
-  * state
+  *         state
   * @rmtoll ISR          SRF           LL_SWPMI_IsActiveFlag_SR
   * @param  SWPMIx SWPMI Instance
   * @retval State of bit (1 or 0).
@@ -989,7 +1044,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_IsEnabledDMAReq_TX(SWPMI_TypeDef *SWPMIx)
   *         @arg @ref LL_SWPMI_DMA_REG_DATA_RECEIVE
   * @retval Address of data register
   */
-__STATIC_INLINE uint32_t LL_SWPMI_DMA_GetRegAddr(SWPMI_TypeDef * SWPMIx, uint32_t Direction)
+__STATIC_INLINE uint32_t LL_SWPMI_DMA_GetRegAddr(SWPMI_TypeDef *SWPMIx, uint32_t Direction)
 {
   register uint32_t data_reg_addr = 0;
 
@@ -1019,7 +1074,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_DMA_GetRegAddr(SWPMI_TypeDef * SWPMIx, uint32_
   * @brief  Retrieve number of data bytes present in payload of received frame
   * @rmtoll RFL          RFL           LL_SWPMI_GetReceiveFrameLength
   * @param  SWPMIx SWPMI Instance
-  * @retval Between 0 and 0x1F
+  * @retval Value between Min_Data=0x00 and Max_Data=0x1F
   */
 __STATIC_INLINE uint32_t LL_SWPMI_GetReceiveFrameLength(SWPMI_TypeDef *SWPMIx)
 {
@@ -1030,7 +1085,7 @@ __STATIC_INLINE uint32_t LL_SWPMI_GetReceiveFrameLength(SWPMI_TypeDef *SWPMIx)
   * @brief  Transmit Data Register
   * @rmtoll TDR          TD            LL_SWPMI_TransmitData32
   * @param  SWPMIx SWPMI Instance
-  * @param  TxData Between 0 and 0xFFFFFFFF
+  * @param  TxData Value between Min_Data=0x00000000 and Max_Data=0xFFFFFFFF
   * @retval None
   */
 __STATIC_INLINE void LL_SWPMI_TransmitData32(SWPMI_TypeDef *SWPMIx, uint32_t TxData)
@@ -1042,7 +1097,7 @@ __STATIC_INLINE void LL_SWPMI_TransmitData32(SWPMI_TypeDef *SWPMIx, uint32_t TxD
   * @brief  Receive Data Register
   * @rmtoll RDR          RD            LL_SWPMI_ReceiveData32
   * @param  SWPMIx SWPMI Instance
-  * @retval Between 0 and 0xFFFFFFFF
+  * @retval Value between Min_Data=0x00000000 and Max_Data=0xFFFFFFFF
   */
 __STATIC_INLINE uint32_t LL_SWPMI_ReceiveData32(SWPMI_TypeDef *SWPMIx)
 {
@@ -1051,8 +1106,8 @@ __STATIC_INLINE uint32_t LL_SWPMI_ReceiveData32(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Enable SWP Transceiver Bypass
-  * @note The external interface for SWPMI is SWPMI_IO
-  *       (SWPMI_RX, SWPMI_TX and SWPMI_SUSPEND signals are not available on GPIOs)
+  * @note   The external interface for SWPMI is SWPMI_IO
+  *         (SWPMI_RX, SWPMI_TX and SWPMI_SUSPEND signals are not available on GPIOs)
   * @rmtoll OR           TBYP          LL_SWPMI_EnableTXBypass
   * @param  SWPMIx SWPMI Instance
   * @retval None
@@ -1064,8 +1119,8 @@ __STATIC_INLINE void LL_SWPMI_EnableTXBypass(SWPMI_TypeDef *SWPMIx)
 
 /**
   * @brief  Disable SWP Transceiver Bypass
-  * @note SWPMI_RX, SWPMI_TX and SWPMI_SUSPEND signals are available as alternate
-  *       function on GPIOs. This configuration is selected to connect an external transceiver
+  * @note   SWPMI_RX, SWPMI_TX and SWPMI_SUSPEND signals are available as alternate
+  *         function on GPIOs. This configuration is selected to connect an external transceiver
   * @rmtoll OR           TBYP          LL_SWPMI_DisableTXBypass
   * @param  SWPMIx SWPMI Instance
   * @retval None
@@ -1079,6 +1134,19 @@ __STATIC_INLINE void LL_SWPMI_DisableTXBypass(SWPMI_TypeDef *SWPMIx)
   * @}
   */
 
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup SWPMI_LL_EF_Init Initialization and de-initialization functions
+  * @{
+  */
+
+ErrorStatus LL_SWPMI_DeInit(SWPMI_TypeDef *SWPMIx);
+ErrorStatus LL_SWPMI_Init(SWPMI_TypeDef *SWPMIx, LL_SWPMI_InitTypeDef *SWPMI_InitStruct);
+void        LL_SWPMI_StructInit(LL_SWPMI_InitTypeDef *SWPMI_InitStruct);
+
+/**
+  * @}
+  */
+#endif /*USE_FULL_LL_DRIVER*/
 
 /**
   * @}

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_uart_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Extended UART HAL module driver.
   *          This file provides firmware functions to manage the following extended
   *          functionalities of the Universal Asynchronous Receiver Transmitter Peripheral (UART).
@@ -26,7 +26,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -102,26 +102,6 @@ static void UARTEx_Wakeup_AddressConfig(UART_HandleTypeDef *huart, UART_WakeUpTy
         (++) Stop Bit
         (++) Parity: If the parity is enabled, then the MSB bit of the data written
              in the data register is transmitted but is changed by the parity bit.
-             Depending on the frame length defined by the  M1 and M0 bits (7-bit,
-             8-bit or 9-bit),
-             the possible UART frame formats are as listed in the following table:
-            
-            (+++)    Table 1. UART frame format.              
-            (+++)   +-----------------------------------------------------------------------+
-            (+++)   |  M1 bit |  M0 bit |  PCE bit  |             UART frame                |
-            (+++)   |---------|---------|-----------|---------------------------------------|
-            (+++)   |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
-            (+++)   |---------|---------|-----------|---------------------------------------|
-            (+++)   |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-            (+++)   |---------|---------|-----------|---------------------------------------|
-            (+++)   |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
-            (+++)   |---------|---------|-----------|---------------------------------------|
-            (+++)   |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-            (+++)   |---------|---------|-----------|---------------------------------------|
-            (+++)   |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
-            (+++)   |---------|---------|-----------|---------------------------------------|
-            (+++)   |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
-            (+++)   +-----------------------------------------------------------------------+
         (++) Hardware flow control
         (++) Receiver/transmitter modes
         (++) Over Sampling Method
@@ -139,6 +119,28 @@ static void UARTEx_Wakeup_AddressConfig(UART_HandleTypeDef *huart, UART_WakeUpTy
      procedures (details for the procedures are available in reference manual).
 
 @endverbatim
+
+  Depending on the frame length defined by the M1 and M0 bits (7-bit, 
+  8-bit or 9-bit), the possible UART formats are listed in the 
+  following table.
+  
+    Table 1. UART frame format.
+    +-----------------------------------------------------------------------+
+    |  M1 bit |  M0 bit |  PCE bit  |             UART frame                |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
+    +-----------------------------------------------------------------------+
+
   * @{
   */
 
@@ -148,8 +150,8 @@ static void UARTEx_Wakeup_AddressConfig(UART_HandleTypeDef *huart, UART_WakeUpTy
   * @param huart: UART handle.
   * @param Polarity: select the driver enable polarity.
   *        This parameter can be one of the following values:
-  *          @arg UART_DE_POLARITY_HIGH: DE signal is active high
-  *          @arg UART_DE_POLARITY_LOW: DE signal is active low
+  *          @arg @ref UART_DE_POLARITY_HIGH DE signal is active high
+  *          @arg @ref UART_DE_POLARITY_LOW  DE signal is active low
   * @param AssertionTime: Driver Enable assertion time:
   *                         5-bit value defining the time between the activation of the DE (Driver Enable)
   *                         signal and the beginning of the start bit. It is expressed in sample time
@@ -265,8 +267,8 @@ HAL_StatusTypeDef HAL_RS485Ex_Init(UART_HandleTypeDef *huart, uint32_t Polarity,
   *        7-bit address detection in 8-bit data mode, 8-bit address detection in 9-bit data mode.
   * @param huart: UART handle.
   * @param AddressLength: this parameter can be one of the following values:
-  *          @arg UART_ADDRESS_DETECT_4B: 4-bit long address
-  *          @arg UART_ADDRESS_DETECT_7B: 6-, 7- or 8-bit long address
+  *          @arg @ref UART_ADDRESS_DETECT_4B 4-bit long address
+  *          @arg @ref UART_ADDRESS_DETECT_7B 6-, 7- or 8-bit long address
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *huart, uint32_t AddressLength)
@@ -301,9 +303,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
   * @param huart: UART handle.
   * @param WakeUpSelection: address match, Start Bit detection or RXNE bit status.
   * This parameter can be one of the following values:
-  *      @arg UART_WAKEUP_ON_ADDRESS
-  *      @arg UART_WAKEUP_ON_STARTBIT
-  *      @arg UART_WAKEUP_ON_READDATA_NONEMPTY
+  *      @arg @ref UART_WAKEUP_ON_ADDRESS
+  *      @arg @ref UART_WAKEUP_ON_STARTBIT
+  *      @arg @ref UART_WAKEUP_ON_READDATA_NONEMPTY
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_UARTEx_StopModeWakeUpSourceConfig(UART_HandleTypeDef *huart, UART_WakeUpTypeDef WakeUpSelection)
@@ -404,8 +406,11 @@ HAL_StatusTypeDef HAL_UARTEx_DisableStopMode(UART_HandleTypeDef *huart)
   * @param huart: UART handle.
   * @retval None
   */
- __weak void HAL_UARTEx_WakeupCallback(UART_HandleTypeDef *huart)
+__weak void HAL_UARTEx_WakeupCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UARTEx_WakeupCallback can be implemented in the user file.
    */

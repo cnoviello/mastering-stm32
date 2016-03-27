@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_comp.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of COMP HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -98,6 +98,7 @@ typedef struct
 typedef enum
 {
   HAL_COMP_STATE_RESET             = 0x00,    /*!< COMP not yet initialized or disabled             */
+  HAL_COMP_STATE_RESET_LOCKED      = 0x10,    /*!< COMP configuration is locked in its reset state  */
   HAL_COMP_STATE_READY             = 0x01,    /*!< COMP initialized and ready for use               */
   HAL_COMP_STATE_READY_LOCKED      = 0x11,    /*!< COMP initialized but the configuration is locked */
   HAL_COMP_STATE_BUSY              = 0x02,    /*!< COMP is running                                  */

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_dma.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   DMA HAL module driver.
   *    
   *         This file provides firmware functions to manage the following
@@ -73,7 +73,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -725,7 +725,7 @@ void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
       hdma->ErrorCode |= HAL_DMA_ERROR_TE;
 
       /* Change the DMA state */
-      hdma->State = HAL_DMA_STATE_ERROR;
+      hdma->State = HAL_DMA_STATE_READY;
 
       /* Process Unlocked */
       __HAL_UNLOCK(hdma);

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_cryp_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   CRYPEx HAL module driver.
   *          This file provides firmware functions to manage the extended 
   *          functionalities of the Cryptography (CRYP) peripheral.  
@@ -11,7 +11,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -117,8 +117,11 @@ static void CRYP_DMAError(DMA_HandleTypeDef *hdma);
   */
 __weak void HAL_CRYPEx_ComputationCpltCallback(CRYP_HandleTypeDef *hcryp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcryp);
+
   /* NOTE : This function should not be modified; when the callback is needed,
-            the HAL_CRYP_ErrorCallback can be implemented in the user file
+            the HAL_CRYPEx_ComputationCpltCallback can be implemented in the user file
    */ 
 }
 
@@ -672,6 +675,7 @@ HAL_StatusTypeDef HAL_CRYPEx_AES_Auth(CRYP_HandleTypeDef *hcryp, uint8_t *pInput
          to end, suspend processing */  
         if ((hcryp->SuspendRequest == HAL_CRYP_SUSPEND) && ((index+16) < Size))
         {
+          /* no flag waiting under IRQ handling */
           if (hcryp->Init.OperatingMode == CRYP_ALGOMODE_ENCRYPT)
           {
             /* Ensure that Busy flag is reset */
@@ -681,7 +685,7 @@ HAL_StatusTypeDef HAL_CRYPEx_AES_Auth(CRYP_HandleTypeDef *hcryp, uint8_t *pInput
               __HAL_UNLOCK(hcryp);
               return HAL_TIMEOUT;
             }
-          }       
+          }               
           /* reset SuspendRequest */
           hcryp->SuspendRequest = HAL_CRYP_SUSPEND_NONE;
           /* Change the CRYP state */
@@ -1602,6 +1606,9 @@ void HAL_CRYPEx_Read_ControlRegister(CRYP_HandleTypeDef *hcryp, uint8_t* Output)
 void HAL_CRYPEx_Write_ControlRegister(CRYP_HandleTypeDef *hcryp, uint8_t* Input)
 {  
   hcryp->Instance->CR = *(uint32_t*)(Input);
+  /* At the same time, set handle state back to READY to be able to resume the AES calculations 
+     without the processing APIs returning HAL_BUSY when called. */
+  hcryp->State        = HAL_CRYP_STATE_READY;
 }
 
 /**
@@ -1651,14 +1658,24 @@ static void CRYP_GCMCMAC_DMAInCplt(DMA_HandleTypeDef *hdma)
   CLEAR_BIT(hcryp->Instance->CR, AES_CR_DMAINEN);
   
   if (hcryp->Init.GCMCMACPhase == CRYP_GCMCMAC_HEADER_PHASE)
-  {
-    /* Clear CCF Flag */
-    __HAL_CRYP_CLEAR_FLAG(CRYP_CCF_CLEAR); 
-    /* Change the CRYP state */
-    hcryp->State = HAL_CRYP_STATE_READY;
-    
-    /* Mark that the header phase is over */
-    hcryp->Phase = HAL_CRYP_PHASE_HEADER_OVER;
+  {    
+    /* Wait for CCF flag to be raised */
+    if(CRYP_WaitOnCCFlag(hcryp, CRYP_CCF_TIMEOUTVALUE) != HAL_OK)  
+    { 
+      /* In case of time out, update hcryp->State to flag the issue */
+      hcryp->State = HAL_CRYP_STATE_TIMEOUT ;        
+      __HAL_UNLOCK(hcryp);
+    } 
+    else
+    {   
+      /* Clear CCF Flag */
+      __HAL_CRYP_CLEAR_FLAG(CRYP_CCF_CLEAR); 
+      /* Change the CRYP state */
+      hcryp->State = HAL_CRYP_STATE_READY;
+   
+      /* Mark that the header phase is over */
+      hcryp->Phase = HAL_CRYP_PHASE_HEADER_OVER;
+    }
   }
   
   /* Call input data transfer complete callback */

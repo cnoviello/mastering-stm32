@@ -15,7 +15,7 @@ DMA_HandleTypeDef hdma_tim2_ch1;
 #define ASR   1.8 //360 / 200 = 1.8
 
 int main(void) {
-  uint16_t IV[200];
+  uint32_t IV[200];
   float angle;
 
   HAL_Init();
@@ -38,7 +38,7 @@ void MX_TIM2_Init(void) {
   TIM_OC_InitTypeDef sConfigOC;
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 15;
+  htim2.Init.Prescaler = 16;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim2.Init.Period = 199;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -54,8 +54,8 @@ void MX_TIM2_Init(void) {
   hdma_tim2_ch1.Init.Direction = DMA_MEMORY_TO_PERIPH;
   hdma_tim2_ch1.Init.PeriphInc = DMA_PINC_DISABLE;
   hdma_tim2_ch1.Init.MemInc = DMA_MINC_ENABLE;
-  hdma_tim2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
-  hdma_tim2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+  hdma_tim2_ch1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+  hdma_tim2_ch1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
   hdma_tim2_ch1.Init.Mode = DMA_CIRCULAR;
   hdma_tim2_ch1.Init.Priority = DMA_PRIORITY_LOW;
   HAL_DMA_Init(&hdma_tim2_ch1);

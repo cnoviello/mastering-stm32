@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_usart.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   USART HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Universal Synchronous/Asynchronous Receiver Transmitter
@@ -59,7 +59,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -159,26 +159,6 @@ static HAL_StatusTypeDef USART_TransmitReceive_IT(USART_HandleTypeDef *husart);
         (++) Stop Bit
         (++) Parity: If the parity is enabled, then the MSB bit of the data written
              in the data register is transmitted but is changed by the parity bit.
-             Depending on the frame length defined by the M1 and M0 bits (7-bit,
-             8-bit or 9-bit), the possible USART frame formats are as listed in the
-             following table:
-
-            (+++)    Table 1. USART frame format.   
-            (+++)    +-----------------------------------------------------------------------+
-            (+++)    |  M1 bit |  M0 bit |  PCE bit  |            USART frame                |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
-            (+++)    +-----------------------------------------------------------------------+
         (++) USART polarity
         (++) USART phase
         (++) USART LastBit
@@ -189,6 +169,28 @@ static HAL_StatusTypeDef USART_TransmitReceive_IT(USART_HandleTypeDef *husart);
     procedure (details for the procedure are available in reference manual).
 
 @endverbatim
+
+  Depending on the frame length defined by the M1 and M0 bits (7-bit, 
+  8-bit or 9-bit), the possible USART formats are listed in the 
+  following table.
+  
+    Table 1. USART frame format.
+    +-----------------------------------------------------------------------+
+    |  M1 bit |  M0 bit |  PCE bit  |            USART frame                |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
+    +-----------------------------------------------------------------------+
+
   * @{
   */
 
@@ -281,8 +283,11 @@ HAL_StatusTypeDef HAL_USART_DeInit(USART_HandleTypeDef *husart)
   * @param husart: USART handle.
   * @retval None
   */
- __weak void HAL_USART_MspInit(USART_HandleTypeDef *husart)
+__weak void HAL_USART_MspInit(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_USART_MspInit can be implemented in the user file
    */
@@ -293,8 +298,11 @@ HAL_StatusTypeDef HAL_USART_DeInit(USART_HandleTypeDef *husart)
   * @param husart: USART handle.
   * @retval None
   */
- __weak void HAL_USART_MspDeInit(USART_HandleTypeDef *husart)
+__weak void HAL_USART_MspDeInit(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_USART_MspDeInit can be implemented in the user file
    */
@@ -1162,6 +1170,9 @@ void HAL_USART_IRQHandler(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_TxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_USART_TxCpltCallback can be implemented in the user file.
    */
@@ -1172,8 +1183,11 @@ __weak void HAL_USART_TxCpltCallback(USART_HandleTypeDef *husart)
   * @param husart: USART handle.
   * @retval None
   */
- __weak void HAL_USART_TxHalfCpltCallback(USART_HandleTypeDef *husart)
+__weak void HAL_USART_TxHalfCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_TxHalfCpltCallback can be implemented in the user file.
    */
@@ -1186,6 +1200,9 @@ __weak void HAL_USART_TxCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_USART_RxCpltCallback can be implemented in the user file.
    */
@@ -1198,6 +1215,9 @@ __weak void HAL_USART_RxCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_RxHalfCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_USART_RxHalfCpltCallback can be implemented in the user file
    */
@@ -1210,6 +1230,9 @@ __weak void HAL_USART_RxHalfCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_TxRxCpltCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_USART_TxRxCpltCallback can be implemented in the user file
    */
@@ -1222,6 +1245,9 @@ __weak void HAL_USART_TxRxCpltCallback(USART_HandleTypeDef *husart)
   */
 __weak void HAL_USART_ErrorCallback(USART_HandleTypeDef *husart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(husart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_USART_ErrorCallback can be implemented in the user file.
    */

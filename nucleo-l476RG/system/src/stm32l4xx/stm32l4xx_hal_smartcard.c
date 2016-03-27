@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_smartcard.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   SMARTCARD HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the SMARTCARD peripheral:
@@ -105,7 +105,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -201,16 +201,7 @@ static HAL_StatusTypeDef SMARTCARD_Receive_IT(SMARTCARD_HandleTypeDef *hsmartcar
   (+) These parameters can be configured:
       (++) Baud Rate
       (++) Parity: parity should be enabled,
-           Frame Length is fixed to 8 bits plus parity:
-           the USART frame format is given in the following table:
-
-      (+++) Table 1. USART frame format.
-      (+++) +---------------------------------------------------------------+        
-      (+++) | M1M0 bits |  PCE bit  |            USART frame                |        
-      (+++) |-----------------------|---------------------------------------|        
-      (+++) |     01    |    1      |    | SB | 8 bit data | PB | STB |     |        
-      (+++) +---------------------------------------------------------------+        
-
+           Frame Length is fixed to 8 bits plus parity.
       (++) Receiver/transmitter modes
       (++) Synchronous mode (and if enabled, phase, polarity and last bit parameters)
       (++) Prescaler value
@@ -232,6 +223,17 @@ static HAL_StatusTypeDef SMARTCARD_Receive_IT(SMARTCARD_HandleTypeDef *hsmartcar
   (details for the procedures are available in reference manual).
 
 @endverbatim
+
+  The USART frame format is given in the following table:
+
+    Table 1. USART frame format.
+    +---------------------------------------------------------------+        
+    | M1M0 bits |  PCE bit  |            USART frame                |        
+    |-----------------------|---------------------------------------|        
+    |     01    |    1      |    | SB | 8 bit data | PB | STB |     |        
+    +---------------------------------------------------------------+        
+
+
   * @{
   */
 
@@ -341,8 +343,11 @@ HAL_StatusTypeDef HAL_SMARTCARD_DeInit(SMARTCARD_HandleTypeDef *hsmartcard)
   *                    the configuration information for the specified SMARTCARD module.
   * @retval None
   */
- __weak void HAL_SMARTCARD_MspInit(SMARTCARD_HandleTypeDef *hsmartcard)
+__weak void HAL_SMARTCARD_MspInit(SMARTCARD_HandleTypeDef *hsmartcard)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmartcard);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMARTCARD_MspInit can be implemented in the user file
    */
@@ -354,8 +359,11 @@ HAL_StatusTypeDef HAL_SMARTCARD_DeInit(SMARTCARD_HandleTypeDef *hsmartcard)
   *                    the configuration information for the specified SMARTCARD module.
   * @retval None
   */
- __weak void HAL_SMARTCARD_MspDeInit(SMARTCARD_HandleTypeDef *hsmartcard)
+__weak void HAL_SMARTCARD_MspDeInit(SMARTCARD_HandleTypeDef *hsmartcard)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmartcard);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMARTCARD_MspDeInit can be implemented in the user file
    */
@@ -752,6 +760,9 @@ HAL_StatusTypeDef HAL_SMARTCARD_Transmit_DMA(SMARTCARD_HandleTypeDef *hsmartcard
     tmp = (uint32_t*)&pData;
     HAL_DMA_Start_IT(hsmartcard->hdmatx, *(uint32_t*)tmp, (uint32_t)&hsmartcard->Instance->TDR, Size);
 
+    /* Clear the TC flag in the ICR register */
+    __HAL_SMARTCARD_CLEAR_FLAG(hsmartcard, SMARTCARD_CLEAR_TCF);
+
     /* Enable the DMA transfer for transmit request by setting the DMAT bit
        in the SMARTCARD associated USART CR3 register */
     SET_BIT(hsmartcard->Instance->CR3, USART_CR3_DMAT);
@@ -926,8 +937,11 @@ void HAL_SMARTCARD_IRQHandler(SMARTCARD_HandleTypeDef *hsmartcard)
   *                    the configuration information for the specified SMARTCARD module.
   * @retval None
   */
- __weak void HAL_SMARTCARD_TxCpltCallback(SMARTCARD_HandleTypeDef *hsmartcard)
+__weak void HAL_SMARTCARD_TxCpltCallback(SMARTCARD_HandleTypeDef *hsmartcard)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmartcard);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMARTCARD_TxCpltCallback can be implemented in the user file.
    */
@@ -941,6 +955,9 @@ void HAL_SMARTCARD_IRQHandler(SMARTCARD_HandleTypeDef *hsmartcard)
   */
 __weak void HAL_SMARTCARD_RxCpltCallback(SMARTCARD_HandleTypeDef *hsmartcard)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmartcard);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMARTCARD_RxCpltCallback can be implemented in the user file.
    */
@@ -954,6 +971,9 @@ __weak void HAL_SMARTCARD_RxCpltCallback(SMARTCARD_HandleTypeDef *hsmartcard)
   */
 __weak void HAL_SMARTCARD_ErrorCallback(SMARTCARD_HandleTypeDef *hsmartcard)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmartcard);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMARTCARD_ErrorCallback can be implemented in the user file.
    */
@@ -1310,7 +1330,6 @@ static HAL_StatusTypeDef SMARTCARD_SetConfig(SMARTCARD_HandleTypeDef *hsmartcard
   MODIFY_REG(hsmartcard->Instance->CR1, USART_CR1_FIELDS, tmpreg);
 
   /*-------------------------- USART CR2 Configuration -----------------------*/
-  /* Stop bits are forced to 1.5 (STOP = 11) */
   tmpreg = hsmartcard->Init.StopBits;
   /* Synchronous mode is activated by default */
   tmpreg |= (uint32_t) USART_CR2_CLKEN | hsmartcard->Init.CLKPolarity;
@@ -1330,7 +1349,7 @@ static HAL_StatusTypeDef SMARTCARD_SetConfig(SMARTCARD_HandleTypeDef *hsmartcard
   MODIFY_REG(hsmartcard->Instance-> CR3,USART_CR3_FIELDS, tmpreg);
 
   /*-------------------------- USART GTPR Configuration ----------------------*/
-  tmpreg = (hsmartcard->Init.Prescaler | (((uint32_t)hsmartcard->Init.GuardTime-12) << SMARTCARD_GTPR_GT_LSB_POS));
+  tmpreg = (hsmartcard->Init.Prescaler | ((uint32_t)hsmartcard->Init.GuardTime << SMARTCARD_GTPR_GT_LSB_POS));
   MODIFY_REG(hsmartcard->Instance->GTPR, (USART_GTPR_GT|USART_GTPR_PSC), tmpreg);
 
   /*-------------------------- USART RTOR Configuration ----------------------*/

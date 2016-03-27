@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_gpio.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   GPIO HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the General Purpose Input/Output (GPIO) peripheral:
@@ -93,7 +93,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -533,6 +533,9 @@ void HAL_GPIO_EXTI_IRQHandler(uint16_t GPIO_Pin)
   */
 __weak void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(GPIO_Pin);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_GPIO_EXTI_Callback could be implemented in the user file
    */

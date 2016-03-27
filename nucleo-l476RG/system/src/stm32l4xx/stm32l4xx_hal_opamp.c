@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_opamp.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   OPAMP HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the operational amplifier(s) peripheral: 
@@ -64,40 +64,12 @@
            output.
        (++) OPAMP gain is either 2, 4, 8 or 16.
         
-       (#) The OPAMPs inverting input can be 
-           selected among the list shown by table below.
+       (#) The OPAMPs inverting input can be selected according to the Reference Manual 
+           "OPAMP function description" chapter.
        
-       (#) The OPAMPs non inverting input can be 
-           selected among the list shown by table below.
+       (#) The OPAMPs non inverting input can be selected according to the Reference Manual 
+           "OPAMP function description" chapter.
        
-   [..] Table 1.  OPAMPs inverting/non-inverting inputs for the STM32L4 devices:
-     
-       (+) +------------------------------------------------------------------------|     
-       (+) |                 |         | OPAMP1               | OPAMP2              |
-       (+) |-----------------|---------|----------------------|---------------------|
-       (+) | Inverting Input | VM_SEL  |                      |                     |
-       (+) |                 |         |  IO0-> PA1           | IO0-> PA7           |
-       (+) |                 |         |  LOW LEAKAGE IO (2)  | LOW LEAKAGE IO (2)  |
-       (+) |                 |         |  Not connected       | Not connected       |
-       (+) | (1)             |         |    PGA mode only     |   PGA mode only     |
-       (+) |-----------------|---------|----------------------|---------------------|
-       (+) |  Non Inverting  | VP_SEL  |                      |                     |
-       (+) |                 |         |  IO0-> PA0 (GPIO)    | IO0-> PA6  (GPIO)   |
-       (+) |    Input        |         |  DAC1_OUT1 internal  | DAC1_OUT2 internal  |
-       (+) +------------------------------------------------------------------------|
-       [..] (1): NA in follower mode.
-       [..](2): Available on some package only (ex. BGA132).
-           
-   [..] Table 2.  OPAMPs outputs for the STM32L4 devices:
-
-       (+) +-------------------------------------------------------------------------     
-       (+) |                 |        | OPAMP1                | OPAMP2              |
-       (+) |-----------------|--------|-----------------------|---------------------|
-       (+) | Output          |  VOUT  |  PA3                  |  PB0                |
-       (+) |                 |        |  & (2) ADC12_IN if    | & (2) ADC12_IN if   |
-       (+) |                 |        |  connected internally | connected internally|
-       (+) |-----------------|--------|-----------------------|---------------------|
-    [..] (2): ADC1 or ADC2 shall select IN15.
       
             ##### How to use this driver #####
 ================================================================================
@@ -171,9 +143,40 @@
 
   @endverbatim
   ******************************************************************************
+
+      Table 1.  OPAMPs inverting/non-inverting inputs for the STM32L4 devices:
+      +------------------------------------------------------------------------|     
+      |                 |         | OPAMP1               | OPAMP2              |
+      |-----------------|---------|----------------------|---------------------|
+      | Inverting Input | VM_SEL  |                      |                     |
+      |                 |         |  IO0-> PA1           | IO0-> PA7           |
+      |                 |         |  LOW LEAKAGE IO (2)  | LOW LEAKAGE IO (2)  |
+      |                 |         |  Not connected       | Not connected       |
+      | (1)             |         |    PGA mode only     |   PGA mode only     |
+      |-----------------|---------|----------------------|---------------------|
+      |  Non Inverting  | VP_SEL  |                      |                     |
+      |                 |         |  IO0-> PA0 (GPIO)    | IO0-> PA6  (GPIO)   |
+      |    Input        |         |  DAC1_OUT1 internal  | DAC1_OUT2 internal  |
+      +------------------------------------------------------------------------|
+       (1): NA in follower mode.
+       (2): Available on some package only (ex. BGA132).
+           
+           
+      Table 2.  OPAMPs outputs for the STM32L4 devices:
+
+      +-------------------------------------------------------------------------     
+      |                 |        | OPAMP1                | OPAMP2              |
+      |-----------------|--------|-----------------------|---------------------|
+      | Output          |  VOUT  |  PA3                  |  PB0                |
+      |                 |        |  & (1) ADC12_IN if    | & (1) ADC12_IN if   |
+      |                 |        |  connected internally | connected internally|
+      |-----------------|--------|-----------------------|---------------------|
+       (1): ADC1 or ADC2 shall select IN15.
+
+  ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -456,6 +459,9 @@ HAL_StatusTypeDef HAL_OPAMP_DeInit(OPAMP_HandleTypeDef *hopamp)
   */
 __weak void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef *hopamp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hopamp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the function "HAL_OPAMP_MspInit()" must be implemented in the user file.
    */
@@ -468,6 +474,9 @@ __weak void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef *hopamp)
   */
 __weak void HAL_OPAMP_MspDeInit(OPAMP_HandleTypeDef *hopamp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hopamp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the function "HAL_OPAMP_MspDeInit()" must be implemented in the user file.
    */

@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_flash.h
   * @author  MCD Application Team
-  * @version V1.2.0 
-  * @date    25-November-2015
+  * @version V1.3.0 
+  * @date    29-January-2016
   * @brief   Header file of FLASH HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -398,16 +398,16 @@ typedef struct
 /** @defgroup FLASH_Keys FLASH Keys
   * @{
   */ 
-#define FLASH_KEY1                ((uint32_t)0x45670123)               /*!< Flash key1 */
-#define FLASH_KEY2                ((uint32_t)0xCDEF89AB)               /*!< Flash key2: used with FLASH_KEY1 
+#define FLASH_KEY1                ((uint32_t)0x45670123U)               /*!< Flash key1 */
+#define FLASH_KEY2                ((uint32_t)0xCDEF89ABU)               /*!< Flash key2: used with FLASH_KEY1 
                                                                             to unlock the FLASH registers access */
 
-#define FLASH_PDKEY1              ((uint32_t)0x04152637)               /*!< Flash power down key1 */
-#define FLASH_PDKEY2              ((uint32_t)0xFAFBFCFD)               /*!< Flash power down key2: used with FLASH_PDKEY1 
+#define FLASH_PDKEY1              ((uint32_t)0x04152637U)               /*!< Flash power down key1 */
+#define FLASH_PDKEY2              ((uint32_t)0xFAFBFCFDU)               /*!< Flash power down key2: used with FLASH_PDKEY1 
                                                                             to unlock the RUN_PD bit in FLASH_ACR */
 
-#define FLASH_OPTKEY1             ((uint32_t)0x08192A3B)               /*!< Flash option byte key1 */
-#define FLASH_OPTKEY2             ((uint32_t)0x4C5D6E7F)               /*!< Flash option byte key2: used with FLASH_OPTKEY1 
+#define FLASH_OPTKEY1             ((uint32_t)0x08192A3BU)               /*!< Flash option byte key1 */
+#define FLASH_OPTKEY2             ((uint32_t)0x4C5D6E7FU)               /*!< Flash option byte key2: used with FLASH_OPTKEY1 
                                                                             to allow option bytes operations */
 /**
   * @}
@@ -472,8 +472,7 @@ typedef struct
   *     @arg FLASH_LATENCY_4: FLASH Four wait states
   * @retval None
   */ 
-#define __HAL_FLASH_SET_LATENCY(__LATENCY__)    (FLASH->ACR = IS_FLASH_LATENCY(__LATENCY__) ? \
-                                                 (FLASH->ACR & (~FLASH_ACR_LATENCY)) | (__LATENCY__) : FLASH->ACR)
+#define __HAL_FLASH_SET_LATENCY(__LATENCY__)    (MODIFY_REG(FLASH->ACR, FLASH_ACR_LATENCY, (__LATENCY__)))
 
 /**
   * @brief  Get the FLASH Latency.
@@ -528,14 +527,18 @@ typedef struct
   * @note   This function must be used only when the Instruction Cache is disabled.  
   * @retval None
   */
-#define __HAL_FLASH_INSTRUCTION_CACHE_RESET()   SET_BIT(FLASH->ACR, FLASH_ACR_ICRST)
+#define __HAL_FLASH_INSTRUCTION_CACHE_RESET()   do { SET_BIT(FLASH->ACR, FLASH_ACR_ICRST);   \
+                                                     CLEAR_BIT(FLASH->ACR, FLASH_ACR_ICRST); \
+                                                   } while (0)
 
 /**
   * @brief  Reset the FLASH data Cache.
   * @note   This function must be used only when the data Cache is disabled.  
   * @retval None
   */
-#define __HAL_FLASH_DATA_CACHE_RESET()          SET_BIT(FLASH->ACR, FLASH_ACR_DCRST)
+#define __HAL_FLASH_DATA_CACHE_RESET()          do { SET_BIT(FLASH->ACR, FLASH_ACR_DCRST);   \
+                                                     CLEAR_BIT(FLASH->ACR, FLASH_ACR_DCRST); \
+                                                   } while (0)
 
 /**
   * @brief  Enable the FLASH power down during Low-power run mode.

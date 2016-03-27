@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_adc.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of ADC HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -353,13 +353,13 @@ typedef struct
   uint32_t Channel;           /*!< Selects which ADC channel to monitor by analog watchdog.
                                    For Analog Watchdog 1: this parameter has an effect only if parameter 'WatchdogMode' is configured on single channel (only 1 channel can be monitored).
                                    For Analog Watchdog 2 and 3: Several channels can be monitored (successive calls of HAL_ADC_AnalogWDGConfig() must be done, one for each channel.
-                                                                Channels group reset can be done by setting WatchdogMode to 'ADC_ANALOGWATCHDOG_NONE').
+                                   Channels group reset can be done by setting WatchdogMode to 'ADC_ANALOGWATCHDOG_NONE').
                                    This parameter can be a value of @ref ADC_channels. */
   uint32_t ITMode;            /*!< Specifies whether the analog watchdog is configured in interrupt or polling mode.
                                    This parameter can be set to ENABLE or DISABLE */
   uint32_t HighThreshold;     /*!< Configures the ADC analog watchdog High threshold value.
                                    Depending of ADC resolution selected (12, 10, 8 or 6 bits), this parameter must be a number between Min_Data = 0x000 and Max_Data = 0xFFF, 
-   0x3FF, 0xFF or 0x3F respectively.
+                                   0x3FF, 0xFF or 0x3F respectively.
                                    Note: Analog watchdog 2 and 3 are limited to a resolution of 8 bits: if ADC resolution is 12 bits 
                                          the 4 LSB are ignored, if ADC resolution is 10 bits the 2 LSB are ignored. */
   uint32_t LowThreshold;      /*!< Configures the ADC analog watchdog Low threshold value.
@@ -542,7 +542,7 @@ typedef struct
 /** @defgroup ADC_sampling_times ADC Sampling Times
   * @{
   */
-#define ADC_SAMPLETIME_2CYCLE_5       ((uint32_t)0x00000000)                              /*!< Sampling time 2.5 ADC clock cycle    */
+#define ADC_SAMPLETIME_2CYCLES_5      ((uint32_t)0x00000000)                              /*!< Sampling time 2.5 ADC clock cycle    */
 #define ADC_SAMPLETIME_6CYCLES_5      ((uint32_t)ADC_SMPR2_SMP10_0)                       /*!< Sampling time 6.5 ADC clock cycles   */
 #define ADC_SAMPLETIME_12CYCLES_5     ((uint32_t)ADC_SMPR2_SMP10_1)                       /*!< Sampling time 12.5 ADC clock cycles  */
 #define ADC_SAMPLETIME_24CYCLES_5     ((uint32_t)(ADC_SMPR2_SMP10_1 | ADC_SMPR2_SMP10_0)) /*!< Sampling time 24.5 ADC clock cycles  */
@@ -817,17 +817,17 @@ typedef struct
   * @param __HANDLE__: ADC handle.
   * @param __INTERRUPT__: ADC interrupt source to check
   *          This parameter can be one of the following values:
-  *            @arg ADC_IT_RDY,    ADC Ready (ADRDY) interrupt source
-  *            @arg ADC_IT_EOSMP,  ADC End of Sampling interrupt source
-  *            @arg ADC_IT_EOC,    ADC End of Regular Conversion interrupt source
-  *            @arg ADC_IT_EOS,    ADC End of Regular sequence of Conversions interrupt source
-  *            @arg ADC_IT_OVR,    ADC overrun interrupt source
-  *            @arg ADC_IT_JEOC,   ADC End of Injected Conversion interrupt source
-  *            @arg ADC_IT_JEOS,   ADC End of Injected sequence of Conversions interrupt source
-  *            @arg ADC_IT_AWD1,   ADC Analog watchdog 1 interrupt source (main analog watchdog)
-  *            @arg ADC_IT_AWD2,   ADC Analog watchdog 2 interrupt source (additional analog watchdog)
-  *            @arg ADC_IT_AWD3,   ADC Analog watchdog 3 interrupt source (additional analog watchdog)
-  *            @arg ADC_IT_JQOVF,  ADC Injected Context Queue Overflow interrupt source.  
+  *            @arg @ref ADC_IT_RDY,    ADC Ready (ADRDY) interrupt source
+  *            @arg @ref ADC_IT_EOSMP,  ADC End of Sampling interrupt source
+  *            @arg @ref ADC_IT_EOC,    ADC End of Regular Conversion interrupt source
+  *            @arg @ref ADC_IT_EOS,    ADC End of Regular sequence of Conversions interrupt source
+  *            @arg @ref ADC_IT_OVR,    ADC overrun interrupt source
+  *            @arg @ref ADC_IT_JEOC,   ADC End of Injected Conversion interrupt source
+  *            @arg @ref ADC_IT_JEOS,   ADC End of Injected sequence of Conversions interrupt source
+  *            @arg @ref ADC_IT_AWD1,   ADC Analog watchdog 1 interrupt source (main analog watchdog)
+  *            @arg @ref ADC_IT_AWD2,   ADC Analog watchdog 2 interrupt source (additional analog watchdog)
+  *            @arg @ref ADC_IT_AWD3,   ADC Analog watchdog 3 interrupt source (additional analog watchdog)
+  *            @arg @ref ADC_IT_JQOVF,  ADC Injected Context Queue Overflow interrupt source.  
   * @retval State of interruption (SET or RESET)
   */
 #define __HAL_ADC_GET_IT_SOURCE(__HANDLE__, __INTERRUPT__)                     \
@@ -840,17 +840,17 @@ typedef struct
   * @param __HANDLE__: ADC handle.
   * @param __INTERRUPT__: ADC Interrupt to enable
    *          This parameter can be one of the following values:
-  *            @arg ADC_IT_RDY,    ADC Ready (ADRDY) interrupt source
-  *            @arg ADC_IT_EOSMP,  ADC End of Sampling interrupt source
-  *            @arg ADC_IT_EOC,    ADC End of Regular Conversion interrupt source
-  *            @arg ADC_IT_EOS,    ADC End of Regular sequence of Conversions interrupt source
-  *            @arg ADC_IT_OVR,    ADC overrun interrupt source
-  *            @arg ADC_IT_JEOC,   ADC End of Injected Conversion interrupt source
-  *            @arg ADC_IT_JEOS,   ADC End of Injected sequence of Conversions interrupt source
-  *            @arg ADC_IT_AWD1,   ADC Analog watchdog 1 interrupt source (main analog watchdog)
-  *            @arg ADC_IT_AWD2,   ADC Analog watchdog 2 interrupt source (additional analog watchdog)
-  *            @arg ADC_IT_AWD3,  ADC Analog watchdog 3 interrupt source (additional analog watchdog)
-  *            @arg ADC_IT_JQOVF,  ADC Injected Context Queue Overflow interrupt source. 
+  *            @arg @ref ADC_IT_RDY,    ADC Ready (ADRDY) interrupt source
+  *            @arg @ref ADC_IT_EOSMP,  ADC End of Sampling interrupt source
+  *            @arg @ref ADC_IT_EOC,    ADC End of Regular Conversion interrupt source
+  *            @arg @ref ADC_IT_EOS,    ADC End of Regular sequence of Conversions interrupt source
+  *            @arg @ref ADC_IT_OVR,    ADC overrun interrupt source
+  *            @arg @ref ADC_IT_JEOC,   ADC End of Injected Conversion interrupt source
+  *            @arg @ref ADC_IT_JEOS,   ADC End of Injected sequence of Conversions interrupt source
+  *            @arg @ref ADC_IT_AWD1,   ADC Analog watchdog 1 interrupt source (main analog watchdog)
+  *            @arg @ref ADC_IT_AWD2,   ADC Analog watchdog 2 interrupt source (additional analog watchdog)
+  *            @arg @ref ADC_IT_AWD3,  ADC Analog watchdog 3 interrupt source (additional analog watchdog)
+  *            @arg @ref ADC_IT_JQOVF,  ADC Injected Context Queue Overflow interrupt source. 
   * @retval None
   */
 #define __HAL_ADC_ENABLE_IT(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) |= (__INTERRUPT__))
@@ -859,17 +859,17 @@ typedef struct
   * @brief Disable an ADC interrupt.
   * @param __HANDLE__: ADC handle.
   * @param __INTERRUPT__: ADC Interrupt to disable
-  *            @arg ADC_IT_RDY,    ADC Ready (ADRDY) interrupt source
-  *            @arg ADC_IT_EOSMP,  ADC End of Sampling interrupt source
-  *            @arg ADC_IT_EOC,    ADC End of Regular Conversion interrupt source
-  *            @arg ADC_IT_EOS,    ADC End of Regular sequence of Conversions interrupt source
-  *            @arg ADC_IT_OVR,    ADC overrun interrupt source
-  *            @arg ADC_IT_JEOC,   ADC End of Injected Conversion interrupt source
-  *            @arg ADC_IT_JEOS,   ADC End of Injected sequence of Conversions interrupt source
-  *            @arg ADC_IT_AWD1,   ADC Analog watchdog 1 interrupt source (main analog watchdog)
-  *            @arg ADC_IT_AWD2,   ADC Analog watchdog 2 interrupt source (additional analog watchdog)
-  *            @arg ADC_IT_AWD3,   ADC Analog watchdog 3 interrupt source (additional analog watchdog)
-  *            @arg ADC_IT_JQOVF,  ADC Injected Context Queue Overflow interrupt source. 
+  *            @arg @ref ADC_IT_RDY,    ADC Ready (ADRDY) interrupt source
+  *            @arg @ref ADC_IT_EOSMP,  ADC End of Sampling interrupt source
+  *            @arg @ref ADC_IT_EOC,    ADC End of Regular Conversion interrupt source
+  *            @arg @ref ADC_IT_EOS,    ADC End of Regular sequence of Conversions interrupt source
+  *            @arg @ref ADC_IT_OVR,    ADC overrun interrupt source
+  *            @arg @ref ADC_IT_JEOC,   ADC End of Injected Conversion interrupt source
+  *            @arg @ref ADC_IT_JEOS,   ADC End of Injected sequence of Conversions interrupt source
+  *            @arg @ref ADC_IT_AWD1,   ADC Analog watchdog 1 interrupt source (main analog watchdog)
+  *            @arg @ref ADC_IT_AWD2,   ADC Analog watchdog 2 interrupt source (additional analog watchdog)
+  *            @arg @ref ADC_IT_AWD3,   ADC Analog watchdog 3 interrupt source (additional analog watchdog)
+  *            @arg @ref ADC_IT_JQOVF,  ADC Injected Context Queue Overflow interrupt source. 
   * @retval None
   */
 #define __HAL_ADC_DISABLE_IT(__HANDLE__, __INTERRUPT__) (((__HANDLE__)->Instance->IER) &= ~(__INTERRUPT__))
@@ -879,17 +879,17 @@ typedef struct
   * @param __HANDLE__: ADC handle.
   * @param __FLAG__: ADC flag to check
   *        This parameter can be one of the following values:
-  *            @arg ADC_FLAG_RDY,     ADC Ready (ADRDY) flag                              
-  *            @arg ADC_FLAG_EOSMP,   ADC End of Sampling flag                            
-  *            @arg ADC_FLAG_EOC,     ADC End of Regular Conversion flag                  
-  *            @arg ADC_FLAG_EOS,     ADC End of Regular sequence of Conversions flag     
-  *            @arg ADC_FLAG_OVR,     ADC overrun flag        
-  *            @arg ADC_FLAG_JEOC,    ADC End of Injected Conversion flag                 
-  *            @arg ADC_FLAG_JEOS,    ADC End of Injected sequence of Conversions flag    
-  *            @arg ADC_FLAG_AWD1,    ADC Analog watchdog 1 flag (main analog watchdog)
-  *            @arg ADC_FLAG_AWD2,    ADC Analog watchdog 2 flag (additional analog watchdog)
-  *            @arg ADC_FLAG_AWD3,    ADC Analog watchdog 3 flag (additional analog watchdog)
-  *            @arg ADC_FLAG_JQOVF,   ADC Injected Context Queue Overflow flag.            
+  *            @arg @ref ADC_FLAG_RDY,     ADC Ready (ADRDY) flag                              
+  *            @arg @ref ADC_FLAG_EOSMP,   ADC End of Sampling flag                            
+  *            @arg @ref ADC_FLAG_EOC,     ADC End of Regular Conversion flag                  
+  *            @arg @ref ADC_FLAG_EOS,     ADC End of Regular sequence of Conversions flag     
+  *            @arg @ref ADC_FLAG_OVR,     ADC overrun flag        
+  *            @arg @ref ADC_FLAG_JEOC,    ADC End of Injected Conversion flag                 
+  *            @arg @ref ADC_FLAG_JEOS,    ADC End of Injected sequence of Conversions flag    
+  *            @arg @ref ADC_FLAG_AWD1,    ADC Analog watchdog 1 flag (main analog watchdog)
+  *            @arg @ref ADC_FLAG_AWD2,    ADC Analog watchdog 2 flag (additional analog watchdog)
+  *            @arg @ref ADC_FLAG_AWD3,    ADC Analog watchdog 3 flag (additional analog watchdog)
+  *            @arg @ref ADC_FLAG_JQOVF,   ADC Injected Context Queue Overflow flag.            
   * @retval The new state of __FLAG__ (TRUE or FALSE).
   */
 #define __HAL_ADC_GET_FLAG(__HANDLE__, __FLAG__) ((((__HANDLE__)->Instance->ISR) & (__FLAG__)) == (__FLAG__))
@@ -899,17 +899,17 @@ typedef struct
   * @param __HANDLE__: ADC handle.
   * @param __FLAG__: ADC flag to clear
   *        This parameter can be one of the following values:
-  *            @arg ADC_FLAG_RDY,     ADC Ready (ADRDY) flag                              
-  *            @arg ADC_FLAG_EOSMP,   ADC End of Sampling flag                            
-  *            @arg ADC_FLAG_EOC,     ADC End of Regular Conversion flag                  
-  *            @arg ADC_FLAG_EOS,     ADC End of Regular sequence of Conversions flag     
-  *            @arg ADC_FLAG_OVR,     ADC overrun flag        
-  *            @arg ADC_FLAG_JEOC,    ADC End of Injected Conversion flag                 
-  *            @arg ADC_FLAG_JEOS,    ADC End of Injected sequence of Conversions flag    
-  *            @arg ADC_FLAG_AWD1,    ADC Analog watchdog 1 flag (main analog watchdog)
-  *            @arg ADC_FLAG_AWD2,    ADC Analog watchdog 2 flag (additional analog watchdog)
-  *            @arg ADC_FLAG_AWD3,    ADC Analog watchdog 3 flag (additional analog watchdog)
-  *            @arg ADC_FLAG_JQOVF,   ADC Injected Context Queue Overflow flag.   
+  *            @arg @ref ADC_FLAG_RDY,     ADC Ready (ADRDY) flag                              
+  *            @arg @ref ADC_FLAG_EOSMP,   ADC End of Sampling flag                            
+  *            @arg @ref ADC_FLAG_EOC,     ADC End of Regular Conversion flag                  
+  *            @arg @ref ADC_FLAG_EOS,     ADC End of Regular sequence of Conversions flag     
+  *            @arg @ref ADC_FLAG_OVR,     ADC overrun flag        
+  *            @arg @ref ADC_FLAG_JEOC,    ADC End of Injected Conversion flag                 
+  *            @arg @ref ADC_FLAG_JEOS,    ADC End of Injected sequence of Conversions flag    
+  *            @arg @ref ADC_FLAG_AWD1,    ADC Analog watchdog 1 flag (main analog watchdog)
+  *            @arg @ref ADC_FLAG_AWD2,    ADC Analog watchdog 2 flag (additional analog watchdog)
+  *            @arg @ref ADC_FLAG_AWD3,    ADC Analog watchdog 3 flag (additional analog watchdog)
+  *            @arg @ref ADC_FLAG_JQOVF,   ADC Injected Context Queue Overflow flag.   
   * @note  Bit cleared bit by writing 1 (writing 0 has no effect on any bit of register ISR).
   * @retval None
   */

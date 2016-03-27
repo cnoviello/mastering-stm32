@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_pwr_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Extended PWR HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Power Controller (PWR) peripheral:
@@ -13,7 +13,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -56,8 +56,8 @@
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-#define PWR_PORTH_AVAILABLE_PINS   (PWR_GPIO_BIT_0|PWR_GPIO_BIT_1)
 
+#define PWR_PORTH_AVAILABLE_PINS   (PWR_GPIO_BIT_0|PWR_GPIO_BIT_1)    
 
 /** @defgroup PWR_Extended_Private_Defines PWR Extended Private Defines
   * @{
@@ -129,10 +129,10 @@ uint32_t HAL_PWREx_GetVoltageRange(void)
   * @param  VoltageScaling: specifies the regulator output voltage to achieve
   *         a tradeoff between performance and power consumption.
   *          This parameter can be one of the following values:
-  *            @arg PWR_REGULATOR_VOLTAGE_SCALE1: Regulator voltage output range 1 mode,
+  *            @arg @ref PWR_REGULATOR_VOLTAGE_SCALE1 Regulator voltage output range 1 mode,
   *                                                typical output voltage at 1.2 V,  
   *                                                system frequency up to 80 MHz.
-  *            @arg PWR_REGULATOR_VOLTAGE_SCALE2: Regulator voltage output range 2 mode,
+  *            @arg @ref PWR_REGULATOR_VOLTAGE_SCALE2 Regulator voltage output range 2 mode,
   *                                                typical output voltage at 1.0 V,                
   *                                                system frequency up to 26 MHz.
   * @note  When moving from Range 1 to Range 2, the system frequency must be decreased to
@@ -189,8 +189,8 @@ HAL_StatusTypeDef HAL_PWREx_ControlVoltageScaling(uint32_t VoltageScaling)
   *        When VDD is present, charge the external battery on VBAT thru an internal resistor.  
   * @param  ResistorSelection: specifies the resistor impedance.
   *          This parameter can be one of the following values:
-  *            @arg PWR_BATTERY_CHARGING_RESISTOR_5:     5 kOhms resistor
-  *            @arg PWR_BATTERY_CHARGING_RESISTOR_1_5: 1.5 kOhms resistor 
+  *            @arg @ref PWR_BATTERY_CHARGING_RESISTOR_5     5 kOhms resistor
+  *            @arg @ref PWR_BATTERY_CHARGING_RESISTOR_1_5 1.5 kOhms resistor 
   * @retval None
   */
 void HAL_PWREx_EnableBatteryCharging(uint32_t ResistorSelection)
@@ -599,6 +599,7 @@ void HAL_PWREx_DisablePVM1(void)
   CLEAR_BIT(PWR->CR2, PWR_PVM_1);    
 }
 #endif /* defined (STM32L475xx) || defined (STM32L476xx) || defined (STM32L485xx) || defined (STM32L486xx) */
+
 
 /**
   * @brief Enable the Power Voltage Monitoring 2: VDDIO2 versus 0.9V.

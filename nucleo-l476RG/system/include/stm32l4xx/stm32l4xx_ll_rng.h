@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_rng.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of RNG LL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -50,7 +50,7 @@ extern "C" {
   * @{
   */
 
-#if defined (RNG)
+#if defined(RNG)
 
 /** @defgroup RNG_LL RNG
   * @{
@@ -58,9 +58,7 @@ extern "C" {
 
 /* Private types -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-
 /* Private constants ---------------------------------------------------------*/
-
 /* Private macros ------------------------------------------------------------*/
 
 /* Exported types ------------------------------------------------------------*/
@@ -73,11 +71,11 @@ extern "C" {
   * @brief    Flags defines which can be used with LL_RNG_ReadReg function
   * @{
   */
-#define LL_RNG_SR_DRDY RNG_SR_DRDY
-#define LL_RNG_SR_CECS RNG_SR_CECS
-#define LL_RNG_SR_SECS RNG_SR_SECS
-#define LL_RNG_SR_CEIS RNG_SR_CEIS
-#define LL_RNG_SR_SEIS RNG_SR_SEIS
+#define LL_RNG_SR_DRDY RNG_SR_DRDY    /*!< Register contains valid random data */
+#define LL_RNG_SR_CECS RNG_SR_CECS    /*!< Clock error current status */
+#define LL_RNG_SR_SECS RNG_SR_SECS    /*!< Seed error current status */
+#define LL_RNG_SR_CEIS RNG_SR_CEIS    /*!< Clock error interrupt status */
+#define LL_RNG_SR_SEIS RNG_SR_SEIS    /*!< Seed error interrupt status */
 /**
   * @}
   */
@@ -86,7 +84,7 @@ extern "C" {
   * @brief    IT defines which can be used with LL_RNG_ReadReg and  LL_RNG_WriteReg macros
   * @{
   */
-#define LL_RNG_CR_IE   RNG_CR_IE
+#define LL_RNG_CR_IE   RNG_CR_IE      /*!< RNG Interrupt enable */
 /**
   * @}
   */
@@ -127,6 +125,7 @@ extern "C" {
 /**
   * @}
   */
+
 
 /* Exported functions --------------------------------------------------------*/
 /** @defgroup RNG_LL_Exported_Functions RNG Exported Functions
@@ -173,7 +172,7 @@ __STATIC_INLINE uint32_t LL_RNG_IsEnabled(RNG_TypeDef *RNGx)
   * @}
   */
 
-/** @defgroup RNG_LL_EF_FLAG_Management FLAG_Management
+/** @defgroup RNG_LL_EF_FLAG_Management FLAG Management
   * @{
   */
 
@@ -258,7 +257,7 @@ __STATIC_INLINE void LL_RNG_ClearFlag_SEIS(RNG_TypeDef *RNGx)
   * @}
   */
 
-/** @defgroup RNG_LL_EF_IT_Management IT_Management
+/** @defgroup RNG_LL_EF_IT_Management IT Management
   * @{
   */
 
@@ -302,7 +301,7 @@ __STATIC_INLINE uint32_t LL_RNG_IsEnabledIT(RNG_TypeDef *RNGx)
   * @}
   */
 
-/** @defgroup RNG_LL_EF_Data_Management Data_Management
+/** @defgroup RNG_LL_EF_Data_Management Data Management
   * @{
   */
 
@@ -321,6 +320,17 @@ __STATIC_INLINE uint32_t LL_RNG_ReadRandData32(RNG_TypeDef *RNGx)
   * @}
   */
 
+#if defined(USE_FULL_LL_DRIVER)
+/** @defgroup RNG_LL_EF_Init Initialization and de-initialization functions
+  * @{
+  */
+
+ErrorStatus LL_RNG_DeInit(RNG_TypeDef *RNGx);
+
+/**
+  * @}
+  */
+#endif /* USE_FULL_LL_DRIVER */
 
 /**
   * @}
@@ -330,7 +340,7 @@ __STATIC_INLINE uint32_t LL_RNG_ReadRandData32(RNG_TypeDef *RNGx)
   * @}
   */
 
-#endif /* RNG */
+#endif /* defined(RNG) */
 
 /**
   * @}

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_tim_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   TIM HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Timer Extended peripheral:
@@ -68,7 +68,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -373,6 +373,9 @@ HAL_StatusTypeDef HAL_TIMEx_HallSensor_DeInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIMEx_HallSensor_MspInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIMEx_HallSensor_MspInit could be implemented in the user file
    */
@@ -385,6 +388,9 @@ __weak void HAL_TIMEx_HallSensor_MspInit(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIMEx_HallSensor_MspDeInit(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIMEx_HallSensor_MspDeInit could be implemented in the user file
    */
@@ -2290,6 +2296,7 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakInput(TIM_HandleTypeDef *htim,
   assert_param(IS_TIM_BREAKINPUT(BreakInput));
   assert_param(IS_TIM_BREAKINPUTSOURCE(sBreakInputConfig->Source));
   assert_param(IS_TIM_BREAKINPUTSOURCE_STATE(sBreakInputConfig->Enable));
+
   if (sBreakInputConfig->Source != TIM_BREAKINPUTSOURCE_DFSDM)
   {
     assert_param(IS_TIM_BREAKINPUTSOURCE_POLARITY(sBreakInputConfig->Polarity));
@@ -2389,34 +2396,42 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakInput(TIM_HandleTypeDef *htim,
   * @brief  Configures the TIMx Remapping input capabilities.
   * @param  htim: TIM handle.
   * @param  Remap: specifies the TIM remapping source.
+  *
   *         For TIM1, the parameter is a combination of 4 fields (field1 | field2 | field3 | field4):
+  *
   *                   field1 can have the following values:
   *            @arg TIM_TIM1_ETR_ADC1_NONE:           TIM1_ETR is not connected to any ADC1 AWD (analog watchdog)
   *            @arg TIM_TIM1_ETR_ADC1_AWD1:           TIM1_ETR is connected to ADC1 AWD1
   *            @arg TIM_TIM1_ETR_ADC1_AWD2:           TIM1_ETR is connected to ADC1 AWD2
   *            @arg TIM_TIM1_ETR_ADC1_AWD3:           TIM1_ETR is connected to ADC1 AWD3
+  *
   *                   field2 can have the following values:
   *            @arg TIM_TIM1_ETR_ADC3_NONE:           TIM1_ETR is not connected to any ADC3 AWD (analog watchdog)
   *            @arg TIM_TIM1_ETR_ADC3_AWD1:           TIM1_ETR is connected to ADC3 AWD1
   *            @arg TIM_TIM1_ETR_ADC3_AWD2:           TIM1_ETR is connected to ADC3 AWD2
   *            @arg TIM_TIM1_ETR_ADC3_AWD3:           TIM1_ETR is connected to ADC3 AWD3
+  *
   *                   field3 can have the following values:
   *            @arg TIM_TIM1_TI1_GPIO:                TIM1 TI1 is connected to GPIO
   *            @arg TIM_TIM1_TI1_COMP1:               TIM1 TI1 is connected to COMP1 output
+  *
   *                   field4 can have the following values:
   *            @arg TIM_TIM1_ETR_COMP1:               TIM1_ETR is connected to COMP1 output
   *            @arg TIM_TIM1_ETR_COMP2:               TIM1_ETR is connected to COMP2 output
   *            @note  When field4 is set to TIM_TIM1_ETR_COMP1 or TIM_TIM1_ETR_COMP2 field1 and field2 values are not significant 
   *
   *         For TIM2, the parameter is a combination of 3 fields (field1 | field2 | field3):
+  *
   *                   field1 can have the following values:
   *            @arg TIM_TIM2_ITR1_TIM8_TRGO:          TIM2_ITR1 is connected to TIM8_TRGO
   *            @arg TIM_TIM2_ITR1_OTG_FS_SOF:         TIM2_ITR1 is connected to OTG_FS SOF
+  *
   *                   field2 can have the following values:
   *            @arg TIM_TIM2_ETR_GPIO:                TIM2_ETR is connected to GPIO
   *            @arg TIM_TIM2_ETR_LSE:                 TIM2_ETR is connected to LSE
   *            @arg TIM_TIM2_ETR_COMP1:               TIM2_ETR is connected to COMP1 output
   *            @arg TIM_TIM2_ETR_COMP2:               TIM2_ETR is connected to COMP2 output
+  *
   *                   field3 can have the following values:
   *            @arg TIM_TIM2_TI4_GPIO:                TIM2 TI4 is connected to GPIO
   *            @arg TIM_TIM2_TI4_COMP1:               TIM2 TI4 is connected to COMP1 output
@@ -2424,38 +2439,46 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakInput(TIM_HandleTypeDef *htim,
   *            @arg TIM_TIM2_TI4_COMP1_COMP2:         TIM2 TI4 is connected to logical OR between COMP1 and COMP2 output
   *
   *         For TIM3, the parameter is a combination 2 fields(field1 | field2):
+  *
   *                   field1 can have the following values:
   *            @arg TIM_TIM3_TI1_GPIO:                TIM3 TI1 is connected to GPIO
   *            @arg TIM_TIM3_TI1_COMP1:               TIM3 TI1 is connected to COMP1 output
   *            @arg TIM_TIM3_TI1_COMP2:               TIM3 TI1 is connected to COMP2 output
   *            @arg TIM_TIM3_TI1_COMP1_COMP2:         TIM3 TI1 is connected to logical OR between COMP1 and COMP2 output
+  *
   *                   field2 can have the following values:
   *            @arg TIM_TIM3_ETR_GPIO:                TIM3_ETR is connected to GPIO
   *            @arg TIM_TIM3_ETR_COMP1:               TIM3_ETR is connected to COMP1 output
   *
   *         For TIM8, the parameter is a combination of 3 fields (field1 | field2 | field3):
+  *
   *                   field1 can have the following values:
   *            @arg TIM_TIM8_ETR_ADC2_NONE:          TIM8_ETR is not connected to any ADC2 AWD (analog watchdog)
   *            @arg TIM_TIM8_ETR_ADC2_AWD1:          TIM8_ETR is connected to ADC2 AWD1
   *            @arg TIM_TIM8_ETR_ADC2_AWD2:          TIM8_ETR is connected to ADC2 AWD2
   *            @arg TIM_TIM8_ETR_ADC2_AWD3:          TIM8_ETR is connected to ADC2 AWD3
+  *
   *                   field2 can have the following values:
   *            @arg TIM_TIM8_ETR_ADC3_NONE:          TIM8_ETR is not connected to any ADC3 AWD (analog watchdog)
   *            @arg TIM_TIM8_ETR_ADC3_AWD1:          TIM8_ETR is connected to ADC3 AWD1
   *            @arg TIM_TIM8_ETR_ADC3_AWD2:          TIM8_ETR is connected to ADC3 AWD2
   *            @arg TIM_TIM8_ETR_ADC3_AWD3:          TIM8_ETR is connected to ADC3 AWD3
+  *
   *                   field3 can have the following values:
   *            @arg TIM_TIM8_TI1_GPIO:               TIM8 TI1 is connected to GPIO
   *            @arg TIM_TIM8_TI1_COMP2:              TIM8 TI1 is connected to COMP2 output
+  *
   *                   field4 can have the following values:
   *            @arg TIM_TIM8_ETR_COMP1:               TIM8_ETR is connected to COMP1 output
   *            @arg TIM_TIM8_ETR_COMP2:               TIM8_ETR is connected to COMP2 output
   *            @note  When field4 is set to TIM_TIM8_ETR_COMP1 or TIM_TIM8_ETR_COMP2 field1 and field2 values are not significant 
   *
   *         For TIM15, the parameter is a combination of 3 fields (field1 | field2):
+  *
   *                   field1 can have the following values:
   *            @arg TIM_TIM15_TI1_GPIO:              TIM15 TI1 is connected to GPIO
   *            @arg TIM_TIM15_TI1_LSE:               TIM15 TI1 is connected to LSE
+  *
   *                   field2 can have the following values:
   *            @arg TIM_TIM15_ENCODERMODE_NONE:      No redirection 
   *            @arg TIM_TIM15_ENCODERMODE_TIM2:      TIM2 IC1 and TIM2 IC2 are connected to TIM15 IC1 and TIM15 IC2 respectively
@@ -2470,7 +2493,7 @@ HAL_StatusTypeDef HAL_TIMEx_ConfigBreakInput(TIM_HandleTypeDef *htim,
   *
   *         For TIM17, the parameter can have the following values:
   *            @arg TIM_TIM17_TI1_GPIO:              TIM17 TI1 is connected to GPIO
-  *            @arg TIM_TIM17_TI1_MSI:               TIM17 TI1 is connected to MSI
+  *            @arg TIM_TIM17_TI1_MSI:               TIM17 TI1 is connected to MSI  (contraints: MSI clock < 1/4 TIM APB clock)
   *            @arg TIM_TIM17_TI1_HSE_32:            TIM17 TI1 is connected to HSE div 32
   *            @arg TIM_TIM17_TI1_MCO:               TIM17 TI1 is connected to MCO
   *
@@ -2577,6 +2600,9 @@ HAL_StatusTypeDef HAL_TIMEx_GroupChannel5(TIM_HandleTypeDef *htim, uint32_t Chan
   */
 __weak void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIMEx_CommutationCallback could be implemented in the user file
    */
@@ -2589,6 +2615,9 @@ __weak void HAL_TIMEx_CommutationCallback(TIM_HandleTypeDef *htim)
   */
 __weak void HAL_TIMEx_BreakCallback(TIM_HandleTypeDef *htim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TIMEx_BreakCallback could be implemented in the user file
    */

@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_gpio_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   Header file of GPIO HAL Extended module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -74,7 +74,7 @@
 #define GPIO_AF0_MCO           ((uint8_t)0x00)  /* MCO (MCO1 and MCO2) Alternate Function mapping            */
 #define GPIO_AF0_SWJ           ((uint8_t)0x00)  /* SWJ (SWD and JTAG) Alternate Function mapping             */
 #if defined(STM32L476xx) || defined(STM32L486xx)
-#define GPIO_AF0_LCDBIAS       ((uint8_t)0x00)  /* LCDBIAS Alternate Function mapping                          */
+#define GPIO_AF0_LCDBIAS       ((uint8_t)0x00)  /* LCDBIAS Alternate Function mapping                        */
 #endif /* STM32L476xx || STM32L486xx */
 #define GPIO_AF0_TRACE         ((uint8_t)0x00)  /* TRACE Alternate Function mapping                          */
 
@@ -133,23 +133,24 @@
 /**
   * @brief   AF 8 selection
   */
-#define GPIO_AF8_UART4         ((uint8_t)0x08)  /* UART4 Alternate Function mapping  */
-#define GPIO_AF8_UART5         ((uint8_t)0x08)  /* UART5 Alternate Function mapping  */
-#define GPIO_AF8_LPUART1       ((uint8_t)0x08) /* LPUART1 Alternate Function mapping */
+#define GPIO_AF8_UART4         ((uint8_t)0x08)  /* UART4 Alternate Function mapping   */
+#define GPIO_AF8_UART5         ((uint8_t)0x08)  /* UART5 Alternate Function mapping   */
+#define GPIO_AF8_LPUART1       ((uint8_t)0x08)  /* LPUART1 Alternate Function mapping */
+
 
 /**
   * @brief   AF 9 selection
   */
-#define GPIO_AF9_CAN1          ((uint8_t)0x09)  /* CAN1 Alternate Function mapping    */
+#define GPIO_AF9_CAN1          ((uint8_t)0x09)  /* CAN1 Alternate Function mapping  */
 #define GPIO_AF9_TSC           ((uint8_t)0x09)  /* TSC Alternate Function mapping   */
 
 /**
   * @brief   AF 10 selection
   */
 #if defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
-#define GPIO_AF10_OTG_FS        ((uint8_t)0xA)  /* OTG_FS Alternate Function mapping */
+#define GPIO_AF10_OTG_FS       ((uint8_t)0xA)  /* OTG_FS Alternate Function mapping */
 #endif /* STM32L475xx || STM32L476xx || STM32L485xx || STM32L486xx */
-#define GPIO_AF10_QUADSPI       ((uint8_t)0xA)  /* QUADSPI Alternate Function mapping */
+#define GPIO_AF10_QUADSPI      ((uint8_t)0xA)  /* QUADSPI Alternate Function mapping */
 
 #if defined(STM32L476xx) || defined(STM32L486xx)
 /**
@@ -217,7 +218,6 @@
                                       ((__GPIOx__) == (GPIOE))? 4U :\
                                       ((__GPIOx__) == (GPIOF))? 5U :\
                                       ((__GPIOx__) == (GPIOG))? 6U : 7U)
-
 
 /**
   * @}

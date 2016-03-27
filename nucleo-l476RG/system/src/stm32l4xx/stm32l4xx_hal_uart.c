@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_uart.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    25-November-2015
+  * @version V1.3.0
+  * @date    29-January-2016
   * @brief   UART HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Universal Asynchronous Receiver Transmitter Peripheral (UART).
@@ -72,7 +72,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -167,25 +167,6 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart);
         (++) Stop Bit
         (++) Parity: If the parity is enabled, then the MSB bit of the data written
              in the data register is transmitted but is changed by the parity bit.
-             Depending on the frame length defined by the  M1 and M0 bits (7-bit,
-             8-bit or 9-bit), the possible UART frame formats are as listed in the following table:
-            
-            (+++)    Table 1. UART frame format.             
-            (+++)    +-----------------------------------------------------------------------+
-            (+++)    |  M1 bit |  M0 bit |  PCE bit  |             UART frame                |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
-            (+++)    +-----------------------------------------------------------------------+
         (++) Hardware flow control
         (++) Receiver/transmitter modes
         (++) Over Sampling Method
@@ -205,6 +186,28 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart);
     are available in reference manual).
 
 @endverbatim
+
+  Depending on the frame length defined by the M1 and M0 bits (7-bit, 
+  8-bit or 9-bit), the possible UART formats are listed in the 
+  following table.
+  
+  Table 1. UART frame format.
+    +-----------------------------------------------------------------------+
+    |  M1 bit |  M0 bit |  PCE bit  |             UART frame                |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    0      |    | SB |    8 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    0      |    | SB |    9 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    0    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    0      |    | SB |    7 bit data   | STB |     |
+    |---------|---------|-----------|---------------------------------------|
+    |    1    |    0    |    1      |    | SB | 6 bit data | PB | STB |     |
+    +-----------------------------------------------------------------------+
+
   * @{
   */
 
@@ -230,7 +233,7 @@ HAL_StatusTypeDef HAL_UART_Init(UART_HandleTypeDef *huart)
   else
   {
     /* Check the parameters */
-    assert_param(IS_UART_INSTANCE(huart->Instance));
+    assert_param((IS_UART_INSTANCE(huart->Instance)) || (IS_LPUART_INSTANCE(huart->Instance)));
   }
 
   if(huart->State == HAL_UART_STATE_RESET)
@@ -336,8 +339,8 @@ HAL_StatusTypeDef HAL_HalfDuplex_Init(UART_HandleTypeDef *huart)
   * @param huart: UART handle.
   * @param BreakDetectLength: specifies the LIN break detection length.
   *        This parameter can be one of the following values:
-  *          @arg UART_LINBREAKDETECTLENGTH_10B: 10-bit break detection
-  *          @arg UART_LINBREAKDETECTLENGTH_11B: 11-bit break detection
+  *          @arg @ref UART_LINBREAKDETECTLENGTH_10B 10-bit break detection
+  *          @arg @ref UART_LINBREAKDETECTLENGTH_11B 11-bit break detection
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_LIN_Init(UART_HandleTypeDef *huart, uint32_t BreakDetectLength)
@@ -417,8 +420,8 @@ HAL_StatusTypeDef HAL_LIN_Init(UART_HandleTypeDef *huart, uint32_t BreakDetectLe
   * @param Address: UART node address (4-, 6-, 7- or 8-bit long).
   * @param WakeUpMethod: specifies the UART wakeup method.
   *        This parameter can be one of the following values:
-  *          @arg UART_WAKEUPMETHOD_IDLELINE: WakeUp by an idle line detection
-  *          @arg UART_WAKEUPMETHOD_ADDRESSMARK: WakeUp by an address mark
+  *          @arg @ref UART_WAKEUPMETHOD_IDLELINE WakeUp by an idle line detection
+  *          @arg @ref UART_WAKEUPMETHOD_ADDRESSMARK WakeUp by an address mark
   * @note  If the user resorts to idle line detection wake up, the Address parameter
   *        is useless and ignored by the initialization function.
   * @note  If the user resorts to address mark wake up, the address length detection
@@ -503,7 +506,7 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
   }
 
   /* Check the parameters */
-  assert_param(IS_UART_INSTANCE(huart->Instance));
+  assert_param((IS_UART_INSTANCE(huart->Instance)) || (IS_LPUART_INSTANCE(huart->Instance)));
 
   huart->State = HAL_UART_STATE_BUSY;
 
@@ -531,8 +534,11 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
   * @param huart: UART handle.
   * @retval None
   */
- __weak void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+__weak void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_MspInit can be implemented in the user file
    */
@@ -543,8 +549,11 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
   * @param huart: UART handle.
   * @retval None
   */
- __weak void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
+__weak void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_MspDeInit can be implemented in the user file
    */
@@ -1179,8 +1188,6 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   if((__HAL_UART_GET_IT(huart, UART_IT_RXNE) != RESET) && (__HAL_UART_GET_IT_SOURCE(huart, UART_IT_RXNE) != RESET))
   {
     UART_Receive_IT(huart);
-    /* Clear RXNE interrupt flag */
-    __HAL_UART_SEND_REQ(huart, UART_RXDATA_FLUSH_REQUEST);
   }
 
 
@@ -1203,8 +1210,11 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   * @param huart: UART handle.
   * @retval None
   */
- __weak void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+__weak void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_TxCpltCallback can be implemented in the user file.
    */
@@ -1215,8 +1225,11 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   * @param  huart: UART handle.
   * @retval None
   */
- __weak void HAL_UART_TxHalfCpltCallback(UART_HandleTypeDef *huart)
+__weak void HAL_UART_TxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_TxHalfCpltCallback can be implemented in the user file.
    */
@@ -1229,6 +1242,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   */
 __weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_RxCpltCallback can be implemented in the user file.
    */
@@ -1241,6 +1257,9 @@ __weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   */
 __weak void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_RxHalfCpltCallback can be implemented in the user file.
    */
@@ -1251,8 +1270,11 @@ __weak void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
   * @param huart: UART handle.
   * @retval None
   */
- __weak void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+__weak void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UART_ErrorCallback can be implemented in the user file.
    */
@@ -1395,7 +1417,7 @@ HAL_StatusTypeDef HAL_HalfDuplex_EnableReceiver(UART_HandleTypeDef *huart)
 HAL_StatusTypeDef HAL_LIN_SendBreak(UART_HandleTypeDef *huart)
 {
   /* Check the parameters */
-  assert_param(IS_UART_INSTANCE(huart->Instance));
+  assert_param(IS_UART_LIN_INSTANCE(huart->Instance));
 
   /* Process Locked */
   __HAL_LOCK(huart);
@@ -2072,6 +2094,9 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
   }
   else
   {
+    /* Clear RXNE interrupt flag */
+    __HAL_UART_SEND_REQ(huart, UART_RXDATA_FLUSH_REQUEST);
+
     return HAL_BUSY;
   }
 }
