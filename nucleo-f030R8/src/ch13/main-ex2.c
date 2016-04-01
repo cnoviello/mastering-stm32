@@ -8,16 +8,18 @@
 extern UART_HandleTypeDef huart2;
 
 void blinkThread(void const *argument);
+void UARTThread(void const *argument);
 
 int main(void) {
-  osThreadId blinkTID;
-
   HAL_Init();
 
   Nucleo_BSP_Init();
 
   osThreadDef(blink, blinkThread, osPriorityNormal, 0, 100);
-  blinkTID = osThreadCreate(osThread(blink), NULL);
+  osThreadCreate(osThread(blink), NULL);
+
+  osThreadDef(uart, UARTThread, osPriorityNormal, 0, 100);
+  osThreadCreate(osThread(uart), NULL);
 
   osKernelStart();
 
@@ -29,6 +31,12 @@ void blinkThread(void const *argument) {
   while(1) {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     osDelay(500);
+  }
+}
+
+void UARTThread(void const *argument) {
+  while(1) {
+    HAL_UART_Transmit(&huart2, "UARTThread\r\n", strlen("UARTThread\r\n"), HAL_MAX_DELAY);
   }
 }
 
