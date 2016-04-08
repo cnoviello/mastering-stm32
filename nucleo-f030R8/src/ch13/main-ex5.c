@@ -3,25 +3,25 @@
 #include <cmsis_os.h>
 #include <nucleo_hal_bsp.h>
 #include <string.h>
+#include <../system/include/retarget/retarget.h>
 
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart2;
 
-void blinkThread(void const *argument);
-void UARTThread(void const *argument);
-
-volatile const int __attribute__((used)) uxTopUsedPriority = configMAX_PRIORITIES;
+void blinkFunc(void const *argument);
 
 int main(void) {
+  osTimerId stim1;
+
   HAL_Init();
 
   Nucleo_BSP_Init();
 
-  osThreadDef(blink, blinkThread, osPriorityNormal, 0, 100);
-  osThreadCreate(osThread(blink), NULL);
+  RetargetInit(&huart2);
 
-  osThreadDef(uart, UARTThread, osPriorityNormal, 0, 100);
-  osThreadCreate(osThread(uart), NULL);
+  osTimerDef(stim1, blinkFunc);
+  stim1 = osTimerCreate(osTimer(stim1), osTimerPeriodic, NULL);
+  osTimerStart(stim1, 500);
 
   osKernelStart();
 
@@ -29,21 +29,8 @@ int main(void) {
   while (1);
 }
 
-void blinkThread(void const *argument) {
-  while(1) {
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    osDelay(500);
-  }
-}
-
-void UARTThread(void const *argument) {
-  while(1) {
-    HAL_UART_Transmit(&huart2, "UARTThread\r\n", strlen("UARTThread\r\n"), HAL_MAX_DELAY);
-  }
-}
-
-void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName ) {
-  asm("BKPT #0");
+void blinkFunc(void const *argument) {
+  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 }
 
 #ifdef USE_FULL_ASSERT

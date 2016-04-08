@@ -3,6 +3,7 @@
 #include <cmsis_os.h>
 #include <nucleo_hal_bsp.h>
 #include <string.h>
+#include <../system/include/retarget/retarget.h>
 
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart2;
@@ -10,19 +11,23 @@ extern UART_HandleTypeDef huart2;
 void blinkThread(void const *argument);
 void UARTThread(void const *argument);
 
-volatile const int __attribute__((used)) uxTopUsedPriority = configMAX_PRIORITIES;
+osMessageQDef(MsgBox, 5, uint16_t); // Define message queue
+osMessageQId  MsgBox;
 
 int main(void) {
   HAL_Init();
 
   Nucleo_BSP_Init();
 
+  RetargetInit(&huart2);
+
   osThreadDef(blink, blinkThread, osPriorityNormal, 0, 100);
   osThreadCreate(osThread(blink), NULL);
 
-  osThreadDef(uart, UARTThread, osPriorityNormal, 0, 100);
+  osThreadDef(uart, UARTThread, osPriorityNormal, 0, 300);
   osThreadCreate(osThread(uart), NULL);
 
+  MsgBox = osMessageCreate(osMessageQ(MsgBox), NULL);
   osKernelStart();
 
   /* Infinite loop */
@@ -30,20 +35,28 @@ int main(void) {
 }
 
 void blinkThread(void const *argument) {
+  uint16_t delay = 500; /* Default delay */
+  osEvent evt;
+
   while(1) {
+    evt = osMessageGet(MsgBox, 1);
+    if(evt.status == osEventMessage)
+      delay = evt.value.v;
+
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    osDelay(500);
+    osDelay(delay);
   }
 }
 
 void UARTThread(void const *argument) {
-  while(1) {
-    HAL_UART_Transmit(&huart2, "UARTThread\r\n", strlen("UARTThread\r\n"), HAL_MAX_DELAY);
-  }
-}
+  uint16_t delay = 0;
 
-void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName ) {
-  asm("BKPT #0");
+  while(1) {
+    printf("Specify the LD2 LED blink period: ");
+    scanf("%hu", &delay);
+    printf("\r\nSpecified period: %hu\n\r", delay);
+    osMessagePut(MsgBox, delay, osWaitForever);
+  }
 }
 
 #ifdef USE_FULL_ASSERT
