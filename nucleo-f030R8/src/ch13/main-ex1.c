@@ -32,9 +32,13 @@ void blinkThread(void const *argument) {
   }
 }
 
+#ifdef DEBUG
+
 void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName ) {
   asm("BKPT #0");
 }
+
+#endif
 
 #ifdef USE_FULL_ASSERT
 
