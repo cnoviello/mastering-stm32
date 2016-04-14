@@ -9,104 +9,78 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
-char readBuf[1];
-__IO ITStatus UartReady = SET;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-extern void MX_GPIO_Init(void);
-extern void MX_USART2_UART_Init(void);
-void performCriticalTasks(void);
+static void MX_GPIO_Init(void);
+static void MX_USART2_UART_Init(void);
 void printWelcomeMessage(void);
-uint8_t processUserInput(int8_t opt);
-int8_t readUserInput(void);
+uint8_t processUserInput(uint8_t opt);
+uint8_t readUserInput(void);
 
 int main(void) {
-  uint8_t opt = 0;
+	uint8_t opt = 0;
 
-  /* Reset of all peripherals, Initializes the Flash interface and the SysTick. */
-  HAL_Init();
+	/* Reset of all peripherals, Initializes the Flash interface and the SysTick. */
+	HAL_Init();
 
-  /* Configure the system clock */
-  SystemClock_Config();
+	/* Configure the system clock */
+	SystemClock_Config();
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_USART2_UART_Init();
-
-  /* Enable USART2 interrupt */
-  HAL_NVIC_SetPriority(USART2_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(USART2_IRQn);
+	/* Initialize all configured peripherals */
+	MX_GPIO_Init();
+	MX_USART2_UART_Init();
 
 printMessage:
 
-  printWelcomeMessage();
+	printWelcomeMessage();
 
-  while (1)  {
-    opt = readUserInput();
-    if(opt > 0) {
-      processUserInput(opt);
-      if(opt == 3)
-        goto printMessage;
-    }
-    performCriticalTasks();
-  }
-}
-
-int8_t readUserInput(void) {
-  int8_t retVal = -1;
-
-  if(UartReady == SET) {
-    UartReady = RESET;
-    retVal = atoi(readBuf);
-    HAL_UART_Receive_IT(&huart2, (uint8_t*)readBuf, 1);
-  }
-  return retVal;
-}
-
-
-uint8_t processUserInput(int8_t opt) {
-  char msg[30];
-
-  if(!(opt >=1 && opt <= 3))
-    return 0;
-
-  sprintf(msg, "%d", opt);
-  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-
-  switch(opt) {
-  case 1:
-    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-    break;
-  case 2:
-    sprintf(msg, "\r\nUSER BUTTON status: %s",
-        HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET ? "PRESSED" : "RELEASED");
-    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-    break;
-  case 3:
-    return 2;
-  };
-
-  HAL_UART_Transmit(&huart2, (uint8_t*)PROMPT, strlen(PROMPT), HAL_MAX_DELAY);
-  return 1;
-}
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
- /* Set transmission flag: transfer complete*/
- UartReady = SET;
-}
-
-void performCriticalTasks(void) {
-  HAL_Delay(100);
+	while (1)  {
+		opt = readUserInput();
+		processUserInput(opt);
+		if(opt == 3)
+			goto printMessage;
+	}
 }
 
 void printWelcomeMessage(void) {
-  char *strings[] = {"\033[0;0H", "\033[2J", WELCOME_MSG, MAIN_MENU, PROMPT};
+	HAL_UART_Transmit(&huart2, (uint8_t*)"\033[0;0H", strlen("\033[0;0H"), HAL_MAX_DELAY);
+	HAL_UART_Transmit(&huart2, (uint8_t*)"\033[2J", strlen("\033[2J"), HAL_MAX_DELAY);
+	HAL_UART_Transmit(&huart2, (uint8_t*)WELCOME_MSG, strlen(WELCOME_MSG), HAL_MAX_DELAY);
+	HAL_UART_Transmit(&huart2, (uint8_t*)MAIN_MENU, strlen(MAIN_MENU), HAL_MAX_DELAY);
+}
 
-  for (uint8_t i = 0; i < 5; i++) {
-    HAL_UART_Transmit_IT(&huart2, (uint8_t*)strings[i], strlen(strings[i]));
-    while (HAL_UART_GetState(&huart2) == HAL_UART_STATE_BUSY_TX || HAL_UART_GetState(&huart2) == HAL_UART_STATE_BUSY_TX_RX);
-  }
+uint8_t readUserInput(void) {
+	char readBuf[1];
+
+	HAL_UART_Transmit(&huart2, (uint8_t*)PROMPT, strlen(PROMPT), HAL_MAX_DELAY);
+	HAL_UART_Receive(&huart2, (uint8_t*)readBuf, 1, HAL_MAX_DELAY);
+	return atoi(readBuf);
+}
+
+
+uint8_t processUserInput(uint8_t opt) {
+	char msg[30];
+
+	if(!opt || opt > 3)
+		return 0;
+
+	sprintf(msg, "%d", opt);
+	HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+	switch(opt) {
+	case 1:
+		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+		break;
+	case 2:
+		sprintf(msg, "\r\nUSER BUTTON status: %s", HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET ? "PRESSED" : "RELEASED");
+		HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+		break;
+	case 3:
+		return 2;
+	};
+
+	return 1;
 }
 
 /** System Clock Configuration
@@ -160,7 +134,9 @@ void MX_USART2_UART_Init(void)
   huart2.Init.Mode = UART_MODE_TX_RX;
   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+
   HAL_UART_Init(&huart2);
+
 }
 
 /** Configure pins as 
@@ -178,7 +154,6 @@ void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __GPIOC_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
-  __GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
@@ -192,10 +167,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
-
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0x1, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 }
 
 /* USER CODE BEGIN 4 */
