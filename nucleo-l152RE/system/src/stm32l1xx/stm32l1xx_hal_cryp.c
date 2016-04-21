@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_cryp.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   CRYP HAL module driver.
   *    
   *          This file provides firmware functions to manage the following 
@@ -70,7 +70,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -280,6 +280,9 @@ HAL_StatusTypeDef HAL_CRYP_DeInit(CRYP_HandleTypeDef *hcryp)
   */
 __weak void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcryp);
+
   /* NOTE : This function should not be modified; when the callback is needed, 
             the HAL_CRYP_MspInit can be implemented in the user file */
 }
@@ -292,6 +295,9 @@ __weak void HAL_CRYP_MspInit(CRYP_HandleTypeDef *hcryp)
   */
 __weak void HAL_CRYP_MspDeInit(CRYP_HandleTypeDef *hcryp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcryp);
+
   /* NOTE : This function should not be modified; when the callback is needed, 
             the HAL_CRYP_MspDeInit can be implemented in the user file */
 }
@@ -1743,6 +1749,9 @@ HAL_StatusTypeDef HAL_CRYP_AESCTR_Decrypt_DMA(CRYP_HandleTypeDef *hcryp, uint8_t
   */
  __weak void HAL_CRYP_ErrorCallback(CRYP_HandleTypeDef *hcryp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcryp);
+
   /* NOTE : This function should not be modified; when the callback is needed, 
             the HAL_CRYP_ErrorCallback can be implemented in the user file
    */ 
@@ -1756,6 +1765,9 @@ HAL_StatusTypeDef HAL_CRYP_AESCTR_Decrypt_DMA(CRYP_HandleTypeDef *hcryp, uint8_t
   */
 __weak void HAL_CRYP_InCpltCallback(CRYP_HandleTypeDef *hcryp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcryp);
+
   /* NOTE : This function should not be modified; when the callback is needed, 
             the HAL_CRYP_InCpltCallback can be implemented in the user file
    */ 
@@ -1769,6 +1781,9 @@ __weak void HAL_CRYP_InCpltCallback(CRYP_HandleTypeDef *hcryp)
   */
 __weak void HAL_CRYP_OutCpltCallback(CRYP_HandleTypeDef *hcryp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcryp);
+
   /* NOTE : This function should not be modified; when the callback is needed, 
             the HAL_CRYP_OutCpltCallback can be implemented in the user file
    */ 

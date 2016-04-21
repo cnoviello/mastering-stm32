@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_uart.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   UART HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Universal Asynchronous Receiver Transmitter Peripheral (UART).
@@ -29,7 +29,7 @@
              and HAL_UART_Receive_IT() APIs):
             (+++) Configure the USARTx interrupt priority.
             (+++) Enable the NVIC USART IRQ handle.
-            (++) UART interrupts handling:
+        (++) UART interrupts handling:
               -@@-  The specific UART interrupts (Transmission complete interrupt,
                 RXNE interrupt and Error Interrupts) are managed using the macros
                 __HAL_UART_ENABLE_IT() and __HAL_UART_DISABLE_IT() inside the transmit and receive processes.
@@ -213,7 +213,7 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart);
 
 /**
   * @brief Initialize the UART mode according to the specified
-  *         parameters in the UART_InitTypeDef and initialize the associated handle.
+  *        parameters in the UART_InitTypeDef and initialize the associated handle.
   * @param huart: UART handle.
   * @retval HAL status
   */
@@ -276,7 +276,7 @@ HAL_StatusTypeDef HAL_UART_Init(UART_HandleTypeDef *huart)
 
 /**
   * @brief Initialize the half-duplex mode according to the specified
-  *         parameters in the UART_InitTypeDef and creates the associated handle.
+  *        parameters in the UART_InitTypeDef and creates the associated handle.
   * @param huart: UART handle.
   * @retval HAL status
   */
@@ -335,7 +335,7 @@ HAL_StatusTypeDef HAL_HalfDuplex_Init(UART_HandleTypeDef *huart)
 
 /**
   * @brief Initialize the LIN mode according to the specified
-  *         parameters in the UART_InitTypeDef and creates the associated handle .
+  *        parameters in the UART_InitTypeDef and creates the associated handle .
   * @param huart: UART handle.
   * @param BreakDetectLength: specifies the LIN break detection length.
   *        This parameter can be one of the following values:
@@ -412,10 +412,9 @@ HAL_StatusTypeDef HAL_LIN_Init(UART_HandleTypeDef *huart, uint32_t BreakDetectLe
 }
 
 
-
 /**
   * @brief Initialize the multiprocessor mode according to the specified
-  *         parameters in the UART_InitTypeDef and initialize the associated handle.
+  *        parameters in the UART_InitTypeDef and initialize the associated handle.
   * @param huart: UART handle.
   * @param Address: UART node address (4-, 6-, 7- or 8-bit long).
   * @param WakeUpMethod: specifies the UART wakeup method.
@@ -490,8 +489,6 @@ HAL_StatusTypeDef HAL_MultiProcessor_Init(UART_HandleTypeDef *huart, uint8_t Add
 }
 
 
-
-
 /**
   * @brief DeInitialize the UART peripheral.
   * @param huart: UART handle.
@@ -564,7 +561,7 @@ __weak void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
   */
 
 /** @defgroup UART_Exported_Functions_Group2 IO operation functions
-  *  @brief UART Transmit/Receive functions
+  * @brief UART Transmit/Receive functions
   *
 @verbatim
  ===============================================================================
@@ -1330,9 +1327,9 @@ HAL_StatusTypeDef HAL_MultiProcessor_EnableMuteMode(UART_HandleTypeDef *huart)
 }
 
 /**
-  * @brief Disable UART mute mode (does not mean the UART actually exits mute mode
-  * as it may not have been in mute mode at this very moment).
-  * @param huart: UART handle.
+  * @brief  Disable UART mute mode (does not mean the UART actually exits mute mode
+  *         as it may not have been in mute mode at this very moment).
+  * @param  huart: UART handle.
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_MultiProcessor_DisableMuteMode(UART_HandleTypeDef *huart)
@@ -1457,9 +1454,9 @@ HAL_StatusTypeDef HAL_LIN_SendBreak(UART_HandleTypeDef *huart)
   */
 
 /**
-  * @brief Return the UART handle state.
-  * @param  huart : pointer to a UART_HandleTypeDef structure that contains
-  *              the configuration information for the specified UART.
+  * @brief  Return the UART handle state.
+  * @param  huart Pointer to a UART_HandleTypeDef structure that contains
+  *               the configuration information for the specified UART.
   * @retval HAL state
   */
 HAL_UART_StateTypeDef HAL_UART_GetState(UART_HandleTypeDef *huart)
@@ -1468,10 +1465,10 @@ HAL_UART_StateTypeDef HAL_UART_GetState(UART_HandleTypeDef *huart)
 }
 
 /**
-* @brief  Return the UART handle error code.
-* @param  huart : pointer to a UART_HandleTypeDef structure that contains
-  *              the configuration information for the specified UART.
-* @retval UART Error Code
+  * @brief  Return the UART handle error code.
+  * @param  huart Pointer to a UART_HandleTypeDef structure that contains
+  *               the configuration information for the specified UART.
+  * @retval UART Error Code
 */
 uint32_t HAL_UART_GetError(UART_HandleTypeDef *huart)
 {
@@ -1507,7 +1504,7 @@ HAL_StatusTypeDef UART_SetConfig(UART_HandleTypeDef *huart)
   assert_param(IS_UART_WORD_LENGTH(huart->Init.WordLength));
   if(UART_INSTANCE_LOWPOWER(huart))
   {
-    assert_param(IS_LPUART_STOPBITS(huart->Init.StopBits));  
+    assert_param(IS_LPUART_STOPBITS(huart->Init.StopBits));
   }
   else
   {
@@ -1961,7 +1958,7 @@ static void UART_DMAError(DMA_HandleTypeDef *hdma)
 }
 
 /**
-  * @brief Send an amount of data in interrupt mode.
+  * @brief  Send an amount of data in interrupt mode.
   * @note   Function is called under interruption only, once
   *         interruptions have been enabled by HAL_UART_Transmit_IT().
   * @param  huart: UART handle.
@@ -2040,7 +2037,7 @@ static HAL_StatusTypeDef UART_EndTransmit_IT(UART_HandleTypeDef *huart)
 
 
 /**
-  * @brief Receive an amount of data in interrupt mode.
+  * @brief  Receive an amount of data in interrupt mode.
   * @note   Function is called under interruption only, once
   *         interruptions have been enabled by HAL_UART_Receive_IT()
   * @param  huart: UART handle.

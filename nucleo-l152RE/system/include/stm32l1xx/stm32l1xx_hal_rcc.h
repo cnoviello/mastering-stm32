@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_rcc.h
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   Header file of RCC HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -68,10 +68,10 @@
 #define RCC_LSE_TIMEOUT_VALUE      LSE_STARTUP_TIMEOUT
 #define CLOCKSWITCH_TIMEOUT_VALUE  ((uint32_t)5000)  /* 5 s    */
 #define HSE_TIMEOUT_VALUE          HSE_STARTUP_TIMEOUT
-#define MSI_TIMEOUT_VALUE         ((uint32_t)100)    /* 100 ms */
-#define HSI_TIMEOUT_VALUE         ((uint32_t)100)    /* 100 ms */
-#define LSI_TIMEOUT_VALUE         ((uint32_t)100)    /* 100 ms */
-#define PLL_TIMEOUT_VALUE         ((uint32_t)100)    /* 100 ms */
+#define MSI_TIMEOUT_VALUE         ((uint32_t)2)      /* 2 ms */
+#define HSI_TIMEOUT_VALUE         ((uint32_t)2)      /* 2 ms */
+#define LSI_TIMEOUT_VALUE         ((uint32_t)2)      /* 2 ms */
+#define PLL_TIMEOUT_VALUE         ((uint32_t)2)      /* 2 ms */
 
 /**
   * @}
@@ -503,16 +503,28 @@ typedef struct
   * @}
   */
 
+/** @defgroup RCC_HAL_EC_RTC_HSE_DIV RTC HSE Prescaler
+  * @{
+  */
+#define RCC_RTC_HSE_DIV_2               (uint32_t)0x00000000U /*!< HSE is divided by 2 for RTC clock  */
+#define RCC_RTC_HSE_DIV_4               RCC_CR_RTCPRE_0       /*!< HSE is divided by 4 for RTC clock  */
+#define RCC_RTC_HSE_DIV_8               RCC_CR_RTCPRE_1       /*!< HSE is divided by 8 for RTC clock  */
+#define RCC_RTC_HSE_DIV_16              RCC_CR_RTCPRE         /*!< HSE is divided by 16 for RTC clock */
+/**
+  * @}
+  */
+
 /** @defgroup RCC_RTC_LCD_Clock_Source RTC LCD Clock Source
   * @{
   */
 #define RCC_RTCCLKSOURCE_NO_CLK          ((uint32_t)0x00000000)                 /*!< No clock */
-#define RCC_RTCCLKSOURCE_LSE             RCC_CSR_RTCSEL_LSE                    /*!< LSE oscillator clock used as RTC clock */
-#define RCC_RTCCLKSOURCE_LSI             RCC_CSR_RTCSEL_LSI                    /*!< LSI oscillator clock used as RTC clock */
-#define RCC_RTCCLKSOURCE_HSE_DIV2        RCC_CSR_RTCSEL_HSE                    /*!< HSE oscillator clock divided by 2 used as RTC clock */
-#define RCC_RTCCLKSOURCE_HSE_DIV4        (RCC_CR_RTCPRE_0 | RCC_CSR_RTCSEL_HSE) /*!< HSE oscillator clock divided by 4 used as RTC clock */
-#define RCC_RTCCLKSOURCE_HSE_DIV8        (RCC_CR_RTCPRE_1 | RCC_CSR_RTCSEL_HSE) /*!< HSE oscillator clock divided by 8 used as RTC clock */
-#define RCC_RTCCLKSOURCE_HSE_DIV16       (RCC_CR_RTCPRE | RCC_CSR_RTCSEL_HSE)   /*!< HSE oscillator clock divided by 16 used as RTC clock */
+#define RCC_RTCCLKSOURCE_LSE             RCC_CSR_RTCSEL_LSE                  /*!< LSE oscillator clock used as RTC clock */
+#define RCC_RTCCLKSOURCE_LSI             RCC_CSR_RTCSEL_LSI                  /*!< LSI oscillator clock used as RTC clock */
+#define RCC_RTCCLKSOURCE_HSE_DIVX        RCC_CSR_RTCSEL_HSE                         /*!< HSE oscillator clock divided by X used as RTC clock */
+#define RCC_RTCCLKSOURCE_HSE_DIV2        (RCC_RTC_HSE_DIV_2  | RCC_CSR_RTCSEL_HSE)  /*!< HSE oscillator clock divided by 2 used as RTC clock */
+#define RCC_RTCCLKSOURCE_HSE_DIV4        (RCC_RTC_HSE_DIV_4  | RCC_CSR_RTCSEL_HSE)  /*!< HSE oscillator clock divided by 4 used as RTC clock */
+#define RCC_RTCCLKSOURCE_HSE_DIV8        (RCC_RTC_HSE_DIV_8  | RCC_CSR_RTCSEL_HSE)  /*!< HSE oscillator clock divided by 8 used as RTC clock */
+#define RCC_RTCCLKSOURCE_HSE_DIV16       (RCC_RTC_HSE_DIV_16 | RCC_CSR_RTCSEL_HSE)  /*!< HSE oscillator clock divided by 16 used as RTC clock */
 /**
   * @}
   */
@@ -594,7 +606,7 @@ typedef struct
 #define RCC_IT_HSERDY                    ((uint8_t)RCC_CIR_HSERDYF)   /*!< HSE Ready Interrupt flag */
 #define RCC_IT_PLLRDY                    ((uint8_t)RCC_CIR_PLLRDYF)   /*!< PLL Ready Interrupt flag */
 #define RCC_IT_MSIRDY                    ((uint8_t)RCC_CIR_MSIRDYF)   /*!< MSI Ready Interrupt flag */
-#define RCC_IT_LSECSS                    ((uint8_t)RCC_CIR_LSECSS)    /*!< LSE Clock Security System Interrupt flag */
+#define RCC_IT_LSECSS                    ((uint8_t)RCC_CIR_LSECSSF)   /*!< LSE Clock Security System Interrupt flag */
 #define RCC_IT_CSS                       ((uint8_t)RCC_CIR_CSSF)      /*!< Clock Security System Interrupt flag */
 /**
   * @}
@@ -617,7 +629,7 @@ typedef struct
 /* Flags in the CSR register */
 #define RCC_FLAG_LSIRDY                  ((uint8_t)((CSR_REG_INDEX << 5) | POSITION_VAL(RCC_CSR_LSIRDY)))   /*!< Internal Low Speed oscillator Ready */
 #define RCC_FLAG_LSECSS                  ((uint8_t)((CSR_REG_INDEX << 5) | POSITION_VAL(RCC_CSR_LSECSSD)))  /*!< CSS on LSE failure Detection */
-#define RCC_FLAG_RMV                     ((uint8_t)((CSR_REG_INDEX << 5) | RCC_RMVF_BIT_NUMBER))     /*!< Remove reset flag */
+#define RCC_FLAG_RMV                     ((uint8_t)((CSR_REG_INDEX << 5) | RCC_RMVF_BIT_NUMBER))            /*!< Remove reset flag */
 #define RCC_FLAG_OBLRST                  ((uint8_t)((CSR_REG_INDEX << 5) | POSITION_VAL(RCC_CSR_OBLRSTF)))  /*!< Options bytes loading reset flag */
 #define RCC_FLAG_PINRST                  ((uint8_t)((CSR_REG_INDEX << 5) | POSITION_VAL(RCC_CSR_PINRSTF)))  /*!< PIN reset flag */
 #define RCC_FLAG_PORRST                  ((uint8_t)((CSR_REG_INDEX << 5) | POSITION_VAL(RCC_CSR_PORRSTF)))  /*!< POR/PDR reset flag */
@@ -926,7 +938,7 @@ typedef struct
   * @brief  Force or release AHB peripheral reset.
   * @{
   */ 
-#define __HAL_RCC_AHB_FORCE_RESET()       (RCC->AHBRSTR = 0xFFFFFFFF)
+#define __HAL_RCC_AHB_FORCE_RESET()       (RCC->AHBRSTR = 0xFFFFFFFFU)
 #define __HAL_RCC_GPIOA_FORCE_RESET()     (RCC->AHBRSTR |= (RCC_AHBRSTR_GPIOARST))
 #define __HAL_RCC_GPIOB_FORCE_RESET()     (RCC->AHBRSTR |= (RCC_AHBRSTR_GPIOBRST))
 #define __HAL_RCC_GPIOC_FORCE_RESET()     (RCC->AHBRSTR |= (RCC_AHBRSTR_GPIOCRST))
@@ -956,7 +968,7 @@ typedef struct
   * @brief  Force or release APB1 peripheral reset.
   * @{   
   */
-#define __HAL_RCC_APB1_FORCE_RESET()      (RCC->APB1RSTR = 0xFFFFFFFF)  
+#define __HAL_RCC_APB1_FORCE_RESET()      (RCC->APB1RSTR = 0xFFFFFFFFU)  
 #define __HAL_RCC_TIM2_FORCE_RESET()      (RCC->APB1RSTR |= (RCC_APB1RSTR_TIM2RST))
 #define __HAL_RCC_TIM3_FORCE_RESET()      (RCC->APB1RSTR |= (RCC_APB1RSTR_TIM3RST))
 #define __HAL_RCC_TIM4_FORCE_RESET()      (RCC->APB1RSTR |= (RCC_APB1RSTR_TIM4RST))
@@ -998,7 +1010,7 @@ typedef struct
   * @brief  Force or release APB1 peripheral reset.
   * @{   
   */
-#define __HAL_RCC_APB2_FORCE_RESET()      (RCC->APB2RSTR = 0xFFFFFFFF)  
+#define __HAL_RCC_APB2_FORCE_RESET()      (RCC->APB2RSTR = 0xFFFFFFFFU)  
 #define __HAL_RCC_SYSCFG_FORCE_RESET()    (RCC->APB2RSTR |= (RCC_APB2RSTR_SYSCFGRST))
 #define __HAL_RCC_TIM9_FORCE_RESET()      (RCC->APB2RSTR |= (RCC_APB2RSTR_TIM9RST))
 #define __HAL_RCC_TIM10_FORCE_RESET()     (RCC->APB2RSTR |= (RCC_APB2RSTR_TIM10RST))
@@ -1633,14 +1645,14 @@ typedef struct
 /** @brief  Macro to configure the MCO clock.
   * @param  __MCOCLKSOURCE__ specifies the MCO clock source.
   *          This parameter can be one of the following values:
-  *            @arg @ref RCC_MCO1SOURCE_NOCLOCK      No clock selected
-  *            @arg @ref RCC_MCO1SOURCE_SYSCLK       System clock selected
-  *            @arg @ref RCC_MCO1SOURCE_HSI          HSI oscillator clock selected
-  *            @arg @ref RCC_MCO1SOURCE_MSI          MSI oscillator clock selected  
-  *            @arg @ref RCC_MCO1SOURCE_HSE HSE oscillator clock selected
-  *            @arg @ref RCC_MCO1SOURCE_PLLCLK       PLL clock selected
-  *            @arg @ref RCC_MCO1SOURCE_LSI          LSI clock selected
-  *            @arg @ref RCC_MCO1SOURCE_LSE          LSE clock selected    
+  *            @arg @ref RCC_MCO1SOURCE_NOCLOCK      No clock selected as MCO clock
+  *            @arg @ref RCC_MCO1SOURCE_SYSCLK       System Clock selected as MCO clock
+  *            @arg @ref RCC_MCO1SOURCE_HSI          HSI oscillator clock selected as MCO clock
+  *            @arg @ref RCC_MCO1SOURCE_MSI          MSI oscillator clock selected as MCO clock 
+  *            @arg @ref RCC_MCO1SOURCE_HSE HSE oscillator clock selected as MCO clock
+  *            @arg @ref RCC_MCO1SOURCE_PLLCLK       PLL clock selected as MCO clock
+  *            @arg @ref RCC_MCO1SOURCE_LSI          LSI clock selected as MCO clock
+  *            @arg @ref RCC_MCO1SOURCE_LSE          LSE clock selected as MCO clock
   * @param  __MCODIV__ specifies the MCO clock prescaler.
   *          This parameter can be one of the following values:
   *            @arg @ref RCC_MCODIV_1   MCO clock source is divided by 1
@@ -1703,12 +1715,21 @@ typedef struct
   *            @arg @ref RCC_RTCCLKSOURCE_NO_CLK No clock selected as RTC clock
   *            @arg @ref RCC_RTCCLKSOURCE_LSE LSE selected as RTC clock
   *            @arg @ref RCC_RTCCLKSOURCE_LSI LSI selected as RTC clock
-  *            @arg @ref RCC_RTCCLKSOURCE_HSE_DIV2 HSE divided by 2 selected as RTC clock
-  *            @arg @ref RCC_RTCCLKSOURCE_HSE_DIV4 HSE divided by 4 selected as RTC clock
-  *            @arg @ref RCC_RTCCLKSOURCE_HSE_DIV8 HSE divided by 8 selected as RTC clock
-  *            @arg @ref RCC_RTCCLKSOURCE_HSE_DIV16 HSE divided by 16 selected as RTC clock
+  *            @arg @ref RCC_RTCCLKSOURCE_HSE_DIVX HSE divided by X selected as RTC clock (X can be retrieved thanks to @ref __HAL_RCC_GET_RTC_HSE_PRESCALER()
   */
 #define __HAL_RCC_GET_RTC_SOURCE() (READ_BIT(RCC->CSR, RCC_CSR_RTCSEL))
+
+/**
+  * @brief   Get the RTC and LCD HSE clock divider (RTCCLK / LCDCLK).
+  *
+  * @retval Returned value can be one of the following values:
+  *         @arg @ref RCC_RTC_HSE_DIV_2  HSE divided by 2 selected as RTC clock
+  *         @arg @ref RCC_RTC_HSE_DIV_4  HSE divided by 4 selected as RTC clock
+  *         @arg @ref RCC_RTC_HSE_DIV_8  HSE divided by 8 selected as RTC clock
+  *         @arg @ref RCC_RTC_HSE_DIV_16 HSE divided by 16 selected as RTC clock
+  *
+  */
+#define  __HAL_RCC_GET_RTC_HSE_PRESCALER() ((uint32_t)(READ_BIT(RCC->CR, RCC_CR_RTCPRE)))                                                   
 
 /** @brief Macro to enable the the RTC clock.
   * @note   These macros must be used only after the RTC clock source was selected.
@@ -1764,7 +1785,7 @@ typedef struct
   *            @arg @ref RCC_IT_MSIRDY MSI ready interrupt
   *            @arg @ref RCC_IT_LSECSS LSE CSS interrupt (not available for STM32L100xB || STM32L151xB || STM32L152xB devices)
   */
-#define __HAL_RCC_DISABLE_IT(__INTERRUPT__) (*(__IO uint8_t *) RCC_CIR_BYTE1_ADDRESS &= ~(__INTERRUPT__))
+#define __HAL_RCC_DISABLE_IT(__INTERRUPT__) (*(__IO uint8_t *) RCC_CIR_BYTE1_ADDRESS &= (uint8_t)(~(__INTERRUPT__)))
 
 /** @brief Clear the RCC's interrupt pending bits.
   * @param  __INTERRUPT__ specifies the interrupt pending bit to clear.
@@ -1812,9 +1833,9 @@ typedef struct
   *            @arg @ref RCC_FLAG_LSECSS CSS on LSE failure Detection (*)
   *            @arg @ref RCC_FLAG_LSIRDY LSI oscillator clock ready.
   *            @arg @ref RCC_FLAG_OBLRST Option Byte Load reset
-  *            @arg @ref RCC_FLAG_PINRST Pin reset.
-  *            @arg @ref RCC_FLAG_PORRST POR/PDR reset.
-  *            @arg @ref RCC_FLAG_SFTRST Software reset.
+  *            @arg @ref RCC_FLAG_PINRST  Pin reset.
+  *            @arg @ref RCC_FLAG_PORRST  POR/PDR reset.
+  *            @arg @ref RCC_FLAG_SFTRST  Software reset.
   *            @arg @ref RCC_FLAG_IWDGRST Independent Watchdog reset.
   *            @arg @ref RCC_FLAG_WWDGRST Window Watchdog reset.
   *            @arg @ref RCC_FLAG_LPWRRST Low Power reset.

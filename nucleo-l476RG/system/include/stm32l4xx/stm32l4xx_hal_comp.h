@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_comp.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of COMP HAL module.
   ******************************************************************************
   * @attention
@@ -136,6 +136,11 @@ typedef struct
 #define COMP_INVERTINGINPUT_DAC2           (COMP_CSR_INMSEL_2 | COMP_CSR_INMSEL_0) /*!< DAC_OUT2 connected to comparator inverting input (minus) */
 #define COMP_INVERTINGINPUT_IO1            (COMP_CSR_INMSEL_2 | COMP_CSR_INMSEL_1) /*!< IO1 connected to comparator inverting input (minus) */
 #define COMP_INVERTINGINPUT_IO2            COMP_CSR_INMSEL                         /*!< IO2 connected to comparator inverting input (minus) */
+#if defined(STM32L431xx) || defined(STM32L432xx) || defined(STM32L433xx) || defined(STM32L442xx) || defined(STM32L443xx)
+#define COMP_INVERTINGINPUT_IO3            (COMP_CSR_INMSEL | COMP_CSR_INMESEL_0)  /*!< IO3 connected to comparator inverting input (minus) */
+#define COMP_INVERTINGINPUT_IO4            (COMP_CSR_INMSEL | COMP_CSR_INMESEL_1)  /*!< IO4 connected to comparator inverting input (minus) */
+#define COMP_INVERTINGINPUT_IO5            (COMP_CSR_INMSEL | COMP_CSR_INMESEL)    /*!< IO5 connected to comparator inverting input (minus) */
+#endif /* STM32L431xx || STM32L432xx || STM32L433xx || STM32L442xx || STM32L443xx */
 /**
   * @}
   */
@@ -145,6 +150,9 @@ typedef struct
   */
 #define COMP_NONINVERTINGINPUT_IO1         ((uint32_t)0x00000000) /*!< IO1 connected to comparator non inverting input (plus) */
 #define COMP_NONINVERTINGINPUT_IO2         COMP_CSR_INPSEL_0      /*!< IO2 connected to comparator non inverting input (plus) */
+#if defined(STM32L431xx) || defined(STM32L432xx) || defined(STM32L433xx) || defined(STM32L442xx) || defined(STM32L443xx)
+#define COMP_NONINVERTINGINPUT_IO3         COMP_CSR_INPSEL_1      /*!< IO3 connected to comparator non inverting input (plus) */
+#endif /* STM32L431xx || STM32L432xx || STM32L433xx || STM32L442xx || STM32L443xx */
 /**
   * @}
   */
@@ -555,6 +563,19 @@ HAL_COMP_StateTypeDef HAL_COMP_GetState(COMP_HandleTypeDef *hcomp);
   * @{
   */
 
+#if defined(STM32L431xx) || defined(STM32L432xx) || defined(STM32L433xx) || defined(STM32L442xx) || defined(STM32L443xx)
+#define IS_COMP_INVERTINGINPUT(__INPUT__) (((__INPUT__) == COMP_INVERTINGINPUT_1_4VREFINT)  || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_1_2VREFINT)  || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_3_4VREFINT)  || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_VREFINT)     || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_DAC1)        || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_DAC2)        || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_IO1)         || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_IO2)         || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_IO3)         || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_IO4)         || \
+                                           ((__INPUT__) == COMP_INVERTINGINPUT_IO5))
+#else
 #define IS_COMP_INVERTINGINPUT(__INPUT__) (((__INPUT__) == COMP_INVERTINGINPUT_1_4VREFINT)  || \
                                            ((__INPUT__) == COMP_INVERTINGINPUT_1_2VREFINT)  || \
                                            ((__INPUT__) == COMP_INVERTINGINPUT_3_4VREFINT)  || \
@@ -563,9 +584,16 @@ HAL_COMP_StateTypeDef HAL_COMP_GetState(COMP_HandleTypeDef *hcomp);
                                            ((__INPUT__) == COMP_INVERTINGINPUT_DAC2)        || \
                                            ((__INPUT__) == COMP_INVERTINGINPUT_IO1)         || \
                                            ((__INPUT__) == COMP_INVERTINGINPUT_IO2))
+#endif /* STM32L431xx || STM32L432xx || STM32L433xx || STM32L442xx || STM32L443xx */
 
+#if defined(STM32L431xx) || defined(STM32L432xx) || defined(STM32L433xx) || defined(STM32L442xx) || defined(STM32L443xx)
+#define IS_COMP_NONINVERTINGINPUT(__INPUT__) (((__INPUT__) == COMP_NONINVERTINGINPUT_IO1) || \
+                                              ((__INPUT__) == COMP_NONINVERTINGINPUT_IO2) || \
+                                              ((__INPUT__) == COMP_NONINVERTINGINPUT_IO3))
+#else
 #define IS_COMP_NONINVERTINGINPUT(__INPUT__) (((__INPUT__) == COMP_NONINVERTINGINPUT_IO1) || \
                                               ((__INPUT__) == COMP_NONINVERTINGINPUT_IO2))
+#endif /* STM32L431xx || STM32L432xx || STM32L433xx || STM32L442xx || STM32L443xx */
 
 #define IS_COMP_OUTPUTPOL(__POL__)  (((__POL__) == COMP_OUTPUTPOL_NONINVERTED)  || \
                                      ((__POL__) == COMP_OUTPUTPOL_INVERTED))

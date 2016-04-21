@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_sai.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of SAI HAL module.
   ******************************************************************************
   * @attention
@@ -421,7 +421,7 @@ typedef struct __SAI_HandleTypeDef
   * @{
   */
 #define SAI_FS_ACTIVE_LOW                  ((uint32_t)0x00000000)
-#define SAI_FS_ACTIVE_HIGH                 ((uint32_t)SAI_xFRCR_FSPO)
+#define SAI_FS_ACTIVE_HIGH                 ((uint32_t)SAI_xFRCR_FSPOL)
 
 /**
   * @}

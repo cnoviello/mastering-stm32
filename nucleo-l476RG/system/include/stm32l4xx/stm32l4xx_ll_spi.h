@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_spi.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of SPI LL module.
   ******************************************************************************
   * @attention
@@ -161,46 +161,46 @@ typedef struct
   * @}
   */
 
-/** @defgroup SPI_LL_EC_MODE MODE
+/** @defgroup SPI_LL_EC_MODE Operation Mode
   * @{
   */
-#define LL_SPI_MODE_MASTER                 ((uint32_t)0x00000104)    /*!< Master configuration  */
-#define LL_SPI_MODE_SLAVE                  ((uint32_t)0x00000000)    /*!< Slave configuration   */
+#define LL_SPI_MODE_MASTER                 (SPI_CR1_MSTR | SPI_CR1_SSI)    /*!< Master configuration  */
+#define LL_SPI_MODE_SLAVE                  ((uint32_t)0x00000000U)         /*!< Slave configuration   */
 /**
   * @}
   */
 
-/** @defgroup SPI_LL_EC_PROTOCOL PROTOCOL
+/** @defgroup SPI_LL_EC_PROTOCOL Serial Protocol
   * @{
   */
-#define LL_SPI_PROTOCOL_MOTOROLA           ((uint32_t)0x00000000)    /*!< Motorola mode. Used as default value */
+#define LL_SPI_PROTOCOL_MOTOROLA           ((uint32_t)0x00000000U)   /*!< Motorola mode. Used as default value */
 #define LL_SPI_PROTOCOL_TI                 (SPI_CR2_FRF)             /*!< TI mode                              */
 /**
   * @}
   */
 
-/** @defgroup SPI_LL_EC_PHASE PHASE
+/** @defgroup SPI_LL_EC_PHASE Clock Phase
   * @{
   */
-#define LL_SPI_PHASE_1EDGE                 ((uint32_t)0x00000000)    /*!< First clock transition is the first data capture edge  */
+#define LL_SPI_PHASE_1EDGE                 ((uint32_t)0x00000000U)   /*!< First clock transition is the first data capture edge  */
 #define LL_SPI_PHASE_2EDGE                 (SPI_CR1_CPHA)            /*!< Second clock transition is the first data capture edge */
 /**
   * @}
   */
 
-/** @defgroup SPI_LL_EC_POLARITY POLARITY
+/** @defgroup SPI_LL_EC_POLARITY Clock Polarity
   * @{
   */
-#define LL_SPI_POLARITY_LOW                ((uint32_t)0x00000000)    /*!< Clock to 0 when idle */
+#define LL_SPI_POLARITY_LOW                ((uint32_t)0x00000000U)   /*!< Clock to 0 when idle */
 #define LL_SPI_POLARITY_HIGH               (SPI_CR1_CPOL)            /*!< Clock to 1 when idle */
 /**
   * @}
   */
 
-/** @defgroup SPI_LL_EC_BAUDRATEPRESCALER BAUDRATEPRESCALER
+/** @defgroup SPI_LL_EC_BAUDRATEPRESCALER Baud Rate Prescaler
   * @{
   */
-#define LL_SPI_BAUDRATEPRESCALER_DIV2      ((uint32_t)0x00000000)                         /*!< BaudRate control equal to fPCLK/2   */
+#define LL_SPI_BAUDRATEPRESCALER_DIV2      ((uint32_t)0x00000000U)                        /*!< BaudRate control equal to fPCLK/2   */
 #define LL_SPI_BAUDRATEPRESCALER_DIV4      (SPI_CR1_BR_0)                                 /*!< BaudRate control equal to fPCLK/4   */
 #define LL_SPI_BAUDRATEPRESCALER_DIV8      (SPI_CR1_BR_1)                                 /*!< BaudRate control equal to fPCLK/8   */
 #define LL_SPI_BAUDRATEPRESCALER_DIV16     (SPI_CR1_BR_1 | SPI_CR1_BR_0)                  /*!< BaudRate control equal to fPCLK/16  */
@@ -212,19 +212,19 @@ typedef struct
   * @}
   */
 
-/** @defgroup SPI_LL_EC_BIT_ORDER TRANSMISSION BIT ORDER
+/** @defgroup SPI_LL_EC_BIT_ORDER Transmission Bit Order
   * @{
   */
 #define LL_SPI_LSB_FIRST                   (SPI_CR1_LSBFIRST)        /*!< Data is transmitted/received withthe LSB first */
-#define LL_SPI_MSB_FIRST                   ((uint32_t)0x00000000)    /*!< Data is transmitted/received withthe MSB first */
+#define LL_SPI_MSB_FIRST                   ((uint32_t)0x00000000U)   /*!< Data is transmitted/received with the MSB first */
 /**
   * @}
   */
 
-/** @defgroup SPI_LL_EC_TRANSFER_MODE TRANSFER MODE
+/** @defgroup SPI_LL_EC_TRANSFER_MODE Transfer Mode
   * @{
   */
-#define LL_SPI_FULL_DUPLEX                 ((uint32_t)0x00000000)               /*!< Full-Duplex mode. Rx and Tx transfer on 2 lines */
+#define LL_SPI_FULL_DUPLEX                 ((uint32_t)0x00000000U)              /*!< Full-Duplex mode. Rx and Tx transfer on 2 lines */
 #define LL_SPI_SIMPLEX_RX                  (SPI_CR1_RXONLY)                     /*!< Simplex Rx mode.  Rx transfer only on 1 line    */
 #define LL_SPI_HALF_DUPLEX_RX              (SPI_CR1_BIDIMODE)                   /*!< Half-Duplex Rx mode. Rx transfer on 1 line      */
 #define LL_SPI_HALF_DUPLEX_TX              (SPI_CR1_BIDIMODE | SPI_CR1_BIDIOE)  /*!< Half-Duplex Tx mode. Tx transfer on 1 line      */
@@ -232,7 +232,17 @@ typedef struct
   * @}
   */
 
-/** @defgroup SPI_LL_EC_DATAWIDTH DATAWIDTH
+/** @defgroup SPI_LL_EC_NSS_MODE Slave Select Pin Mode
+  * @{
+  */
+#define LL_SPI_NSS_SOFT                    (SPI_CR1_SSM)                     /*!< NSS managed internally. NSS pin not used and free              */
+#define LL_SPI_NSS_HARD_INPUT              ((uint32_t)0x00000000U)           /*!< NSS pin used in Input. Only used in Master mode                */
+#define LL_SPI_NSS_HARD_OUTPUT             (((uint32_t)SPI_CR2_SSOE << 16U)) /*!< NSS pin used in Output. Only used in Slave mode as chip select */
+/**
+  * @}
+  */
+
+/** @defgroup SPI_LL_EC_DATAWIDTH Datawidth
   * @{
   */
 #define LL_SPI_DATAWIDTH_4BIT              (SPI_CR2_DS_0 | SPI_CR2_DS_1)                               /*!< Data length for SPI transfer:  4 bits */
@@ -251,50 +261,40 @@ typedef struct
 /**
   * @}
   */
-
-/** @defgroup SPI_LL_EC_RX_FIFO_TH RX FIFO THRESHOLD
-  * @{
-  */
-#define LL_SPI_RX_FIFO_TH_HALF             ((uint32_t)0x00000000)    /*!< RXNE event is generated if FIFO level is greater than or equel to 1/2 (16-bit) */
-#define LL_SPI_RX_FIFO_TH_QUARTER          (SPI_CR2_FRXTH)           /*!< RXNE event is generated if FIFO level is greater than or equel to 1/4 (8-bit)  */
-/**
-  * @}
-  */
-
 #if defined(USE_FULL_LL_DRIVER)
-/** @defgroup SPI_LL_EC_CRC_CALCULATION CRC CALCULATION
+
+/** @defgroup SPI_LL_EC_CRC_CALCULATION CRC Calculation
   * @{
   */
-#define LL_SPI_CRCCALCULATION_DISABLE      ((uint32_t)0x00000000)    /*!< CRC calcuation disabled */
-#define LL_SPI_CRCCALCULATION_ENABLE       (SPI_CR1_CRCEN)           /*!< CRC calcuation enabled  */
+#define LL_SPI_CRCCALCULATION_DISABLE      ((uint32_t)0x00000000U)           /*!< CRC calculation disabled */
+#define LL_SPI_CRCCALCULATION_ENABLE       (SPI_CR1_CRCEN)                   /*!< CRC calculation enabled  */
 /**
   * @}
   */
 #endif /* USE_FULL_LL_DRIVER */
 
-/** @defgroup SPI_LL_EC_CRC_LENGTH CRC LENGTH
+/** @defgroup SPI_LL_EC_CRC_LENGTH CRC Length
   * @{
   */
-#define LL_SPI_CRC_8BIT                    ((uint32_t)0x00000000)    /*!<  8-bit CRC length */
+#define LL_SPI_CRC_8BIT                    ((uint32_t)0x00000000U)   /*!<  8-bit CRC length */
 #define LL_SPI_CRC_16BIT                   (SPI_CR1_CRCL)            /*!< 16-bit CRC length */
 /**
   * @}
   */
 
-/** @defgroup SPI_LL_EC_NSS_MODE NSS MODE
+/** @defgroup SPI_LL_EC_RX_FIFO_TH RX FIFO Threshold
   * @{
   */
-#define LL_SPI_NSS_SOFT                    (SPI_CR1_SSM)                     /*!< NSS managed internally. NSS pin not used and free              */
-#define LL_SPI_NSS_HARD_INPUT              ((uint32_t)0x00000000)            /*!< NSS pin used in Input. Only used in Master mode                */
-#define LL_SPI_NSS_HARD_OUTPUT             (((uint32_t)SPI_CR2_SSOE << 16))  /*!< NSS pin used in Output. Only used in Slave mode as chip select */
+#define LL_SPI_RX_FIFO_TH_HALF             ((uint32_t)0x00000000U)   /*!< RXNE event is generated if FIFO level is greater than or equel to 1/2 (16-bit) */
+#define LL_SPI_RX_FIFO_TH_QUARTER          (SPI_CR2_FRXTH)           /*!< RXNE event is generated if FIFO level is greater than or equel to 1/4 (8-bit)  */
 /**
   * @}
   */
 
-/** @defgroup SPI_LL_EC_RX_FIFO RX FIFO LEVEL
+/** @defgroup SPI_LL_EC_RX_FIFO RX FIFO Level
   * @{
   */
-#define LL_SPI_RX_FIFO_EMPTY               ((uint32_t)0x00000000)            /*!< FIFO reception empty */
+#define LL_SPI_RX_FIFO_EMPTY               ((uint32_t)0x00000000U)           /*!< FIFO reception empty */
 #define LL_SPI_RX_FIFO_QUARTER_FULL        (SPI_SR_FRLVL_0)                  /*!< FIFO reception 1/4   */
 #define LL_SPI_RX_FIFO_HALF_FULL           (SPI_SR_FRLVL_1)                  /*!< FIFO reception 1/2   */
 #define LL_SPI_RX_FIFO_FULL                (SPI_SR_FRLVL_1 | SPI_SR_FRLVL_0) /*!< FIFO reception full  */
@@ -302,10 +302,10 @@ typedef struct
   * @}
   */
 
-/** @defgroup SPI_LL_EC_TX_FIFO TX FIFO LEVEL
+/** @defgroup SPI_LL_EC_TX_FIFO TX FIFO Level
   * @{
   */
-#define LL_SPI_TX_FIFO_EMPTY               ((uint32_t)0x00000000)            /*!< FIFO transmission empty */
+#define LL_SPI_TX_FIFO_EMPTY               ((uint32_t)0x00000000U)           /*!< FIFO transmission empty */
 #define LL_SPI_TX_FIFO_QUARTER_FULL        (SPI_SR_FTLVL_0)                  /*!< FIFO transmission 1/4   */
 #define LL_SPI_TX_FIFO_HALF_FULL           (SPI_SR_FTLVL_1)                  /*!< FIFO transmission 1/2   */
 #define LL_SPI_TX_FIFO_FULL                (SPI_SR_FTLVL_1 | SPI_SR_FTLVL_0) /*!< FIFO transmission full  */
@@ -313,11 +313,11 @@ typedef struct
   * @}
   */
 
-/** @defgroup SPI_LL_EC_DMA_PARITY DMA PARITY
+/** @defgroup SPI_LL_EC_DMA_PARITY DMA Parity
   * @{
   */
-#define LL_SPI_DMA_PARITY_EVEN             ((uint32_t)0x00000000)    /*!< Select DMA parity Even */
-#define LL_SPI_DMA_PARITY_ODD              ((uint32_t)0x00000001)    /*!< Select DMA parity Odd  */
+#define LL_SPI_DMA_PARITY_EVEN             ((uint32_t)0x00000000U)   /*!< Select DMA parity Even */
+#define LL_SPI_DMA_PARITY_ODD              ((uint32_t)0x00000001U)   /*!< Select DMA parity Odd  */
 
 /**
   * @}
@@ -404,7 +404,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsEnabled(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set SPI Mode to Master or Slave
+  * @brief  Set SPI operation mode to Master or Slave
   * @note   This bit should not be changed when communication is ongoing.
   * @rmtoll CR1          MSTR          LL_SPI_SetMode\n
   *         CR1          SSI           LL_SPI_SetMode
@@ -420,7 +420,7 @@ __STATIC_INLINE void LL_SPI_SetMode(SPI_TypeDef *SPIx, uint32_t Mode)
 }
 
 /**
-  * @brief  Get SPI Mode (Master or Slave)
+  * @brief  Get SPI operation mode (Master or Slave)
   * @rmtoll CR1          MSTR          LL_SPI_GetMode\n
   *         CR1          SSI           LL_SPI_GetMode
   * @param  SPIx SPI Instance
@@ -434,7 +434,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetMode(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set Serial protocol used
+  * @brief  Set serial protocol used
   * @note   This bit should be written only when SPI is disabled (SPE = 0) for correct operation.
   * @rmtoll CR2          FRF           LL_SPI_SetStandard
   * @param  SPIx SPI Instance
@@ -449,7 +449,7 @@ __STATIC_INLINE void LL_SPI_SetStandard(SPI_TypeDef *SPIx, uint32_t Standard)
 }
 
 /**
-  * @brief  Set Serial protocol used
+  * @brief  Get serial protocol used
   * @rmtoll CR2          FRF           LL_SPI_GetStandard
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -462,7 +462,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetStandard(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set Clock phase
+  * @brief  Set clock phase
   * @note   This bit should not be changed when communication is ongoing.
   *         This bit is not used in SPI TI mode.
   * @rmtoll CR1          CPHA          LL_SPI_SetClockPhase
@@ -478,7 +478,7 @@ __STATIC_INLINE void LL_SPI_SetClockPhase(SPI_TypeDef *SPIx, uint32_t ClockPhase
 }
 
 /**
-  * @brief  Get Clock phase
+  * @brief  Get clock phase
   * @rmtoll CR1          CPHA          LL_SPI_GetClockPhase
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -491,7 +491,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetClockPhase(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set Clock polarity
+  * @brief  Set clock polarity
   * @note   This bit should not be changed when communication is ongoing.
   *         This bit is not used in SPI TI mode.
   * @rmtoll CR1          CPOL          LL_SPI_SetClockPolarity
@@ -507,7 +507,7 @@ __STATIC_INLINE void LL_SPI_SetClockPolarity(SPI_TypeDef *SPIx, uint32_t ClockPo
 }
 
 /**
-  * @brief  Get Clock polarity
+  * @brief  Get clock polarity
   * @rmtoll CR1          CPOL          LL_SPI_GetClockPolarity
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -520,8 +520,8 @@ __STATIC_INLINE uint32_t LL_SPI_GetClockPolarity(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set BaudRate Prescaler
-  * @note   These bits should not be changed when communication is ongoing. SPI BaudRate = fPCLK/Pescaler.
+  * @brief  Set baud rate prescaler
+  * @note   These bits should not be changed when communication is ongoing. SPI BaudRate = fPCLK/Prescaler.
   * @rmtoll CR1          BR            LL_SPI_SetBaudRatePrescaler
   * @param  SPIx SPI Instance
   * @param  BaudRate This parameter can be one of the following values:
@@ -541,7 +541,7 @@ __STATIC_INLINE void LL_SPI_SetBaudRatePrescaler(SPI_TypeDef *SPIx, uint32_t Bau
 }
 
 /**
-  * @brief  Get BaudRate Prescaler
+  * @brief  Get baud rate prescaler
   * @rmtoll CR1          BR            LL_SPI_GetBaudRatePrescaler
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -560,7 +560,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetBaudRatePrescaler(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set Transfer Bit Order
+  * @brief  Set transfer bit order
   * @note   This bit should not be changed when communication is ongoing. This bit is not used in SPI TI mode.
   * @rmtoll CR1          LSBFIRST      LL_SPI_SetTransferBitOrder
   * @param  SPIx SPI Instance
@@ -575,7 +575,7 @@ __STATIC_INLINE void LL_SPI_SetTransferBitOrder(SPI_TypeDef *SPIx, uint32_t BitO
 }
 
 /**
-  * @brief  Get Transfer Bit Order
+  * @brief  Get transfer bit order
   * @rmtoll CR1          LSBFIRST      LL_SPI_GetTransferBitOrder
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -588,7 +588,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetTransferBitOrder(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set Transfer Direction Mode
+  * @brief  Set transfer direction mode
   * @note   For Half-Duplex mode, Rx Direction is set by default.
   *         In master mode, the MOSI pin is used and in slave mode, the MISO pin is used for Half-Duplex.
   * @rmtoll CR1          RXONLY        LL_SPI_SetTransferDirection\n
@@ -608,7 +608,7 @@ __STATIC_INLINE void LL_SPI_SetTransferDirection(SPI_TypeDef *SPIx, uint32_t Tra
 }
 
 /**
-  * @brief  Get Transfer Direction Mode
+  * @brief  Get transfer direction mode
   * @rmtoll CR1          RXONLY        LL_SPI_GetTransferDirection\n
   *         CR1          BIDIMODE      LL_SPI_GetTransferDirection\n
   *         CR1          BIDIOE        LL_SPI_GetTransferDirection
@@ -625,7 +625,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetTransferDirection(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Set Frame Data Width
+  * @brief  Set frame data width
   * @rmtoll CR2          DS            LL_SPI_SetDataWidth
   * @param  SPIx SPI Instance
   * @param  DataWidth This parameter can be one of the following values:
@@ -650,7 +650,7 @@ __STATIC_INLINE void LL_SPI_SetDataWidth(SPI_TypeDef *SPIx, uint32_t DataWidth)
 }
 
 /**
-  * @brief  Get Frame Data Width
+  * @brief  Get frame data width
   * @rmtoll CR2          DS            LL_SPI_GetDataWidth
   * @param  SPIx SPI Instance
   * @retval Returned value can be one of the following values:
@@ -704,7 +704,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetRxFIFOThreshold(SPI_TypeDef *SPIx)
   * @}
   */
 
-/** @defgroup SPI_EF_CRC_Management CRC_Management
+/** @defgroup SPI_EF_CRC_Management CRC Management
   * @{
   */
 
@@ -800,7 +800,7 @@ __STATIC_INLINE void LL_SPI_SetCRCPolynomial(SPI_TypeDef *SPIx, uint32_t CRCPoly
   * @brief  Get polynomial for CRC calculation
   * @rmtoll CRCPR        CRCPOLY       LL_SPI_GetCRCPolynomial
   * @param  SPIx SPI Instance
-  * @retval Returned value must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF
+  * @retval Returned value is a number between Min_Data = 0x00 and Max_Data = 0xFFFF
   */
 __STATIC_INLINE uint32_t LL_SPI_GetCRCPolynomial(SPI_TypeDef *SPIx)
 {
@@ -811,7 +811,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetCRCPolynomial(SPI_TypeDef *SPIx)
   * @brief  Get Rx CRC
   * @rmtoll RXCRCR       RXCRC         LL_SPI_GetRxCRC
   * @param  SPIx SPI Instance
-  * @retval Returned value must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF
+  * @retval Returned value is a number between Min_Data = 0x00 and Max_Data = 0xFFFF
   */
 __STATIC_INLINE uint32_t LL_SPI_GetRxCRC(SPI_TypeDef *SPIx)
 {
@@ -822,7 +822,7 @@ __STATIC_INLINE uint32_t LL_SPI_GetRxCRC(SPI_TypeDef *SPIx)
   * @brief  Get Tx CRC
   * @rmtoll TXCRCR       TXCRC         LL_SPI_GetTxCRC
   * @param  SPIx SPI Instance
-  * @retval Returned value must be a number between Min_Data = 0x00 and Max_Data = 0xFFFF
+  * @retval Returned value is a number between Min_Data = 0x00 and Max_Data = 0xFFFF
   */
 __STATIC_INLINE uint32_t LL_SPI_GetTxCRC(SPI_TypeDef *SPIx)
 {
@@ -833,12 +833,12 @@ __STATIC_INLINE uint32_t LL_SPI_GetTxCRC(SPI_TypeDef *SPIx)
   * @}
   */
 
-/** @defgroup SPI_EF_NSS_Management NSS_Management
+/** @defgroup SPI_EF_NSS_Management Slave Select Pin Management
   * @{
   */
 
 /**
-  * @brief  Set NSS Mode
+  * @brief  Set NSS mode
   * @note   LL_SPI_NSS_SOFT Mode is not used in SPI TI mode.
   * @rmtoll CR1          SSM           LL_SPI_SetNSSMode\n
   * @rmtoll CR2          SSOE          LL_SPI_SetNSSMode
@@ -852,11 +852,11 @@ __STATIC_INLINE uint32_t LL_SPI_GetTxCRC(SPI_TypeDef *SPIx)
 __STATIC_INLINE void LL_SPI_SetNSSMode(SPI_TypeDef *SPIx, uint32_t NSS)
 {
   MODIFY_REG(SPIx->CR1, SPI_CR1_SSM,  NSS);
-  MODIFY_REG(SPIx->CR2, SPI_CR2_SSOE, ((uint32_t)(NSS >> 16)));
+  MODIFY_REG(SPIx->CR2, SPI_CR2_SSOE, ((uint32_t)(NSS >> 16U)));
 }
 
 /**
-  * @brief  Get NSS Mode
+  * @brief  Get NSS mode
   * @rmtoll CR1          SSM           LL_SPI_GetNSSMode\n
   * @rmtoll CR2          SSOE          LL_SPI_GetNSSMode
   * @param  SPIx SPI Instance
@@ -868,12 +868,12 @@ __STATIC_INLINE void LL_SPI_SetNSSMode(SPI_TypeDef *SPIx, uint32_t NSS)
 __STATIC_INLINE uint32_t LL_SPI_GetNSSMode(SPI_TypeDef *SPIx)
 {
   register uint32_t Ssm  = (READ_BIT(SPIx->CR1, SPI_CR1_SSM));
-  register uint32_t Ssoe = (READ_BIT(SPIx->CR2,  SPI_CR2_SSOE) << 16);
+  register uint32_t Ssoe = (READ_BIT(SPIx->CR2,  SPI_CR2_SSOE) << 16U);
   return (Ssm | Ssoe);
 }
 
 /**
-  * @brief  Enable NSS pulse mgt
+  * @brief  Enable NSS pulse management
   * @note   This bit should not be changed when communication is ongoing. This bit is not used in SPI TI mode.
   * @rmtoll CR2          NSSP          LL_SPI_EnableNSSPulseMgt
   * @param  SPIx SPI Instance
@@ -885,7 +885,7 @@ __STATIC_INLINE void LL_SPI_EnableNSSPulseMgt(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Disable NSS pulse mgt
+  * @brief  Disable NSS pulse management
   * @note   This bit should not be changed when communication is ongoing. This bit is not used in SPI TI mode.
   * @rmtoll CR2          NSSP          LL_SPI_DisableNSSPulseMgt
   * @param  SPIx SPI Instance
@@ -912,7 +912,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsEnabledNSSPulse(SPI_TypeDef *SPIx)
   * @}
   */
 
-/** @defgroup SPI_LL_EF_FLAG_Management FLAG_Management
+/** @defgroup SPI_LL_EF_FLAG_Management FLAG Management
   * @{
   */
 
@@ -961,7 +961,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsActiveFlag_CRCERR(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Get  Mode fault error flag
+  * @brief  Get mode fault error flag
   * @rmtoll SR           MODF          LL_SPI_IsActiveFlag_MODF
   * @param  SPIx SPI Instance
   * @retval State of bit (1 or 0).
@@ -972,7 +972,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsActiveFlag_MODF(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Get Overrun error flag
+  * @brief  Get overrun error flag
   * @rmtoll SR           OVR           LL_SPI_IsActiveFlag_OVR
   * @param  SPIx SPI Instance
   * @retval State of bit (1 or 0).
@@ -983,7 +983,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsActiveFlag_OVR(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Get Busy flag
+  * @brief  Get busy flag
   * @note   The BSY flag is cleared under any one of the following conditions:
   * -When the SPI is correctly disabled
   * -When a fault is detected in Master mode (MODF bit set to 1)
@@ -1001,7 +1001,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsActiveFlag_BSY(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Get Frame format error flag
+  * @brief  Get frame format error flag
   * @rmtoll SR           FRE           LL_SPI_IsActiveFlag_FRE
   * @param  SPIx SPI Instance
   * @retval State of bit (1 or 0).
@@ -1042,7 +1042,8 @@ __STATIC_INLINE uint32_t LL_SPI_GetTxFIFOLevel(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Clear Underrun error flag
+  * @brief  Clear underrun error flag
+  * @note   Clearing this flag is done by reading SPIx_SR register
   * @rmtoll SR           UDR           LL_SPI_ClearFlag_UDR
   * @param  SPIx SPI Instance
   * @retval None
@@ -1066,7 +1067,9 @@ __STATIC_INLINE void LL_SPI_ClearFlag_CRCERR(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Clear  Mode fault error flag
+  * @brief  Clear mode fault error flag
+  * @note   Clearing this flag is done by a read access to the SPIx_SR
+  *         register followed by a write access to the SPIx_CR1 register
   * @rmtoll SR           MODF          LL_SPI_ClearFlag_MODF
   * @param  SPIx SPI Instance
   * @retval None
@@ -1081,7 +1084,9 @@ __STATIC_INLINE void LL_SPI_ClearFlag_MODF(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Clear Overrun error flag
+  * @brief  Clear overrun error flag
+  * @note   Clearing this flag is done by a read access to the SPIx_DR
+  *         register followed by a read access to the SPIx_SR register
   * @rmtoll SR           OVR           LL_SPI_ClearFlag_OVR
   * @param  SPIx SPI Instance
   * @retval None
@@ -1096,7 +1101,8 @@ __STATIC_INLINE void LL_SPI_ClearFlag_OVR(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Clear Frame format error flag
+  * @brief  Clear frame format error flag
+  * @note   Clearing this flag is done by reading SPIx_SR register
   * @rmtoll SR           FRE           LL_SPI_ClearFlag_FRE
   * @param  SPIx SPI Instance
   * @retval None
@@ -1112,12 +1118,12 @@ __STATIC_INLINE void LL_SPI_ClearFlag_FRE(SPI_TypeDef *SPIx)
   * @}
   */
 
-/** @defgroup SPI_LL_EF_IT_Management IT_Management
+/** @defgroup SPI_LL_EF_IT_Management Interrupt Management
   * @{
   */
 
 /**
-  * @brief  Enable Error IT
+  * @brief  Enable error interrupt
   * @note   This bit controls the generation of an interrupt when an error condition occurs (CRCERR,OVR, MODF in SPI mode, FRE at TI mode).
   * @rmtoll CR2          ERRIE         LL_SPI_EnableIT_ERR
   * @param  SPIx SPI Instance
@@ -1129,7 +1135,7 @@ __STATIC_INLINE void LL_SPI_EnableIT_ERR(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Enable Rx buffer not empty IT
+  * @brief  Enable Rx buffer not empty interrupt
   * @rmtoll CR2          RXNEIE        LL_SPI_EnableIT_RXNE
   * @param  SPIx SPI Instance
   * @retval None
@@ -1140,7 +1146,7 @@ __STATIC_INLINE void LL_SPI_EnableIT_RXNE(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Enable Tx buffer empty IT
+  * @brief  Enable Tx buffer empty interrupt
   * @rmtoll CR2          TXEIE         LL_SPI_EnableIT_TXE
   * @param  SPIx SPI Instance
   * @retval None
@@ -1151,7 +1157,7 @@ __STATIC_INLINE void LL_SPI_EnableIT_TXE(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Disable Error IT
+  * @brief  Disable error interrupt
   * @note   This bit controls the generation of an interrupt when an error condition occurs (CRCERR, OVR, MODF in SPI mode, FRE at TI mode).
   * @rmtoll CR2          ERRIE         LL_SPI_DisableIT_ERR
   * @param  SPIx SPI Instance
@@ -1163,7 +1169,7 @@ __STATIC_INLINE void LL_SPI_DisableIT_ERR(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Disable Rx buffer not empty IT
+  * @brief  Disable Rx buffer not empty interrupt
   * @rmtoll CR2          RXNEIE        LL_SPI_DisableIT_RXNE
   * @param  SPIx SPI Instance
   * @retval None
@@ -1174,7 +1180,7 @@ __STATIC_INLINE void LL_SPI_DisableIT_RXNE(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Disable Tx buffer empty IT
+  * @brief  Disable Tx buffer empty interrupt
   * @rmtoll CR2          TXEIE         LL_SPI_DisableIT_TXE
   * @param  SPIx SPI Instance
   * @retval None
@@ -1185,7 +1191,7 @@ __STATIC_INLINE void LL_SPI_DisableIT_TXE(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Check if ERR IT is enabled
+  * @brief  Check if error interrupt is enabled
   * @rmtoll CR2          ERRIE         LL_SPI_IsEnabledIT_ERR
   * @param  SPIx SPI Instance
   * @retval State of bit (1 or 0).
@@ -1196,7 +1202,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsEnabledIT_ERR(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Check if RXNE IT is enabled
+  * @brief  Check if Rx buffer not empty interrupt is enabled
   * @rmtoll CR2          RXNEIE        LL_SPI_IsEnabledIT_RXNE
   * @param  SPIx SPI Instance
   * @retval State of bit (1 or 0).
@@ -1207,7 +1213,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsEnabledIT_RXNE(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Check if TXE IT is enabled
+  * @brief  Check if Tx buffer empty interrupt
   * @rmtoll CR2          TXEIE         LL_SPI_IsEnabledIT_TXE
   * @param  SPIx SPI Instance
   * @retval State of bit (1 or 0).
@@ -1221,7 +1227,7 @@ __STATIC_INLINE uint32_t LL_SPI_IsEnabledIT_TXE(SPI_TypeDef *SPIx)
   * @}
   */
 
-/** @defgroup SPI_LL_EF_DMA_Management DMA_Management
+/** @defgroup SPI_LL_EF_DMA_Management DMA Management
   * @{
   */
 
@@ -1360,15 +1366,15 @@ __STATIC_INLINE uint32_t LL_SPI_DMA_GetRegAddr(SPI_TypeDef *SPIx)
   * @}
   */
 
-/** @defgroup SPI_LL_EF_DATA_Management DATA_Management
+/** @defgroup SPI_LL_EF_DATA_Management DATA Management
   * @{
   */
 
 /**
-  * @brief  Read  8-Bits in the Data Register
+  * @brief  Read 8-Bits in the data register
   * @rmtoll DR           DR            LL_SPI_ReceiveData8
   * @param  SPIx SPI Instance
-  * @retval RxData 0..0xFF
+  * @retval RxData Value between Min_Data=0x00 and Max_Data=0xFF
   */
 __STATIC_INLINE uint8_t LL_SPI_ReceiveData8(SPI_TypeDef *SPIx)
 {
@@ -1376,10 +1382,10 @@ __STATIC_INLINE uint8_t LL_SPI_ReceiveData8(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Read  16-Bits in the Data Register
+  * @brief  Read 16-Bits in the data register
   * @rmtoll DR           DR            LL_SPI_ReceiveData16
   * @param  SPIx SPI Instance
-  * @retval RxData 0..0xFFFF
+  * @retval RxData Value between Min_Data=0x00 and Max_Data=0xFFFF
   */
 __STATIC_INLINE uint16_t LL_SPI_ReceiveData16(SPI_TypeDef *SPIx)
 {
@@ -1387,10 +1393,10 @@ __STATIC_INLINE uint16_t LL_SPI_ReceiveData16(SPI_TypeDef *SPIx)
 }
 
 /**
-  * @brief  Write  8-Bits in the Data Register
+  * @brief  Write 8-Bits in the data register
   * @rmtoll DR           DR            LL_SPI_TransmitData8
   * @param  SPIx SPI Instance
-  * @param  TxData 0..0xFF
+  * @param  TxData Value between Min_Data=0x00 and Max_Data=0xFF
   * @retval None
   */
 __STATIC_INLINE void LL_SPI_TransmitData8(SPI_TypeDef *SPIx, uint8_t TxData)
@@ -1399,10 +1405,10 @@ __STATIC_INLINE void LL_SPI_TransmitData8(SPI_TypeDef *SPIx, uint8_t TxData)
 }
 
 /**
-  * @brief  Write 16-Bits in the Data Register
+  * @brief  Write 16-Bits in the data register
   * @rmtoll DR           DR            LL_SPI_TransmitData16
   * @param  SPIx SPI Instance
-  * @param  TxData 0..0xFFFF
+  * @param  TxData Value between Min_Data=0x00 and Max_Data=0xFFFF
   * @retval None
   */
 __STATIC_INLINE void LL_SPI_TransmitData16(SPI_TypeDef *SPIx, uint16_t TxData)

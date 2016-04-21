@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_uart.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   UART HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Universal Asynchronous Receiver Transmitter (UART) peripheral:
@@ -127,7 +127,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -209,21 +209,7 @@ static HAL_StatusTypeDef UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *huart, 
         (++) Baud Rate
         (++) Word Length 
         (++) Stop Bit
-        (++) Parity: If the parity is enabled, then the MSB bit of the data written
-             in the data register is transmitted but is changed by the parity bit.
-             Depending on the frame length defined by the M bit (8-bits or 9-bits),
-             the possible UART frame formats are as listed in the following table:
-        (+++)    +-------------------------------------------------------------+     
-        (+++)    |   M bit |  PCE bit  |            UART frame                 |
-        (+++)    |---------------------|---------------------------------------|             
-        (+++)    |    0    |    0      |    | SB | 8 bit data | STB |          |
-        (+++)    |---------|-----------|---------------------------------------|  
-        (+++)    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-        (+++)    |---------|-----------|---------------------------------------|  
-        (+++)    |    1    |    0      |    | SB | 9 bit data | STB |          |
-        (+++)    |---------|-----------|---------------------------------------|  
-        (+++)    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-        (+++)    +-------------------------------------------------------------+            
+        (++) Parity
         (++) Hardware flow control
         (++) Receiver/transmitter modes
         (++) Over Sampling Methode
@@ -235,6 +221,24 @@ static HAL_StatusTypeDef UART_WaitOnFlagUntilTimeout(UART_HandleTypeDef *huart, 
 @endverbatim
   * @{
   */
+
+/*
+  Additionnal remark: If the parity is enabled, then the MSB bit of the data written
+                      in the data register is transmitted but is changed by the parity bit.
+                      Depending on the frame length defined by the M bit (8-bits or 9-bits),
+                      the possible UART frame formats are as listed in the following table:
+    +-------------------------------------------------------------+
+    |   M bit |  PCE bit  |            UART frame                 |
+    |---------------------|---------------------------------------|
+    |    0    |    0      |    | SB | 8 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|-----------|---------------------------------------|
+    |    1    |    0      |    | SB | 9 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    +-------------------------------------------------------------+
+*/
 
 /**
   * @brief  Initializes the UART mode according to the specified parameters in
@@ -533,6 +537,9 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_MspInit(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_MspInit can be implemented in the user file
    */ 
@@ -546,6 +553,9 @@ HAL_StatusTypeDef HAL_UART_DeInit(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_MspDeInit can be implemented in the user file
    */ 
@@ -1255,6 +1265,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_TxCpltCallback can be implemented in the user file
    */ 
@@ -1268,6 +1281,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_TxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_TxHalfCpltCallback can be implemented in the user file
    */ 
@@ -1281,6 +1297,9 @@ void HAL_UART_IRQHandler(UART_HandleTypeDef *huart)
   */
 __weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_RxCpltCallback can be implemented in the user file
    */
@@ -1294,6 +1313,9 @@ __weak void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
   */
 __weak void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_RxHalfCpltCallback can be implemented in the user file
    */
@@ -1307,6 +1329,9 @@ __weak void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
   */
  __weak void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_UART_ErrorCallback can be implemented in the user file
    */ 
@@ -1344,7 +1369,7 @@ __weak void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
 HAL_StatusTypeDef HAL_LIN_SendBreak(UART_HandleTypeDef *huart)
 {
   /* Check the parameters */
-  assert_param(IS_UART_INSTANCE(huart->Instance));
+  assert_param(IS_UART_LIN_INSTANCE(huart->Instance));
   
   /* Process Locked */
   __HAL_LOCK(huart);

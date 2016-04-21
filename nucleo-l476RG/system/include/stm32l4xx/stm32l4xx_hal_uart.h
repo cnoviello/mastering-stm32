@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_uart.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of UART HAL module.
   ******************************************************************************
   * @attention
@@ -69,9 +69,9 @@ typedef struct
                                            - If oversampling is 16 or in LIN mode,
                                               Baud Rate Register = ((PCLKx) / ((huart->Init.BaudRate)))
                                            - If oversampling is 8,
-                                           - -  Baud Rate Register[15:4] = ((2 * PCLKx) / ((huart->Init.BaudRate)))[15:4]
-                                           - -  Baud Rate Register[3] =  0
-                                           - -  Baud Rate Register[2:0] =  (((2 * PCLKx) / ((huart->Init.BaudRate)))[3:0]) >> 1      */
+                                              Baud Rate Register[15:4] = ((2 * PCLKx) / ((huart->Init.BaudRate)))[15:4]
+                                              Baud Rate Register[3] =  0
+                                              Baud Rate Register[2:0] =  (((2 * PCLKx) / ((huart->Init.BaudRate)))[3:0]) >> 1      */
 
   uint32_t WordLength;                /*!< Specifies the number of data bits transmitted or received in a frame.
                                            This parameter can be a value of @ref UARTEx_Word_Length. */
@@ -175,10 +175,10 @@ typedef enum
   */
 typedef enum
 {
-  UART_CLOCKSOURCE_PCLK1      = 0x00,    /*!< PCLK1 clock source  */
-  UART_CLOCKSOURCE_PCLK2      = 0x01,    /*!< PCLK2 clock source  */
-  UART_CLOCKSOURCE_HSI        = 0x02,    /*!< HSI clock source    */
-  UART_CLOCKSOURCE_SYSCLK     = 0x04,    /*!< SYSCLK clock source */
+  UART_CLOCKSOURCE_PCLK1      = 0x00,    /*!< PCLK1 clock source     */
+  UART_CLOCKSOURCE_PCLK2      = 0x01,    /*!< PCLK2 clock source     */
+  UART_CLOCKSOURCE_HSI        = 0x02,    /*!< HSI clock source       */
+  UART_CLOCKSOURCE_SYSCLK     = 0x04,    /*!< SYSCLK clock source    */
   UART_CLOCKSOURCE_LSE        = 0x08,    /*!< LSE clock source       */
   UART_CLOCKSOURCE_UNDEFINED  = 0x10     /*!< Undefined clock source */
 }UART_ClockSourceTypeDef;
@@ -271,7 +271,7 @@ typedef struct
   * @}
   */
 
- /** @defgroup UART_State  UART State
+/** @defgroup UART_State  UART State
   * @{
   */
 #define UART_STATE_DISABLE                  ((uint32_t)0x00000000)          /*!< UART disabled  */
@@ -301,9 +301,9 @@ typedef struct
 /** @defgroup UART_AutoBaud_Rate_Mode    UART Advanced Feature AutoBaud Rate Mode
   * @{
   */
-#define UART_ADVFEATURE_AUTOBAUDRATE_ONSTARTBIT    ((uint32_t)0x0000)                /*!< Auto Baud rate detection on start bit            */
+#define UART_ADVFEATURE_AUTOBAUDRATE_ONSTARTBIT    ((uint32_t)0x00000000)            /*!< Auto Baud rate detection on start bit            */
 #define UART_ADVFEATURE_AUTOBAUDRATE_ONFALLINGEDGE ((uint32_t)USART_CR2_ABRMODE_0)   /*!< Auto Baud rate detection on falling edge         */
-#define UART_ADVFEATURE_AUTOBAUDRATE_ON0X7FFRAME   ((uint32_t)USART_CR2_ABRMODE_1)   /*!< Auto Baud rate detection on 0x7F frame detection */    
+#define UART_ADVFEATURE_AUTOBAUDRATE_ON0X7FFRAME   ((uint32_t)USART_CR2_ABRMODE_1)   /*!< Auto Baud rate detection on 0x7F frame detection */
 #define UART_ADVFEATURE_AUTOBAUDRATE_ON0X55FRAME   ((uint32_t)USART_CR2_ABRMODE)     /*!< Auto Baud rate detection on 0x55 frame detection */
 /**
   * @}
@@ -348,7 +348,7 @@ typedef struct
 /** @defgroup UART_DMA_Rx   UART DMA Rx
   * @{
   */
-#define UART_DMA_RX_DISABLE                 ((uint32_t)0x0000)                      /*!< UART DMA RX disabled */
+#define UART_DMA_RX_DISABLE                 ((uint32_t)0x00000000)                  /*!< UART DMA RX disabled */
 #define UART_DMA_RX_ENABLE                  ((uint32_t)USART_CR3_DMAR)              /*!< UART DMA RX enabled  */
 /**
   * @}
@@ -357,7 +357,7 @@ typedef struct
 /** @defgroup UART_Half_Duplex_Selection  UART Half Duplex Selection
   * @{
   */
-#define UART_HALF_DUPLEX_DISABLE            ((uint32_t)0x0000)                      /*!< UART half-duplex disabled */
+#define UART_HALF_DUPLEX_DISABLE            ((uint32_t)0x00000000)                  /*!< UART half-duplex disabled */
 #define UART_HALF_DUPLEX_ENABLE             ((uint32_t)USART_CR3_HDSEL)             /*!< UART half-duplex enabled  */
 /**
   * @}
@@ -646,7 +646,7 @@ typedef struct
   * @{
   */
 
-/** @brief Reset UART handle state.
+/** @brief  Reset UART handle state.
   * @param  __HANDLE__: UART handle.
   * @retval None
   */
@@ -654,7 +654,7 @@ typedef struct
 
 /** @brief  Flush the UART Data registers.
   * @param  __HANDLE__: specifies the UART Handle.
-  * @retval None  
+  * @retval None
   */
 #define __HAL_UART_FLUSH_DRREGISTER(__HANDLE__)  \
   do{                \
@@ -672,10 +672,10 @@ typedef struct
   *            @arg @ref UART_CLEAR_OREF     Overrun Error Clear Flag          
   *            @arg @ref UART_CLEAR_IDLEF    IDLE line detected Clear Flag     
   *            @arg @ref UART_CLEAR_TCF      Transmission Complete Clear Flag  
-  *            @arg @ref UART_CLEAR_LBDF     LIN Break Detection Clear Flag    
+  *            @arg @ref UART_CLEAR_LBDF     LIN Break Detection Clear Flag
   *            @arg @ref UART_CLEAR_CTSF     CTS Interrupt Clear Flag          
   *            @arg @ref UART_CLEAR_RTOF     Receiver Time Out Clear Flag      
-  *            @arg @ref UART_CLEAR_EOBF     End Of Block Clear Flag           
+  *            @arg @ref UART_CLEAR_EOBF     End Of Block Clear Flag
   *            @arg @ref UART_CLEAR_CMF      Character Match Clear Flag        
   *            @arg @ref UART_CLEAR_WUF      Wake Up from stop mode Clear Flag 
   * @retval None
@@ -962,21 +962,21 @@ typedef struct
   * @param  __BAUD__: Baud rate set by the user.
   * @retval Division result
   */
-#define UART_DIV_LPUART(__PCLK__, __BAUD__)                (((uint64_t)(__PCLK__)*256)/((__BAUD__)))
+#define UART_DIV_LPUART(__PCLK__, __BAUD__)      ((((uint64_t)(__PCLK__)*256) + ((__BAUD__)/2)) / (__BAUD__))
 
 /** @brief  BRR division operation to set BRR register in 8-bit oversampling mode.
   * @param  __PCLK__: UART clock.
   * @param  __BAUD__: Baud rate set by the user.
   * @retval Division result
   */
-#define UART_DIV_SAMPLING8(__PCLK__, __BAUD__)             (((__PCLK__)*2)/((__BAUD__)))
+#define UART_DIV_SAMPLING8(__PCLK__, __BAUD__)   ((((__PCLK__)*2) + ((__BAUD__)/2)) / (__BAUD__))
 
 /** @brief  BRR division operation to set BRR register in 16-bit oversampling mode.
   * @param  __PCLK__: UART clock.
   * @param  __BAUD__: Baud rate set by the user.
   * @retval Division result
   */
-#define UART_DIV_SAMPLING16(__PCLK__, __BAUD__)             (((__PCLK__))/((__BAUD__)))
+#define UART_DIV_SAMPLING16(__PCLK__, __BAUD__)  (((__PCLK__) + ((__BAUD__)/2)) / (__BAUD__))
 
 /** @brief  Check whether or not UART instance is Low Power UART.
   * @param  __HANDLE__: specifies the UART Handle.

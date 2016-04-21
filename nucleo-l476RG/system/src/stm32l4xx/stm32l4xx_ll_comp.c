@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_comp.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   COMP LL module driver
   ******************************************************************************
   * @attention
@@ -42,7 +42,7 @@
 #ifdef  USE_FULL_ASSERT
   #include "stm32_assert.h"
 #else
-  #define assert_param(expr) ((void)0)
+  #define assert_param(expr) ((void)0U)
 #endif
 
 /** @addtogroup STM32L4xx_LL_Driver
@@ -70,20 +70,31 @@
 #define IS_LL_COMP_POWER_MODE(__POWER_MODE__)                                  \
   (   ((__POWER_MODE__) == LL_COMP_POWERMODE_HIGHSPEED)                        \
    || ((__POWER_MODE__) == LL_COMP_POWERMODE_MEDIUMSPEED)                      \
-   || ((__POWER_MODE__) == LL_COMP_POWERMODE_ULTRALOWPOWER))
+   || ((__POWER_MODE__) == LL_COMP_POWERMODE_ULTRALOWPOWER)                    \
+  )
 
 /* Note: Comparator non-inverting inputs parameters are the same on all       */
 /*       COMP instances.                                                      */
 /*       However, comparator instance kept as macro parameter for             */
 /*       compatibility with other STM32 families.                             */
+#if defined(COMP_CSR_INPSEL_1)
 #define IS_LL_COMP_INPUT_PLUS(__COMPX__, __INPUT_PLUS__)                       \
   (   ((__INPUT_PLUS__) == LL_COMP_INPUT_PLUS_IO1)                             \
-   || ((__INPUT_PLUS__) == LL_COMP_INPUT_PLUS_IO2))
+   || ((__INPUT_PLUS__) == LL_COMP_INPUT_PLUS_IO2)                             \
+   || ((__INPUT_PLUS__) == LL_COMP_INPUT_PLUS_IO3)                             \
+  )
+#else
+#define IS_LL_COMP_INPUT_PLUS(__COMPX__, __INPUT_PLUS__)                       \
+  (   ((__INPUT_PLUS__) == LL_COMP_INPUT_PLUS_IO1)                             \
+   || ((__INPUT_PLUS__) == LL_COMP_INPUT_PLUS_IO2)                             \
+  )
+#endif
 
 /* Note: Comparator inverting inputs parameters are the same on all           */
 /*       COMP instances.                                                      */
 /*       However, comparator instance kept as macro parameter for             */
 /*       compatibility with other STM32 families.                             */
+#if defined(COMP_CSR_INMESEL_1)
 #define IS_LL_COMP_INPUT_MINUS(__COMPX__, __INPUT_INVERTING__)                 \
   (   ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_1_4VREFINT)                \
    || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_1_2VREFINT)                \
@@ -92,17 +103,35 @@
    || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_DAC1_CH1)                  \
    || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_DAC1_CH2)                  \
    || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO1)                       \
-   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO2)       )
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO2)                       \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO3)                       \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO4)                       \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO5)                       \
+  )
+#else
+#define IS_LL_COMP_INPUT_MINUS(__COMPX__, __INPUT_INVERTING__)                 \
+  (   ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_1_4VREFINT)                \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_1_2VREFINT)                \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_3_4VREFINT)                \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_VREFINT)                   \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_DAC1_CH1)                  \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_DAC1_CH2)                  \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO1)                       \
+   || ((__INPUT_INVERTING__) == LL_COMP_INPUT_MINUS_IO2)                       \
+  )
+#endif
 
 #define IS_LL_COMP_INPUT_HYSTERESIS(__INPUT_HYSTERESIS__)                      \
   (   ((__INPUT_HYSTERESIS__) == LL_COMP_HYSTERESIS_NONE)                      \
    || ((__INPUT_HYSTERESIS__) == LL_COMP_HYSTERESIS_LOW)                       \
    || ((__INPUT_HYSTERESIS__) == LL_COMP_HYSTERESIS_MEDIUM)                    \
-   || ((__INPUT_HYSTERESIS__) == LL_COMP_HYSTERESIS_HIGH)  )
+   || ((__INPUT_HYSTERESIS__) == LL_COMP_HYSTERESIS_HIGH)                      \
+  )
 
 #define IS_LL_COMP_OUTPUT_POLARITY(__POLARITY__)                               \
   (   ((__POLARITY__) == LL_COMP_OUTPUTPOL_NONINVERTED)                        \
-   || ((__POLARITY__) == LL_COMP_OUTPUTPOL_INVERTED)   )
+   || ((__POLARITY__) == LL_COMP_OUTPUTPOL_INVERTED)                           \
+  )
 
 #define IS_LL_COMP_OUTPUT_BLANKING_SOURCE(__OUTPUT_BLANKING_SOURCE__)          \
   (   ((__OUTPUT_BLANKING_SOURCE__) == LL_COMP_BLANKINGSRC_NONE)               \
@@ -111,7 +140,8 @@
    || ((__OUTPUT_BLANKING_SOURCE__) == LL_COMP_BLANKINGSRC_TIM3_OC3)           \
    || ((__OUTPUT_BLANKING_SOURCE__) == LL_COMP_BLANKINGSRC_TIM3_OC4)           \
    || ((__OUTPUT_BLANKING_SOURCE__) == LL_COMP_BLANKINGSRC_TIM8_OC5)           \
-   || ((__OUTPUT_BLANKING_SOURCE__) == LL_COMP_BLANKINGSRC_TIM15_OC1))
+   || ((__OUTPUT_BLANKING_SOURCE__) == LL_COMP_BLANKINGSRC_TIM15_OC1)          \
+  )
 
 /**
   * @}
@@ -149,9 +179,9 @@ ErrorStatus LL_COMP_DeInit(COMP_TypeDef *COMPx)
   
   /* Note: Hardware constraint (refer to description of this function):       */
   /*       COMP instance must not be locked.                                  */
-  if(LL_COMP_IsLocked(COMPx) == 0)
+  if(LL_COMP_IsLocked(COMPx) == 0U)
   {
-    LL_COMP_WriteReg(COMPx, CSR, 0x00000000);
+    LL_COMP_WriteReg(COMPx, CSR, 0x00000000U);
 
   }
   else
@@ -192,7 +222,7 @@ ErrorStatus LL_COMP_Init(COMP_TypeDef *COMPx, LL_COMP_InitTypeDef *COMP_InitStru
   
   /* Note: Hardware constraint (refer to description of this function)        */
   /*       COMP instance must not be locked.                                  */
-  if(LL_COMP_IsLocked(COMPx) == 0)
+  if(LL_COMP_IsLocked(COMPx) == 0U)
   {
     /* Configuration of comparator instance :                                 */
     /*  - PowerMode                                                           */
@@ -201,6 +231,26 @@ ErrorStatus LL_COMP_Init(COMP_TypeDef *COMPx, LL_COMP_InitTypeDef *COMP_InitStru
     /*  - InputHysteresis                                                     */
     /*  - OutputPolarity                                                      */
     /*  - OutputBlankingSource                                                */
+#if defined(COMP_CSR_INMESEL_1)
+    MODIFY_REG(COMPx->CSR,
+                 COMP_CSR_PWRMODE
+               | COMP_CSR_INPSEL
+               | COMP_CSR_SCALEN
+               | COMP_CSR_BRGEN
+               | COMP_CSR_INMESEL
+               | COMP_CSR_INMSEL
+               | COMP_CSR_HYST
+               | COMP_CSR_POLARITY
+               | COMP_CSR_BLANKING
+              ,
+                 COMP_InitStruct->PowerMode
+               | COMP_InitStruct->InputPlus
+               | COMP_InitStruct->InputMinus
+               | COMP_InitStruct->InputHysteresis
+               | COMP_InitStruct->OutputPolarity
+               | COMP_InitStruct->OutputBlankingSource
+              );
+#else
     MODIFY_REG(COMPx->CSR,
                  COMP_CSR_PWRMODE
                | COMP_CSR_INPSEL
@@ -218,6 +268,7 @@ ErrorStatus LL_COMP_Init(COMP_TypeDef *COMPx, LL_COMP_InitTypeDef *COMP_InitStru
                | COMP_InitStruct->OutputPolarity
                | COMP_InitStruct->OutputBlankingSource
               );
+#endif
 
   }
   else

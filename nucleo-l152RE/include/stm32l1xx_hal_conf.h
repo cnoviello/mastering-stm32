@@ -1,11 +1,14 @@
 /**
   ******************************************************************************
   * @file    stm32l1xx_hal_conf.h
-  * @brief   HAL configuration file.             
+  * @author  MCD Application Team
+  * @version V1.5.0
+  * @date    04-March-2016
+  * @brief   HAL configuration file. 
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -40,8 +43,6 @@
  extern "C" {
 #endif
 
-#include "mxconstants.h" 
-
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 
@@ -49,36 +50,35 @@
 /**
   * @brief This is the list of modules to be used in the HAL driver 
   */
-
 #define HAL_MODULE_ENABLED  
-//#define HAL_ADC_MODULE_ENABLED   
-//#define HAL_COMP_MODULE_ENABLED   
-//#define HAL_CRC_MODULE_ENABLED   
-//#define HAL_CRYP_MODULE_ENABLED   
-//#define HAL_DAC_MODULE_ENABLED   
-//#define HAL_I2C_MODULE_ENABLED   
-//#define HAL_I2S_MODULE_ENABLED   
-//#define HAL_IRDA_MODULE_ENABLED   
-//#define HAL_IWDG_MODULE_ENABLED   
-//#define HAL_LCD_MODULE_ENABLED   
-//#define HAL_NOR_MODULE_ENABLED   
-//#define HAL_OPAMP_MODULE_ENABLED   
-//#define HAL_PCD_MODULE_ENABLED   
-//#define HAL_RTC_MODULE_ENABLED   
-//#define HAL_SD_MODULE_ENABLED   
-//#define HAL_SMARTCARD_MODULE_ENABLED   
-//#define HAL_SPI_MODULE_ENABLED   
-//#define HAL_SRAM_MODULE_ENABLED   
+/* #define HAL_ADC_MODULE_ENABLED */
+/* #define HAL_COMP_MODULE_ENABLED */
+#define HAL_CORTEX_MODULE_ENABLED
+/* #define HAL_CRC_MODULE_ENABLED */
+/* #define HAL_CRYP_MODULE_ENABLED */
+/* #define HAL_DAC_MODULE_ENABLED */
+#define HAL_DMA_MODULE_ENABLED
+#define HAL_FLASH_MODULE_ENABLED
+#define HAL_GPIO_MODULE_ENABLED
+/* #define HAL_I2C_MODULE_ENABLED */
+/* #define HAL_I2S_MODULE_ENABLED */
+/* #define HAL_IRDA_MODULE_ENABLED */
+/* #define HAL_IWDG_MODULE_ENABLED */
+/* #define HAL_LCD_MODULE_ENABLED */
+/* #define HAL_NOR_MODULE_ENABLED */
+/* #define HAL_OPAMP_MODULE_ENABLED */
+/* #define HAL_PCD_MODULE_ENABLED */
+#define HAL_PWR_MODULE_ENABLED
+#define HAL_RCC_MODULE_ENABLED
+/* #define HAL_RTC_MODULE_ENABLED */
+/* #define HAL_SD_MODULE_ENABLED */
+/* #define HAL_SMARTCARD_MODULE_ENABLED */
+/* #define HAL_SPI_MODULE_ENABLED */
+/* #define HAL_SRAM_MODULE_ENABLED */
 #define HAL_TIM_MODULE_ENABLED
 #define HAL_UART_MODULE_ENABLED
-//#define HAL_USART_MODULE_ENABLED   
-//#define HAL_WWDG_MODULE_ENABLED   
-#define HAL_GPIO_MODULE_ENABLED
-#define HAL_DMA_MODULE_ENABLED
-#define HAL_RCC_MODULE_ENABLED
-#define HAL_FLASH_MODULE_ENABLED
-#define HAL_PWR_MODULE_ENABLED
-#define HAL_CORTEX_MODULE_ENABLED
+/* #define HAL_USART_MODULE_ENABLED */
+/* #define HAL_WWDG_MODULE_ENABLED */
 
 /* ########################## Oscillator Values adaptation ####################*/
 /**
@@ -99,7 +99,7 @@
   *        This value is the default MSI range value after Reset.
   */
 #if !defined  (MSI_VALUE)
-  #define MSI_VALUE    ((uint32_t)16000000) /*!< Value of the Internal oscillator in Hz*/
+  #define MSI_VALUE    ((uint32_t)2097000) /*!< Value of the Internal oscillator in Hz*/
 #endif /* MSI_VALUE */
 /**
   * @brief Internal High Speed oscillator (HSI) value.
@@ -118,10 +118,12 @@
   #define LSE_VALUE    ((uint32_t)32768) /*!< Value of the External oscillator in Hz*/
 #endif /* LSE_VALUE */
 
+   
 #if !defined  (LSE_STARTUP_TIMEOUT)
   #define LSE_STARTUP_TIMEOUT    ((uint32_t)5000)   /*!< Time out for LSE start up, in ms */
 #endif /* HSE_STARTUP_TIMEOUT */
 
+   
 /* Tip: To avoid modifying this file each time you need to use different HSE,
    ===  you can define the HSE value in your toolchain compiler preprocessor. */
 
@@ -129,20 +131,19 @@
 /**
   * @brief This is the HAL system configuration section
   */     
-  
-#define  VDD_VALUE					  ((uint32_t)3300) /*!< Value of VDD in mv */           
-#define  TICK_INT_PRIORITY            ((uint32_t)0)    /*!< tick interrupt priority */            
+#define  VDD_VALUE                    ((uint32_t)3300) /*!< Value of VDD in mv */          
+#define  TICK_INT_PRIORITY            ((uint32_t)0x000F)    /*!< tick interrupt priority */            
 #define  USE_RTOS                     0     
-#define  PREFETCH_ENABLE              0
-#define  INSTRUCTION_CACHE_ENABLE     1
-#define  DATA_CACHE_ENABLE            1
+#define  PREFETCH_ENABLE              1
+#define  INSTRUCTION_CACHE_ENABLE     0
+#define  DATA_CACHE_ENABLE            0
 
 /* ########################## Assert Selection ############################## */
 /**
   * @brief Uncomment the line below to expanse the "assert_param" macro in the 
   *        HAL drivers code
   */
-/* #define USE_FULL_ASSERT    1 */
+/*#define USE_FULL_ASSERT    1*/ 
 
 /* Includes ------------------------------------------------------------------*/
 /**
@@ -283,5 +284,6 @@
 #endif
 
 #endif /* __STM32L1xx_HAL_CONF_H */
+
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

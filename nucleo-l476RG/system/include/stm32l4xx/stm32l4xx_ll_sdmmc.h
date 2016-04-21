@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_sdmmc.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of low layer SDMMC HAL module.
   ******************************************************************************
   * @attention
@@ -42,6 +42,8 @@
 #ifdef __cplusplus
  extern "C" {
 #endif
+
+#if defined(SDMMC1)
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal_def.h"
@@ -794,6 +796,8 @@ HAL_StatusTypeDef SDMMC_SetSDMMCReadWaitMode(SDMMC_TypeDef *SDMMCx, uint32_t SDM
 /**
   * @}
   */
+
+#endif /* SDMMC1 */
 
 #ifdef __cplusplus
 }

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_lptim.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   LPTIM LL module driver.
   ******************************************************************************
   * @attention
@@ -43,7 +43,7 @@
 #ifdef  USE_FULL_ASSERT
   #include "stm32_assert.h"
 #else
-  #define assert_param(expr) ((void)0)
+  #define assert_param(expr) ((void)0U)
 #endif
 
 /** @addtogroup STM32L4xx_LL_Driver
@@ -159,7 +159,7 @@ ErrorStatus LL_LPTIM_Init(LPTIM_TypeDef * LPTIMx, LL_LPTIM_InitTypeDef* LPTIM_In
   ErrorStatus result = SUCCESS;
   
   /* The LPTIMx_CFGR register must only be modified when the LPTIM is disabled 
-     (ENABLE bit is reset to ‘0’).
+     (ENABLE bit is reset to 0).
   */
   if (LL_LPTIM_IsEnabled(LPTIMx))
   {

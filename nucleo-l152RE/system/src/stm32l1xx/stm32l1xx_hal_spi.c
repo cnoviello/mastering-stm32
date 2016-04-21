@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_spi.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   SPI HAL module driver.
   *    
   *          This file provides firmware functions to manage the following 
@@ -59,7 +59,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -182,6 +182,9 @@ static HAL_StatusTypeDef SPI_WaitOnFlagUntilTimeout(struct __SPI_HandleTypeDef *
   */
 __weak HAL_StatusTypeDef HAL_SPI_Init(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   return HAL_ERROR;
 }
 
@@ -222,6 +225,9 @@ HAL_StatusTypeDef HAL_SPI_DeInit(SPI_HandleTypeDef *hspi)
   */
  __weak void HAL_SPI_MspInit(SPI_HandleTypeDef *hspi)
  {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
    /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_MspInit could be implenetd in the user file
    */
@@ -235,6 +241,9 @@ HAL_StatusTypeDef HAL_SPI_DeInit(SPI_HandleTypeDef *hspi)
   */
  __weak void HAL_SPI_MspDeInit(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_MspDeInit could be implenetd in the user file
    */
@@ -1507,6 +1516,9 @@ void HAL_SPI_IRQHandler(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxCpltCallback could be implenetd in the user file
    */
@@ -1520,6 +1532,9 @@ __weak void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_RxCpltCallback() could be implenetd in the user file
    */
@@ -1533,6 +1548,9 @@ __weak void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxRxCpltCallback() could be implenetd in the user file
    */
@@ -1546,6 +1564,9 @@ __weak void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxHalfCpltCallback could be implenetd in the user file
    */
@@ -1559,6 +1580,9 @@ __weak void HAL_SPI_TxHalfCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_RxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_RxHalfCpltCallback() could be implenetd in the user file
    */
@@ -1572,6 +1596,9 @@ __weak void HAL_SPI_RxHalfCpltCallback(SPI_HandleTypeDef *hspi)
   */
 __weak void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_SPI_TxRxHalfCpltCallback() could be implenetd in the user file
    */
@@ -1585,6 +1612,9 @@ __weak void HAL_SPI_TxRxHalfCpltCallback(SPI_HandleTypeDef *hspi)
   */
  __weak void HAL_SPI_ErrorCallback(SPI_HandleTypeDef *hspi)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hspi);
+
   /* NOTE : - This function Should not be modified, when the callback is needed,
             the HAL_SPI_ErrorCallback() could be implenetd in the user file.
             - The ErrorCode parameter in the hspi handle is updated by the SPI processes
@@ -2126,7 +2156,7 @@ static void SPI_DMAHalfTransmitReceiveCplt(struct __DMA_HandleTypeDef *hdma)
   *                the configuration information for the specified DMA module.
   * @retval None
   */
-static void SPI_DMAError(DMA_HandleTypeDef *hdma)
+static void SPI_DMAError(struct __DMA_HandleTypeDef *hdma)
 {
   SPI_HandleTypeDef* hspi = (SPI_HandleTypeDef* )((DMA_HandleTypeDef* )hdma)->Parent;
   hspi->TxXferCount = 0;

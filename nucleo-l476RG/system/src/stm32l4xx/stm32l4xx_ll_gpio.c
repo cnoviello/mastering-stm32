@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_gpio.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   GPIO LL module driver.
   ******************************************************************************
   * @attention
@@ -49,7 +49,7 @@
   * @{
   */
 
-#if defined (GPIOA) || defined (GPIOB) || defined (GPIOC) || defined (GPIOD) || defined (GPIOE) || defined (GPIOF) || defined (GPIOG) || defined (GPIOH)
+#if defined (GPIOA) || defined (GPIOB) || defined (GPIOC) || defined (GPIOD) || defined (GPIOE) || defined (GPIOF) || defined (GPIOG) || defined (GPIOH) || defined (GPIOI)
 
 /** @addtogroup GPIO_LL
   * @{
@@ -142,35 +142,48 @@ ErrorStatus LL_GPIO_DeInit(GPIO_TypeDef *GPIOx)
     LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_GPIOC);
     LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_GPIOC);
   }
+#if defined(GPIOD)
   else if (GPIOx == GPIOD)
   {
     LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_GPIOD);
     LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_GPIOD);
   }
+#endif /* GPIOD */
+#if defined(GPIOE)
   else if (GPIOx == GPIOE)
   {
     LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_GPIOE);
     LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_GPIOE);
   }
-#if defined (GPIOF)
+#endif /* GPIOE */
+#if defined(GPIOF)
   else if (GPIOx == GPIOF)
   {
     LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_GPIOF);
     LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_GPIOF);
   }
-#endif
-#if defined (GPIOG)
+#endif /* GPIOF */
+#if defined(GPIOG)
   else if (GPIOx == GPIOG)
   {
     LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_GPIOG);
     LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_GPIOG);
   }
-#endif
+#endif /* GPIOG */
+#if defined(GPIOH)
   else if (GPIOx == GPIOH)
   {
     LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_GPIOH);
     LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_GPIOH);
   }
+#endif /* GPIOH */
+#if defined(GPIOI)
+  else if (GPIOx == GPIOI)
+  {
+    LL_AHB2_GRP1_ForceReset(LL_AHB2_GRP1_PERIPH_GPIOI);
+    LL_AHB2_GRP1_ReleaseReset(LL_AHB2_GRP1_PERIPH_GPIOI);
+  }
+#endif /* GPIOI */
   else
   {
     status = ERROR;
@@ -287,7 +300,7 @@ void LL_GPIO_StructInit(LL_GPIO_InitTypeDef *GPIO_InitStruct)
   * @}
   */
 
-#endif /* defined (GPIOA) || defined (GPIOB) || defined (GPIOC) || defined (GPIOD) || defined (GPIOE) || defined (GPIOF) || defined (GPIOG) || defined (GPIOH) */
+#endif /* defined (GPIOA) || defined (GPIOB) || defined (GPIOC) || defined (GPIOD) || defined (GPIOE) || defined (GPIOF) || defined (GPIOG) || defined (GPIOH) || defined (GPIOI) */
 
 /**
   * @}

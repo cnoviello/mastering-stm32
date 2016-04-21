@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_utils.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of UTILS LL module.
   @verbatim
   ==============================================================================
@@ -178,9 +178,16 @@ typedef struct
   * @{
   */
 #define LL_UTILS_PACKAGETYPE_LQFP64         (uint32_t)0x00000000U /*!< LQFP64 package type                      */
-#define LL_UTILS_PACKAGETYPE_LQPF100        (uint32_t)0x00000002U /*!< LQFP100 package type                     */
+#define LL_UTILS_PACKAGETYPE_WLCSP64        (uint32_t)0x00000001U /*!< WLCSP64 package type                     */
+#define LL_UTILS_PACKAGETYPE_LQFP100        (uint32_t)0x00000002U /*!< LQFP100 package type                     */
 #define LL_UTILS_PACKAGETYPE_BGA132         (uint32_t)0x00000003U /*!< BGA132 package type                      */
 #define LL_UTILS_PACKAGETYPE_LQFP144_CSP72  (uint32_t)0x00000004U /*!< LQFP144, WLCSP81 or WLCSP72 package type */
+#define LL_UTILS_PACKAGETYPE_UFQFPN32       (uint32_t)0x00000008U /*!< UFQFPN32 package type                    */
+#define LL_UTILS_PACKAGETYPE_UFQFPN48       (uint32_t)0x0000000AU /*!< UFQFPN48 package type                    */
+#define LL_UTILS_PACKAGETYPE_LQFP48         (uint32_t)0x0000000BU /*!< LQFP48 package type                      */
+#define LL_UTILS_PACKAGETYPE_WLCSP49        (uint32_t)0x0000000CU /*!< WLCSP49 package type                     */
+#define LL_UTILS_PACKAGETYPE_UFBGA64        (uint32_t)0x0000000DU /*!< UFBGA64 package type                     */
+#define LL_UTILS_PACKAGETYPE_UFBGA100       (uint32_t)0x0000000EU /*!< UFBGA100 package type                    */
 /**
   * @}
   */
@@ -241,10 +248,18 @@ __STATIC_INLINE uint32_t LL_GetFlashSize(void)
 /**
   * @brief  Get Package type
   * @retval Returned value can be one of the following values:
-  *         @arg @ref LL_UTILS_PACKAGETYPE_LQFP64
-  *         @arg @ref LL_UTILS_PACKAGETYPE_LQPF100
-  *         @arg @ref LL_UTILS_PACKAGETYPE_BGA132
-  *         @arg @ref LL_UTILS_PACKAGETYPE_LQFP144_CSP72
+  *         @arg @ref LL_UTILS_PACKAGETYPE_LQFP64 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_LQFP100 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_BGA132 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_LQFP144_CSP72 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_UFQFPN32 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_UFQFPN48 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_LQFP48 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_WLCSP49 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_UFBGA64 (*)
+  *         @arg @ref LL_UTILS_PACKAGETYPE_UFBGA100 (*)
+  *
+  *         (*) value not defined in all devices.
   */
 __STATIC_INLINE uint32_t LL_GetPackageType(void)
 {

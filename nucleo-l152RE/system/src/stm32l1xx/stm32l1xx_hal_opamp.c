@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_opamp.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   OPAMP HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the operational amplifier(s)(OPAMP1, OPAMP2 etc) 
@@ -60,44 +60,6 @@
        (++) No Inverting Input is connected.
        (++) The OPAMP(s) output(s) are internally connected to inverting input.
         
-       (#) The OPAMPs inverting input can be 
-           selected among the list shown by table below.
-       
-       (#) The OPAMPs non inverting input can be 
-           selected among the list shown by table below.
-       
-   [..] Table 1.  OPAMPs inverting/non-inverting inputs for STM32L1 devices:
-     
-    +--------------------------------------------------------------------------+
-    |                | HAL param  |    OPAMP1    |    OPAMP2    |   OPAMP3(4)  |
-    |                |   name     |              |              |              |
-    |----------------|------------|--------------|--------------|--------------|
-    |   Inverting    |    VM0     |     PA2      |     PA7      |     PC2      |
-    |    input (1)   |    VM1     | VINM pin (2) | VINM pin (2) | VINM pin (2) |
-    |----------------|------------|--------------|--------------|--------------|
-    |  Non Inverting |    VP0     |     PA1      |     PA6      |     PC1      |
-    |    input       | DAC_CH1 (3)|   DAC_CH1    |   DAC_CH1    |     ---      |
-    |                | DAC_CH2 (3)|     ---      |   DAC_CH2    |   DAC_CH2    |
-    +--------------------------------------------------------------------------+
-    (1): NA in follower mode.
-    (2): OPAMP input OPAMPx_VINM are dedicated OPAMP pins, their availability
-         depends on device package.
-    (3): DAC channels 1 and 2 are connected internally to OPAMP. Nevertheless,
-         I/O pins connected to DAC can still be used as DAC output (pins PA4 
-         and PA5).
-    (4): OPAMP3 availability depends on device category.
-
-
-   [..] Table 2.  OPAMPs outputs for STM32L1 devices:
-
-    +--------------------------------------------------------+
-    |                 |   OPAMP1   |   OPAMP2   |  OPAMP3(4) | 
-    |-----------------|------------|------------|------------|
-    | Output          |    PA3     |    PB0     |    PC3     |
-    +--------------------------------------------------------+
-    (4) : OPAMP3 availability depends on device category
-
-
             ##### How to use this driver #####
 ================================================================================
   [..] 
@@ -176,7 +138,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -202,6 +164,40 @@
   *
   ******************************************************************************  
   */
+
+/*
+  Additionnal remark:
+    The OPAMPs inverting input can be selected among the list shown by table below.
+    The OPAMPs non inverting input can be selected among the list shown by table below.
+       
+    Table 1.  OPAMPs inverting/non-inverting inputs for STM32L1 devices:
+    +--------------------------------------------------------------------------+
+    |                | HAL param  |    OPAMP1    |    OPAMP2    |   OPAMP3(4)  |
+    |                |   name     |              |              |              |
+    |----------------|------------|--------------|--------------|--------------|
+    |   Inverting    |    VM0     |     PA2      |     PA7      |     PC2      |
+    |    input (1)   |    VM1     | VINM pin (2) | VINM pin (2) | VINM pin (2) |
+    |----------------|------------|--------------|--------------|--------------|
+    |  Non Inverting |    VP0     |     PA1      |     PA6      |     PC1      |
+    |    input       | DAC_CH1 (3)|   DAC_CH1    |   DAC_CH1    |     ---      |
+    |                | DAC_CH2 (3)|     ---      |   DAC_CH2    |   DAC_CH2    |
+    +--------------------------------------------------------------------------+
+    (1): NA in follower mode.
+    (2): OPAMP input OPAMPx_VINM are dedicated OPAMP pins, their availability
+         depends on device package.
+    (3): DAC channels 1 and 2 are connected internally to OPAMP. Nevertheless,
+         I/O pins connected to DAC can still be used as DAC output (pins PA4 
+         and PA5).
+    (4): OPAMP3 availability depends on device category.
+
+    Table 2.  OPAMPs outputs for STM32L1 devices:
+    +--------------------------------------------------------+
+    |                 |   OPAMP1   |   OPAMP2   |  OPAMP3(4) |
+    |-----------------|------------|------------|------------|
+    | Output          |    PA3     |    PB0     |    PC3     |
+    +--------------------------------------------------------+
+    (4) : OPAMP3 availability depends on device category
+*/
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l1xx_hal.h"
@@ -552,6 +548,9 @@ HAL_StatusTypeDef HAL_OPAMP_DeInit(OPAMP_HandleTypeDef* hopamp)
   */
 __weak void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef* hopamp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hopamp);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the function "HAL_OPAMP_MspInit()" must be implemented in the user file.
   */
@@ -564,6 +563,9 @@ __weak void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef* hopamp)
   */
 __weak void HAL_OPAMP_MspDeInit(OPAMP_HandleTypeDef* hopamp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hopamp);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the function "HAL_OPAMP_MspDeInit()" must be implemented in the user file.
   */

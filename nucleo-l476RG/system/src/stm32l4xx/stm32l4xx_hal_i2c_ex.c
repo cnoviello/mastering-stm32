@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_i2c_ex.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   I2C Extended HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of I2C Extended peripheral:
@@ -206,7 +206,7 @@ HAL_StatusTypeDef HAL_I2CEx_ConfigDigitalFilter(I2C_HandleTypeDef *hi2c, uint32_
 HAL_StatusTypeDef HAL_I2CEx_EnableWakeUp (I2C_HandleTypeDef *hi2c)
 {
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_INSTANCE(hi2c->Instance));
+  assert_param(IS_I2C_WAKEUP_FROMSTOP_INSTANCE(hi2c->Instance));
 
   if(hi2c->State == HAL_I2C_STATE_READY)
   {
@@ -246,7 +246,7 @@ HAL_StatusTypeDef HAL_I2CEx_EnableWakeUp (I2C_HandleTypeDef *hi2c)
 HAL_StatusTypeDef HAL_I2CEx_DisableWakeUp (I2C_HandleTypeDef *hi2c)
 {
   /* Check the parameters */
-  assert_param(IS_I2C_ALL_INSTANCE(hi2c->Instance));
+  assert_param(IS_I2C_WAKEUP_FROMSTOP_INSTANCE(hi2c->Instance));
 
   if(hi2c->State == HAL_I2C_STATE_READY)
   {

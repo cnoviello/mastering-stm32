@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_exti.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of EXTI LL module.
   ******************************************************************************
   * @attention
@@ -121,24 +121,47 @@ typedef struct
 #define LL_EXTI_LINE_13                EXTI_IMR1_IM13          /*!< Extended line 13 */
 #define LL_EXTI_LINE_14                EXTI_IMR1_IM14          /*!< Extended line 14 */
 #define LL_EXTI_LINE_15                EXTI_IMR1_IM15          /*!< Extended line 15 */
+#if defined(EXTI_IMR1_IM16)
 #define LL_EXTI_LINE_16                EXTI_IMR1_IM16          /*!< Extended line 16 */
+#endif
 #define LL_EXTI_LINE_17                EXTI_IMR1_IM17          /*!< Extended line 17 */
 #define LL_EXTI_LINE_18                EXTI_IMR1_IM18          /*!< Extended line 18 */
 #define LL_EXTI_LINE_19                EXTI_IMR1_IM19          /*!< Extended line 19 */
+#if defined(EXTI_IMR1_IM20)
 #define LL_EXTI_LINE_20                EXTI_IMR1_IM20          /*!< Extended line 20 */
+#endif
+#if defined(EXTI_IMR1_IM21)
 #define LL_EXTI_LINE_21                EXTI_IMR1_IM21          /*!< Extended line 21 */
+#endif
+#if defined(EXTI_IMR1_IM22)
 #define LL_EXTI_LINE_22                EXTI_IMR1_IM22          /*!< Extended line 22 */
+#endif
 #define LL_EXTI_LINE_23                EXTI_IMR1_IM23          /*!< Extended line 23 */
+#if defined(EXTI_IMR1_IM24)
 #define LL_EXTI_LINE_24                EXTI_IMR1_IM24          /*!< Extended line 24 */
+#endif
+#if defined(EXTI_IMR1_IM25)
 #define LL_EXTI_LINE_25                EXTI_IMR1_IM25          /*!< Extended line 25 */
+#endif
+#if defined(EXTI_IMR1_IM26)
 #define LL_EXTI_LINE_26                EXTI_IMR1_IM26          /*!< Extended line 26 */
+#endif
+#if defined(EXTI_IMR1_IM27)
 #define LL_EXTI_LINE_27                EXTI_IMR1_IM27          /*!< Extended line 27 */
+#endif
+#if defined(EXTI_IMR1_IM28)
 #define LL_EXTI_LINE_28                EXTI_IMR1_IM28          /*!< Extended line 28 */
+#endif
+#if defined(EXTI_IMR1_IM29)
 #define LL_EXTI_LINE_29                EXTI_IMR1_IM29          /*!< Extended line 29 */
+#endif
+#if defined(EXTI_IMR1_IM30)
 #define LL_EXTI_LINE_30                EXTI_IMR1_IM30          /*!< Extended line 30 */
+#endif
+#if defined(EXTI_IMR1_IM31)
 #define LL_EXTI_LINE_31                EXTI_IMR1_IM31          /*!< Extended line 31 */
-#define LL_EXTI_LINE_ALL_0_31         ((uint32_t)0xFFFFFFFFU)   /*!< All Extended line */
-
+#endif
+#define LL_EXTI_LINE_ALL_0_31          EXTI_IMR1_IM            /*!< All Extended line not reserved*/
 
 #define LL_EXTI_LINE_32                EXTI_IMR2_IM32          /*!< Extended line 32 */
 #define LL_EXTI_LINE_33                EXTI_IMR2_IM33          /*!< Extended line 33 */
@@ -148,7 +171,7 @@ typedef struct
 #define LL_EXTI_LINE_37                EXTI_IMR2_IM37          /*!< Extended line 37 */
 #define LL_EXTI_LINE_38                EXTI_IMR2_IM38          /*!< Extended line 38 */
 #define LL_EXTI_LINE_39                EXTI_IMR2_IM39          /*!< Extended line 39 */
-#define LL_EXTI_LINE_ALL_32_63         ((uint32_t)0x000000FFU)  /*!< All Extended line */
+#define LL_EXTI_LINE_ALL_32_63         EXTI_IMR2_IM            /*!< All Extended line not reserved*/
 
 #define LL_EXTI_LINE_ALL               ((uint32_t)0xFFFFFFFFU)  /*!< All Extended line */
 
@@ -235,7 +258,7 @@ typedef struct
 
 /**
   * @brief  Enable ExtiLine Interrupt request for Lines in range 0 to 31
-  * @note The reset value for the direct lines (line 17, lines from 23 to 31)
+  * @note The reset value for the direct or internal lines (see RM)
   *       is set to 1 in order to enable the interrupt by default.
   *       Bits are set automatically at Power on.
   * @rmtoll IMR1         IMx           LL_EXTI_EnableIT_0_31
@@ -273,6 +296,8 @@ typedef struct
   *         @arg @ref LL_EXTI_LINE_30
   *         @arg @ref LL_EXTI_LINE_31
   *         @arg @ref LL_EXTI_LINE_ALL_0_31
+  *
+  *         Please check each device line mapping for EXTI Line availability
   * @retval None
   */
 __STATIC_INLINE void LL_EXTI_EnableIT_0_31(uint32_t ExtiLine)
@@ -304,7 +329,7 @@ __STATIC_INLINE void LL_EXTI_EnableIT_32_63(uint32_t ExtiLine)
 
 /**
   * @brief  Disable ExtiLine Interrupt request for Lines in range 0 to 31
-  * @note The reset value for the direct lines (line 17, lines from 23 to 31)
+  * @note The reset value for the direct or internal lines (see RM)
   *       is set to 1 in order to enable the interrupt by default.
   *       Bits are set automatically at Power on.
   * @rmtoll IMR1         IMx           LL_EXTI_DisableIT_0_31
@@ -342,6 +367,8 @@ __STATIC_INLINE void LL_EXTI_EnableIT_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_30
   *         @arg @ref LL_EXTI_LINE_31
   *         @arg @ref LL_EXTI_LINE_ALL_0_31
+  *
+  *         Please check each device line mapping for EXTI Line availability
   * @retval None
   */
 __STATIC_INLINE void LL_EXTI_DisableIT_0_31(uint32_t ExtiLine)
@@ -374,7 +401,7 @@ __STATIC_INLINE void LL_EXTI_DisableIT_32_63(uint32_t ExtiLine)
 
 /**
   * @brief  Indicate if ExtiLine Interrupt request is enabled for Lines in range 0 to 31
-  * @note The reset value for the direct lines (line 17, lines from 23 to 31)
+  * @note The reset value for the direct or internal lines (see RM)
   *       is set to 1 in order to enable the interrupt by default.
   *       Bits are set automatically at Power on.
   * @rmtoll IMR1         IMx           LL_EXTI_IsEnabledIT_0_31
@@ -412,6 +439,8 @@ __STATIC_INLINE void LL_EXTI_DisableIT_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_30
   *         @arg @ref LL_EXTI_LINE_31
   *         @arg @ref LL_EXTI_LINE_ALL_0_31
+  *
+  *         Please check each device line mapping for EXTI Line availability
   * @retval State of bit (1 or 0).
   */
 __STATIC_INLINE uint32_t LL_EXTI_IsEnabledIT_0_31(uint32_t ExtiLine)
@@ -453,7 +482,7 @@ __STATIC_INLINE uint32_t LL_EXTI_IsEnabledIT_32_63(uint32_t ExtiLine)
 /**
   * @brief  Enable ExtiLine Event request for Lines in range 0 to 31
   * @rmtoll EMR1         EMx           LL_EXTI_EnableEvent_0_31
-  * @param  ExtiLine This parameter can be a combination of the following values:
+  * @param  ExtiLine This parameter can be one of the following values:
   *         @arg @ref LL_EXTI_LINE_0
   *         @arg @ref LL_EXTI_LINE_1
   *         @arg @ref LL_EXTI_LINE_2
@@ -487,6 +516,8 @@ __STATIC_INLINE uint32_t LL_EXTI_IsEnabledIT_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_30
   *         @arg @ref LL_EXTI_LINE_31
   *         @arg @ref LL_EXTI_LINE_ALL_0_31
+  *
+  *         Please check each device line mapping for EXTI Line availability
   * @retval None
   */
 __STATIC_INLINE void LL_EXTI_EnableEvent_0_31(uint32_t ExtiLine)
@@ -518,7 +549,7 @@ __STATIC_INLINE void LL_EXTI_EnableEvent_32_63(uint32_t ExtiLine)
 /**
   * @brief  Disable ExtiLine Event request for Lines in range 0 to 31
   * @rmtoll EMR1         EMx           LL_EXTI_DisableEvent_0_31
-  * @param  ExtiLine This parameter can be a combination of the following values:
+  * @param  ExtiLine This parameter can be one of the following values:
   *         @arg @ref LL_EXTI_LINE_0
   *         @arg @ref LL_EXTI_LINE_1
   *         @arg @ref LL_EXTI_LINE_2
@@ -552,6 +583,8 @@ __STATIC_INLINE void LL_EXTI_EnableEvent_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_30
   *         @arg @ref LL_EXTI_LINE_31
   *         @arg @ref LL_EXTI_LINE_ALL_0_31
+  *
+  *         Please check each device line mapping for EXTI Line availability
   * @retval None
   */
 __STATIC_INLINE void LL_EXTI_DisableEvent_0_31(uint32_t ExtiLine)
@@ -582,7 +615,7 @@ __STATIC_INLINE void LL_EXTI_DisableEvent_32_63(uint32_t ExtiLine)
 /**
   * @brief  Indicate if ExtiLine Event request is enabled for Lines in range 0 to 31
   * @rmtoll EMR1         EMx           LL_EXTI_IsEnabledEvent_0_31
-  * @param  ExtiLine This parameter can be a combination of the following values:
+  * @param  ExtiLine This parameter can be one of the following values:
   *         @arg @ref LL_EXTI_LINE_0
   *         @arg @ref LL_EXTI_LINE_1
   *         @arg @ref LL_EXTI_LINE_2
@@ -616,6 +649,8 @@ __STATIC_INLINE void LL_EXTI_DisableEvent_32_63(uint32_t ExtiLine)
   *         @arg @ref LL_EXTI_LINE_30
   *         @arg @ref LL_EXTI_LINE_31
   *         @arg @ref LL_EXTI_LINE_ALL_0_31
+  *
+  *         Please check each device line mapping for EXTI Line availability
   * @retval State of bit (1 or 0).
   */
 __STATIC_INLINE uint32_t LL_EXTI_IsEnabledEvent_0_31(uint32_t ExtiLine)

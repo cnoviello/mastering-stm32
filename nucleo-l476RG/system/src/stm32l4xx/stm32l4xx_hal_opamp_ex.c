@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_opamp_ex.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Extended OPAMP HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the operational amplifier(s)(OPAMP1, OPAMP2 etc)
@@ -67,6 +67,8 @@
   * @{
   */
 
+#if defined (STM32L471xx) || defined (STM32L475xx) || defined (STM32L476xx) || defined (STM32L485xx) || defined (STM32L486xx)
+
 /** @addtogroup OPAMPEx_Exported_Functions_Group1
   * @brief    Extended operation functions
   *
@@ -83,6 +85,7 @@
 
 /*  2 OPAMPS available */
 /*  2 OPAMPS can be calibrated in parallel */
+/*  Not available on STM32L43x/STM32L44x where only one OPAMP available */
 
 /**
   * @brief  Run the self calibration of the 2 OPAMPs in parallel.
@@ -384,6 +387,8 @@ HAL_StatusTypeDef HAL_OPAMPEx_SelfCalibrateAll(OPAMP_HandleTypeDef *hopamp1, OPA
 /**
   * @}
   */
+
+#endif
 
 /** @defgroup OPAMPEx_Exported_Functions_Group2 Peripheral Control functions 
  *  @brief   Peripheral Control functions 

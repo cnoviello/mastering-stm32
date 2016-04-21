@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_dma.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   DMA LL module driver.
   ******************************************************************************
   * @attention
@@ -99,6 +99,8 @@
                                                  ((__VALUE__) == LL_DMA_PRIORITY_HIGH)   || \
                                                  ((__VALUE__) == LL_DMA_PRIORITY_VERYHIGH))
 
+#if defined (DMA2)
+#if defined (DMA2_Channel6) && defined (DMA2_Channel7)
 #define IS_LL_DMA_ALL_CHANNEL_INSTANCE(INSTANCE, CHANNEL)  ((((INSTANCE) == DMA1) && \
                                                          (((CHANNEL) == LL_DMA_CHANNEL_1) || \
                                                           ((CHANNEL) == LL_DMA_CHANNEL_2) || \
@@ -115,6 +117,32 @@
                                                           ((CHANNEL) == LL_DMA_CHANNEL_5) || \
                                                           ((CHANNEL) == LL_DMA_CHANNEL_6) || \
                                                           ((CHANNEL) == LL_DMA_CHANNEL_7))))
+#else
+#define IS_LL_DMA_ALL_CHANNEL_INSTANCE(INSTANCE, CHANNEL)  ((((INSTANCE) == DMA1) && \
+                                                         (((CHANNEL) == LL_DMA_CHANNEL_1) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_2) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_3) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_4) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_5) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_6) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_7))) || \
+                                                         (((INSTANCE) == DMA2) && \
+                                                         (((CHANNEL) == LL_DMA_CHANNEL_1) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_2) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_3) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_4) || \
+                                                          ((CHANNEL) == LL_DMA_CHANNEL_5))))
+#endif
+#else
+#define IS_LL_DMA_ALL_CHANNEL_INSTANCE(INSTANCE, CHANNEL)  ((((INSTANCE) == DMA1) && \
+                                                            (((CHANNEL) == LL_DMA_CHANNEL_1)|| \
+                                                            ((CHANNEL) == LL_DMA_CHANNEL_2) || \
+                                                            ((CHANNEL) == LL_DMA_CHANNEL_3) || \
+                                                            ((CHANNEL) == LL_DMA_CHANNEL_4) || \
+                                                            ((CHANNEL) == LL_DMA_CHANNEL_5) || \
+                                                            ((CHANNEL) == LL_DMA_CHANNEL_6) || \
+                                                            ((CHANNEL) == LL_DMA_CHANNEL_7))))
+#endif
 /**
   * @}
   */
@@ -141,6 +169,7 @@
   *         @arg @ref LL_DMA_CHANNEL_5
   *         @arg @ref LL_DMA_CHANNEL_6
   *         @arg @ref LL_DMA_CHANNEL_7
+  *         @arg @ref LL_DMA_CHANNEL_ALL
   * @retval An ErrorStatus enumeration value:
   *          - SUCCESS: DMA registers are de-initialized
   *          - ERROR: DMA registers are not de-initialized
@@ -197,63 +226,44 @@ uint32_t LL_DMA_DeInit(DMA_TypeDef *DMAx, uint32_t Channel)
     /* Reset DMAx_Channely memory address register */
     LL_DMA_WriteReg(tmp, CMAR, 0U);
 
+      /* Reset Request register field for DMAx Channel */
+      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
+
     if (Channel == LL_DMA_CHANNEL_1)
     {
       /* Reset interrupt pending bits for DMAx Channel1 */
       LL_DMA_ClearFlag_GI1(DMAx);
-
-      /* Reset Request register field for DMAx Channel1 */
-      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
     }
     else if (Channel == LL_DMA_CHANNEL_2)
     {
       /* Reset interrupt pending bits for DMAx Channel2 */
       LL_DMA_ClearFlag_GI2(DMAx);
-
-      /* Reset Request register field for DMAx Channel2 */
-      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
     }
     else if (Channel == LL_DMA_CHANNEL_3)
     {
       /* Reset interrupt pending bits for DMAx Channel3 */
       LL_DMA_ClearFlag_GI3(DMAx);
-
-      /* Reset Request register field for DMAx Channel3 */
-      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
     }
     else if (Channel == LL_DMA_CHANNEL_4)
     {
       /* Reset interrupt pending bits for DMAx Channel4 */
       LL_DMA_ClearFlag_GI4(DMAx);
-
-
-      /* Reset Request register field for DMAx Channel4 */
-      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
     }
     else if (Channel == LL_DMA_CHANNEL_5)
     {
       /* Reset interrupt pending bits for DMAx Channel5 */
       LL_DMA_ClearFlag_GI5(DMAx);
-
-      /* Reset Request register field for DMAx Channel5 */
-      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
     }
 
     else if (Channel == LL_DMA_CHANNEL_6)
     {
       /* Reset interrupt pending bits for DMAx Channel6 */
       LL_DMA_ClearFlag_GI6(DMAx);
-
-      /* Reset Request register field for DMAx Channel6 */
-      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
     }
     else if (Channel == LL_DMA_CHANNEL_7)
     {
       /* Reset interrupt pending bits for DMAx Channel7 */
       LL_DMA_ClearFlag_GI7(DMAx);
-
-      /* Reset Request register field for DMAx Channel7 */
-      LL_DMA_SetPeriphRequest(DMAx, Channel, LL_DMA_REQUEST_0);
     }
     else
     {

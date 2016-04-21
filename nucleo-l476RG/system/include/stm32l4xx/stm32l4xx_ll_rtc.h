@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_rtc.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of RTC LL module.
   ******************************************************************************
   * @attention
@@ -328,7 +328,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup RTC_LL_EC_WEEKDAY  WEEKDAY
+/** @defgroup RTC_LL_EC_WEEKDAY  WEEK DAY
   * @{
   */
 #define LL_RTC_WEEKDAY_MONDAY              ((uint8_t)0x01U) /*!< Monday    */
@@ -361,7 +361,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup RTC_LL_EC_HOURFORMAT  HOURFORMAT
+/** @defgroup RTC_LL_EC_HOURFORMAT  HOUR FORMAT
   * @{
   */
 #define LL_RTC_HOURFORMAT_24HOUR           (uint32_t)0x00000000U /*!< 24 hour/day format */
@@ -370,7 +370,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup RTC_LL_EC_ALARMOUT  ALARMOUT
+/** @defgroup RTC_LL_EC_ALARMOUT  ALARM OUTPUT
   * @{
   */
 #define LL_RTC_ALARMOUT_DISABLE            ((uint32_t)0x00000000U) /*!< Output disabled */
@@ -384,8 +384,8 @@ typedef struct
 /** @defgroup RTC_LL_EC_ALARM_OUTPUTTYPE  ALARM OUTPUT TYPE
   * @{
   */
-#define LL_RTC_ALARM_OUTPUTTYPE_OPENDRAIN  (uint32_t)0x00000000U /*!< RTC_ALARM, when mapped on PC13, is open-drain output */
-#define LL_RTC_ALARM_OUTPUTTYPE_PUSHPULL   RTC_OR_ALARMOUTTYPE   /*!< RTC_ALARM, when mapped on PC13, is push-pull output */
+#define LL_RTC_ALARM_OUTPUTTYPE_OPENDRAIN  (uint32_t)0x00000000U  /*!< RTC_ALARM, when mapped on PC13, is open-drain output */
+#define LL_RTC_ALARM_OUTPUTTYPE_PUSHPULL   RTC_OR_ALARMOUTTYPE /*!< RTC_ALARM, when mapped on PC13, is push-pull output */
 /**
   * @}
   */
@@ -484,11 +484,13 @@ typedef struct
   */
 #if defined(RTC_TAMPER1_SUPPORT)
 #define LL_RTC_TAMPER_1                    RTC_TAMPCR_TAMP1E /*!< RTC_TAMP1 input detection */
-#endif
+#endif /* RTC_TAMPER1_SUPPORT */
+#if defined(RTC_TAMPER2_SUPPORT)
 #define LL_RTC_TAMPER_2                    RTC_TAMPCR_TAMP2E /*!< RTC_TAMP2 input detection */
+#endif /* RTC_TAMPER2_SUPPORT */
 #if defined(RTC_TAMPER3_SUPPORT)
 #define LL_RTC_TAMPER_3                    RTC_TAMPCR_TAMP3E /*!< RTC_TAMP3 input detection */
-#endif
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
@@ -498,29 +500,34 @@ typedef struct
   */
 #if defined(RTC_TAMPER1_SUPPORT)
 #define LL_RTC_TAMPER_MASK_TAMPER1         RTC_TAMPCR_TAMP1MF /*!< Tamper 1 event generates a trigger event. TAMP1F is masked and internally cleared by hardware.The backup registers are not erased */
-#endif
+#endif /* RTC_TAMPER1_SUPPORT */
+#if defined(RTC_TAMPER2_SUPPORT)
 #define LL_RTC_TAMPER_MASK_TAMPER2         RTC_TAMPCR_TAMP2MF /*!< Tamper 2 event generates a trigger event. TAMP2F is masked and internally cleared by hardware. The backup registers are not erased. */
+#endif /* RTC_TAMPER2_SUPPORT */
 #if defined(RTC_TAMPER3_SUPPORT)
 #define LL_RTC_TAMPER_MASK_TAMPER3         RTC_TAMPCR_TAMP3MF /*!< Tamper 3 event generates a trigger event. TAMP3F is masked and internally cleared by hardware. The backup registers are not erased */
-#endif
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
 
-/** @defgroup RTC_LL_EC_TAMPER_NOERASE  TAMPER NOERASE
+/** @defgroup RTC_LL_EC_TAMPER_NOERASE  TAMPER NO ERASE
   * @{
   */
 #if defined(RTC_TAMPER1_SUPPORT)
 #define LL_RTC_TAMPER_NOERASE_TAMPER1      RTC_TAMPCR_TAMP1NOERASE /*!< Tamper 1 event does not erase the backup registers. */
-#endif
+#endif /* RTC_TAMPER1_SUPPORT */
+#if defined(RTC_TAMPER2_SUPPORT)
 #define LL_RTC_TAMPER_NOERASE_TAMPER2      RTC_TAMPCR_TAMP2NOERASE /*!< Tamper 2 event does not erase the backup registers. */
+#endif /* RTC_TAMPER2_SUPPORT */
 #if defined(RTC_TAMPER3_SUPPORT)
 #define LL_RTC_TAMPER_NOERASE_TAMPER3      RTC_TAMPCR_TAMP3NOERASE /*!< Tamper 3 event does not erase the backup registers. */
-#endif
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
 
+#if defined(RTC_TAMPCR_TAMPPRCH)
 /** @defgroup RTC_LL_EC_TAMPER_DURATION  TAMPER DURATION
   * @{
   */
@@ -531,7 +538,9 @@ typedef struct
 /**
   * @}
   */
+#endif /* RTC_TAMPCR_TAMPPRCH */
 
+#if defined(RTC_TAMPCR_TAMPFLT)
 /** @defgroup RTC_LL_EC_TAMPER_FILTER  TAMPER FILTER
   * @{
   */
@@ -542,8 +551,10 @@ typedef struct
 /**
   * @}
   */
+#endif /* RTC_TAMPCR_TAMPFLT */
 
-/** @defgroup RTC_LL_EC_TAMPER_SAMPLFREQDIV  TAMPER SAMPLFREQDIV
+#if defined(RTC_TAMPCR_TAMPFREQ)
+/** @defgroup RTC_LL_EC_TAMPER_SAMPLFREQDIV  TAMPER SAMPLING FREQUENCY DIVIDER
   * @{
   */
 #define LL_RTC_TAMPER_SAMPLFREQDIV_32768   ((uint32_t)0x00000000U)                          /*!< Each of the tamper inputs are sampled with a frequency =  RTCCLK / 32768 */
@@ -557,22 +568,25 @@ typedef struct
 /**
   * @}
   */
+#endif /* RTC_TAMPCR_TAMPFREQ */
 
-/** @defgroup RTC_LL_EC_TAMPER_ACTIVELEVEL  TAMPER ACTIVELEVEL
+/** @defgroup RTC_LL_EC_TAMPER_ACTIVELEVEL  TAMPER ACTIVE LEVEL
   * @{
   */
 #if defined(RTC_TAMPER1_SUPPORT)
 #define LL_RTC_TAMPER_ACTIVELEVEL_TAMP1    RTC_TAMPCR_TAMP1TRG /*!< RTC_TAMP1 input falling edge (if TAMPFLT = 00) or staying high (if TAMPFLT != 00) triggers a tamper detection event*/
-#endif
+#endif /* RTC_TAMPER1_SUPPORT */
+#if defined(RTC_TAMPER2_SUPPORT)
 #define LL_RTC_TAMPER_ACTIVELEVEL_TAMP2    RTC_TAMPCR_TAMP2TRG /*!< RTC_TAMP2 input falling edge (if TAMPFLT = 00) or staying high (if TAMPFLT != 00) triggers a tamper detection event*/
+#endif /* RTC_TAMPER2_SUPPORT */
 #if defined(RTC_TAMPER3_SUPPORT)
 #define LL_RTC_TAMPER_ACTIVELEVEL_TAMP3    RTC_TAMPCR_TAMP3TRG /*!< RTC_TAMP3 input falling edge (if TAMPFLT = 00) or staying high (if TAMPFLT != 00) triggers a tamper detection event*/
-#endif
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
 
-/** @defgroup RTC_LL_EC_WAKEUPCLOCK_DIV  WAKEUPCLOCK DIV
+/** @defgroup RTC_LL_EC_WAKEUPCLOCK_DIV  WAKEUP CLOCK DIV
   * @{
   */
 #define LL_RTC_WAKEUPCLOCK_DIV_16          ((uint32_t)0x00000000U)               /*!< RTC/16 clock is selected */
@@ -586,7 +600,7 @@ typedef struct
   */
 
 #if defined(RTC_BACKUP_SUPPORT)
-/** @defgroup RTC_LL_EC_BKP  BKP
+/** @defgroup RTC_LL_EC_BKP  BACKUP
   * @{
   */
 #define LL_RTC_BKP_DR0                     ((uint32_t)0x00000000U)
@@ -594,6 +608,7 @@ typedef struct
 #define LL_RTC_BKP_DR2                     ((uint32_t)0x00000002U)
 #define LL_RTC_BKP_DR3                     ((uint32_t)0x00000003U)
 #define LL_RTC_BKP_DR4                     ((uint32_t)0x00000004U)
+#if RTC_BKP_NUMBER > 5
 #define LL_RTC_BKP_DR5                     ((uint32_t)0x00000005U)
 #define LL_RTC_BKP_DR6                     ((uint32_t)0x00000006U)
 #define LL_RTC_BKP_DR7                     ((uint32_t)0x00000007U)
@@ -605,10 +620,16 @@ typedef struct
 #define LL_RTC_BKP_DR13                    ((uint32_t)0x0000000DU)
 #define LL_RTC_BKP_DR14                    ((uint32_t)0x0000000EU)
 #define LL_RTC_BKP_DR15                    ((uint32_t)0x0000000FU)
+#endif /* RTC_BKP_NUMBER > 5 */
+
+#if RTC_BKP_NUMBER > 16
 #define LL_RTC_BKP_DR16                    ((uint32_t)0x00000010U)
 #define LL_RTC_BKP_DR17                    ((uint32_t)0x00000011U)
 #define LL_RTC_BKP_DR18                    ((uint32_t)0x00000012U)
 #define LL_RTC_BKP_DR19                    ((uint32_t)0x00000013U)
+#endif /* RTC_BKP_NUMBER > 16 */
+
+#if RTC_BKP_NUMBER > 20
 #define LL_RTC_BKP_DR20                    ((uint32_t)0x00000014U)
 #define LL_RTC_BKP_DR21                    ((uint32_t)0x00000015U)
 #define LL_RTC_BKP_DR22                    ((uint32_t)0x00000016U)
@@ -621,13 +642,13 @@ typedef struct
 #define LL_RTC_BKP_DR29                    ((uint32_t)0x0000001DU)
 #define LL_RTC_BKP_DR30                    ((uint32_t)0x0000001EU)
 #define LL_RTC_BKP_DR31                    ((uint32_t)0x0000001FU)
+#endif /* RTC_BKP_NUMBER > 20 */
 /**
   * @}
   */
-
 #endif /* RTC_BACKUP_SUPPORT */
 
-/** @defgroup RTC_LL_EC_CALIB_OUTPUT  CALIB OUTPUT
+/** @defgroup RTC_LL_EC_CALIB_OUTPUT  Calibration output
   * @{
   */
 #define LL_RTC_CALIB_OUTPUT_NONE           (uint32_t)0x00000000U       /*!< Calibration output disabled */
@@ -637,7 +658,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup RTC_LL_EC_CALIB_INSERTPULSE  CALIB INSERTPULSE
+/** @defgroup RTC_LL_EC_CALIB_INSERTPULSE  Calibration pulse insertion 
   * @{
   */
 #define LL_RTC_CALIB_INSERTPULSE_NONE      (uint32_t)0x00000000U /*!< No RTCCLK pulses are added */
@@ -646,7 +667,7 @@ typedef struct
   * @}
   */
 
-/** @defgroup RTC_LL_EC_CALIB_PERIOD  CALIB PERIOD
+/** @defgroup RTC_LL_EC_CALIB_PERIOD  Calibration period
   * @{
   */
 #define LL_RTC_CALIB_PERIOD_32SEC          (uint32_t)0x00000000U /*!< Use a 32-second calibration cycle period */
@@ -871,8 +892,8 @@ __STATIC_INLINE uint32_t LL_RTC_GetAlarmOutEvent(RTC_TypeDef *RTCx)
 
 /**
   * @brief  Set RTC_ALARM output type (ALARM in push-pull or open-drain output)
-  * @note used only when RTC_ALARM is mapped on PC13
-  * @rmtoll OR           ALARMOUTTYPE  LL_RTC_SetAlarmOutputType
+  * @note   Used only when RTC_ALARM is mapped on PC13
+  * @rmtoll OR        ALARMOUTTYPE  LL_RTC_SetAlarmOutputType
   * @param  RTCx RTC Instance
   * @param  Output This parameter can be one of the following values:
   *         @arg @ref LL_RTC_ALARM_OUTPUTTYPE_OPENDRAIN
@@ -886,8 +907,8 @@ __STATIC_INLINE void LL_RTC_SetAlarmOutputType(RTC_TypeDef *RTCx, uint32_t Outpu
 
 /**
   * @brief  Get RTC_ALARM output type (ALARM in push-pull or open-drain output)
-  * @note used only when RTC_ALARM is mapped on PC13
-  * @rmtoll OR           ALARMOUTTYPE  LL_RTC_GetAlarmOutputType
+  * @note   used only when RTC_ALARM is mapped on PC13
+  * @rmtoll OR        ALARMOUTTYPE  LL_RTC_GetAlarmOutputType
   * @param  RTCx RTC Instance
   * @retval Returned value can be one of the following values:
   *         @arg @ref LL_RTC_ALARM_OUTPUTTYPE_OPENDRAIN
@@ -1394,7 +1415,7 @@ __STATIC_INLINE uint32_t LL_RTC_TIME_GetSubSecond(RTC_TypeDef *RTCx)
   * @brief  Synchronize to a remote clock with a high degree of precision.
   * @note   This operation effectively subtracts from (delays) or advance the clock of a fraction of a second.
   * @note   Bit is write-protected. @ref LL_RTC_DisableWriteProtection function should be called before.
-  * @note When REFCKON is set, firmware must not write to Shift control register.
+  * @note   When REFCKON is set, firmware must not write to Shift control register.
   * @rmtoll SHIFTR       ADD1S         LL_RTC_TIME_Synchronize\n
   *         SHIFTR       SUBFS         LL_RTC_TIME_Synchronize
   * @param  RTCx RTC Instance
@@ -2644,6 +2665,7 @@ __STATIC_INLINE uint32_t LL_RTC_TS_GetSubSecond(RTC_TypeDef *RTCx)
   return (uint32_t)(READ_BIT(RTCx->TSSSR, RTC_TSSSR_SS));
 }
 
+#if defined(RTC_TAMPCR_TAMPTS)
 /**
   * @brief  Activate timestamp on tamper detection event
   * @rmtoll TAMPCR       TAMPTS        LL_RTC_TS_EnableOnTamper
@@ -2665,6 +2687,7 @@ __STATIC_INLINE void LL_RTC_TS_DisableOnTamper(RTC_TypeDef *RTCx)
 {
   CLEAR_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMPTS);
 }
+#endif /* RTC_TAMPCR_TAMPTS */
 
 /**
   * @}
@@ -2682,7 +2705,7 @@ __STATIC_INLINE void LL_RTC_TS_DisableOnTamper(RTC_TypeDef *RTCx)
   * @param  RTCx RTC Instance
   * @param  Tamper This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_1 
-  *         @arg @ref LL_RTC_TAMPER_2
+  *         @arg @ref LL_RTC_TAMPER_2 
   *         @arg @ref LL_RTC_TAMPER_3 
   *         
   * @retval None
@@ -2700,7 +2723,7 @@ __STATIC_INLINE void LL_RTC_TAMPER_Enable(RTC_TypeDef *RTCx, uint32_t Tamper)
   * @param  RTCx RTC Instance
   * @param  Tamper This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_1 
-  *         @arg @ref LL_RTC_TAMPER_2
+  *         @arg @ref LL_RTC_TAMPER_2 
   *         @arg @ref LL_RTC_TAMPER_3 
   *         
   * @retval None
@@ -2719,7 +2742,7 @@ __STATIC_INLINE void LL_RTC_TAMPER_Disable(RTC_TypeDef *RTCx, uint32_t Tamper)
   * @param  RTCx RTC Instance
   * @param  Mask This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER1 
-  *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER2
+  *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER2 
   *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER3 
   *         
   * @retval None
@@ -2737,7 +2760,7 @@ __STATIC_INLINE void LL_RTC_TAMPER_EnableMask(RTC_TypeDef *RTCx, uint32_t Mask)
   * @param  RTCx RTC Instance
   * @param  Mask This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER1 
-  *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER2
+  *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER2 
   *         @arg @ref LL_RTC_TAMPER_MASK_TAMPER3 
   *         
   * @retval None
@@ -2755,7 +2778,7 @@ __STATIC_INLINE void LL_RTC_TAMPER_DisableMask(RTC_TypeDef *RTCx, uint32_t Mask)
   * @param  RTCx RTC Instance
   * @param  Tamper This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER1 
-  *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER2
+  *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER2 
   *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER3 
   *         
   * @retval None
@@ -2773,7 +2796,7 @@ __STATIC_INLINE void LL_RTC_TAMPER_EnableEraseBKP(RTC_TypeDef *RTCx, uint32_t Ta
   * @param  RTCx RTC Instance
   * @param  Tamper This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER1 
-  *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER2
+  *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER2 
   *         @arg @ref LL_RTC_TAMPER_NOERASE_TAMPER3 
   *         
   * @retval None
@@ -2783,6 +2806,7 @@ __STATIC_INLINE void LL_RTC_TAMPER_DisableEraseBKP(RTC_TypeDef *RTCx, uint32_t T
   SET_BIT(RTCx->TAMPCR, Tamper);
 }
 
+#if defined(RTC_TAMPCR_TAMPPUDIS)
 /**
   * @brief  Disable RTC_TAMPx pull-up disable (Disable precharge of RTC_TAMPx pins)
   * @rmtoll TAMPCR       TAMPPUDIS     LL_RTC_TAMPER_DisablePullUp
@@ -2804,7 +2828,9 @@ __STATIC_INLINE void LL_RTC_TAMPER_EnablePullUp(RTC_TypeDef *RTCx)
 {
   CLEAR_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMPPUDIS);
 }
+#endif /* RTC_TAMPCR_TAMPPUDIS */
 
+#if defined(RTC_TAMPCR_TAMPPRCH)
 /**
   * @brief  Set RTC_TAMPx precharge duration
   * @rmtoll TAMPCR       TAMPPRCH      LL_RTC_TAMPER_SetPrecharge
@@ -2835,7 +2861,9 @@ __STATIC_INLINE uint32_t LL_RTC_TAMPER_GetPrecharge(RTC_TypeDef *RTCx)
 {
   return (uint32_t)(READ_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMPPRCH));
 }
+#endif /* RTC_TAMPCR_TAMPPRCH */
 
+#if defined(RTC_TAMPCR_TAMPFLT)
 /**
   * @brief  Set RTC_TAMPx filter count
   * @rmtoll TAMPCR       TAMPFLT       LL_RTC_TAMPER_SetFilterCount
@@ -2866,7 +2894,9 @@ __STATIC_INLINE uint32_t LL_RTC_TAMPER_GetFilterCount(RTC_TypeDef *RTCx)
 {
   return (uint32_t)(READ_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMPFLT));
 }
+#endif /* RTC_TAMPCR_TAMPFLT */
 
+#if defined(RTC_TAMPCR_TAMPFREQ)
 /**
   * @brief  Set Tamper sampling frequency
   * @rmtoll TAMPCR       TAMPFREQ      LL_RTC_TAMPER_SetSamplingFreq
@@ -2905,6 +2935,7 @@ __STATIC_INLINE uint32_t LL_RTC_TAMPER_GetSamplingFreq(RTC_TypeDef *RTCx)
 {
   return (uint32_t)(READ_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMPFREQ));
 }
+#endif /* RTC_TAMPCR_TAMPFREQ */
 
 /**
   * @brief  Enable Active level for Tamper input
@@ -2914,7 +2945,7 @@ __STATIC_INLINE uint32_t LL_RTC_TAMPER_GetSamplingFreq(RTC_TypeDef *RTCx)
   * @param  RTCx RTC Instance
   * @param  Tamper This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP1 
-  *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP2
+  *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP2 
   *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP3 
   *         
   * @retval None
@@ -2932,7 +2963,7 @@ __STATIC_INLINE void LL_RTC_TAMPER_EnableActiveLevel(RTC_TypeDef *RTCx, uint32_t
   * @param  RTCx RTC Instance
   * @param  Tamper This parameter can be a combination of the following values:
   *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP1 
-  *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP2
+  *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP2 
   *         @arg @ref LL_RTC_TAMPER_ACTIVELEVEL_TAMP3 
   *         
   * @retval None
@@ -3229,7 +3260,7 @@ __STATIC_INLINE uint32_t LL_RTC_CAL_IsPulseInserted(RTC_TypeDef *RTCx)
 /**
   * @brief  Set the calibration cycle period
   * @note   Bit is write-protected. @ref LL_RTC_DisableWriteProtection function should be called before.
-  * @note Bit can be written only when RECALPF is set to 0 in RTC_ISR
+  * @note   Bit can be written only when RECALPF is set to 0 in RTC_ISR
   * @rmtoll CALR         CALW8         LL_RTC_CAL_SetPeriod\n
   *         CALR         CALW16        LL_RTC_CAL_SetPeriod
   * @param  RTCx RTC Instance
@@ -3262,7 +3293,7 @@ __STATIC_INLINE uint32_t LL_RTC_CAL_GetPeriod(RTC_TypeDef *RTCx)
 /**
   * @brief  Set Calibration minus
   * @note   Bit is write-protected. @ref LL_RTC_DisableWriteProtection function should be called before.
-  * @note Bit can be written only when RECALPF is set to 0 in RTC_ISR
+  * @note   Bit can be written only when RECALPF is set to 0 in RTC_ISR
   * @rmtoll CALR         CALM          LL_RTC_CAL_SetMinus
   * @param  RTCx RTC Instance
   * @param  CalibMinus Value between Min_Data=0x00 and Max_Data=0x1FF
@@ -3327,6 +3358,7 @@ __STATIC_INLINE uint32_t LL_RTC_IsActiveFlag_TAMP3(RTC_TypeDef *RTCx)
 }
 #endif /* RTC_TAMPER3_SUPPORT */
 
+#if defined(RTC_TAMPER2_SUPPORT)
 /**
   * @brief  Get RTC_TAMP2 detection flag
   * @rmtoll ISR          TAMP2F        LL_RTC_IsActiveFlag_TAMP2
@@ -3337,6 +3369,7 @@ __STATIC_INLINE uint32_t LL_RTC_IsActiveFlag_TAMP2(RTC_TypeDef *RTCx)
 {
   return (READ_BIT(RTCx->ISR, RTC_ISR_TAMP2F) == (RTC_ISR_TAMP2F));
 }
+#endif /* RTC_TAMPER2_SUPPORT */
 
 #if defined(RTC_TAMPER1_SUPPORT)
 /**
@@ -3432,6 +3465,7 @@ __STATIC_INLINE void LL_RTC_ClearFlag_TAMP3(RTC_TypeDef *RTCx)
 }
 #endif /* RTC_TAMPER3_SUPPORT */
 
+#if defined(RTC_TAMPER2_SUPPORT)
 /**
   * @brief  Clear RTC_TAMP2 detection flag
   * @rmtoll ISR          TAMP2F        LL_RTC_ClearFlag_TAMP2
@@ -3442,6 +3476,7 @@ __STATIC_INLINE void LL_RTC_ClearFlag_TAMP2(RTC_TypeDef *RTCx)
 {
   WRITE_REG(RTCx->ISR, (~((RTC_ISR_TAMP2F | RTC_ISR_INIT) & 0x0000FFFFU) | (RTCx->ISR & RTC_ISR_INIT)));
 }
+#endif /* RTC_TAMPER2_SUPPORT */
 
 #if defined(RTC_TAMPER1_SUPPORT)
 /**
@@ -3720,9 +3755,7 @@ __STATIC_INLINE void LL_RTC_EnableIT_TAMP3(RTC_TypeDef *RTCx)
 {
   SET_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMP3IE);
 }
-#endif /* RTC_TAMPER3_SUPPORT */
 
-#if defined(RTC_TAMPER3_SUPPORT)
 /**
   * @brief  Disable Tamper 3 interrupt
   * @rmtoll TAMPCR       TAMP3IE       LL_RTC_DisableIT_TAMP3
@@ -3735,6 +3768,7 @@ __STATIC_INLINE void LL_RTC_DisableIT_TAMP3(RTC_TypeDef *RTCx)
 }
 #endif /* RTC_TAMPER3_SUPPORT */
 
+#if defined(RTC_TAMPER2_SUPPORT)
 /**
   * @brief  Enable Tamper 2 interrupt
   * @rmtoll TAMPCR       TAMP2IE       LL_RTC_EnableIT_TAMP2
@@ -3756,6 +3790,7 @@ __STATIC_INLINE void LL_RTC_DisableIT_TAMP2(RTC_TypeDef *RTCx)
 {
   CLEAR_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMP2IE);
 }
+#endif /* RTC_TAMPER2_SUPPORT */
 
 #if defined(RTC_TAMPER1_SUPPORT)
 /**
@@ -3768,9 +3803,7 @@ __STATIC_INLINE void LL_RTC_EnableIT_TAMP1(RTC_TypeDef *RTCx)
 {
   SET_BIT(RTCx->TAMPCR, RTC_TAMPCR_TAMP1IE);
 }
-#endif /* RTC_TAMPER1_SUPPORT */
 
-#if defined(RTC_TAMPER1_SUPPORT)
 /**
   * @brief  Disable Tamper 1 interrupt
   * @rmtoll TAMPCR       TAMP1IE       LL_RTC_DisableIT_TAMP1
@@ -3865,6 +3898,7 @@ __STATIC_INLINE uint32_t LL_RTC_IsEnabledIT_TAMP3(RTC_TypeDef *RTCx)
 }
 #endif /* RTC_TAMPER3_SUPPORT */
 
+#if defined(RTC_TAMPER2_SUPPORT)
 /**
   * @brief  Check if  Tamper 2 interrupt is enabled or not
   * @rmtoll TAMPCR       TAMP2IE       LL_RTC_IsEnabledIT_TAMP2
@@ -3875,6 +3909,7 @@ __STATIC_INLINE uint32_t LL_RTC_IsEnabledIT_TAMP2(RTC_TypeDef *RTCx)
 {
   return (READ_BIT(RTCx->TAMPCR,
                    RTC_TAMPCR_TAMP2IE) == (RTC_TAMPCR_TAMP2IE));
+#endif /* RTC_TAMPER2_SUPPORT */
 }
 
 #if defined(RTC_TAMPER1_SUPPORT)

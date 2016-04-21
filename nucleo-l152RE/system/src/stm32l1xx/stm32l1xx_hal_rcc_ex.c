@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_rcc_ex.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   Extended RCC HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities RCC extension peripheral:
@@ -12,7 +12,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -93,7 +93,7 @@
     (@) Important note: Care must be taken when HAL_RCCEx_PeriphCLKConfig() is used to
         select the RTC clock source; in this case the Backup domain will be reset in  
         order to modify the RTC Clock source, as consequence RTC registers (including 
-        the backup registers) and RCC_BDCR register are set to their reset values.
+        the backup registers) are set to their reset values.
       
 @endverbatim
   * @{
@@ -105,6 +105,8 @@
   * @param  PeriphClkInit pointer to an RCC_PeriphCLKInitTypeDef structure that
   *         contains the configuration information for the Extended Peripherals clocks(RTC/LCD clock).
   * @retval HAL status
+  * @note   If HAL_ERROR returned, first switch-OFF HSE clock oscillator with @ref HAL_RCC_OscConfig()
+  *         to possibly update HSE divider.
   */
 HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
 {
@@ -116,14 +118,10 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
   
   /*------------------------------- RTC/LCD Configuration ------------------------*/ 
   if ((((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_RTC) == RCC_PERIPHCLK_RTC) 
-#if defined(STM32L100xB) || defined(STM32L100xBA) || defined(STM32L100xC)\
- || defined(STM32L152xB) || defined(STM32L152xBA) || defined(STM32L152xC)\
- || defined(STM32L162xC) || defined(STM32L152xCA) || defined(STM32L152xD)\
- || defined(STM32L162xCA) || defined(STM32L162xD) || defined(STM32L152xE) || defined(STM32L152xDX)\
- || defined(STM32L162xE) || defined(STM32L162xDX)
-      || (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_LCD) == RCC_PERIPHCLK_LCD)
-#endif /* STM32L100xB || STM32L152xBA || ... || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
-    )
+#if defined(LCD)
+   || (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_LCD) == RCC_PERIPHCLK_LCD)
+#endif /* LCD */
+     )
   {
     /* check for RTC Parameters used to output RTCCLK */
     if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_RTC) == RCC_PERIPHCLK_RTC)
@@ -131,17 +129,15 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
       assert_param(IS_RCC_RTCCLKSOURCE(PeriphClkInit->RTCClockSelection));
     }
 
-#if defined(STM32L100xB) || defined(STM32L100xBA) || defined(STM32L100xC)\
- || defined(STM32L152xB) || defined(STM32L152xBA) || defined(STM32L152xC)\
- || defined(STM32L162xC) || defined(STM32L152xCA) || defined(STM32L152xD)\
- || defined(STM32L162xCA) || defined(STM32L162xD) || defined(STM32L152xE) || defined(STM32L152xDX)\
- || defined(STM32L162xE) || defined(STM32L162xDX)
+#if defined(LCD)
     if(((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_LCD) == RCC_PERIPHCLK_LCD)
     {
       assert_param(IS_RCC_RTCCLKSOURCE(PeriphClkInit->LCDClockSelection));
     }
-#endif /* STM32L100xB || STM32L152xBA || ... || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
+#endif /* LCD */
 
+    /* As soon as function is called to change RTC clock source, activation of the 
+       power domain is done. */
     /* Enable Power Clock*/
     __HAL_RCC_PWR_CLK_ENABLE();
     
@@ -159,20 +155,31 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
       }
     }
     
-    /* Reset the Backup domain only if the RTC Clock source selection is modified */ 
+    /* Check if user wants to change HSE RTC prescaler whereas HSE is enabled */ 
+    temp_reg = (RCC->CR & RCC_CR_RTCPRE);
+    if ((temp_reg != (PeriphClkInit->RTCClockSelection & RCC_CR_RTCPRE))
+#if defined (LCD)
+     || (temp_reg != (PeriphClkInit->LCDClockSelection & RCC_CR_RTCPRE))
+#endif /* LCD */
+       )
+    { /* Check HSE State */
+      if (((PeriphClkInit->RTCClockSelection & RCC_CSR_RTCSEL) == RCC_CSR_RTCSEL_HSE) && HAL_IS_BIT_SET(RCC->CR, RCC_CR_HSERDY))
+      {
+        /* To update HSE divider, first switch-OFF HSE clock oscillator*/
+        return HAL_ERROR; 
+      }
+    }
+    
+    /* Reset the Backup domain only if the RTC Clock source selection is modified from reset value */ 
     temp_reg = (RCC->CSR & RCC_CSR_RTCSEL);
     
-    if(((temp_reg != (PeriphClkInit->RTCClockSelection & RCC_CSR_RTCSEL)) \
+    if((temp_reg != 0x00000000U) && (((temp_reg != (PeriphClkInit->RTCClockSelection & RCC_CSR_RTCSEL)) \
       && (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_RTC) == RCC_PERIPHCLK_RTC))
-#if defined(STM32L100xB) || defined(STM32L100xBA) || defined(STM32L100xC)\
- || defined(STM32L152xB) || defined(STM32L152xBA) || defined(STM32L152xC)\
- || defined(STM32L162xC) || defined(STM32L152xCA) || defined(STM32L152xD)\
- || defined(STM32L162xCA) || defined(STM32L162xD) || defined(STM32L152xE) || defined(STM32L152xDX)\
- || defined(STM32L162xE) || defined(STM32L162xDX)
+#if defined(LCD)
       || ((temp_reg != (PeriphClkInit->LCDClockSelection & RCC_CSR_RTCSEL)) \
        && (((PeriphClkInit->PeriphClockSelection) & RCC_PERIPHCLK_LCD) == RCC_PERIPHCLK_LCD))
-#endif /* STM32L100xB || STM32L152xBA || ... || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
-     )
+#endif /* LCD */
+     ))
     {
       /* Store the content of CSR register before the reset of Backup Domain */
       temp_reg = (RCC->CSR & ~(RCC_CSR_RTCSEL));
@@ -200,8 +207,8 @@ HAL_StatusTypeDef HAL_RCCEx_PeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClk
         }
       }
       
-      __HAL_RCC_RTC_CONFIG(PeriphClkInit->RTCClockSelection);
     }
+    __HAL_RCC_RTC_CONFIG(PeriphClkInit->RTCClockSelection);
   }
   
   return HAL_OK;
@@ -220,13 +227,9 @@ void HAL_RCCEx_GetPeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
   
   /* Set all possible values for the extended clock type parameter------------*/
   PeriphClkInit->PeriphClockSelection = RCC_PERIPHCLK_RTC;
-#if defined(STM32L100xB) || defined(STM32L100xBA) || defined(STM32L100xC)\
- || defined(STM32L152xB) || defined(STM32L152xBA) || defined(STM32L152xC)\
- || defined(STM32L162xC) || defined(STM32L152xCA) || defined(STM32L152xD)\
- || defined(STM32L162xCA) || defined(STM32L162xD) || defined(STM32L152xE) || defined(STM32L152xDX)\
- || defined(STM32L162xE) || defined(STM32L162xDX)
+#if defined(LCD)
   PeriphClkInit->PeriphClockSelection |= RCC_PERIPHCLK_LCD;
-#endif /* STM32L100xB || STM32L152xBA || ... || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
+#endif /* LCD */
 
   /* Get the RTC/LCD configuration -----------------------------------------------*/
   srcclk = __HAL_RCC_GET_RTC_SOURCE();
@@ -240,13 +243,9 @@ void HAL_RCCEx_GetPeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
     /* Source clock is HSE. Need to get the prescaler value*/
     PeriphClkInit->RTCClockSelection = srcclk | (READ_BIT(RCC->CR, RCC_CR_RTCPRE));
   }
-#if defined(STM32L100xB) || defined(STM32L100xBA) || defined(STM32L100xC)\
- || defined(STM32L152xB) || defined(STM32L152xBA) || defined(STM32L152xC)\
- || defined(STM32L162xC) || defined(STM32L152xCA) || defined(STM32L152xD)\
- || defined(STM32L162xCA) || defined(STM32L162xD) || defined(STM32L152xE) || defined(STM32L152xDX)\
- || defined(STM32L162xE) || defined(STM32L162xDX)
+#if defined(LCD)
   PeriphClkInit->LCDClockSelection = PeriphClkInit->RTCClockSelection;
-#endif /* STM32L100xB || STM32L152xBA || ... || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
+#endif /* LCD */
 }
 
 /**
@@ -260,7 +259,7 @@ void HAL_RCCEx_GetPeriphCLKConfig(RCC_PeriphCLKInitTypeDef  *PeriphClkInit)
   */
 uint32_t HAL_RCCEx_GetPeriphCLKFreq(uint32_t PeriphClk)
 {
-  uint32_t temp_reg = 0, frequency = 0;
+  uint32_t temp_reg = 0, clkprediv = 0, frequency = 0;
   uint32_t srcclk = 0;
 
   /* Check the parameters */
@@ -269,13 +268,9 @@ uint32_t HAL_RCCEx_GetPeriphCLKFreq(uint32_t PeriphClk)
   switch (PeriphClk)
   {
   case RCC_PERIPHCLK_RTC:
-#if defined(STM32L100xB) || defined(STM32L100xBA) || defined(STM32L100xC)\
- || defined(STM32L152xB) || defined(STM32L152xBA) || defined(STM32L152xC)\
- || defined(STM32L162xC) || defined(STM32L152xCA) || defined(STM32L152xD)\
- || defined(STM32L162xCA) || defined(STM32L162xD) || defined(STM32L152xE) || defined(STM32L152xDX)\
- || defined(STM32L162xE) || defined(STM32L162xDX)
+#if defined(LCD)
   case RCC_PERIPHCLK_LCD:
-#endif /* STM32L100xB || STM32L152xBA || ... || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
+#endif /* LCD */
     {
       /* Get RCC CSR configuration ------------------------------------------------------*/
       temp_reg = RCC->CSR;
@@ -293,34 +288,37 @@ uint32_t HAL_RCCEx_GetPeriphCLKFreq(uint32_t PeriphClk)
       {
         frequency = LSI_VALUE;
       }
-      /* Check if HSE is ready */
-      else if (HAL_IS_BIT_SET(RCC->CR, RCC_CR_HSERDY))
+      /* Check if HSE is ready and if RTC clock selection is HSE */
+      else if ((srcclk == RCC_RTCCLKSOURCE_HSE_DIVX) && (HAL_IS_BIT_SET(RCC->CR, RCC_CR_HSERDY)))
       {
-        switch (READ_BIT(RCC->CR, RCC_CR_RTCPRE))
+        /* Get the current HSE clock divider */
+        clkprediv = __HAL_RCC_GET_RTC_HSE_PRESCALER();
+
+        switch (clkprediv)
         {
-          case RCC_CR_RTCPRE:     /* HSE DIV16 has been selected */
+          case RCC_RTC_HSE_DIV_16:  /* HSE DIV16 has been selected */
           {
             frequency = HSE_VALUE / 16;
             break;
           }
-          case RCC_CR_RTCPRE_1:   /* HSE DIV8 has been selected */
+          case RCC_RTC_HSE_DIV_8:   /* HSE DIV8 has been selected  */
           {
             frequency = HSE_VALUE / 8;
             break;
           }
-          case RCC_CR_RTCPRE_0:   /* HSE DIV4 has been selected */
+          case RCC_RTC_HSE_DIV_4:   /* HSE DIV4 has been selected  */
           {
             frequency = HSE_VALUE / 4;
             break;
           }
-          default:
+          default:                  /* HSE DIV2 has been selected  */
           {
             frequency = HSE_VALUE / 2;
             break;
           }
         }
       }
-      /* Clock not enabled for RTC*/
+      /* Clock not enabled for RTC */
       else
       {
         frequency = 0;

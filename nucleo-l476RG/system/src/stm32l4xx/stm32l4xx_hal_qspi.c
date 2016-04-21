@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_qspi.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   QSPI HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the QuadSPI interface (QSPI).
@@ -249,7 +249,15 @@ HAL_StatusTypeDef HAL_QSPI_Init(QSPI_HandleTypeDef *hqspi)
   assert_param(IS_QSPI_FLASH_SIZE(hqspi->Init.FlashSize));
   assert_param(IS_QSPI_CS_HIGH_TIME(hqspi->Init.ChipSelectHighTime));
   assert_param(IS_QSPI_CLOCK_MODE(hqspi->Init.ClockMode));
+#if defined(STM32L431xx) || defined(STM32L432xx) || defined(STM32L433xx) || defined(STM32L442xx) || defined(STM32L443xx)
+  assert_param(IS_QSPI_DUAL_FLASH_MODE(hqspi->Init.DualFlash));
 
+  if (hqspi->Init.DualFlash != QSPI_DUALFLASH_ENABLE )
+  {
+    assert_param(IS_QSPI_FLASH_ID(hqspi->Init.FlashID));
+  }
+#endif
+  
   /* Process locked */
   __HAL_LOCK(hqspi);
   
@@ -275,10 +283,16 @@ HAL_StatusTypeDef HAL_QSPI_Init(QSPI_HandleTypeDef *hqspi)
   if(status == HAL_OK)
   {
     /* Configure QSPI Clock Prescaler and Sample Shift */
+#if defined(STM32L431xx) || defined(STM32L432xx) || defined(STM32L433xx) || defined(STM32L442xx) || defined(STM32L443xx)
+    MODIFY_REG(hqspi->Instance->CR, (QUADSPI_CR_PRESCALER | QUADSPI_CR_SSHIFT | QUADSPI_CR_FSEL | QUADSPI_CR_DFM), 
+               ((hqspi->Init.ClockPrescaler << POSITION_VAL(QUADSPI_CR_PRESCALER)) | 
+                hqspi->Init.SampleShifting  | hqspi->Init.FlashID | hqspi->Init.DualFlash));
+#else
     MODIFY_REG(hqspi->Instance->CR, (QUADSPI_CR_PRESCALER | QUADSPI_CR_SSHIFT), 
                ((hqspi->Init.ClockPrescaler << POSITION_VAL(QUADSPI_CR_PRESCALER)) | 
                 hqspi->Init.SampleShifting));
-
+#endif
+    
     /* Configure QSPI Flash Size, CS High Time and Clock Mode */
     MODIFY_REG(hqspi->Instance->DCR, (QUADSPI_DCR_FSIZE | QUADSPI_DCR_CSHT | QUADSPI_DCR_CKMODE), 
                ((hqspi->Init.FlashSize << POSITION_VAL(QUADSPI_DCR_FSIZE)) | 
@@ -414,15 +428,13 @@ void HAL_QSPI_IRQHandler(QSPI_HandleTypeDef *hqspi)
       {
         if (hqspi->TxXferCount > 0)
         {
-          /* Fill the FIFO until the threshold is reached */
+          /* Fill the FIFO until it is full */
           *(__IO uint8_t *)data_reg = *hqspi->pTxBuffPtr++;
           hqspi->TxXferCount--;
         }
         else
         {
           /* No more data available for the transfer */
-          /* Disable the QSPI FIFO Threshold Interrupt */
-          __HAL_QSPI_DISABLE_IT(hqspi, QSPI_IT_FT);
           break;
         }
       }
@@ -434,15 +446,13 @@ void HAL_QSPI_IRQHandler(QSPI_HandleTypeDef *hqspi)
       {
         if (hqspi->RxXferCount > 0)
         {
-          /* Read the FIFO until the threshold is reached */
+          /* Read the FIFO until it is empty */
           *hqspi->pRxBuffPtr++ = *(__IO uint8_t *)data_reg;
           hqspi->RxXferCount--;
         }
         else
         {
           /* All data have been received for the transfer */
-          /* Disable the QSPI FIFO Threshold Interrupt */
-          __HAL_QSPI_DISABLE_IT(hqspi, QSPI_IT_FT);
           break;
         }
       }
@@ -467,8 +477,10 @@ void HAL_QSPI_IRQHandler(QSPI_HandleTypeDef *hqspi)
     /* Transfer complete callback */
     if(hqspi->State == HAL_QSPI_STATE_BUSY_INDIRECT_TX)
     {
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
       /* Clear Busy bit */
       HAL_QSPI_Abort(hqspi);
+#endif
       
       /* TX Complete callback */
       HAL_QSPI_TxCpltCallback(hqspi);
@@ -491,9 +503,11 @@ void HAL_QSPI_IRQHandler(QSPI_HandleTypeDef *hqspi)
         }
       }
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
       /* Workaround - Extra data written in the FIFO at the end of a read transfer */
       HAL_QSPI_Abort(hqspi);
-
+#endif
+      
       /* RX Complete callback */
       HAL_QSPI_RxCpltCallback(hqspi);
     }
@@ -801,8 +815,10 @@ HAL_StatusTypeDef HAL_QSPI_Transmit(QSPI_HandleTypeDef *hqspi, uint8_t *pData, u
           /* Clear Transfer Complete bit */
           __HAL_QSPI_CLEAR_FLAG(hqspi, QSPI_FLAG_TC);
           
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
           /* Clear Busy bit */
           status = HAL_QSPI_Abort(hqspi);
+#endif
         }
       }
     
@@ -888,8 +904,10 @@ HAL_StatusTypeDef HAL_QSPI_Receive(QSPI_HandleTypeDef *hqspi, uint8_t *pData, ui
           /* Clear Transfer Complete bit */
           __HAL_QSPI_CLEAR_FLAG(hqspi, QSPI_FLAG_TC);
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
           /* Workaround - Extra data written in the FIFO at the end of a read transfer */
           status = HAL_QSPI_Abort(hqspi);
+#endif
         }
       }
 
@@ -1696,8 +1714,10 @@ static void QSPI_DMARxCplt(DMA_HandleTypeDef *hdma)
     /* Clear Transfer Complete bit */
     __HAL_QSPI_CLEAR_FLAG(hqspi, QSPI_FLAG_TC);
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
     /* Workaround - Extra data written in the FIFO at the end of a read transfer */
     HAL_QSPI_Abort(hqspi);
+#endif
 
     /* Update state */
     hqspi->State = HAL_QSPI_STATE_READY;
@@ -1733,9 +1753,11 @@ static void QSPI_DMATxCplt(DMA_HandleTypeDef *hdma)
     /* Clear Transfer Complete bit */
     __HAL_QSPI_CLEAR_FLAG(hqspi, QSPI_FLAG_TC);
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
     /* Clear Busy bit */
     HAL_QSPI_Abort(hqspi);
-
+#endif
+    
     /* Update state */
     hqspi->State = HAL_QSPI_STATE_READY;
     

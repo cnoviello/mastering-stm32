@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_pwr.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of PWR HAL module.
   ******************************************************************************
   * @attention
@@ -196,8 +196,10 @@ typedef struct
   *                  below or above the selected PVD threshold.
   *            @arg @ref PWR_FLAG_PVMO1 Peripheral Voltage Monitoring Output 1. Indicates whether VDDUSB voltage is
   *                  is below or above PVM1 threshold (applicable when USB feature is supported).
+  @if STM32L486xx
   *            @arg @ref PWR_FLAG_PVMO2 Peripheral Voltage Monitoring Output 2. Indicates whether VDDIO2 voltage is
   *                  is below or above PVM2 threshold (applicable when VDDIO2 is present on device). 
+  @endif
   *            @arg @ref PWR_FLAG_PVMO3 Peripheral Voltage Monitoring Output 3. Indicates whether VDDA voltage is
   *                  is below or above PVM3 threshold. 
   *            @arg @ref PWR_FLAG_PVMO4 Peripheral Voltage Monitoring Output 4. Indicates whether VDDA voltage is

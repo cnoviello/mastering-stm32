@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_comp.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   COMP HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the COMP peripheral:
@@ -20,7 +20,6 @@
       The STM32L1xx device family integrates 2 analog comparators COMP1 and 
       COMP2:
       (#) The non inverting input and inverting input can be set to GPIO pins.
-          Refer to "table1. COMP Inputs" below.
           HAL COMP driver configures the Routing Interface (RI) to connect the
           selected I/O pins to comparator input.
           Caution: Comparator COMP1 and ADC cannot be used at the same time as 
@@ -34,7 +33,6 @@
       (#) The COMP output can be redirected to embedded timers (TIM2, TIM3, 
           TIM4, TIM10).
           COMP output cannot be redirected to any I/O pin.
-          Refer to "table 2. COMP Outputs redirection to embedded timers" below.
 
       (#) The comparators COMP1 and COMP2 can be combined in window mode. 
           In this mode, COMP2 non inverting input is used as common 
@@ -51,47 +49,6 @@
       (#) The comparators also offer the possibility to output the voltage 
           reference (VrefInt), used on inverting inputs, on I/O pin through 
           a buffer. To use it, refer to macro "__HAL_SYSCFG_VREFINT_OUT_ENABLE()".
-
-            
-[..] Table 1. COMP Inputs for the STM32L1xx devices
- +----------------------------------------------------------------------+
- |                 |                                |  COMP1  |  COMP2  |
- |-----------------|--------------------------------|---------|---------|
- |                 | 1/4 VREFINT                    |   --    |   OK    |
- |                 | 1/2 VREFINT                    |   --    |   OK    |
- |                 | 3/4 VREFINT                    |   --    |   OK    |
- | Inverting       | VREFINT                        |   OK    |   OK    |
- | input           | DAC Ch1 OUT (PA4)              |   --    |   OK    |
- |                 | DAC Ch2 OUT (PA5)              |   --    |   OK    |
- |                 | IO: PB3                        |   --    |   OK    |
- |-----------------|--------------------------------|---------|---------|
- |                 | IO:                            |         |         |
- |                 |   PB4, 5, 6*, 7*               |   ---   |   OK    |
- | Non-inverting   |   PA0*, 1*, 2*, 3*, 4, 5, 6, 7 |   OK    |   ---   |
- | input           |   PB0, 1, 12, 13, 14, 15       |   OK    |   ---   |
- |                 |   PC0, 1, 2, 3, 4, 5           |   OK    |   ---   |
- |                 |   PE7, 8, 9, 10                |   OK    |   ---   |
- |                 |   PF6, 7, 8, 9, 10             |   OK    |   ---   |
- |                 | OPAMP1 output                  |   OK    |   ---   |
- |                 | OPAMP2 output                  |   OK    |   ---   |
- |                 | OPAMP3 output**                |   OK    |   ---   |
- +----------------------------------------------------------------------+
- *: Available on devices category Cat.3, Cat.4, Cat.5 only. 
- **: Available on devices category Cat.4 only. 
-
- [..] Table 2. COMP Outputs redirection to embedded timers
- +-----------------------------------+     
- |      COMP1      |      COMP2      |
- |-----------------|-----------------|
- |                 |  TIM2 IC4       |
- |                 |  TIM2 OCREF CLR |
- | (no redirection |  TIM3 IC4       |
- |   to timers)    |  TIM3 OCREF CLR |
- |                 |  TIM4 IC4       |
- |                 |  TIM4 OCREF CLR |
- |                 |  TIM10 IC1      |
- +-----------------------------------+
-
 
             ##### How to use this driver #####
 ================================================================================
@@ -135,7 +92,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -161,6 +118,48 @@
   *
   ******************************************************************************  
   */
+
+/*
+  Additionnal remark: 
+    Table 1. COMP Inputs for the STM32L1xx devices
+    +----------------------------------------------------------------------+
+    |                 |                                |  COMP1  |  COMP2  |
+    |-----------------|--------------------------------|---------|---------|
+    |                 | 1/4 VREFINT                    |   --    |   OK    |
+    |                 | 1/2 VREFINT                    |   --    |   OK    |
+    |                 | 3/4 VREFINT                    |   --    |   OK    |
+    | Inverting       | VREFINT                        |   OK    |   OK    |
+    | input           | DAC Ch1 OUT (PA4)              |   --    |   OK    |
+    |                 | DAC Ch2 OUT (PA5)              |   --    |   OK    |
+    |                 | IO: PB3                        |   --    |   OK    |
+    |-----------------|--------------------------------|---------|---------|
+    |                 | IO:                            |         |         |
+    |                 |   PB4, 5, 6*, 7*               |   ---   |   OK    |
+    | Non-inverting   |   PA0*, 1*, 2*, 3*, 4, 5, 6, 7 |   OK    |   ---   |
+    | input           |   PB0, 1, 12, 13, 14, 15       |   OK    |   ---   |
+    |                 |   PC0, 1, 2, 3, 4, 5           |   OK    |   ---   |
+    |                 |   PE7, 8, 9, 10                |   OK    |   ---   |
+    |                 |   PF6, 7, 8, 9, 10             |   OK    |   ---   |
+    |                 | OPAMP1 output                  |   OK    |   ---   |
+    |                 | OPAMP2 output                  |   OK    |   ---   |
+    |                 | OPAMP3 output**                |   OK    |   ---   |
+    +----------------------------------------------------------------------+
+    *: Available on devices category Cat.3, Cat.4, Cat.5 only. 
+    **: Available on devices category Cat.4 only. 
+    
+    [..] Table 2. COMP Outputs redirection to embedded timers
+    +-----------------------------------+     
+    |      COMP1      |      COMP2      |
+    |-----------------|-----------------|
+    |                 |  TIM2 IC4       |
+    |                 |  TIM2 OCREF CLR |
+    | (no redirection |  TIM3 IC4       |
+    |   to timers)    |  TIM3 OCREF CLR |
+    |                 |  TIM4 IC4       |
+    |                 |  TIM4 OCREF CLR |
+    |                 |  TIM10 IC1      |
+    +-----------------------------------+
+*/
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l1xx_hal.h"
@@ -440,6 +439,9 @@ HAL_StatusTypeDef HAL_COMP_DeInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_COMP_MspInit could be implenetd in the user file
    */
@@ -452,6 +454,9 @@ __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspDeInit(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_COMP_MspDeInit could be implenetd in the user file
    */
@@ -757,6 +762,9 @@ uint32_t HAL_COMP_GetOutputLevel(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_COMP_TriggerCallback should be implemented in the user file
    */

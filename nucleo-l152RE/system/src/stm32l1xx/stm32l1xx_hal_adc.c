@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_adc.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -41,23 +41,21 @@
   (+) Programmable sampling time (channel wise)
   
   (+) ADC conversion of regular group and injected group.
-
+  
   (+) External trigger (timer or EXTI) with configurable polarity
       for both regular and injected groups.
-
+  
   (+) DMA request generation for transfer of conversions data of regular group.
   
-  (+) ADC calibration
-
   (+) ADC offset on injected channels
-    
+  
   (+) ADC supply requirements: 2.4 V to 3.6 V at full speed and down to 1.8 V at 
       slower speed.
   
   (+) ADC input range: from Vref- (connected to Vssa) to Vref+ (connected to 
       Vdda or to an external voltage reference).
-
-
+  
+  
                      ##### How to use this driver #####
   ==============================================================================
     [..]
@@ -155,10 +153,6 @@
      *** Execution of ADC conversions ***
      ====================================
      [..]
-
-    (#) Optionally, perform an automatic ADC calibration to improve the
-        conversion accuracy
-        using function HAL_ADCEx_Calibration_Start().
 
     (#) ADC driver can be used among three modes: polling, interruption,
         transfer by DMA.
@@ -262,7 +256,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -558,7 +552,7 @@ HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
     /*   conversions is forced to 0x00 for alignment over all STM32 devices.  */
     /* - if scan mode is enabled, regular channels sequence length is set to  */
     /*   parameter "NbrOfConversion"                                          */
-    if (ADC_CR1_SCAN_SET(hadc->Init.ScanConvMode == ADC_SCAN_ENABLE))
+    if (ADC_CR1_SCAN_SET(hadc->Init.ScanConvMode) == ADC_SCAN_ENABLE)
     {
       MODIFY_REG(hadc->Instance->SQR1                         ,
                  ADC_SQR1_L                                   ,
@@ -665,11 +659,8 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
     ADC_SMPR0_CLEAR(hadc);
     
     /* Reset register SMPR1 */
-    CLEAR_BIT(hadc->Instance->SMPR1, (ADC_SMPR1_SMP29 | ADC_SMPR1_SMP28 | ADC_SMPR1_SMP27 | 
-                                      ADC_SMPR1_SMP26 | ADC_SMPR1_SMP25 | ADC_SMPR1_SMP24 | 
-                                      ADC_SMPR1_SMP23 | ADC_SMPR1_SMP22 | ADC_SMPR1_SMP21 |
-                                      ADC_SMPR1_SMP20                                      ));
-
+    ADC_SMPR1_CLEAR(hadc);
+    
     /* Reset register SMPR2 */
     CLEAR_BIT(hadc->Instance->SMPR2, (ADC_SMPR2_SMP19 | ADC_SMPR2_SMP18 | ADC_SMPR2_SMP17 | 
                                       ADC_SMPR2_SMP16 | ADC_SMPR2_SMP15 | ADC_SMPR2_SMP14 | 
@@ -764,6 +755,9 @@ HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspInit must be implemented in the user file.
    */ 
@@ -776,6 +770,9 @@ __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspDeInit must be implemented in the user file.
    */ 
@@ -1551,6 +1548,9 @@ void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvCpltCallback must be implemented in the user file.
    */
@@ -1563,6 +1563,9 @@ __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvHalfCpltCallback must be implemented in the user file.
   */
@@ -1575,6 +1578,9 @@ __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOutOfWindowCallback must be implemented in the user file.
   */
@@ -1588,6 +1594,9 @@ __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ErrorCallback must be implemented in the user file.
   */
@@ -1745,6 +1754,14 @@ HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConf
 
 /**
   * @brief  Configures the analog watchdog.
+  * @note   Analog watchdog thresholds can be modified while ADC conversion
+  *         is on going.
+  *         In this case, some constraints must be taken into account:
+  *         the programmed threshold values are effective from the next
+  *         ADC EOC (end of unitary conversion).
+  *         Considering that registers write delay may happen due to
+  *         bus activity, this might cause an uncertainty on the
+  *         effective timing of the new programmed threshold values.
   * @param  hadc: ADC handle
   * @param  AnalogWDGConfig: Structure of ADC analog watchdog configuration
   * @retval HAL status

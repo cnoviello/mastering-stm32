@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_comp.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   COMP HAL module driver.  
   *          This file provides firmware functions to manage the following 
   *          functionalities of the COMP peripheral:
@@ -86,24 +86,29 @@
       
   @endverbatim
   ******************************************************************************
-  
+
       Table 1. COMP Inputs for the STM32L4xx devices
-      +---------------------------------------------------------+     
-      |                        |                | COMP1 | COMP2 | 
+      +---------------------------------------------------------+
+      |                        |                | COMP1 | COMP2 |
       |------------------------|----------------|---------------|
-      |                        | 1/4 VREFINT    |  OK   |  OK   |  
+      |                        | 1/4 VREFINT    |  OK   |  OK   |
       |                        | 1/2 VREFINT    |  OK   |  OK   |
       |                        | 3/4 VREFINT    |  OK   |  OK   |
-      | Inverting Input        | VREFINT        |  OK   |  OK   | 
-      | (minus)                | DAC1 OUT       |  OK   |  OK   |  
-      |                        | DAC2 OUT       |  OK   |  OK   |  
-      |                        | IO1            |  PB1  |  PB3  |  
-      |                        | IO2            |  PC4  |  PB7  |  
+      | Inverting Input        | VREFINT        |  OK   |  OK   |
+      | (minus)                | DAC1 OUT       |  OK   |  OK   |
+      |                        | DAC2 OUT       |  OK   |  OK   |
+      |                        | IO1            |  PB1  |  PB3  |
+      |                        | IO2            |  PC4  |  PB7  |
+      |                        | IO3 (*)        |  PA0  |  PA2  |
+      |                        | IO4 (*)        |  PA4  |  PA4  |
+      |                        | IO5 (*)        |  PA5  |  PA5  |
       |------------------------|----------------|-------|-------|
-      |  Non Inverting Input   | IO1            |  PC5  |  PB4  |  
+      |  Non Inverting Input   | IO1            |  PC5  |  PB4  |
       |  (plus)                | IO2            |  PB2  |  PB6  |
-      +--------------------------------------------------+  
-  
+      |                        | IO3 (*)        |  PA1  |  PA3  |
+      +---------------------------------------------------------+
+      (*) only STM32L43x/L44x
+
       Table 2. COMP Outputs for the STM32L4xx devices
       +------------------------------------+     
       |       COMP1      |      COMP2      | 
@@ -168,9 +173,15 @@
 #define COMP_CSR_RESET_VALUE               ((uint32_t)0x00000000)
 
 /* CSR register Mask: all fields except read-only, lock and enable bits */ 
+#if defined (STM32L431xx) || defined (STM32L432xx) || defined (STM32L433xx) || defined (STM32L442xx) || defined (STM32L443xx)
+#define COMP_CSR_UPDATE_PARAMETERS_MASK    (COMP_CSR_PWRMODE  | COMP_CSR_INMSEL   | COMP_CSR_INPSEL  | \
+                                            COMP_CSR_WINMODE  | COMP_CSR_POLARITY | COMP_CSR_HYST    | \
+                                            COMP_CSR_BLANKING | COMP_CSR_BRGEN    | COMP_CSR_SCALEN  | COMP_CSR_INMESEL)
+#else
 #define COMP_CSR_UPDATE_PARAMETERS_MASK    (COMP_CSR_PWRMODE  | COMP_CSR_INMSEL   | COMP_CSR_INPSEL  | \
                                             COMP_CSR_WINMODE  | COMP_CSR_POLARITY | COMP_CSR_HYST    | \
                                             COMP_CSR_BLANKING | COMP_CSR_BRGEN    | COMP_CSR_SCALEN)
+#endif /* STM32L431xx || STM32L432xx || STM32L442xx || STM32L433xx || STM32L443xx */  
 
 #define COMP_LOCK_DISABLE                   ((uint32_t)0x00000000)
 #define COMP_LOCK_ENABLE                    COMP_CSR_LOCK

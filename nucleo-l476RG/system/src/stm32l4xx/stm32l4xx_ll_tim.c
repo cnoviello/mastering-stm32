@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_tim.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   TIM LL module driver.
   ******************************************************************************
   * @attention

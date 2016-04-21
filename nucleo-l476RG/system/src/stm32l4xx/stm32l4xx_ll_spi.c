@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_spi.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   SPI LL module driver.
   ******************************************************************************
   * @attention
@@ -124,7 +124,7 @@
 #define IS_LL_SPI_CRCCALCULATION(__VALUE__) (((__VALUE__) == LL_SPI_CRCCALCULATION_ENABLE) \
                                           || ((__VALUE__) == LL_SPI_CRCCALCULATION_DISABLE))
 
-#define IS_LL_SPI_CRC_POLYNOMIAL(__VALUE__) ((__VALUE__) >= 0x1)
+#define IS_LL_SPI_CRC_POLYNOMIAL(__VALUE__) ((__VALUE__) >= 0x1U)
 
 /**
   * @}
@@ -241,7 +241,7 @@ ErrorStatus LL_SPI_Init(SPI_TypeDef *SPIx, LL_SPI_InitTypeDef *SPI_InitStruct)
      */
     MODIFY_REG(SPIx->CR2,
                SPI_CR2_DS | SPI_CR2_SSOE,
-               SPI_InitStruct->DataWidth | (SPI_InitStruct->NSS >> 16));
+               SPI_InitStruct->DataWidth | (SPI_InitStruct->NSS >> 16U));
 
     /*---------------------------- SPIx CRCPR Configuration -----------------------
      * Configure SPIx CRCPR with parameters:
@@ -276,7 +276,7 @@ void LL_SPI_StructInit(LL_SPI_InitTypeDef *SPI_InitStruct)
   SPI_InitStruct->BaudRate          = LL_SPI_BAUDRATEPRESCALER_DIV2;
   SPI_InitStruct->BitOrder          = LL_SPI_MSB_FIRST;
   SPI_InitStruct->CRCCalculation    = LL_SPI_CRCCALCULATION_DISABLE;
-  SPI_InitStruct->CRCPoly           = 7;
+  SPI_InitStruct->CRCPoly           = 7U;
 }
 
 /**

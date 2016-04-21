@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_system.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of SYSTEM LL module.
   @verbatim
   ==============================================================================
@@ -242,7 +242,7 @@ extern "C" {
 /** @defgroup SYSTEM_LL_EC_TRACE DBGMCU TRACE Pin Assignment
   * @{
   */
-#define LL_DBGMCU_TRACE_NONE               (uint32_t)0x00000000                            /*!< TRACE pins not assigned (default state) */
+#define LL_DBGMCU_TRACE_NONE               (uint32_t)0x00000000U                           /*!< TRACE pins not assigned (default state) */
 #define LL_DBGMCU_TRACE_ASYNCH             DBGMCU_CR_TRACE_IOEN                            /*!< TRACE pin assignment for Asynchronous Mode */
 #define LL_DBGMCU_TRACE_SYNCH_SIZE1        (DBGMCU_CR_TRACE_IOEN | DBGMCU_CR_TRACE_MODE_0) /*!< TRACE pin assignment for Synchronous Mode with a TRACEDATA size of 1 */
 #define LL_DBGMCU_TRACE_SYNCH_SIZE2        (DBGMCU_CR_TRACE_IOEN | DBGMCU_CR_TRACE_MODE_1) /*!< TRACE pin assignment for Synchronous Mode with a TRACEDATA size of 2 */

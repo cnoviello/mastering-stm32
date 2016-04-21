@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_flash.h
   * @author  MCD Application Team
-  * @version V1.3.0 
-  * @date    29-January-2016
+  * @version V1.4.0 
+  * @date    26-February-2016
   * @brief   Header file of FLASH HAL module.
   ******************************************************************************
   * @attention
@@ -163,6 +163,9 @@ typedef struct
 #define HAL_FLASH_ERROR_RD        ((uint32_t)0x00000100)
 #define HAL_FLASH_ERROR_OPTV      ((uint32_t)0x00000200)
 #define HAL_FLASH_ERROR_ECCD      ((uint32_t)0x00000400)
+#if defined (STM32L431xx) || defined (STM32L432xx) || defined (STM32L433xx) || defined (STM32L442xx) || defined (STM32L443xx)
+#define HAL_FLASH_ERROR_PEMPTY    ((uint32_t)0x00000800)
+#endif 
 /**
   * @}
   */
@@ -180,8 +183,12 @@ typedef struct
   * @{
   */
 #define FLASH_BANK_1              ((uint32_t)0x01)                          /*!< Bank 1   */
+#if defined (STM32L471xx) || defined (STM32L475xx) || defined (STM32L476xx) || defined (STM32L485xx) || defined (STM32L486xx)
 #define FLASH_BANK_2              ((uint32_t)0x02)                          /*!< Bank 2   */
 #define FLASH_BANK_BOTH           ((uint32_t)(FLASH_BANK_1 | FLASH_BANK_2)) /*!< Bank1 and Bank2  */
+#else
+#define FLASH_BANK_BOTH           ((uint32_t)(FLASH_BANK_1))                /*!< Bank 1   */
+#endif
 /**
   * @}
   */
@@ -215,8 +222,10 @@ typedef struct
   */ 
 #define OB_WRPAREA_BANK1_AREAA    ((uint32_t)0x00)  /*!< Flash Bank 1 Area A */
 #define OB_WRPAREA_BANK1_AREAB    ((uint32_t)0x01)  /*!< Flash Bank 1 Area B */
+#if defined (STM32L471xx) || defined (STM32L475xx) || defined (STM32L476xx) || defined (STM32L485xx) || defined (STM32L486xx)
 #define OB_WRPAREA_BANK2_AREAA    ((uint32_t)0x02)  /*!< Flash Bank 2 Area A */
 #define OB_WRPAREA_BANK2_AREAB    ((uint32_t)0x04)  /*!< Flash Bank 2 Area B */
+#endif
 /**
   * @}
   */
@@ -242,12 +251,18 @@ typedef struct
 #define OB_USER_IWDG_STOP         ((uint32_t)0x0010)                   /*!< Independent watchdog counter freeze in stop mode */
 #define OB_USER_IWDG_STDBY        ((uint32_t)0x0020)                   /*!< Independent watchdog counter freeze in standby mode */
 #define OB_USER_WWDG_SW           ((uint32_t)0x0040)                   /*!< Window watchdog selection */
+#if defined (STM32L471xx) || defined (STM32L475xx) || defined (STM32L476xx) || defined (STM32L485xx) || defined (STM32L486xx)
 #define OB_USER_BFB2              ((uint32_t)0x0080)                   /*!< Dual-bank boot */
 #define OB_USER_DUALBANK          ((uint32_t)0x0100)                   /*!< Dual-Bank on 512KB or 256KB Flash memory devices */
+#endif
 #define OB_USER_nBOOT1            ((uint32_t)0x0200)                   /*!< Boot configuration */
 #define OB_USER_SRAM2_PE          ((uint32_t)0x0400)                   /*!< SRAM2 parity check enable */
 #define OB_USER_SRAM2_RST         ((uint32_t)0x0800)                   /*!< SRAM2 Erase when system reset */
 #define OB_USER_nRST_SHDW         ((uint32_t)0x1000)                   /*!< Reset generated when entering the shutdown mode */
+#if defined (STM32L431xx) || defined (STM32L432xx) || defined (STM32L433xx) || defined (STM32L442xx) || defined (STM32L443xx)
+#define OB_USER_nSWBOOT0          ((uint32_t)0x2000)                   /*!< Software BOOT0 */
+#define OB_USER_nBOOT0            ((uint32_t)0x4000)                   /*!< nBOOT0 option bit */
+#endif
 /**
   * @}
   */ 
@@ -327,6 +342,7 @@ typedef struct
   * @}
   */ 
 
+#if defined (STM32L471xx) || defined (STM32L475xx) || defined (STM32L476xx) || defined (STM32L485xx) || defined (STM32L486xx)
 /** @defgroup FLASH_OB_USER_BFB2 FLASH Option Bytes User BFB2 Mode
   * @{
   */
@@ -344,6 +360,7 @@ typedef struct
 /**
   * @}
   */ 
+#endif
 
 /** @defgroup FLASH_OB_USER_nBOOT1 FLASH Option Bytes User BOOT1 Type
   * @{
@@ -371,6 +388,26 @@ typedef struct
 /**
   * @}
   */ 
+
+#if defined (STM32L431xx) || defined (STM32L432xx) || defined (STM32L433xx) || defined (STM32L442xx) || defined (STM32L443xx)
+/** @defgroup OB_USER_nSWBOOT0 FLASH Option Bytes User Software BOOT0
+  * @{
+  */
+#define OB_BOOT0_FROM_OB          ((uint32_t)0x0000000)                /*!< BOOT0 taken from the option bit nBOOT0 */
+#define OB_BOOT0_FROM_PIN         ((uint32_t)FLASH_OPTR_nSWBOOT0)      /*!< BOOT0 taken from PH3/BOOT0 pin */
+/**
+  * @}
+  */ 
+
+/** @defgroup OB_USER_nBOOT0 FLASH Option Bytes User nBOOT0 option bit
+  * @{
+  */
+#define OB_BOOT0_RESET            ((uint32_t)0x0000000)                /*!< nBOOT0 = 0 */
+#define OB_BOOT0_SET              ((uint32_t)FLASH_OPTR_nBOOT0)        /*!< nBOOT0 = 1 */
+/**
+  * @}
+  */ 
+#endif
 
 /** @defgroup FLASH_OB_PCROP_RDP FLASH Option Bytes PCROP On RDP Level Type
   * @{
@@ -428,6 +465,9 @@ typedef struct
 #define FLASH_FLAG_RDERR          FLASH_SR_RDERR                       /*!< FLASH PCROP read error flag */
 #define FLASH_FLAG_OPTVERR        FLASH_SR_OPTVERR                     /*!< FLASH Option validity error flag  */
 #define FLASH_FLAG_BSY            FLASH_SR_BSY                         /*!< FLASH Busy flag */
+#if defined (STM32L431xx) || defined (STM32L432xx) || defined (STM32L433xx) || defined (STM32L442xx) || defined (STM32L443xx)
+#define FLASH_FLAG_PEMPTY         FLASH_SR_PEMPTY                      /*!< FLASH Program empty */
+#endif
 #define FLASH_FLAG_ECCC           FLASH_ECCR_ECCC                      /*!< FLASH ECC correction */
 #define FLASH_FLAG_ECCD           FLASH_ECCR_ECCD                      /*!< FLASH ECC detection */
 
@@ -625,6 +665,7 @@ typedef struct
   *     @arg FLASH_FLAG_RDERR: FLASH PCROP read  error flag
   *     @arg FLASH_FLAG_OPTVERR: FLASH Option validity error flag
   *     @arg FLASH_FLAG_BSY: FLASH write/erase operations in progress flag 
+  *     @arg FLASH_FLAG_PEMPTY : FLASH Boot from not programmed flash (apply only for STM32L43x/STM32L44x devices)
   *     @arg FLASH_FLAG_ECCC: FLASH one ECC error has been detected and corrected
   *     @arg FLASH_FLAG_ECCD: FLASH two ECC errors have been detected
   * @retval The new state of FLASH_FLAG (SET or RESET).
@@ -720,7 +761,11 @@ uint32_t HAL_FLASH_GetError(void);
 #define FLASH_SIZE                         ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) == 0xFFFF)) ? (0x400 << 10) : \
                                             (((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) << 10))
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 #define FLASH_BANK_SIZE                    (FLASH_SIZE >> 1)
+#else
+#define FLASH_BANK_SIZE                    (FLASH_SIZE)
+#endif
 
 #define FLASH_PAGE_SIZE                    ((uint32_t)0x800)
 
@@ -737,12 +782,18 @@ uint32_t HAL_FLASH_GetError(void);
 #define IS_FLASH_TYPEERASE(VALUE)          (((VALUE) == FLASH_TYPEERASE_PAGES) || \
                                             ((VALUE) == FLASH_TYPEERASE_MASSERASE))  
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 #define IS_FLASH_BANK(BANK)                (((BANK) == FLASH_BANK_1)  || \
                                             ((BANK) == FLASH_BANK_2)  || \
                                             ((BANK) == FLASH_BANK_BOTH))
 
 #define IS_FLASH_BANK_EXCLUSIVE(BANK)      (((BANK) == FLASH_BANK_1)  || \
                                             ((BANK) == FLASH_BANK_2))
+#else
+#define IS_FLASH_BANK(BANK)                ((BANK) == FLASH_BANK_1)
+
+#define IS_FLASH_BANK_EXCLUSIVE(BANK)      ((BANK) == FLASH_BANK_1)
+#endif
 
 #define IS_FLASH_TYPEPROGRAM(VALUE)        (((VALUE) == FLASH_TYPEPROGRAM_DOUBLEWORD) || \
                                             ((VALUE) == FLASH_TYPEPROGRAM_FAST) || \
@@ -751,27 +802,42 @@ uint32_t HAL_FLASH_GetError(void);
 #define IS_FLASH_MAIN_MEM_ADDRESS(ADDRESS) (((ADDRESS) >= FLASH_BASE)        && ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x400) ? \
                                             ((ADDRESS) <= FLASH_BASE+0xFFFFF) : ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x200) ? \
                                             ((ADDRESS) <= FLASH_BASE+0x7FFFF) : ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x100) ? \
-                                            ((ADDRESS) <= FLASH_BASE+0x3FFFF) : ((ADDRESS) <= FLASH_BASE+0xFFFFF))))) 
+                                            ((ADDRESS) <= FLASH_BASE+0x3FFFF) : ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x80) ? \
+                                            ((ADDRESS) <= FLASH_BASE+0x1FFFF) : ((ADDRESS) <= FLASH_BASE+0xFFFFF)))))) 
 
 #define IS_FLASH_OTP_ADDRESS(ADDRESS)      (((ADDRESS) >= 0x1FFF7000) && ((ADDRESS) <= 0x1FFF73FF))
 
 #define IS_FLASH_PROGRAM_ADDRESS(ADDRESS)  (IS_FLASH_MAIN_MEM_ADDRESS(ADDRESS) || IS_FLASH_OTP_ADDRESS(ADDRESS))
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 #define IS_FLASH_PAGE(PAGE)                (((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x400) ? ((PAGE) < 256) : \
                                             ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x200) ? ((PAGE) < 128) : \
                                             ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x100) ? ((PAGE) < 64) : \
                                             ((PAGE) < 256)))))
+#else
+#define IS_FLASH_PAGE(PAGE)                (((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x100) ? ((PAGE) < 128) : \
+                                            ((((*((uint16_t *)FLASH_SIZE_DATA_REGISTER)) & (0x0FFF)) == 0x80)  ? ((PAGE) < 64) : \
+                                            ((PAGE) < 128))))
+#endif
 
 #define IS_OPTIONBYTE(VALUE)               (((VALUE) <= (OPTIONBYTE_WRP | OPTIONBYTE_RDP | OPTIONBYTE_USER | OPTIONBYTE_PCROP)))
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 #define IS_OB_WRPAREA(VALUE)               (((VALUE) == OB_WRPAREA_BANK1_AREAA) || ((VALUE) == OB_WRPAREA_BANK1_AREAB) || \
                                             ((VALUE) == OB_WRPAREA_BANK2_AREAA) || ((VALUE) == OB_WRPAREA_BANK2_AREAB))
+#else
+#define IS_OB_WRPAREA(VALUE)               (((VALUE) == OB_WRPAREA_BANK1_AREAA) || ((VALUE) == OB_WRPAREA_BANK1_AREAB))
+#endif
 
 #define IS_OB_RDP_LEVEL(LEVEL)             (((LEVEL) == OB_RDP_LEVEL_0)   ||\
                                             ((LEVEL) == OB_RDP_LEVEL_1)/* ||\
                                             ((LEVEL) == OB_RDP_LEVEL_2)*/)
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 #define IS_OB_USER_TYPE(TYPE)              (((TYPE) <= (uint32_t)0x1FFF) && ((TYPE) != 0))
+#else
+#define IS_OB_USER_TYPE(TYPE)              (((TYPE) <= (uint32_t)0x7E7F) && ((TYPE) != 0) && (((TYPE)&0x0180) == 0))
+#endif
 
 #define IS_OB_USER_BOR_LEVEL(LEVEL)        (((LEVEL) == OB_BOR_LEVEL_0) || ((LEVEL) == OB_BOR_LEVEL_1) || \
                                             ((LEVEL) == OB_BOR_LEVEL_2) || ((LEVEL) == OB_BOR_LEVEL_3) || \
@@ -791,15 +857,23 @@ uint32_t HAL_FLASH_GetError(void);
 
 #define IS_OB_USER_WWDG(VALUE)             (((VALUE) == OB_WWDG_HW) || ((VALUE) == OB_WWDG_SW))
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 #define IS_OB_USER_BFB2(VALUE)             (((VALUE) == OB_BFB2_DISABLE) || ((VALUE) == OB_BFB2_ENABLE))
 
 #define IS_OB_USER_DUALBANK(VALUE)         (((VALUE) == OB_DUALBANK_SINGLE) || ((VALUE) == OB_DUALBANK_DUAL))
+#endif
 
 #define IS_OB_USER_BOOT1(VALUE)            (((VALUE) == OB_BOOT1_SRAM) || ((VALUE) == OB_BOOT1_SYSTEM))
 
 #define IS_OB_USER_SRAM2_PARITY(VALUE)     (((VALUE) == OB_SRAM2_PARITY_ENABLE) || ((VALUE) == OB_SRAM2_PARITY_DISABLE))
 
 #define IS_OB_USER_SRAM2_RST(VALUE)        (((VALUE) == OB_SRAM2_RST_ERASE) || ((VALUE) == OB_SRAM2_RST_NOT_ERASE))
+
+#if defined (STM32L431xx) || defined (STM32L432xx) || defined (STM32L433xx) || defined (STM32L442xx) || defined (STM32L443xx)
+#define IS_OB_USER_SWBOOT0(VALUE)          (((VALUE) == OB_BOOT0_FROM_OB) || ((VALUE) == OB_BOOT0_FROM_PIN))
+
+#define IS_OB_USER_BOOT0(VALUE)            (((VALUE) == OB_BOOT0_RESET) || ((VALUE) == OB_BOOT0_SET))
+#endif
 
 #define IS_OB_PCROP_RDP(VALUE)             (((VALUE) == OB_PCROP_RDP_NOT_ERASE) || ((VALUE) == OB_PCROP_RDP_ERASE))
 

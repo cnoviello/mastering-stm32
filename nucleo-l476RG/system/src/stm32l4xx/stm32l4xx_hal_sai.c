@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_sai.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   SAI HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Serial Audio Interface (SAI) peripheral:
@@ -411,6 +411,8 @@ HAL_StatusTypeDef HAL_SAI_Init(SAI_HandleTypeDef *hsai)
       break;
   }
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
+
   if((hsai->Instance == SAI1_Block_A) || (hsai->Instance == SAI1_Block_B))
   {
     SAI1->GCR = tmpregisterGCR;
@@ -420,12 +422,20 @@ HAL_StatusTypeDef HAL_SAI_Init(SAI_HandleTypeDef *hsai)
     SAI2->GCR = tmpregisterGCR;
   }
 
+#else
+  
+  SAI1->GCR = tmpregisterGCR;
+  
+#endif /* STM32L471xx || STM32L475xx || STM32L476xx || STM32L485xx || STM32L486xx */
+  
   if(hsai->Init.AudioFrequency != SAI_AUDIO_FREQUENCY_MCKDIV)
   {
     uint32_t freq = 0;
     uint32_t tmpval;
 
     /* In this case, the MCKDIV value is calculated to get AudioFrequency */
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
+
     if((hsai->Instance == SAI1_Block_A ) || (hsai->Instance == SAI1_Block_B ))
     {
       freq = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_SAI1);  
@@ -435,6 +445,12 @@ HAL_StatusTypeDef HAL_SAI_Init(SAI_HandleTypeDef *hsai)
       freq = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_SAI2);  
     }
 
+#else
+    
+    freq = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_SAI1);
+    
+#endif /* STM32L471xx || STM32L475xx || STM32L476xx || STM32L485xx || STM32L486xx */
+    
     /* Configure Master Clock using the following formula :
        MCLK_x = SAI_CK_x / (MCKDIV[3:0] * 2) with MCLK_x = 256 * FS
        FS = SAI_CK_x / (MCKDIV[3:0] * 2) * 256
@@ -480,7 +496,7 @@ HAL_StatusTypeDef HAL_SAI_Init(SAI_HandleTypeDef *hsai)
 
   /* SAI Frame Configuration -----------------------------------------*/
   hsai->Instance->FRCR&=(~(SAI_xFRCR_FRL | SAI_xFRCR_FSALL | SAI_xFRCR_FSDEF | \
-                           SAI_xFRCR_FSPO | SAI_xFRCR_FSOFF));
+                           SAI_xFRCR_FSPOL | SAI_xFRCR_FSOFF));
   hsai->Instance->FRCR|=((hsai->FrameInit.FrameLength - 1)  | 
                             hsai->FrameInit.FSOffset | 
                             hsai->FrameInit.FSDefinition | 
