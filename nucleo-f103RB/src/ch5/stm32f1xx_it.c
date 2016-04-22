@@ -1,14 +1,10 @@
 /**
   ******************************************************************************
-  * @file    system_stm32f10x.h
-  * @author  MCD Application Team
-  * @version V4.0.2
-  * @date    18-December-2015
-  * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer System Header File.
+  * @file    stm32f1xx_it.c
+  * @brief   Interrupt Service Routines.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * COPYRIGHT(c) 2015 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -34,81 +30,44 @@
   *
   ******************************************************************************
   */
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f1xx_hal.h"
+#include "stm32f1xx.h"
+#include "stm32f1xx_it.h"
 
-/** @addtogroup CMSIS
-  * @{
-  */
+/* USER CODE BEGIN 0 */
 
-/** @addtogroup stm32f10x_system
-  * @{
-  */  
-  
-/**
-  * @brief Define to prevent recursive inclusion
-  */
-#ifndef __SYSTEM_STM32F10X_H
-#define __SYSTEM_STM32F10X_H
+/* USER CODE END 0 */
 
-#ifdef __cplusplus
- extern "C" {
-#endif 
+/* External variables --------------------------------------------------------*/
 
-/** @addtogroup STM32F10x_System_Includes
-  * @{
-  */
+/******************************************************************************/
+/*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
+/******************************************************************************/
 
 /**
-  * @}
-  */
+* @brief This function handles System tick timer.
+*/
+void SysTick_Handler(void)
+{
+  /* USER CODE BEGIN SysTick_IRQn 0 */
 
+  /* USER CODE END SysTick_IRQn 0 */
+  HAL_IncTick();
+  HAL_SYSTICK_IRQHandler();
+  /* USER CODE BEGIN SysTick_IRQn 1 */
 
-/** @addtogroup STM32F10x_System_Exported_types
-  * @{
-  */
-
-extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F10x_System_Exported_Constants
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F10x_System_Exported_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F10x_System_Exported_Functions
-  * @{
-  */
-  
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
+  /* USER CODE END SysTick_IRQn 1 */
 }
-#endif
 
-#endif /*__SYSTEM_STM32F10X_H */
+/******************************************************************************/
+/* STM32F1xx Peripheral Interrupt Handlers                                    */
+/* Add here the Interrupt Handlers for the used peripherals.                  */
+/* For the available peripheral interrupt handler names,                      */
+/* please refer to the startup file (startup_stm32f1xx.s).                    */
+/******************************************************************************/
 
-/**
-  * @}
-  */
-  
-/**
-  * @}
-  */  
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

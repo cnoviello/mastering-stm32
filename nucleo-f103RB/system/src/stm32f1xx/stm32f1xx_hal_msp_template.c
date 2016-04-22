@@ -1,14 +1,16 @@
 /**
   ******************************************************************************
-  * @file    system_stm32f10x.h
+  * @file    stm32f1xx_hal_msp_template.c
   * @author  MCD Application Team
-  * @version V4.0.2
-  * @date    18-December-2015
-  * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer System Header File.
+  * @version V1.0.3
+  * @date    11-January-2016
+  * @brief   HAL BSP module.
+  *          This file template is located in the HAL folder and should be copied 
+  *          to the user folder.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -32,83 +34,78 @@
   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
-  ******************************************************************************
-  */
+  ******************************************************************************  
+  */ 
 
-/** @addtogroup CMSIS
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f1xx_hal.h"
+
+/** @addtogroup STM32F1xx_HAL_Driver
   * @{
   */
 
-/** @addtogroup stm32f10x_system
-  * @{
-  */  
-  
-/**
-  * @brief Define to prevent recursive inclusion
-  */
-#ifndef __SYSTEM_STM32F10X_H
-#define __SYSTEM_STM32F10X_H
-
-#ifdef __cplusplus
- extern "C" {
-#endif 
-
-/** @addtogroup STM32F10x_System_Includes
+/** @defgroup HAL_MSP HAL_MSP
+  * @brief HAL MSP module.
   * @{
   */
 
-/**
-  * @}
-  */
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
+/* Private variables ---------------------------------------------------------*/
+/* Private function prototypes -----------------------------------------------*/
+/* Private functions ---------------------------------------------------------*/
 
-
-/** @addtogroup STM32F10x_System_Exported_types
-  * @{
-  */
-
-extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F10x_System_Exported_Constants
+/** @defgroup HAL_MSP_Exported_Functions HAL MSP Exported Functions
   * @{
   */
 
 /**
-  * @}
+  * @brief  Initializes the Global MSP.
+  * @retval None
   */
+void HAL_MspInit(void)
+{
 
-/** @addtogroup STM32F10x_System_Exported_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F10x_System_Exported_Functions
-  * @{
-  */
-  
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
 }
-#endif
 
-#endif /*__SYSTEM_STM32F10X_H */
+/**
+  * @brief  DeInitializes the Global MSP.
+  * @retval None
+  */
+void HAL_MspDeInit(void)
+{
+
+}
+
+/**
+  * @brief  Initializes the PPP MSP.
+  * @retval None
+  */
+void HAL_PPP_MspInit(void)
+{
+
+}
+
+/**
+  * @brief  DeInitializes the PPP MSP.
+  * @retval None
+  */
+void HAL_PPP_MspDeInit(void)
+{
+
+}
 
 /**
   * @}
   */
-  
+
 /**
   * @}
-  */  
+  */
+
+/**
+  * @}
+  */
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
