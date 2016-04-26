@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_irda.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   IRDA HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the IrDA (Infrared Data Association) Peripheral
@@ -1513,19 +1513,19 @@ static HAL_StatusTypeDef IRDA_SetConfig(IRDA_HandleTypeDef *hirda)
   switch (clocksource)
   {
     case IRDA_CLOCKSOURCE_PCLK1:
-      hirda->Instance->BRR = (uint16_t)(HAL_RCC_GetPCLK1Freq() / hirda->Init.BaudRate);
+      hirda->Instance->BRR = (uint16_t)((HAL_RCC_GetPCLK1Freq() + (hirda->Init.BaudRate/2)) / hirda->Init.BaudRate);
       break;
     case IRDA_CLOCKSOURCE_PCLK2:
-      hirda->Instance->BRR = (uint16_t)(HAL_RCC_GetPCLK2Freq() / hirda->Init.BaudRate);
+      hirda->Instance->BRR = (uint16_t)((HAL_RCC_GetPCLK2Freq() + (hirda->Init.BaudRate/2)) / hirda->Init.BaudRate);
       break;
     case IRDA_CLOCKSOURCE_HSI:
-      hirda->Instance->BRR = (uint16_t)(HSI_VALUE / hirda->Init.BaudRate);
+      hirda->Instance->BRR = (uint16_t)((HSI_VALUE + (hirda->Init.BaudRate/2)) / hirda->Init.BaudRate);
       break;
     case IRDA_CLOCKSOURCE_SYSCLK:
-      hirda->Instance->BRR = (uint16_t)(HAL_RCC_GetSysClockFreq() / hirda->Init.BaudRate);
+      hirda->Instance->BRR = (uint16_t)((HAL_RCC_GetSysClockFreq() + (hirda->Init.BaudRate/2)) / hirda->Init.BaudRate);
       break;
     case IRDA_CLOCKSOURCE_LSE:
-      hirda->Instance->BRR = (uint16_t)(LSE_VALUE / hirda->Init.BaudRate);
+      hirda->Instance->BRR = (uint16_t)((LSE_VALUE  + (hirda->Init.BaudRate/2)) / hirda->Init.BaudRate);
       break;
     case IRDA_CLOCKSOURCE_UNDEFINED:
     default:

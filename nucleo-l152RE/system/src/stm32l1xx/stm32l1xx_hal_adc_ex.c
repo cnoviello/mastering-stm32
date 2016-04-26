@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_adc_ex.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -25,7 +25,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -577,6 +577,9 @@ uint32_t HAL_ADCEx_InjectedGetValue(ADC_HandleTypeDef* hadc, uint32_t InjectedRa
   */
 __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_ADCEx_InjectedConvCpltCallback could be implemented in the user file
   */

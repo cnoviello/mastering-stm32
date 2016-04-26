@@ -58,8 +58,8 @@ int8_t readUserInput(void) {
 
   if(UartReady == SET) {
     UartReady = RESET;
-    retVal = atoi(readBuf);
     HAL_UART_Receive_IT(&huart2, (uint8_t*)readBuf, 1);
+    retVal = atoi(readBuf);    
   }
   return retVal;
 }

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_cryp.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   CRYP HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Cryptography (CRYP) peripheral:
@@ -92,7 +92,7 @@
 
 #ifdef HAL_CRYP_MODULE_ENABLED
 
-#if defined(STM32L485xx) || defined(STM32L486xx)
+#if defined (STM32L442xx) || defined (STM32L443xx) || defined(STM32L485xx) || defined(STM32L486xx)
 
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
@@ -1161,7 +1161,7 @@ uint32_t HAL_CRYP_GetError(CRYP_HandleTypeDef *hcryp)
   * @brief  Write the Key in KeyRx registers. 
   * @param  hcryp: pointer to a CRYP_HandleTypeDef structure that contains
   *         the configuration information for CRYP module
-  * @retval HAL status
+  * @retval None
   */
 static HAL_StatusTypeDef  CRYP_SetKey(CRYP_HandleTypeDef *hcryp)
 {  
@@ -1202,7 +1202,7 @@ static HAL_StatusTypeDef  CRYP_SetKey(CRYP_HandleTypeDef *hcryp)
   * @brief  Write the InitVector/InitCounter in IVRx registers. 
   * @param  hcryp: pointer to a CRYP_HandleTypeDef structure that contains
   *         the configuration information for CRYP module
-  * @retval HAL status
+  * @retval None
   */
 static HAL_StatusTypeDef CRYP_SetInitVector(CRYP_HandleTypeDef *hcryp)
 {
@@ -1370,7 +1370,7 @@ static HAL_StatusTypeDef CRYP_AES_IT(CRYP_HandleTypeDef *hcryp)
   * @}
   */
   
-#endif /* defined(STM32L485xx) || defined(STM32L486xx) */  
+#endif /* defined (STM32L442xx) || defined (STM32L443xx) || defined(STM32L485xx) || defined(STM32L486xx) */  
 
 #endif /* HAL_CRYP_MODULE_ENABLED */
 

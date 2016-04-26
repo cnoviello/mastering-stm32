@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_hcd.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   HCD HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the USB Peripheral Controller:
@@ -153,7 +153,7 @@ HAL_StatusTypeDef HAL_HCD_Init(HCD_HandleTypeDef *hhcd)
  USB_CoreInit(hhcd->Instance, hhcd->Init);
  
  /* Force Host Mode*/
- USB_SetCurrentMode(hhcd->Instance , USB_OTG_HOST_MODE);
+ USB_SetCurrentMode(hhcd->Instance , USB_HOST_MODE);
  
  /* Init Host */
  USB_HostInit(hhcd->Instance, hhcd->Init);

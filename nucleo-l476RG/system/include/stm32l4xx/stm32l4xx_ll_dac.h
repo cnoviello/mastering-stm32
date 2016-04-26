@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_dac.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of DAC LL module.
   ******************************************************************************
   * @attention
@@ -155,7 +155,7 @@ extern "C" {
   */
 typedef struct
 {
-  uint32_t TriggerSource;               /*!< Set the conversion trigger source for the selected DAC channel.
+  uint32_t TriggerSource;               /*!< Set the conversion trigger source for the selected DAC channel: internal (SW start) or from external IP (timer event, external interrupt line).
                                              This parameter can be a value of @ref DAC_LL_EC_TRIGGER_SOURCE
                                              
                                              This feature can be modified afterwards using unitary function @ref LL_DAC_SetTriggerSource(). */
@@ -247,14 +247,14 @@ typedef struct
 /** @defgroup DAC_LL_EC_TRIGGER_SOURCE DAC trigger source
   * @{
   */
-#define LL_DAC_TRIGGER_SOFTWARE            (DAC_CR_TSEL1_2 | DAC_CR_TSEL1_1 | DAC_CR_TSEL1_0) /*!< Conversion trigger selected as internal SW start for the selected DAC channel */
-#define LL_DAC_TRIGGER_TIM2_TRGO           (DAC_CR_TSEL1_2                                  ) /*!< Conversion trigger selected as external trigger from TIM2 TRGO for the selected DAC channel */
-#define LL_DAC_TRIGGER_TIM4_TRGO           (DAC_CR_TSEL1_2                  | DAC_CR_TSEL1_0) /*!< Conversion trigger selected as external trigger from TIM4 TRGO for the selected DAC channel */
-#define LL_DAC_TRIGGER_TIM5_TRGO           (                 DAC_CR_TSEL1_1 | DAC_CR_TSEL1_0) /*!< Conversion trigger selected as external trigger from TIM5 TRGO for the selected DAC channel */
-#define LL_DAC_TRIGGER_TIM6_TRGO           ((uint32_t)0x00000000U)                            /*!< Conversion trigger selected as external trigger from TIM6 TRGO for the selected DAC channel */
-#define LL_DAC_TRIGGER_TIM7_TRGO           (                 DAC_CR_TSEL1_1                 ) /*!< Conversion trigger selected as external trigger from TIM7 TRGO for the selected DAC channel */
-#define LL_DAC_TRIGGER_TIM8_TRGO           (                                  DAC_CR_TSEL1_0) /*!< Conversion trigger selected as external trigger from TIM8 TRGO for the selected DAC channel */
-#define LL_DAC_TRIGGER_EXT_IT9             (DAC_CR_TSEL1_2 | DAC_CR_TSEL1_1                 ) /*!< Conversion trigger selected as external trigger from EXTI Line9 event for the selected DAC channel */
+#define LL_DAC_TRIG_SOFTWARE               (DAC_CR_TSEL1_2 | DAC_CR_TSEL1_1 | DAC_CR_TSEL1_0) /*!< DAC channel conversion trigger internal (SW start) */
+#define LL_DAC_TRIG_EXT_TIM2_TRGO          (DAC_CR_TSEL1_2                                  ) /*!< DAC channel conversion trigger from external IP: TIM2 TRGO. */
+#define LL_DAC_TRIG_EXT_TIM4_TRGO          (DAC_CR_TSEL1_2                  | DAC_CR_TSEL1_0) /*!< DAC channel conversion trigger from external IP: TIM4 TRGO. */
+#define LL_DAC_TRIG_EXT_TIM5_TRGO          (                 DAC_CR_TSEL1_1 | DAC_CR_TSEL1_0) /*!< DAC channel conversion trigger from external IP: TIM5 TRGO. */
+#define LL_DAC_TRIG_EXT_TIM6_TRGO          ((uint32_t)0x00000000U)                            /*!< DAC channel conversion trigger from external IP: TIM6 TRGO. */
+#define LL_DAC_TRIG_EXT_TIM7_TRGO          (                 DAC_CR_TSEL1_1                 ) /*!< DAC channel conversion trigger from external IP: TIM7 TRGO. */
+#define LL_DAC_TRIG_EXT_TIM8_TRGO          (                                  DAC_CR_TSEL1_0) /*!< DAC channel conversion trigger from external IP: TIM8 TRGO. */
+#define LL_DAC_TRIG_EXT_EXTI_LINE9         (DAC_CR_TSEL1_2 | DAC_CR_TSEL1_1                 ) /*!< DAC channel conversion trigger from external IP: external interrupt line 9. */
 /**
   * @}
   */
@@ -337,12 +337,31 @@ typedef struct
 /** @defgroup DAC_LL_EC_LEGACY DAC literals legacy naming
   * @{
   */
-#define LL_DAC_WAVEGENERATION_NONE         LL_DAC_WAVE_AUTO_GENERATION_NONE
-#define LL_DAC_WAVEGENERATION_NOISE        LL_DAC_WAVE_AUTO_GENERATION_NOISE
-#define LL_DAC_WAVEGENERATION_TRIANGLE     LL_DAC_WAVE_AUTO_GENERATION_TRIANGLE
+#define LL_DAC_TRIGGER_SOFTWARE            (LL_DAC_TRIG_SOFTWARE)
+#define LL_DAC_TRIGGER_TIM2_TRGO           (LL_DAC_TRIG_EXT_TIM2_TRGO)
+#define LL_DAC_TRIGGER_TIM4_TRGO           (LL_DAC_TRIG_EXT_TIM4_TRGO)
+#define LL_DAC_TRIGGER_TIM5_TRGO           (LL_DAC_TRIG_EXT_TIM5_TRGO)
+#define LL_DAC_TRIGGER_TIM6_TRGO           (LL_DAC_TRIG_EXT_TIM6_TRGO)
+#define LL_DAC_TRIGGER_TIM7_TRGO           (LL_DAC_TRIG_EXT_TIM7_TRGO)
+#define LL_DAC_TRIGGER_TIM8_TRGO           (LL_DAC_TRIG_EXT_TIM8_TRGO)
+#define LL_DAC_TRIGGER_EXT_IT9             (LL_DAC_TRIG_EXT_EXTI_LINE9)
 
-#define LL_DAC_CONNECT_GPIO                LL_DAC_OUTPUT_CONNECT_GPIO
-#define LL_DAC_CONNECT_INTERNAL            LL_DAC_OUTPUT_CONNECT_INTERNAL
+#define LL_DAC_WAVEGENERATION_NONE         (LL_DAC_WAVE_AUTO_GENERATION_NONE)
+#define LL_DAC_WAVEGENERATION_NOISE        (LL_DAC_WAVE_AUTO_GENERATION_NOISE)
+#define LL_DAC_WAVEGENERATION_TRIANGLE     (LL_DAC_WAVE_AUTO_GENERATION_TRIANGLE)
+
+#define LL_DAC_CONNECT_GPIO                (LL_DAC_OUTPUT_CONNECT_GPIO)
+#define LL_DAC_CONNECT_INTERNAL            (LL_DAC_OUTPUT_CONNECT_INTERNAL)
+/**
+  * @}
+  */
+
+
+/** @defgroup DAC_LL_EC_RESOLUTION  DAC channel output resolution
+  * @{
+  */
+#define LL_DAC_RESOLUTION_12B              ((uint32_t)0x00000000U) /*!< DAC channel resolution 12 bits */
+#define LL_DAC_RESOLUTION_8B               ((uint32_t)0x00000002U) /*!< DAC channel resolution 8 bits */
 /**
   * @}
   */
@@ -445,22 +464,43 @@ typedef struct
   )
 
 /**
+  * @brief  Helper macro to define the DAC conversion data full-scale digital
+  *         value corresponding to the selected DAC resolution.
+  * @note   DAC conversion data full-scale corresponds to voltage range
+  *         determined by analog voltage references Vref+ and Vref-
+  *         (refer to reference manual).
+  * @param  __DAC_RESOLUTION__ This parameter can be one of the following values:
+  *         @arg @ref LL_DAC_RESOLUTION_12B
+  *         @arg @ref LL_DAC_RESOLUTION_8B
+  * @retval ADC conversion data equivalent voltage value (unit: mVolt)
+  */
+#define __LL_DAC_DIGITAL_SCALE(__DAC_RESOLUTION__)                             \
+  (((uint32_t)0xFFFU) >> ((__DAC_RESOLUTION__) << 1U))
+
+/**
   * @brief  Helper macro to calculate the DAC conversion data (unit: digital
   *         value) corresponding to a voltage (unit: mVolt).
-  * @note   DAC conversion data is set with a resolution of 12bits
-  *         (full scale digital value 4095), right aligned.
-  *         The data is formatted to be used with function
+  * @note   This helper macro is intended to provide input data in voltage
+  *         rather than digital value,
+  *         to be used with LL DAC functions such as
   *         @ref LL_DAC_ConvertData12RightAligned().
   * @note   Analog reference voltage (Vref+) must be either known from
   *         user board environment or can be calculated using ADC measurement
   *         and ADC helper macro @ref __LL_ADC_CALC_VREFANALOG_VOLTAGE().
-  * @param  __VREF_VOLTAGE__ Analog reference voltage (unit: mV)
+  * @param  __VREFANALOG_VOLTAGE__ Analog reference voltage (unit: mV)
   * @param  __DAC_VOLTAGE__ Voltage to be generated by DAC channel
-  *                          (unit: mVolt).
+  *                         (unit: mVolt).
+  * @param  __DAC_RESOLUTION__ This parameter can be one of the following values:
+  *         @arg @ref LL_DAC_RESOLUTION_12B
+  *         @arg @ref LL_DAC_RESOLUTION_8B
   * @retval DAC conversion data (unit: digital value)
   */
-#define __LL_DAC_CALC_DATA_VOLTAGE(__VREF_VOLTAGE__, __DAC_VOLTAGE__)          \
-  ((__DAC_VOLTAGE__) * DAC_DIGITAL_SCALE_12BITS / (__VREF_VOLTAGE__))
+#define __LL_DAC_CALC_VOLTAGE_TO_DATA(__VREFANALOG_VOLTAGE__,\
+                                      __DAC_VOLTAGE__,\
+                                      __DAC_RESOLUTION__)                      \
+  ((__DAC_VOLTAGE__) * __LL_DAC_DIGITAL_SCALE(__DAC_RESOLUTION__)              \
+   / (__VREFANALOG_VOLTAGE__)                                                  \
+  )
 
 /**
   * @}
@@ -575,12 +615,12 @@ __STATIC_INLINE uint32_t LL_DAC_GetTrimmingValue(DAC_TypeDef *DACx, uint32_t DAC
   *         @arg @ref LL_DAC_CHANNEL_2
   * @param  TriggerSource This parameter can be one of the following values:
   *         @arg @ref LL_DAC_TRIGGER_SOFTWARE
-  *         @arg @ref LL_DAC_TRIGGER_TIM2_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM4_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM5_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM6_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM7_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM8_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM2_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM4_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM5_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM6_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM7_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM8_TRGO
   *         @arg @ref LL_DAC_TRIGGER_EXT_IT9
   * @retval None
   */
@@ -605,12 +645,12 @@ __STATIC_INLINE void LL_DAC_SetTriggerSource(DAC_TypeDef *DACx, uint32_t DAC_Cha
   *         @arg @ref LL_DAC_CHANNEL_2
   * @retval Returned value can be one of the following values:
   *         @arg @ref LL_DAC_TRIGGER_SOFTWARE
-  *         @arg @ref LL_DAC_TRIGGER_TIM2_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM4_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM5_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM6_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM7_TRGO
-  *         @arg @ref LL_DAC_TRIGGER_TIM8_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM2_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM4_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM5_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM6_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM7_TRGO
+  *         @arg @ref LL_DAC_TRIG_EXT_TIM8_TRGO
   *         @arg @ref LL_DAC_TRIGGER_EXT_IT9
   */
 __STATIC_INLINE uint32_t LL_DAC_GetTriggerSource(DAC_TypeDef *DACx, uint32_t DAC_Channel)

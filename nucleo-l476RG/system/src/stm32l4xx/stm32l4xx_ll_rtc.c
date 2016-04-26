@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_rtc.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   RTC LL module driver.
   ******************************************************************************
   * @attention
@@ -179,10 +179,16 @@ ErrorStatus LL_RTC_DeInit(RTC_TypeDef *RTCx)
   {
     /* Reset TR, DR and CR registers */
     LL_RTC_WriteReg(RTCx, TR,       0x00000000U);
+#if defined(RTC_WAKEUP_SUPPORT)
     LL_RTC_WriteReg(RTCx, WUTR,     RTC_WUTR_WUT);
+#endif /* RTC_WAKEUP_SUPPORT */
     LL_RTC_WriteReg(RTCx, DR  ,     (RTC_DR_WDU_0 | RTC_DR_MU_0 | RTC_DR_DU_0));
     /* Reset All CR bits except CR[2:0] */
+#if defined(RTC_WAKEUP_SUPPORT)
     LL_RTC_WriteReg(RTCx, CR, (LL_RTC_ReadReg(RTCx, CR) & RTC_CR_WUCKSEL));
+#else
+    LL_RTC_WriteReg(RTCx, CR, 0x00000000U);
+#endif /* RTC_WAKEUP_SUPPORT */
     LL_RTC_WriteReg(RTCx, PRER,     (RTC_PRER_PREDIV_A | RTC_SYNCH_PRESC_DEFAULT));
     LL_RTC_WriteReg(RTCx, ALRMAR,   0x00000000U);
     LL_RTC_WriteReg(RTCx, ALRMBR,   0x00000000U);
@@ -351,7 +357,6 @@ ErrorStatus LL_RTC_TIME_Init(RTC_TypeDef *RTCx, uint32_t RTC_Format, LL_RTC_Time
     {
       status = SUCCESS;
     }
-
   }
   /* Enable the write protection for RTC registers */
   LL_RTC_EnableWriteProtection(RTCx);

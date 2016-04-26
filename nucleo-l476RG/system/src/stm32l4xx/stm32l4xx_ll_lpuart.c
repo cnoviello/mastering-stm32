@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_lpuart.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   LPUART LL module driver.
   ******************************************************************************
   * @attention
@@ -171,7 +171,7 @@ ErrorStatus LL_LPUART_Init(USART_TypeDef *LPUARTx, LL_LPUART_InitTypeDef *LPUART
 
   /* LPUART needs to be in disabled state, in order to be able to configure some bits in
      CRx registers. Otherwise (LPUART not in Disabled state) => return ERROR */
-  if (LL_LPUART_IsEnabled(LPUARTx) == 0)
+  if (LL_LPUART_IsEnabled(LPUARTx) == 0U)
   {
     /*---------------------------- LPUART CR1 Configuration -----------------------
      * Configure LPUARTx CR1 (LPUART Word Length, Parity and Transfer Direction bits) with parameters:
@@ -205,7 +205,7 @@ ErrorStatus LL_LPUART_Init(USART_TypeDef *LPUARTx, LL_LPUART_InitTypeDef *LPUART
        - Peripheral clock as returned by RCC service, should be valid (different from 0).
     */
     if ((periphclk != LL_RCC_PERIPH_FREQUENCY_NO)
-        && (LPUART_InitStruct->BaudRate != 0))
+        && (LPUART_InitStruct->BaudRate != 0U))
     {
       status = SUCCESS;
       LL_LPUART_SetBaudRate(LPUARTx,
@@ -227,7 +227,7 @@ ErrorStatus LL_LPUART_Init(USART_TypeDef *LPUARTx, LL_LPUART_InitTypeDef *LPUART
 void LL_LPUART_StructInit(LL_LPUART_InitTypeDef *LPUART_InitStruct)
 {
   /* Set LPUART_InitStruct fields to default values */
-  LPUART_InitStruct->BaudRate            = 9600;
+  LPUART_InitStruct->BaudRate            = 9600U;
   LPUART_InitStruct->DataWidth           = LL_LPUART_DATAWIDTH_8B;
   LPUART_InitStruct->StopBits            = LL_LPUART_STOPBITS_1;
   LPUART_InitStruct->Parity              = LL_LPUART_PARITY_NONE ;

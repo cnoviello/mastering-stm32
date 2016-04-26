@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_sdmmc.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   SDMMC Low Layer HAL module driver.  
   *          This file provides firmware functions to manage the following 
   *          functionalities of the SDMMC peripheral:
@@ -166,6 +166,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
+
+#if defined(SDMMC1)
 
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
@@ -492,5 +494,7 @@ HAL_StatusTypeDef SDMMC_SetSDMMCReadWaitMode(SDMMC_TypeDef *SDMMCx, uint32_t SDM
 /**
   * @}
   */
+
+#endif /* SDMMC1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

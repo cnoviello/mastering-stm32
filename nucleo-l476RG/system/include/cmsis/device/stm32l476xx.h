@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l476xx.h
   * @author  MCD Application Team
-  * @version V1.0.3
-  * @date    29-January-2016
+  * @version V1.1.0
+  * @date    26-February-2016
   * @brief   CMSIS STM32L476xx Device Peripheral Access Layer Header File.
   *
   *          This file contains:
@@ -1547,12 +1547,12 @@ typedef struct
 
 #define ADC_CFGR_DISCEN         ((uint32_t)0x00010000U) /*!< ADC group regular sequencer discontinuous mode */
 
-#define ADC_CFGR_DISCNUM        ((uint32_t)0x000E0000U) /*!< ADC Discontinuous mode channel count */
+#define ADC_CFGR_DISCNUM        ((uint32_t)0x000E0000U) /*!< ADC group regular sequencer discontinuous number of ranks */
 #define ADC_CFGR_DISCNUM_0      ((uint32_t)0x00020000U) /*!< bit 0 */
 #define ADC_CFGR_DISCNUM_1      ((uint32_t)0x00040000U) /*!< bit 1 */
 #define ADC_CFGR_DISCNUM_2      ((uint32_t)0x00080000U) /*!< bit 2 */
 
-#define ADC_CFGR_JDISCEN        ((uint32_t)0x00100000U) /*!< ADC Discontinuous mode on injected channels */
+#define ADC_CFGR_JDISCEN        ((uint32_t)0x00100000U) /*!< ADC group injected sequencer discontinuous mode */
 #define ADC_CFGR_JQM            ((uint32_t)0x00200000U) /*!< ADC group injected contexts queue mode */
 #define ADC_CFGR_AWD1SGL        ((uint32_t)0x00400000U) /*!< ADC analog watchdog 1 monitoring a single channel or all channels */
 #define ADC_CFGR_AWD1EN         ((uint32_t)0x00800000U) /*!< ADC analog watchdog 1 enable on scope ADC group regular */
@@ -3748,11 +3748,11 @@ typedef struct
 #define  DFSDM_AWSCDR_SCDT                    ((uint32_t)0x000000FFU)            /*!< SCDT[7:0] Short circuit detector threshold for channel y */
 
 /****************  Bit definition for DFSDM_CHWDATR register *******************/
-#define  DFSDM_AWSCDR_WDATA                   ((uint32_t)0x0000FFFFU)            /*!< WDATA[15:0] Input channel y watchdog data */
+#define  DFSDM_CHWDATR_WDATA                  ((uint32_t)0x0000FFFFU)            /*!< WDATA[15:0] Input channel y watchdog data */
 
 /****************  Bit definition for DFSDM_CHDATINR register *****************/
-#define  DFSDM_AWSCDR_INDAT0                   ((uint32_t)0x0000FFFFU)            /*!< INDAT0[31:16] Input data for channel y or channel (y+1) */
-#define  DFSDM_AWSCDR_INDAT1                   ((uint32_t)0xFFFF0000U)            /*!< INDAT0[15:0] Input data for channel y */
+#define  DFSDM_CHDATINR_INDAT0                ((uint32_t)0x0000FFFFU)            /*!< INDAT0[31:16] Input data for channel y or channel (y+1) */
+#define  DFSDM_CHDATINR_INDAT1                ((uint32_t)0xFFFF0000U)            /*!< INDAT0[15:0] Input data for channel y */
 
 /************************   DFSDM module registers  ****************************/
 
@@ -4000,6 +4000,7 @@ typedef struct
 #define  EXTI_IMR1_IM29                      ((uint32_t)0x20000000U)        /*!< Interrupt Mask on line 29 */
 #define  EXTI_IMR1_IM30                      ((uint32_t)0x40000000U)        /*!< Interrupt Mask on line 30 */
 #define  EXTI_IMR1_IM31                      ((uint32_t)0x80000000U)        /*!< Interrupt Mask on line 31 */
+#define  EXTI_IMR1_IM                        ((uint32_t)0xFFFFFFFFU)        /*!< Interrupt Mask All */
 
 /*******************  Bit definition for EXTI_EMR1 register  ******************/
 #define  EXTI_EMR1_EM0                       ((uint32_t)0x00000001U)        /*!< Event Mask on line 0 */
@@ -4140,6 +4141,7 @@ typedef struct
 #define  EXTI_IMR2_IM37                      ((uint32_t)0x00000020U)        /*!< Interrupt Mask on line 37 */
 #define  EXTI_IMR2_IM38                      ((uint32_t)0x00000040U)        /*!< Interrupt Mask on line 38 */
 #define  EXTI_IMR2_IM39                      ((uint32_t)0x00000080U)        /*!< Interrupt Mask on line 39 */
+#define  EXTI_IMR2_IM                        ((uint32_t)0x000000FFU)        /*!< Interrupt Mask on line 39 */
 
 /*******************  Bit definition for EXTI_EMR2 register  ******************/
 #define  EXTI_EMR2_EM32                      ((uint32_t)0x00000001U)        /*!< Event Mask on line 32 */
@@ -6359,6 +6361,7 @@ typedef struct
 * @brief Specific device feature definitions
 */
 #define RTC_TAMPER1_SUPPORT
+#define RTC_TAMPER2_SUPPORT
 #define RTC_TAMPER3_SUPPORT
 #define RTC_WAKEUP_SUPPORT
 #define RTC_BACKUP_SUPPORT
@@ -6786,7 +6789,7 @@ typedef struct
 #define RTC_BKP31R                           ((uint32_t)0xFFFFFFFFU)
 
 /******************** Number of backup registers ******************************/
-#define RTC_BKP_NUMBER                       ((uint32_t)0x00000020U)
+#define RTC_BKP_NUMBER                       32U
 
 /******************************************************************************/
 /*                                                                            */
@@ -6882,7 +6885,7 @@ typedef struct
 #define  SAI_xFRCR_FSALL_6                ((uint32_t)0x00004000U)        /*!<Bit 6 */
 
 #define  SAI_xFRCR_FSDEF                  ((uint32_t)0x00010000U)        /*!< Frame Synchronization Definition */
-#define  SAI_xFRCR_FSPO                   ((uint32_t)0x00020000U)        /*!<Frame Synchronization POLarity    */
+#define  SAI_xFRCR_FSPOL                  ((uint32_t)0x00020000U)        /*!<Frame Synchronization POLarity    */
 #define  SAI_xFRCR_FSOFF                  ((uint32_t)0x00040000U)        /*!<Frame Synchronization OFFset      */
 
 /******************  Bit definition for SAI_xSLOTR register  *******************/
@@ -6926,7 +6929,7 @@ typedef struct
 #define  SAI_xSR_FLVL                     ((uint32_t)0x00070000U)         /*!<FLVL[2:0] (FIFO Level Threshold)               */
 #define  SAI_xSR_FLVL_0                   ((uint32_t)0x00010000U)         /*!<Bit 0 */
 #define  SAI_xSR_FLVL_1                   ((uint32_t)0x00020000U)         /*!<Bit 1 */
-#define  SAI_xSR_FLVL_2                   ((uint32_t)0x00030000U)         /*!<Bit 2 */
+#define  SAI_xSR_FLVL_2                   ((uint32_t)0x00040000U)         /*!<Bit 2 */
 
 /******************  Bit definition for SAI_xCLRFR register  ******************/
 #define  SAI_xCLRFR_COVRUDR               ((uint32_t)0x00000001U)        /*!<Clear Overrun underrun                               */
@@ -9619,6 +9622,9 @@ typedef struct
                                        ((INSTANCE) == I2C2) || \
                                        ((INSTANCE) == I2C3))
 
+/****************** I2C Instances : wakeup capability from stop modes *********/
+#define IS_I2C_WAKEUP_FROMSTOP_INSTANCE(INSTANCE) IS_I2C_ALL_INSTANCE(INSTANCE)
+
 /******************************* LCD Instances ********************************/
 #define IS_LCD_ALL_INSTANCE(INSTANCE) ((INSTANCE) == LCD)
 
@@ -10113,11 +10119,14 @@ typedef struct
 /******************************************************************************/
 
 /* Aliases for __IRQn */
+#define ADC1_IRQn                      ADC1_2_IRQn
+#define TIM1_TRG_COM_IRQn              TIM1_TRG_COM_TIM17_IRQn
 #define TIM8_IRQn                      TIM8_UP_IRQn
 
 /* Aliases for __IRQHandler */
+#define ADC1_IRQHandler                ADC1_2_IRQHandler
+#define TIM1_TRG_COM_IRQHandler        TIM1_TRG_COM_TIM17_IRQHandler
 #define TIM8_IRQHandler                TIM8_UP_IRQHandler
-
 
 #ifdef __cplusplus
 }

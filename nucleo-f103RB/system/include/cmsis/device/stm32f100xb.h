@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f100xb.h
   * @author  MCD Application Team
-  * @version V4.0.1
-  * @date    31-July-2015
+  * @version V4.0.2
+  * @date    18-December-2015
   * @brief   CMSIS Cortex-M3 Device Peripheral Access Layer Header File. 
   *          This file contains all the peripheral register's definitions, bits 
   *          definitions and memory mapping for STM32F1xx devices.            
@@ -88,6 +88,7 @@ typedef enum
 {
 /******  Cortex-M3 Processor Exceptions Numbers ***************************************************/
   NonMaskableInt_IRQn         = -14,    /*!< 2 Non Maskable Interrupt                             */
+  HardFault_IRQn              = -13,    /*!< 3 Cortex-M3 Hard Fault Interrupt                     */
   MemoryManagement_IRQn       = -12,    /*!< 4 Cortex-M3 Memory Management Interrupt              */
   BusFault_IRQn               = -11,    /*!< 5 Cortex-M3 Bus Fault Interrupt                      */
   UsageFault_IRQn             = -10,    /*!< 6 Cortex-M3 Usage Fault Interrupt                    */
@@ -180,6 +181,12 @@ typedef struct
   __IO uint32_t JDR4;
   __IO uint32_t DR;
 } ADC_TypeDef;
+
+typedef struct
+{
+  uint32_t      RESERVED;         /*!< Reserved,                                                            Address offset: ADC1 base address         */
+  __IO uint32_t CR1;              /*!< ADC control register, used for bits common to several ADC instances, Address offset: ADC1 base address + 0x04  */
+} ADC_Common_TypeDef;
 
 /** 
   * @brief Backup Registers  
@@ -646,6 +653,7 @@ typedef struct
 #define GPIOD               ((GPIO_TypeDef *) GPIOD_BASE)
 #define GPIOE               ((GPIO_TypeDef *) GPIOE_BASE)
 #define ADC1                ((ADC_TypeDef *) ADC1_BASE)
+#define ADC1_COMMON         ((ADC_Common_TypeDef *) ADC1_BASE)
 #define TIM1                ((TIM_TypeDef *) TIM1_BASE)
 #define SPI1                ((SPI_TypeDef *) SPI1_BASE)
 #define USART1              ((USART_TypeDef *) USART1_BASE)
@@ -2037,6 +2045,28 @@ typedef struct
 #define  EXTI_IMR_MR18                       ((uint32_t)0x00040000)        /*!< Interrupt Mask on line 18 */
 #define  EXTI_IMR_MR19                       ((uint32_t)0x00080000)        /*!< Interrupt Mask on line 19 */
 
+/* References Defines */
+#define  EXTI_IMR_IM0 EXTI_IMR_MR0
+#define  EXTI_IMR_IM1 EXTI_IMR_MR1
+#define  EXTI_IMR_IM2 EXTI_IMR_MR2
+#define  EXTI_IMR_IM3 EXTI_IMR_MR3
+#define  EXTI_IMR_IM4 EXTI_IMR_MR4
+#define  EXTI_IMR_IM5 EXTI_IMR_MR5
+#define  EXTI_IMR_IM6 EXTI_IMR_MR6
+#define  EXTI_IMR_IM7 EXTI_IMR_MR7
+#define  EXTI_IMR_IM8 EXTI_IMR_MR8
+#define  EXTI_IMR_IM9 EXTI_IMR_MR9
+#define  EXTI_IMR_IM10 EXTI_IMR_MR10
+#define  EXTI_IMR_IM11 EXTI_IMR_MR11
+#define  EXTI_IMR_IM12 EXTI_IMR_MR12
+#define  EXTI_IMR_IM13 EXTI_IMR_MR13
+#define  EXTI_IMR_IM14 EXTI_IMR_MR14
+#define  EXTI_IMR_IM15 EXTI_IMR_MR15
+#define  EXTI_IMR_IM16 EXTI_IMR_MR16
+#define  EXTI_IMR_IM17 EXTI_IMR_MR17
+#define  EXTI_IMR_IM18 EXTI_IMR_MR18
+#define  EXTI_IMR_IM19 EXTI_IMR_MR19
+
 /*******************  Bit definition for EXTI_EMR register  *******************/
 #define  EXTI_EMR_MR0                        ((uint32_t)0x00000001)        /*!< Event Mask on line 0 */
 #define  EXTI_EMR_MR1                        ((uint32_t)0x00000002)        /*!< Event Mask on line 1 */
@@ -2058,6 +2088,28 @@ typedef struct
 #define  EXTI_EMR_MR17                       ((uint32_t)0x00020000)        /*!< Event Mask on line 17 */
 #define  EXTI_EMR_MR18                       ((uint32_t)0x00040000)        /*!< Event Mask on line 18 */
 #define  EXTI_EMR_MR19                       ((uint32_t)0x00080000)        /*!< Event Mask on line 19 */
+
+/* References Defines */
+#define  EXTI_EMR_EM0 EXTI_EMR_MR0
+#define  EXTI_EMR_EM1 EXTI_EMR_MR1
+#define  EXTI_EMR_EM2 EXTI_EMR_MR2
+#define  EXTI_EMR_EM3 EXTI_EMR_MR3
+#define  EXTI_EMR_EM4 EXTI_EMR_MR4
+#define  EXTI_EMR_EM5 EXTI_EMR_MR5
+#define  EXTI_EMR_EM6 EXTI_EMR_MR6
+#define  EXTI_EMR_EM7 EXTI_EMR_MR7
+#define  EXTI_EMR_EM8 EXTI_EMR_MR8
+#define  EXTI_EMR_EM9 EXTI_EMR_MR9
+#define  EXTI_EMR_EM10 EXTI_EMR_MR10
+#define  EXTI_EMR_EM11 EXTI_EMR_MR11
+#define  EXTI_EMR_EM12 EXTI_EMR_MR12
+#define  EXTI_EMR_EM13 EXTI_EMR_MR13
+#define  EXTI_EMR_EM14 EXTI_EMR_MR14
+#define  EXTI_EMR_EM15 EXTI_EMR_MR15
+#define  EXTI_EMR_EM16 EXTI_EMR_MR16
+#define  EXTI_EMR_EM17 EXTI_EMR_MR17
+#define  EXTI_EMR_EM18 EXTI_EMR_MR18
+#define  EXTI_EMR_EM19 EXTI_EMR_MR19
 
 /******************  Bit definition for EXTI_RTSR register  *******************/
 #define  EXTI_RTSR_TR0                       ((uint32_t)0x00000001)        /*!< Rising trigger event configuration bit of line 0 */
@@ -2081,6 +2133,28 @@ typedef struct
 #define  EXTI_RTSR_TR18                      ((uint32_t)0x00040000)        /*!< Rising trigger event configuration bit of line 18 */
 #define  EXTI_RTSR_TR19                      ((uint32_t)0x00080000)        /*!< Rising trigger event configuration bit of line 19 */
 
+/* References Defines */
+#define  EXTI_RTSR_RT0 EXTI_RTSR_TR0
+#define  EXTI_RTSR_RT1 EXTI_RTSR_TR1
+#define  EXTI_RTSR_RT2 EXTI_RTSR_TR2
+#define  EXTI_RTSR_RT3 EXTI_RTSR_TR3
+#define  EXTI_RTSR_RT4 EXTI_RTSR_TR4
+#define  EXTI_RTSR_RT5 EXTI_RTSR_TR5
+#define  EXTI_RTSR_RT6 EXTI_RTSR_TR6
+#define  EXTI_RTSR_RT7 EXTI_RTSR_TR7
+#define  EXTI_RTSR_RT8 EXTI_RTSR_TR8
+#define  EXTI_RTSR_RT9 EXTI_RTSR_TR9
+#define  EXTI_RTSR_RT10 EXTI_RTSR_TR10
+#define  EXTI_RTSR_RT11 EXTI_RTSR_TR11
+#define  EXTI_RTSR_RT12 EXTI_RTSR_TR12
+#define  EXTI_RTSR_RT13 EXTI_RTSR_TR13
+#define  EXTI_RTSR_RT14 EXTI_RTSR_TR14
+#define  EXTI_RTSR_RT15 EXTI_RTSR_TR15
+#define  EXTI_RTSR_RT16 EXTI_RTSR_TR16
+#define  EXTI_RTSR_RT17 EXTI_RTSR_TR17
+#define  EXTI_RTSR_RT18 EXTI_RTSR_TR18
+#define  EXTI_RTSR_RT19 EXTI_RTSR_TR19
+
 /******************  Bit definition for EXTI_FTSR register  *******************/
 #define  EXTI_FTSR_TR0                       ((uint32_t)0x00000001)        /*!< Falling trigger event configuration bit of line 0 */
 #define  EXTI_FTSR_TR1                       ((uint32_t)0x00000002)        /*!< Falling trigger event configuration bit of line 1 */
@@ -2102,6 +2176,28 @@ typedef struct
 #define  EXTI_FTSR_TR17                      ((uint32_t)0x00020000)        /*!< Falling trigger event configuration bit of line 17 */
 #define  EXTI_FTSR_TR18                      ((uint32_t)0x00040000)        /*!< Falling trigger event configuration bit of line 18 */
 #define  EXTI_FTSR_TR19                      ((uint32_t)0x00080000)        /*!< Falling trigger event configuration bit of line 19 */
+
+/* References Defines */
+#define  EXTI_FTSR_FT0 EXTI_FTSR_TR0
+#define  EXTI_FTSR_FT1 EXTI_FTSR_TR1
+#define  EXTI_FTSR_FT2 EXTI_FTSR_TR2
+#define  EXTI_FTSR_FT3 EXTI_FTSR_TR3
+#define  EXTI_FTSR_FT4 EXTI_FTSR_TR4
+#define  EXTI_FTSR_FT5 EXTI_FTSR_TR5
+#define  EXTI_FTSR_FT6 EXTI_FTSR_TR6
+#define  EXTI_FTSR_FT7 EXTI_FTSR_TR7
+#define  EXTI_FTSR_FT8 EXTI_FTSR_TR8
+#define  EXTI_FTSR_FT9 EXTI_FTSR_TR9
+#define  EXTI_FTSR_FT10 EXTI_FTSR_TR10
+#define  EXTI_FTSR_FT11 EXTI_FTSR_TR11
+#define  EXTI_FTSR_FT12 EXTI_FTSR_TR12
+#define  EXTI_FTSR_FT13 EXTI_FTSR_TR13
+#define  EXTI_FTSR_FT14 EXTI_FTSR_TR14
+#define  EXTI_FTSR_FT15 EXTI_FTSR_TR15
+#define  EXTI_FTSR_FT16 EXTI_FTSR_TR16
+#define  EXTI_FTSR_FT17 EXTI_FTSR_TR17
+#define  EXTI_FTSR_FT18 EXTI_FTSR_TR18
+#define  EXTI_FTSR_FT19 EXTI_FTSR_TR19
 
 /******************  Bit definition for EXTI_SWIER register  ******************/
 #define  EXTI_SWIER_SWIER0                   ((uint32_t)0x00000001)        /*!< Software Interrupt on line 0 */
@@ -2125,6 +2221,28 @@ typedef struct
 #define  EXTI_SWIER_SWIER18                  ((uint32_t)0x00040000)        /*!< Software Interrupt on line 18 */
 #define  EXTI_SWIER_SWIER19                  ((uint32_t)0x00080000)        /*!< Software Interrupt on line 19 */
 
+/* References Defines */
+#define  EXTI_SWIER_SWI0 EXTI_SWIER_SWIER0
+#define  EXTI_SWIER_SWI1 EXTI_SWIER_SWIER1
+#define  EXTI_SWIER_SWI2 EXTI_SWIER_SWIER2
+#define  EXTI_SWIER_SWI3 EXTI_SWIER_SWIER3
+#define  EXTI_SWIER_SWI4 EXTI_SWIER_SWIER4
+#define  EXTI_SWIER_SWI5 EXTI_SWIER_SWIER5
+#define  EXTI_SWIER_SWI6 EXTI_SWIER_SWIER6
+#define  EXTI_SWIER_SWI7 EXTI_SWIER_SWIER7
+#define  EXTI_SWIER_SWI8 EXTI_SWIER_SWIER8
+#define  EXTI_SWIER_SWI9 EXTI_SWIER_SWIER9
+#define  EXTI_SWIER_SWI10 EXTI_SWIER_SWIER10
+#define  EXTI_SWIER_SWI11 EXTI_SWIER_SWIER11
+#define  EXTI_SWIER_SWI12 EXTI_SWIER_SWIER12
+#define  EXTI_SWIER_SWI13 EXTI_SWIER_SWIER13
+#define  EXTI_SWIER_SWI14 EXTI_SWIER_SWIER14
+#define  EXTI_SWIER_SWI15 EXTI_SWIER_SWIER15
+#define  EXTI_SWIER_SWI16 EXTI_SWIER_SWIER16
+#define  EXTI_SWIER_SWI17 EXTI_SWIER_SWIER17
+#define  EXTI_SWIER_SWI18 EXTI_SWIER_SWIER18
+#define  EXTI_SWIER_SWI19 EXTI_SWIER_SWIER19
+
 /*******************  Bit definition for EXTI_PR register  ********************/
 #define  EXTI_PR_PR0                         ((uint32_t)0x00000001)        /*!< Pending bit for line 0 */
 #define  EXTI_PR_PR1                         ((uint32_t)0x00000002)        /*!< Pending bit for line 1 */
@@ -2146,6 +2264,28 @@ typedef struct
 #define  EXTI_PR_PR17                        ((uint32_t)0x00020000)        /*!< Pending bit for line 17 */
 #define  EXTI_PR_PR18                        ((uint32_t)0x00040000)        /*!< Pending bit for line 18 */
 #define  EXTI_PR_PR19                        ((uint32_t)0x00080000)        /*!< Pending bit for line 19 */
+
+/* References Defines */
+#define  EXTI_PR_PIF0 EXTI_PR_PR0
+#define  EXTI_PR_PIF1 EXTI_PR_PR1
+#define  EXTI_PR_PIF2 EXTI_PR_PR2
+#define  EXTI_PR_PIF3 EXTI_PR_PR3
+#define  EXTI_PR_PIF4 EXTI_PR_PR4
+#define  EXTI_PR_PIF5 EXTI_PR_PR5
+#define  EXTI_PR_PIF6 EXTI_PR_PR6
+#define  EXTI_PR_PIF7 EXTI_PR_PR7
+#define  EXTI_PR_PIF8 EXTI_PR_PR8
+#define  EXTI_PR_PIF9 EXTI_PR_PR9
+#define  EXTI_PR_PIF10 EXTI_PR_PR10
+#define  EXTI_PR_PIF11 EXTI_PR_PR11
+#define  EXTI_PR_PIF12 EXTI_PR_PR12
+#define  EXTI_PR_PIF13 EXTI_PR_PR13
+#define  EXTI_PR_PIF14 EXTI_PR_PR14
+#define  EXTI_PR_PIF15 EXTI_PR_PR15
+#define  EXTI_PR_PIF16 EXTI_PR_PR16
+#define  EXTI_PR_PIF17 EXTI_PR_PR17
+#define  EXTI_PR_PIF18 EXTI_PR_PR18
+#define  EXTI_PR_PIF19 EXTI_PR_PR19
 
 /******************************************************************************/
 /*                                                                            */
@@ -3091,37 +3231,59 @@ typedef struct
 
 /******************************************************************************/
 /*                                                                            */
-/*                            Window WATCHDOG                                 */
+/*                         Window WATCHDOG (WWDG)                             */
 /*                                                                            */
 /******************************************************************************/
 
 /*******************  Bit definition for WWDG_CR register  ********************/
 #define  WWDG_CR_T                           ((uint32_t)0x0000007F)               /*!< T[6:0] bits (7-Bit counter (MSB to LSB)) */
-#define  WWDG_CR_T0                          ((uint32_t)0x00000001)               /*!< Bit 0 */
-#define  WWDG_CR_T1                          ((uint32_t)0x00000002)               /*!< Bit 1 */
-#define  WWDG_CR_T2                          ((uint32_t)0x00000004)               /*!< Bit 2 */
-#define  WWDG_CR_T3                          ((uint32_t)0x00000008)               /*!< Bit 3 */
-#define  WWDG_CR_T4                          ((uint32_t)0x00000010)               /*!< Bit 4 */
-#define  WWDG_CR_T5                          ((uint32_t)0x00000020)               /*!< Bit 5 */
-#define  WWDG_CR_T6                          ((uint32_t)0x00000040)               /*!< Bit 6 */
+#define  WWDG_CR_T_0                         ((uint32_t)0x00000001)               /*!< Bit 0 */
+#define  WWDG_CR_T_1                         ((uint32_t)0x00000002)               /*!< Bit 1 */
+#define  WWDG_CR_T_2                         ((uint32_t)0x00000004)               /*!< Bit 2 */
+#define  WWDG_CR_T_3                         ((uint32_t)0x00000008)               /*!< Bit 3 */
+#define  WWDG_CR_T_4                         ((uint32_t)0x00000010)               /*!< Bit 4 */
+#define  WWDG_CR_T_5                         ((uint32_t)0x00000020)               /*!< Bit 5 */
+#define  WWDG_CR_T_6                         ((uint32_t)0x00000040)               /*!< Bit 6 */
+
+/* Legacy defines */
+#define  WWDG_CR_T0 WWDG_CR_T_0
+#define  WWDG_CR_T1 WWDG_CR_T_1
+#define  WWDG_CR_T2 WWDG_CR_T_2
+#define  WWDG_CR_T3 WWDG_CR_T_3
+#define  WWDG_CR_T4 WWDG_CR_T_4
+#define  WWDG_CR_T5 WWDG_CR_T_5
+#define  WWDG_CR_T6 WWDG_CR_T_6
 
 #define  WWDG_CR_WDGA                        ((uint32_t)0x00000080)               /*!< Activation bit */
 
 /*******************  Bit definition for WWDG_CFR register  *******************/
-#define  WWDG_CFR_W                          ((uint32_t)0x0000007F)            /*!< W[6:0] bits (7-bit window value) */
-#define  WWDG_CFR_W0                         ((uint32_t)0x00000001)            /*!< Bit 0 */
-#define  WWDG_CFR_W1                         ((uint32_t)0x00000002)            /*!< Bit 1 */
-#define  WWDG_CFR_W2                         ((uint32_t)0x00000004)            /*!< Bit 2 */
-#define  WWDG_CFR_W3                         ((uint32_t)0x00000008)            /*!< Bit 3 */
-#define  WWDG_CFR_W4                         ((uint32_t)0x00000010)            /*!< Bit 4 */
-#define  WWDG_CFR_W5                         ((uint32_t)0x00000020)            /*!< Bit 5 */
-#define  WWDG_CFR_W6                         ((uint32_t)0x00000040)            /*!< Bit 6 */
+#define  WWDG_CFR_W                          ((uint32_t)0x0000007F)               /*!< W[6:0] bits (7-bit window value) */
+#define  WWDG_CFR_W_0                        ((uint32_t)0x00000001)               /*!< Bit 0 */
+#define  WWDG_CFR_W_1                        ((uint32_t)0x00000002)               /*!< Bit 1 */
+#define  WWDG_CFR_W_2                        ((uint32_t)0x00000004)               /*!< Bit 2 */
+#define  WWDG_CFR_W_3                        ((uint32_t)0x00000008)               /*!< Bit 3 */
+#define  WWDG_CFR_W_4                        ((uint32_t)0x00000010)               /*!< Bit 4 */
+#define  WWDG_CFR_W_5                        ((uint32_t)0x00000020)               /*!< Bit 5 */
+#define  WWDG_CFR_W_6                        ((uint32_t)0x00000040)               /*!< Bit 6 */
 
-#define  WWDG_CFR_WDGTB                      ((uint32_t)0x00000180)            /*!< WDGTB[1:0] bits (Timer Base) */
-#define  WWDG_CFR_WDGTB0                     ((uint32_t)0x00000080)            /*!< Bit 0 */
-#define  WWDG_CFR_WDGTB1                     ((uint32_t)0x00000100)            /*!< Bit 1 */
+/* Legacy defines */
+#define  WWDG_CFR_W0 WWDG_CFR_W_0
+#define  WWDG_CFR_W1 WWDG_CFR_W_1
+#define  WWDG_CFR_W2 WWDG_CFR_W_2
+#define  WWDG_CFR_W3 WWDG_CFR_W_3
+#define  WWDG_CFR_W4 WWDG_CFR_W_4
+#define  WWDG_CFR_W5 WWDG_CFR_W_5
+#define  WWDG_CFR_W6 WWDG_CFR_W_6
 
-#define  WWDG_CFR_EWI                        ((uint32_t)0x00000200)            /*!< Early Wakeup Interrupt */
+#define  WWDG_CFR_WDGTB                      ((uint32_t)0x00000180)               /*!< WDGTB[1:0] bits (Timer Base) */
+#define  WWDG_CFR_WDGTB_0                    ((uint32_t)0x00000080)               /*!< Bit 0 */
+#define  WWDG_CFR_WDGTB_1                    ((uint32_t)0x00000100)               /*!< Bit 1 */
+
+/* Legacy defines */
+#define  WWDG_CFR_WDGTB0 WWDG_CFR_WDGTB_0
+#define  WWDG_CFR_WDGTB1 WWDG_CFR_WDGTB_1
+
+#define  WWDG_CFR_EWI                        ((uint32_t)0x00000200)               /*!< Early Wakeup Interrupt */
 
 /*******************  Bit definition for WWDG_SR register  ********************/
 #define  WWDG_SR_EWIF                        ((uint32_t)0x00000001)               /*!< Early Wakeup Interrupt Flag */
@@ -3620,6 +3782,8 @@ typedef struct
 #define  FLASH_OBR_nRST_STOP                 ((uint32_t)0x00000008)        /*!< nRST_STOP */
 #define  FLASH_OBR_nRST_STDBY                ((uint32_t)0x00000010)        /*!< nRST_STDBY */
 #define  FLASH_OBR_USER                      ((uint32_t)0x0000001C)        /*!< User Option Bytes */
+#define  FLASH_OBR_DATA0                     ((uint32_t)0x0003FC00)        /*!< Data0 */
+#define  FLASH_OBR_DATA1                     ((uint32_t)0x03FC0000)        /*!< Data1 */
 
 /******************  Bit definition for FLASH_WRPR register  ******************/
 #define  FLASH_WRPR_WRP                      ((uint32_t)0xFFFFFFFF)      /*!< Write Protect */
@@ -3674,6 +3838,8 @@ typedef struct
 
 /****************************** ADC Instances *********************************/
 #define IS_ADC_ALL_INSTANCE(INSTANCE) (((INSTANCE) == ADC1))
+
+#define IS_ADC_COMMON_INSTANCE(INSTANCE) ((INSTANCE) == ADC1_COMMON)
 
 #define IS_ADC_DMA_CAPABILITY_INSTANCE(INSTANCE) ((INSTANCE) == ADC1)
 

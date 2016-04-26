@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_adc_ex.h
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   Header file of ADC HAL Extension module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -335,7 +335,7 @@ typedef struct
 #define ADC_SMPR0(_SAMPLETIME_, _CHANNELNB_)                                   \
   ((uint32_t)0x00000000)
 #endif /* STM32L151xCA || STM32L151xD || STM32L152xCA || STM32L152xD || STM32L162xCA || STM32L162xD || STM32L151xE || STM32L151xDX || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
-    
+
 #if defined(STM32L151xCA) || defined (STM32L151xD) || defined (STM32L152xCA) || defined (STM32L152xD) || defined (STM32L162xCA) || defined (STM32L162xD) || defined(STM32L151xE) || defined(STM32L151xDX) || defined (STM32L152xE) || defined (STM32L152xDX) || defined (STM32L162xE) || defined (STM32L162xDX)
 /**
   * @brief Set the ADC's sample time for channel numbers between 20 and 29.
@@ -369,7 +369,7 @@ typedef struct
 #else
 #define ADC_SMPR1_CHANNEL_MAX   ADC_CHANNEL_26
 #endif /* STM32L151xCA || STM32L151xD || STM32L152xCA || STM32L152xD || STM32L162xCA || STM32L162xD || STM32L151xE || STM32L151xDX || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
-   
+
 
 /**
   * @brief Define mask of configuration bits of ADC and regular group in
@@ -431,9 +431,20 @@ typedef struct
   * @retval None
   */
 #if defined(STM32L151xCA) || defined (STM32L151xD) || defined (STM32L152xCA) || defined (STM32L152xD) || defined (STM32L162xCA) || defined (STM32L162xD) || defined(STM32L151xE) || defined(STM32L151xDX) || defined (STM32L152xE) || defined (STM32L152xDX) || defined (STM32L162xE) || defined (STM32L162xDX)
-#define ADC_SMPR0_CLEAR(__HANDLE__)                                            \
+#define ADC_SMPR1_CLEAR(__HANDLE__)                                                                     \
+      CLEAR_BIT((__HANDLE__)->Instance->SMPR1, (ADC_SMPR1_SMP29 | ADC_SMPR1_SMP28 | ADC_SMPR1_SMP27 |   \
+                                                ADC_SMPR1_SMP26 | ADC_SMPR1_SMP25 | ADC_SMPR1_SMP24 |   \
+                                                ADC_SMPR1_SMP23 | ADC_SMPR1_SMP22 | ADC_SMPR1_SMP21 |   \
+                                                ADC_SMPR1_SMP20                                      ))
+
+#define ADC_SMPR0_CLEAR(__HANDLE__)                                              \
   (CLEAR_BIT((__HANDLE__)->Instance->SMPR0, (ADC_SMPR0_SMP31 | ADC_SMPR0_SMP30)))
 #else
+#define ADC_SMPR1_CLEAR(__HANDLE__)                                                                   \
+    CLEAR_BIT((__HANDLE__)->Instance->SMPR1, (ADC_SMPR1_SMP26 | ADC_SMPR1_SMP25 | ADC_SMPR1_SMP24 |   \
+                                              ADC_SMPR1_SMP23 | ADC_SMPR1_SMP22 | ADC_SMPR1_SMP21 |   \
+                                              ADC_SMPR1_SMP20                                      ))
+
 #define ADC_SMPR0_CLEAR(__HANDLE__) __NOP()
 #endif /* STM32L151xCA || STM32L151xD || STM32L152xCA || STM32L152xD || STM32L162xCA || STM32L162xD || STM32L151xE || STM32L151xDX || STM32L152xE || STM32L152xDX || STM32L162xE || STM32L162xDX */
 

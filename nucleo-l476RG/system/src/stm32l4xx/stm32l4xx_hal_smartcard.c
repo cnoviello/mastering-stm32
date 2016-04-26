@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_smartcard.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   SMARTCARD HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the SMARTCARD peripheral:
@@ -200,8 +200,7 @@ static HAL_StatusTypeDef SMARTCARD_Receive_IT(SMARTCARD_HandleTypeDef *hsmartcar
   associated to the SmartCard.
   (+) These parameters can be configured:
       (++) Baud Rate
-      (++) Parity: parity should be enabled,
-           Frame Length is fixed to 8 bits plus parity.
+      (++) Parity: parity should be enabled, frame Length is fixed to 8 bits plus parity
       (++) Receiver/transmitter modes
       (++) Synchronous mode (and if enabled, phase, polarity and last bit parameters)
       (++) Prescaler value
@@ -283,6 +282,9 @@ HAL_StatusTypeDef HAL_SMARTCARD_Init(SMARTCARD_HandleTypeDef *hsmartcard)
   {
     return HAL_ERROR;
   }
+  
+  /* Set the SMARTCARD transmission completion indication */  
+  SMARTCARD_TRANSMISSION_COMPLETION_SETTING(hsmartcard);
 
   if (hsmartcard->AdvancedInit.AdvFeatureInit != SMARTCARD_ADVFEATURE_NO_INIT)
   {
@@ -482,7 +484,7 @@ HAL_StatusTypeDef HAL_SMARTCARD_Transmit(SMARTCARD_HandleTypeDef *hsmartcard, ui
       }
       hsmartcard->Instance->TDR = (*pData++ & (uint8_t)0xFF);
     }
-    if(SMARTCARD_WaitOnFlagUntilTimeout(hsmartcard, SMARTCARD_FLAG_TC, RESET, Timeout) != HAL_OK)
+    if(SMARTCARD_WaitOnFlagUntilTimeout(hsmartcard, SMARTCARD_TRANSMISSION_COMPLETION_FLAG(hsmartcard), RESET, Timeout) != HAL_OK)
     {
       return HAL_TIMEOUT;
     }
@@ -925,7 +927,7 @@ void HAL_SMARTCARD_IRQHandler(SMARTCARD_HandleTypeDef *hsmartcard)
   }
 
   /* SMARTCARD in mode Transmitter (transmission end) ------------------------*/
- if((__HAL_SMARTCARD_GET_IT(hsmartcard, SMARTCARD_IT_TC) != RESET) &&(__HAL_SMARTCARD_GET_IT_SOURCE(hsmartcard, SMARTCARD_IT_TC) != RESET))
+ if((__HAL_SMARTCARD_GET_IT(hsmartcard, hsmartcard->AdvancedInit.TxCompletionIndication) != RESET) &&(__HAL_SMARTCARD_GET_IT_SOURCE(hsmartcard, hsmartcard->AdvancedInit.TxCompletionIndication) != RESET))
   {
     SMARTCARD_EndTransmit_IT(hsmartcard);
   }
@@ -1056,7 +1058,7 @@ static HAL_StatusTypeDef SMARTCARD_Transmit_IT(SMARTCARD_HandleTypeDef *hsmartca
       __HAL_SMARTCARD_DISABLE_IT(hsmartcard, SMARTCARD_IT_TXE);
 
       /* Enable the SMARTCARD Transmit Complete Interrupt */
-      __HAL_SMARTCARD_ENABLE_IT(hsmartcard, SMARTCARD_IT_TC);
+      __HAL_SMARTCARD_ENABLE_IT(hsmartcard, hsmartcard->AdvancedInit.TxCompletionIndication);
 
       return HAL_OK;
     }
@@ -1083,7 +1085,7 @@ static HAL_StatusTypeDef SMARTCARD_Transmit_IT(SMARTCARD_HandleTypeDef *hsmartca
 static HAL_StatusTypeDef SMARTCARD_EndTransmit_IT(SMARTCARD_HandleTypeDef *hsmartcard)
 {
   /* Disable the SMARTCARD Transmit Complete Interrupt */
-  __HAL_SMARTCARD_DISABLE_IT(hsmartcard, SMARTCARD_IT_TC);
+  __HAL_SMARTCARD_DISABLE_IT(hsmartcard, hsmartcard->AdvancedInit.TxCompletionIndication);
 
   /* Check if a receive process is ongoing or not */
   if(hsmartcard->State == HAL_SMARTCARD_STATE_BUSY_TX_RX)
@@ -1245,7 +1247,7 @@ static void SMARTCARD_DMATransmitCplt(DMA_HandleTypeDef *hdma)
   CLEAR_BIT(hsmartcard->Instance->CR3, USART_CR3_DMAT);
 
   /* Enable the SMARTCARD Transmit Complete Interrupt */
-  __HAL_SMARTCARD_ENABLE_IT(hsmartcard, SMARTCARD_IT_TC);
+  __HAL_SMARTCARD_ENABLE_IT(hsmartcard, hsmartcard->AdvancedInit.TxCompletionIndication);
 }
 
 /**
@@ -1366,19 +1368,19 @@ static HAL_StatusTypeDef SMARTCARD_SetConfig(SMARTCARD_HandleTypeDef *hsmartcard
   switch (clocksource)
   {
     case SMARTCARD_CLOCKSOURCE_PCLK1:
-      hsmartcard->Instance->BRR = (uint16_t)(HAL_RCC_GetPCLK1Freq() / hsmartcard->Init.BaudRate);
+      hsmartcard->Instance->BRR = (uint16_t)((HAL_RCC_GetPCLK1Freq() + (hsmartcard->Init.BaudRate/2)) / hsmartcard->Init.BaudRate);
       break;
     case SMARTCARD_CLOCKSOURCE_PCLK2:
-      hsmartcard->Instance->BRR = (uint16_t)(HAL_RCC_GetPCLK2Freq() / hsmartcard->Init.BaudRate);
+      hsmartcard->Instance->BRR = (uint16_t)((HAL_RCC_GetPCLK2Freq() + (hsmartcard->Init.BaudRate/2)) / hsmartcard->Init.BaudRate);
       break;
     case SMARTCARD_CLOCKSOURCE_HSI:
-      hsmartcard->Instance->BRR = (uint16_t)(HSI_VALUE / hsmartcard->Init.BaudRate);
+      hsmartcard->Instance->BRR = (uint16_t)((HSI_VALUE + (hsmartcard->Init.BaudRate/2)) / hsmartcard->Init.BaudRate);
       break;
     case SMARTCARD_CLOCKSOURCE_SYSCLK:
-      hsmartcard->Instance->BRR = (uint16_t)(HAL_RCC_GetSysClockFreq() / hsmartcard->Init.BaudRate);
+      hsmartcard->Instance->BRR = (uint16_t)((HAL_RCC_GetSysClockFreq() + (hsmartcard->Init.BaudRate/2)) / hsmartcard->Init.BaudRate);
       break;
     case SMARTCARD_CLOCKSOURCE_LSE:
-      hsmartcard->Instance->BRR = (uint16_t)(LSE_VALUE / hsmartcard->Init.BaudRate);
+      hsmartcard->Instance->BRR = (uint16_t)((LSE_VALUE + (hsmartcard->Init.BaudRate/2)) / hsmartcard->Init.BaudRate);
       break;
     case SMARTCARD_CLOCKSOURCE_UNDEFINED:
     default:

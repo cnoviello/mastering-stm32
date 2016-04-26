@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_lptim.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of LPTIM LL module.
   ******************************************************************************
   * @attention
@@ -155,7 +155,7 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_UPDATE_MODE Update Mode
   * @{
   */
-#define LL_LPTIM_UPDATE_MODE_IMMEDIATE        ((uint32_t)0x00000000)  /*!<Preload is disabled: registers are updated after each APB bus write access*/
+#define LL_LPTIM_UPDATE_MODE_IMMEDIATE        ((uint32_t)0x00000000U) /*!<Preload is disabled: registers are updated after each APB bus write access*/
 #define LL_LPTIM_UPDATE_MODE_ENDOFPERIOD      LPTIM_CFGR_PRELOAD      /*!<preload is enabled: registers are updated at the end of the current LPTIM period*/
 /**
   * @}
@@ -164,7 +164,7 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_COUNTER_MODE Counter Mode
   * @{
   */
-#define LL_LPTIM_COUNTER_MODE_INTERNAL        ((uint32_t)0x00000000)  /*!<The counter is incremented following each internal clock pulse*/
+#define LL_LPTIM_COUNTER_MODE_INTERNAL        ((uint32_t)0x00000000U) /*!<The counter is incremented following each internal clock pulse*/
 #define LL_LPTIM_COUNTER_MODE_EXTERNAL        LPTIM_CFGR_COUNTMODE    /*!<The counter is incremented following each valid clock pulse on the LPTIM external Input1*/
 /**
   * @}
@@ -173,7 +173,7 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_OUTPUT_WAVEFORM Output Waveform Type
   * @{
   */
-#define LL_LPTIM_OUTPUT_WAVEFORM_PWM          ((uint32_t)0x00000000)  /*!<LPTIM  generates either a PWM waveform or a One pulse waveform depending on chosen operating mode CONTINOUS or SINGLE*/
+#define LL_LPTIM_OUTPUT_WAVEFORM_PWM          ((uint32_t)0x00000000U) /*!<LPTIM  generates either a PWM waveform or a One pulse waveform depending on chosen operating mode CONTINOUS or SINGLE*/
 #define LL_LPTIM_OUTPUT_WAVEFORM_SETONCE      LPTIM_CFGR_WAVE         /*!<LPTIM  generates a Set Once waveform*/
 /**
   * @}
@@ -182,8 +182,8 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_OUTPUT_POLARITY Output Polarity
   * @{
   */
-#define LL_LPTIM_OUTPUT_POLARITY_REGULAR      ((uint32_t) 0x00000000) /*!<The LPTIM output reflects the compare results between LPTIMx_ARR and LPTIMx_CMP registers*/
-#define LL_LPTIM_OUTPUT_POLARITY_INVERSE      LPTIM_CFGR_WAVPOL       /*!<The LPTIM output reflects the inverse of the compare results between LPTIMx_ARR and LPTIMx_CMP registers*/
+#define LL_LPTIM_OUTPUT_POLARITY_REGULAR      ((uint32_t) 0x00000000U) /*!<The LPTIM output reflects the compare results between LPTIMx_ARR and LPTIMx_CMP registers*/
+#define LL_LPTIM_OUTPUT_POLARITY_INVERSE      LPTIM_CFGR_WAVPOL        /*!<The LPTIM output reflects the inverse of the compare results between LPTIMx_ARR and LPTIMx_CMP registers*/
 /**
   * @}
   */
@@ -191,7 +191,7 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_PRESCALER Prescaler Value
   * @{
   */
-#define LL_LPTIM_PRESCALER_DIV1               ((uint32_t)0x000000)                      /*!<Prescaler division factor is set to 1*/
+#define LL_LPTIM_PRESCALER_DIV1               ((uint32_t)0x000000U)                     /*!<Prescaler division factor is set to 1*/
 #define LL_LPTIM_PRESCALER_DIV2               LPTIM_CFGR_PRESC_0                        /*!<Prescaler division factor is set to 2*/
 #define LL_LPTIM_PRESCALER_DIV4               LPTIM_CFGR_PRESC_1                        /*!<Prescaler division factor is set to 4*/
 #define LL_LPTIM_PRESCALER_DIV8               (LPTIM_CFGR_PRESC_1 | LPTIM_CFGR_PRESC_0) /*!<Prescaler division factor is set to 8*/
@@ -206,7 +206,7 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_TRIG_SOURCE Trigger Source
   * @{
   */
-#define LL_LPTIM_TRIG_SOURCE_GPIO             ((uint32_t)0x00000000)                        /*!<External input trigger is connected to TIMx_ETR input*/
+#define LL_LPTIM_TRIG_SOURCE_GPIO             ((uint32_t)0x00000000U)                       /*!<External input trigger is connected to TIMx_ETR input*/
 #define LL_LPTIM_TRIG_SOURCE_RTCALARMA        LPTIM_CFGR_TRIGSEL_0                          /*!<External input trigger is connected to RTC Alarm A*/
 #define LL_LPTIM_TRIG_SOURCE_RTCALARMB        LPTIM_CFGR_TRIGSEL_1                          /*!<External input trigger is connected to RTC Alarm B*/
 #define LL_LPTIM_TRIG_SOURCE_RTCTAMP1         (LPTIM_CFGR_TRIGSEL_1 | LPTIM_CFGR_TRIGSEL_0) /*!<External input trigger is connected to RTC Tamper 1*/
@@ -221,10 +221,10 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_TRIG_FILTER Trigger Filter
   * @{
   */
-#define LL_LPTIM_TRIG_FILTER_NONE             ((uint32_t)0x00000000) /*!<Any trigger active level change is considered as a valid trigger*/
-#define LL_LPTIM_TRIG_FILTER_2                LPTIM_CFGR_TRGFLT_0    /*!<Trigger active level change must be stable for at least 2 clock periods before it is considered as valid trigger*/
-#define LL_LPTIM_TRIG_FILTER_4                LPTIM_CFGR_TRGFLT_1    /*!<Trigger active level change must be stable for at least 4 clock periods before it is considered as valid trigger*/
-#define LL_LPTIM_TRIG_FILTER_8                LPTIM_CFGR_TRGFLT      /*!<Trigger active level change must be stable for at least 8 clock periods before it is considered as valid trigger*/
+#define LL_LPTIM_TRIG_FILTER_NONE             ((uint32_t)0x00000000U) /*!<Any trigger active level change is considered as a valid trigger*/
+#define LL_LPTIM_TRIG_FILTER_2                LPTIM_CFGR_TRGFLT_0     /*!<Trigger active level change must be stable for at least 2 clock periods before it is considered as valid trigger*/
+#define LL_LPTIM_TRIG_FILTER_4                LPTIM_CFGR_TRGFLT_1     /*!<Trigger active level change must be stable for at least 4 clock periods before it is considered as valid trigger*/
+#define LL_LPTIM_TRIG_FILTER_8                LPTIM_CFGR_TRGFLT       /*!<Trigger active level change must be stable for at least 8 clock periods before it is considered as valid trigger*/
 /**
   * @}
   */
@@ -242,8 +242,8 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_CLK_SOURCE Clock Source
   * @{
   */
-#define LL_LPTIM_CLK_SOURCE_INTERNAL          ((uint32_t)0x00000000) /*!<LPTIM is clocked by internal clock source (APB clock or any of the embedded oscillators)*/
-#define LL_LPTIM_CLK_SOURCE_EXTERNAL          LPTIM_CFGR_CKSEL       /*!<LPTIM is clocked by an external clock source through the LPTIM external Input1*/
+#define LL_LPTIM_CLK_SOURCE_INTERNAL          ((uint32_t)0x00000000U) /*!<LPTIM is clocked by internal clock source (APB clock or any of the embedded oscillators)*/
+#define LL_LPTIM_CLK_SOURCE_EXTERNAL          LPTIM_CFGR_CKSEL        /*!<LPTIM is clocked by an external clock source through the LPTIM external Input1*/
 /**
   * @}
   */
@@ -251,10 +251,10 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_CLK_FILTER Clock Filter
   * @{
   */
-#define LL_LPTIM_CLK_FILTER_NONE              ((uint32_t)0x00000000) /*!<Any external clock signal level change is considered as a valid transition*/
-#define LL_LPTIM_CLK_FILTER_2                 LPTIM_CFGR_CKFLT_0     /*!<External clock signal level change must be stable for at least 2 clock periods before it is considered as valid transition*/
-#define LL_LPTIM_CLK_FILTER_4                 LPTIM_CFGR_CKFLT_1     /*!<External clock signal level change must be stable for at least 4 clock periods before it is considered as valid transition*/
-#define LL_LPTIM_CLK_FILTER_8                 LPTIM_CFGR_CKFLT       /*!<External clock signal level change must be stable for at least 8 clock periods before it is considered as valid transition*/
+#define LL_LPTIM_CLK_FILTER_NONE              ((uint32_t)0x00000000U) /*!<Any external clock signal level change is considered as a valid transition*/
+#define LL_LPTIM_CLK_FILTER_2                 LPTIM_CFGR_CKFLT_0      /*!<External clock signal level change must be stable for at least 2 clock periods before it is considered as valid transition*/
+#define LL_LPTIM_CLK_FILTER_4                 LPTIM_CFGR_CKFLT_1      /*!<External clock signal level change must be stable for at least 4 clock periods before it is considered as valid transition*/
+#define LL_LPTIM_CLK_FILTER_8                 LPTIM_CFGR_CKFLT        /*!<External clock signal level change must be stable for at least 8 clock periods before it is considered as valid transition*/
 /**
   * @}
   */
@@ -262,9 +262,9 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_CLK_POLARITY Clock Polarity
   * @{
   */
-#define LL_LPTIM_CLK_POLARITY_RISING          ((uint32_t)0x00000000) /*!< The rising edge is the active edge used for counting*/
-#define LL_LPTIM_CLK_POLARITY_FALLING         LPTIM_CFGR_CKPOL_0     /*!< The falling edge is the active edge used for counting*/
-#define LL_LPTIM_CLK_POLARITY_RISING_FALLING  LPTIM_CFGR_CKPOL_1     /*!< Both edges are active edges*/
+#define LL_LPTIM_CLK_POLARITY_RISING          ((uint32_t)0x00000000U) /*!< The rising edge is the active edge used for counting*/
+#define LL_LPTIM_CLK_POLARITY_FALLING         LPTIM_CFGR_CKPOL_0      /*!< The falling edge is the active edge used for counting*/
+#define LL_LPTIM_CLK_POLARITY_RISING_FALLING  LPTIM_CFGR_CKPOL_1      /*!< Both edges are active edges*/
 /**
   * @}
   */
@@ -272,9 +272,9 @@ typedef struct
 /** @defgroup LPTIM_LL_EC_ENCODER_MODE Encoder Mode
   * @{
   */
-#define LL_LPTIM_ENCODER_MODE_RISING          ((uint32_t)0x00000000) /*!< The rising edge is the active edge used for counting*/
-#define LL_LPTIM_ENCODER_MODE_FALLING         LPTIM_CFGR_CKPOL_0     /*!< The falling edge is the active edge used for counting*/
-#define LL_LPTIM_ENCODER_MODE_RISING_FALLING  LPTIM_CFGR_CKPOL_1     /*!< Both edges are active edges*/
+#define LL_LPTIM_ENCODER_MODE_RISING          ((uint32_t)0x00000000U) /*!< The rising edge is the active edge used for counting*/
+#define LL_LPTIM_ENCODER_MODE_FALLING         LPTIM_CFGR_CKPOL_0      /*!< The falling edge is the active edge used for counting*/
+#define LL_LPTIM_ENCODER_MODE_RISING_FALLING  LPTIM_CFGR_CKPOL_1      /*!< Both edges are active edges*/
 /**
   * @}
   */
@@ -283,10 +283,10 @@ typedef struct
   * @{
   */
 
-#define LL_LPTIM_INPUT1_SRC_GPIO         ((uint32_t)0x00000000) /*!< For LPTIM1 and LPTIM2 */
-#define LL_LPTIM_INPUT1_SRC_COMP1        LPTIM_OR_OR_0          /*!< For LPTIM1 and LPTIM2 */
-#define LL_LPTIM_INPUT1_SRC_COMP2        LPTIM_OR_OR_1          /*!< For LPTIM2 */
-#define LL_LPTIM_INPUT1_SRC_COMP1_COMP2  LPTIM_OR_OR            /*!< For LPTIM2 */
+#define LL_LPTIM_INPUT1_SRC_GPIO         ((uint32_t)0x00000000U) /*!< For LPTIM1 and LPTIM2 */
+#define LL_LPTIM_INPUT1_SRC_COMP1        LPTIM_OR_OR_0           /*!< For LPTIM1 and LPTIM2 */
+#define LL_LPTIM_INPUT1_SRC_COMP2        LPTIM_OR_OR_1           /*!< For LPTIM2 */
+#define LL_LPTIM_INPUT1_SRC_COMP1_COMP2  LPTIM_OR_OR             /*!< For LPTIM2 */
 /**
   * @}
   */
@@ -295,8 +295,8 @@ typedef struct
   * @{
   */
 
-#define LL_LPTIM_INPUT2_SRC_GPIO         ((uint32_t)0x00000000) /*!< For LPTIM1 */
-#define LL_LPTIM_INPUT2_SRC_COMP2        LPTIM_OR_OR_1          /*!< For LPTIM1 */
+#define LL_LPTIM_INPUT2_SRC_GPIO         ((uint32_t)0x00000000U) /*!< For LPTIM1 */
+#define LL_LPTIM_INPUT2_SRC_COMP2        LPTIM_OR_OR_1           /*!< For LPTIM1 */
 /**
   * @}
   */

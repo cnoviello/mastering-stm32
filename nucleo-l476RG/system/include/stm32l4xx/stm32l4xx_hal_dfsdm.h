@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_dfsdm.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of DFSDM HAL module.
   ******************************************************************************
   * @attention
@@ -43,6 +43,8 @@
  extern "C" {
 #endif
 
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || \
+    defined(STM32L486xx)
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal_def.h"
 
@@ -694,6 +696,7 @@ uint32_t                      HAL_DFSDM_FilterGetError(DFSDM_Filter_HandleTypeDe
 /**
   * @}
   */
+#endif /* STM32L471xx || STM32L475xx || STM32L476xx || STM32L485xx || STM32L486xx */
 #ifdef __cplusplus
 }
 #endif

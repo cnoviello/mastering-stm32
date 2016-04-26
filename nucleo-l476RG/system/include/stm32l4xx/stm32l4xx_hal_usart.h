@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_usart.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of USART HAL module.
   ******************************************************************************
   * @attention
@@ -540,78 +540,6 @@ typedef struct
   * @{
   */
 
-/** @brief  Report the USART clock source.
-  * @param  __HANDLE__: specifies the USART Handle.
-  * @param  __CLOCKSOURCE__: output variable.
-  * @retval the USART clocking source, written in __CLOCKSOURCE__.
-  */
-#define USART_GETCLOCKSOURCE(__HANDLE__,__CLOCKSOURCE__)       \
-  do {                                                         \
-    if((__HANDLE__)->Instance == USART1)                       \
-    {                                                          \
-       switch(__HAL_RCC_GET_USART1_SOURCE())                   \
-       {                                                       \
-        case RCC_USART1CLKSOURCE_PCLK2:                        \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_PCLK2;         \
-          break;                                               \
-        case RCC_USART1CLKSOURCE_HSI:                          \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_HSI;           \
-          break;                                               \
-        case RCC_USART1CLKSOURCE_SYSCLK:                       \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_SYSCLK;        \
-          break;                                               \
-        case RCC_USART1CLKSOURCE_LSE:                          \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_LSE;           \
-          break;                                               \
-        default:                                               \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_UNDEFINED;     \
-          break;                                               \
-       }                                                       \
-    }                                                          \
-    else if((__HANDLE__)->Instance == USART2)                  \
-    {                                                          \
-       switch(__HAL_RCC_GET_USART2_SOURCE())                   \
-       {                                                       \
-        case RCC_USART2CLKSOURCE_PCLK1:                        \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_PCLK1;         \
-          break;                                               \
-        case RCC_USART2CLKSOURCE_HSI:                          \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_HSI;           \
-          break;                                               \
-        case RCC_USART2CLKSOURCE_SYSCLK:                       \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_SYSCLK;        \
-          break;                                               \
-        case RCC_USART2CLKSOURCE_LSE:                          \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_LSE;           \
-          break;                                               \
-        default:                                               \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_UNDEFINED;     \
-          break;                                               \
-       }                                                       \
-    }                                                          \
-    else if((__HANDLE__)->Instance == USART3)                  \
-    {                                                          \
-       switch(__HAL_RCC_GET_USART3_SOURCE())                   \
-       {                                                       \
-        case RCC_USART3CLKSOURCE_PCLK1:                        \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_PCLK1;         \
-          break;                                               \
-        case RCC_USART3CLKSOURCE_HSI:                          \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_HSI;           \
-          break;                                               \
-        case RCC_USART3CLKSOURCE_SYSCLK:                       \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_SYSCLK;        \
-          break;                                               \
-        case RCC_USART3CLKSOURCE_LSE:                          \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_LSE;           \
-          break;                                               \
-        default:                                               \
-          (__CLOCKSOURCE__) = USART_CLOCKSOURCE_UNDEFINED;     \
-          break;                                               \
-       }                                                       \
-    }                                                          \
-  } while(0)
-
 /** @brief  Check USART Baud rate.
   * @param  __BAUDRATE__: Baudrate specified by the user.
   *         The maximum Baud Rate is derived from the maximum clock on L4 (i.e. 80 MHz)
@@ -637,7 +565,7 @@ typedef struct
   */ 
 #define IS_USART_PARITY(__PARITY__) (((__PARITY__) == USART_PARITY_NONE) || \
                                      ((__PARITY__) == USART_PARITY_EVEN) || \
-                                     ((__PARITY__) == USART_PARITY_ODD))
+                                     ((__PARITY__) == USART_PARITY_ODD))                                         
 
 /**
   * @brief Ensure that USART communication mode is valid.

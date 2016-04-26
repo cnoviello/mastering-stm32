@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_lcd.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   LCD Controller HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the LCD Controller (LCD) peripheral:
@@ -100,7 +100,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
 
-#if defined(STM32L476xx) || defined(STM32L486xx)
+#if defined(STM32L433xx) || defined(STM32L443xx) || defined(STM32L476xx) || defined(STM32L486xx)
 
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
@@ -620,7 +620,7 @@ HAL_StatusTypeDef LCD_WaitForSynchro(LCD_HandleTypeDef *hlcd)
   * @}
   */
 
-#endif /* STM32L476xx || STM32L486xx */
+#endif /* STM32L433xx || STM32L443xx || STM32L476xx || STM32L486xx */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 

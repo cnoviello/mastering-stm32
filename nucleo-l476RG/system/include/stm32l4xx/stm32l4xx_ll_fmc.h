@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_fmc.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of FMC HAL module.
   ******************************************************************************
   * @attention
@@ -42,6 +42,8 @@
 #ifdef __cplusplus
  extern "C" {
 #endif
+
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || defined(STM32L486xx)
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal_def.h"
@@ -328,8 +330,7 @@ typedef struct
   uint32_t WriteFifo;                    /*!< Enables or disables the write FIFO used by the FMC controller.
                                               This parameter is only enabled through the FMC_BCR1 register, and don't care 
                                               through FMC_BCR2..4 registers.
-                                              This parameter can be a value of @ref FMC_Write_FIFO.
-                                              @note This Parameter is not available for STM32L47x/L48x devices.         */
+                                              @note This parameter is not available for STM32L47x/L48x devices.         */
 
   uint32_t PageSize;                     /*!< Specifies the memory page size.
                                               This parameter can be a value of @ref FMC_Page_Size                        */
@@ -885,6 +886,8 @@ HAL_StatusTypeDef  FMC_NAND_GetECC(FMC_NAND_TypeDef *Device, uint32_t *ECCval, u
 /**
   * @}
   */
+
+#endif /* STM32L471xx || STM32L475xx || STM32L476xx || STM32L485xx || STM32L486xx */
 
 #ifdef __cplusplus
 }

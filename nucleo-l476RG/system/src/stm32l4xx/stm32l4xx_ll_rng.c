@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_rng.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   RNG LL module driver.
   ******************************************************************************
   * @attention
@@ -43,7 +43,7 @@
 #ifdef  USE_FULL_ASSERT
 #include "stm32_assert.h"
 #else
-#define assert_param(expr) ((void)0)
+#define assert_param(expr) ((void)0U)
 #endif
 
 /** @addtogroup STM32L4xx_LL_Driver

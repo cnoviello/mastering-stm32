@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_dfsdm.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Digital Filter for Sigma-Delta Modulators
   *          (DFSDM) peripherals:
@@ -195,7 +195,8 @@
   * @{
   */
 #ifdef HAL_DFSDM_MODULE_ENABLED
-
+#if defined(STM32L471xx) || defined(STM32L475xx) || defined(STM32L476xx) || defined(STM32L485xx) || \
+    defined(STM32L486xx)
 /** @defgroup DFSDM DFSDM
   * @brief DFSDM HAL driver module
   * @{
@@ -3009,7 +3010,7 @@ static void DFSDM_InjConvStop(DFSDM_Filter_HandleTypeDef* hdfsdm_filter)
 /**
   * @}
   */
-
+#endif /* STM32L471xx || STM32L475xx || STM32L476xx || STM32L485xx || STM32L486xx */
 #endif /* HAL_DFSDM_MODULE_ENABLED */
 /**
   * @}

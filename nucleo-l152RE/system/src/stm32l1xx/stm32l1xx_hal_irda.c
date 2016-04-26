@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l1xx_hal_irda.c
   * @author  MCD Application Team
-  * @version V1.1.2
-  * @date    09-October-2015
+  * @version V1.1.3
+  * @date    04-March-2016
   * @brief   IRDA HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the IrDA SIR ENDEC block (IrDA):
@@ -103,7 +103,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -199,21 +199,7 @@ static HAL_StatusTypeDef IRDA_WaitOnFlagUntilTimeout(IRDA_HandleTypeDef *hirda, 
   (+) For the asynchronous mode only these parameters can be configured: 
       (++) Baud Rate
       (++) Word Length 
-      (++) Parity: If the parity is enabled, then the MSB bit of the data written
-           in the data register is transmitted but is changed by the parity bit.
-           Depending on the frame length defined by the M bit (8-bits or 9-bits),
-           the possible IRDA frame formats are as listed in the following table:
-      (+++)    +-------------------------------------------------------------+
-      (+++)    |   M bit |  PCE bit  |            IRDA frame                 |
-      (+++)    |---------------------|---------------------------------------|
-      (+++)    |    0    |    0      |    | SB | 8 bit data | STB |          |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    1    |    0      |    | SB | 9 bit data | STB |          |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-      (+++)    +-------------------------------------------------------------+
+      (++) Parity
       (++) Prescaler: A pulse of width less than two and greater than one PSC period(s) may or may
            not be rejected. The receiver set up time should be managed by software. The IrDA physical layer
            specification specifies a minimum of 10 ms delay between transmission and 
@@ -228,6 +214,25 @@ static HAL_StatusTypeDef IRDA_WaitOnFlagUntilTimeout(IRDA_HandleTypeDef *hirda, 
 @endverbatim
   * @{
   */
+
+
+/*
+  Additionnal remark: If the parity is enabled, then the MSB bit of the data written
+                      in the data register is transmitted but is changed by the parity bit.
+                      Depending on the frame length defined by the M bit (8-bits or 9-bits),
+                      the possible IRDA frame formats are as listed in the following table:
+    +-------------------------------------------------------------+
+    |   M bit |  PCE bit  |            IRDA frame                 |
+    |---------------------|---------------------------------------|
+    |    0    |    0      |    | SB | 8 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|-----------|---------------------------------------|
+    |    1    |    0      |    | SB | 9 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    +-------------------------------------------------------------+
+*/
 
 /**
   * @brief  Initializes the IRDA mode according to the specified
@@ -333,6 +338,9 @@ HAL_StatusTypeDef HAL_IRDA_DeInit(IRDA_HandleTypeDef *hirda)
   */
  __weak void HAL_IRDA_MspInit(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_MspInit can be implemented in the user file
    */ 
@@ -346,6 +354,9 @@ HAL_StatusTypeDef HAL_IRDA_DeInit(IRDA_HandleTypeDef *hirda)
   */
  __weak void HAL_IRDA_MspDeInit(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_MspDeInit can be implemented in the user file
    */ 
@@ -1051,6 +1062,9 @@ void HAL_IRDA_IRQHandler(IRDA_HandleTypeDef *hirda)
   */
  __weak void HAL_IRDA_TxCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_TxCpltCallback can be implemented in the user file
    */
@@ -1064,6 +1078,9 @@ void HAL_IRDA_IRQHandler(IRDA_HandleTypeDef *hirda)
   */
  __weak void HAL_IRDA_TxHalfCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_TxHalfCpltCallback can be implemented in the user file
    */
@@ -1077,6 +1094,9 @@ void HAL_IRDA_IRQHandler(IRDA_HandleTypeDef *hirda)
   */
 __weak void HAL_IRDA_RxCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_RxCpltCallback can be implemented in the user file
    */
@@ -1090,6 +1110,9 @@ __weak void HAL_IRDA_RxCpltCallback(IRDA_HandleTypeDef *hirda)
   */
 __weak void HAL_IRDA_RxHalfCpltCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_IRDA_RxHalfCpltCallback can be implemented in the user file
    */
@@ -1103,6 +1126,9 @@ __weak void HAL_IRDA_RxHalfCpltCallback(IRDA_HandleTypeDef *hirda)
   */
  __weak void HAL_IRDA_ErrorCallback(IRDA_HandleTypeDef *hirda)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hirda);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_IRDA_ErrorCallback can be implemented in the user file
    */ 

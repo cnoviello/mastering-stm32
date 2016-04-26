@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_conf.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   HAL configuration template file.
   *          This file should be copied to the application folder and renamed
   *          to stm32l4xx_hal_conf.h.
@@ -124,6 +124,18 @@
 #if !defined  (HSI_VALUE)
   #define HSI_VALUE    ((uint32_t)16000000U) /*!< Value of the Internal oscillator in Hz*/
 #endif /* HSI_VALUE */
+
+/**
+  * @brief Internal High Speed oscillator (HSI48) value for USB FS, SDMMC and RNG.
+  *        This internal oscillator is mainly dedicated to provide a high precision clock to
+  *        the USB peripheral by means of a special Clock Recovery System (CRS) circuitry.
+  *        When the CRS is not used, the HSI48 RC oscillator runs on it default frequency
+  *        which is subject to manufacturing process variations.
+  */
+#if !defined  (HSI48_VALUE) 
+ #define HSI48_VALUE   ((uint32_t)48000000U) /*!< Value of the Internal High Speed oscillator for USB FS/SDMMC/RNG in Hz.
+                                              The real value my vary depending on manufacturing process variations.*/
+#endif /* HSI48_VALUE */
 
 /**
   * @brief Internal Low Speed oscillator (LSI) value.

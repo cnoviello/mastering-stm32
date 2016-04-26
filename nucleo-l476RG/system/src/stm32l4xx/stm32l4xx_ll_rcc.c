@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_rcc.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   RCC LL module driver.
   ******************************************************************************
   * @attention
@@ -93,9 +93,9 @@
 
 #define IS_LL_RCC_RNG_CLKSOURCE(__VALUE__)    (((__VALUE__) == LL_RCC_RNG_CLKSOURCE))
 
-#if defined(USB_OTG_FS)
+#if defined(USB_OTG_FS) || defined(USB)
 #define IS_LL_RCC_USB_CLKSOURCE(__VALUE__)    (((__VALUE__) == LL_RCC_USB_CLKSOURCE))
-#endif /* USB_OTG_FS */
+#endif /* USB_OTG_FS || USB */
 
 #define IS_LL_RCC_ADC_CLKSOURCE(__VALUE__)    (((__VALUE__) == LL_RCC_ADC_CLKSOURCE))
 
@@ -876,7 +876,7 @@ uint32_t LL_RCC_GetRNGClockFreq(uint32_t RNGxSource)
   return rng_frequency;
 }
 
-#if defined(USB_OTG_FS)
+#if defined(USB_OTG_FS) || defined(USB)
 /**
   * @brief  Return USBx clock frequency
   * @param  USBxSource This parameter can be one of the following values:
@@ -927,7 +927,7 @@ uint32_t LL_RCC_GetUSBClockFreq(uint32_t USBxSource)
 
   return usb_frequency;
 }
-#endif /* USB_OTG_FS */
+#endif /* USB_OTG_FS || USB */
 
 /**
   * @brief  Return ADCx clock frequency

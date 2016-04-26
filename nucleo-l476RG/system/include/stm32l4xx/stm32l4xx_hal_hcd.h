@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_hcd.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of HCD HAL module.
   ******************************************************************************
   * @attention
@@ -249,7 +249,7 @@ uint32_t                HAL_HCD_GetCurrentSpeed(HCD_HandleTypeDef *hhcd);
 /**
   * @}
   */
-
+  
 #endif /* STM32L475xx || STM32L476xx || STM32L485xx || STM32L486xx */
   
 #ifdef __cplusplus

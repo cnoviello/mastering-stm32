@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32_hal_legacy.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   This file contains aliases definition for the STM32Cube HAL constants 
   *          macros and functions maintained for legacy purpose.
   ******************************************************************************
@@ -424,7 +424,7 @@
 #define I2C_NOSTRETCH_ENABLED                   I2C_NOSTRETCH_ENABLE
 #define I2C_ANALOGFILTER_ENABLED                I2C_ANALOGFILTER_ENABLE
 #define I2C_ANALOGFILTER_DISABLED               I2C_ANALOGFILTER_DISABLE
-#if defined(STM32F0) || defined(STM32F1) || defined(STM32F3) || defined(STM32G0) || defined(STM32L4)
+#if defined(STM32F0) || defined(STM32F1) || defined(STM32F3) || defined(STM32G0) || defined(STM32L4) || defined(STM32L1)
 #define HAL_I2C_STATE_MEM_BUSY_TX               HAL_I2C_STATE_BUSY_TX
 #define HAL_I2C_STATE_MEM_BUSY_RX               HAL_I2C_STATE_BUSY_RX
 #define HAL_I2C_STATE_MASTER_BUSY_TX            HAL_I2C_STATE_BUSY_TX
@@ -488,6 +488,11 @@
 /** @defgroup HAL_NAND_Aliased_Defines HAL NAND Aliased Defines maintained for legacy purpose
   * @{
   */
+#define HAL_NAND_Read_Page              HAL_NAND_Read_Page_8b
+#define HAL_NAND_Write_Page             HAL_NAND_Write_Page_8b
+#define HAL_NAND_Read_SpareArea         HAL_NAND_Read_SpareArea_8b
+#define HAL_NAND_Write_SpareArea        HAL_NAND_Write_SpareArea_8b
+
 #define NAND_AddressTypedef             NAND_AddressTypeDef
 
 #define __ARRAY_ADDRESS                 ARRAY_ADDRESS
@@ -646,7 +651,7 @@
   */
 
   
-  /** @defgroup HAL_SMBUS_Aliased_Defines HAL SMBUS Aliased Defines maintained for legacy purpose
+/** @defgroup HAL_SMBUS_Aliased_Defines HAL SMBUS Aliased Defines maintained for legacy purpose
   * @{
   */
 #define SMBUS_DUALADDRESS_DISABLED      SMBUS_DUALADDRESS_DISABLE
@@ -664,7 +669,7 @@
   * @}
   */
   
-  /** @defgroup HAL_SPI_Aliased_Defines HAL SPI Aliased Defines maintained for legacy purpose
+/** @defgroup HAL_SPI_Aliased_Defines HAL SPI Aliased Defines maintained for legacy purpose
   * @{
   */
 #define SPI_TIMODE_DISABLED             SPI_TIMODE_DISABLE
@@ -1067,7 +1072,7 @@
   */  
    
   
-   /** @defgroup HAL_PPP_Aliased_Functions HAL PPP Aliased Functions maintained for legacy purpose
+/** @defgroup HAL_PPP_Aliased_Functions HAL PPP Aliased Functions maintained for legacy purpose
   * @{
   */
   
@@ -2603,6 +2608,9 @@
 #define __HAL_RCC_CRS_CALCULATE_RELOADVALUE         __HAL_RCC_CRS_RELOADVALUE_CALCULATE
 
 #define __HAL_RCC_GET_IT_SOURCE                     __HAL_RCC_GET_IT
+
+#define RCC_CRS_SYNCWARM       RCC_CRS_SYNCWARN
+#define RCC_CRS_TRIMOV         RCC_CRS_TRIMOVF
 /**
   * @}
   */

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_usart.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of USART LL module.
   ******************************************************************************
   * @attention
@@ -185,6 +185,9 @@ typedef struct
 #define LL_USART_ICR_ORECF                      USART_ICR_ORECF               /*!< Overrun error flag */
 #define LL_USART_ICR_IDLECF                     USART_ICR_IDLECF              /*!< Idle line detected flag */
 #define LL_USART_ICR_TCCF                       USART_ICR_TCCF                /*!< Transmission complete flag */
+#if defined (USART_TCBGT_SUPPORT)
+#define LL_USART_ICR_TCBGTCF                    USART_ICR_TCBGTCF             /*!< Transmission completed before guard time flag */
+#endif
 #define LL_USART_ICR_LBDCF                      USART_ICR_LBDCF               /*!< LIN break detection flag */
 #define LL_USART_ICR_CTSCF                      USART_ICR_CTSCF               /*!< CTS flag */
 #define LL_USART_ICR_RTOCF                      USART_ICR_RTOCF               /*!< Receiver timeout flag */
@@ -221,6 +224,9 @@ typedef struct
 #define LL_USART_ISR_WUF                        USART_ISR_WUF                 /*!< Wakeup from Stop mode flag */
 #define LL_USART_ISR_TEACK                      USART_ISR_TEACK               /*!< Transmit enable acknowledge flag */
 #define LL_USART_ISR_REACK                      USART_ISR_REACK               /*!< Receive enable acknowledge flag */
+#if defined (USART_TCBGT_SUPPORT)
+#define LL_USART_ISR_TCBGT                      USART_ISR_TCBGT               /*!< Transmission complete before guard time completion flag */
+#endif
 /**
   * @}
   */
@@ -241,6 +247,9 @@ typedef struct
 #define LL_USART_CR3_EIE                        USART_CR3_EIE                 /*!< Error interrupt enable */
 #define LL_USART_CR3_CTSIE                      USART_CR3_CTSIE               /*!< CTS interrupt enable */
 #define LL_USART_CR3_WUFIE                      USART_CR3_WUFIE               /*!< Wakeup from Stop mode interrupt enable */
+#if defined (USART_TCBGT_SUPPORT)
+#define LL_USART_CR3_TCBGTIE                    USART_CR3_TCBGTIE             /*!< Transmission complete before guard time interrupt enable */
+#endif
 /**
   * @}
   */
@@ -510,7 +519,7 @@ typedef struct
   * @param  __BAUDRATE__ Baud rate value to achieve
   * @retval USARTDIV value to be used for BRR register filling in OverSampling_8 case
   */
-#define __LL_USART_DIV_SAMPLING8(__PERIPHCLK__, __BAUDRATE__) (((__PERIPHCLK__)*2)/(__BAUDRATE__))
+#define __LL_USART_DIV_SAMPLING8(__PERIPHCLK__, __BAUDRATE__) ((((__PERIPHCLK__)*2) + ((__BAUDRATE__)/2))/(__BAUDRATE__))
 
 /**
   * @brief  Compute USARTDIV value according to Peripheral Clock and
@@ -519,7 +528,7 @@ typedef struct
   * @param  __BAUDRATE__ Baud rate value to achieve
   * @retval USARTDIV value to be used for BRR register filling in OverSampling_16 case
   */
-#define __LL_USART_DIV_SAMPLING16(__PERIPHCLK__, __BAUDRATE__) ((__PERIPHCLK__)/(__BAUDRATE__))
+#define __LL_USART_DIV_SAMPLING16(__PERIPHCLK__, __BAUDRATE__) (((__PERIPHCLK__) + ((__BAUDRATE__)/2))/(__BAUDRATE__))
 
 /**
   * @}
@@ -2752,6 +2761,20 @@ __STATIC_INLINE uint32_t LL_USART_IsActiveFlag_REACK(USART_TypeDef *USARTx)
   return (READ_BIT(USARTx->ISR, USART_ISR_REACK) == (USART_ISR_REACK));
 }
 
+/* Function available only on devices supporting Transmit Complete before Guard Time feature */
+#if defined(USART_TCBGT_SUPPORT)
+/**
+  * @brief  Check if the Smartcard Transmission Complete Before Guard Time Flag is set or not
+  * @rmtoll ISR          TCBGT         LL_USART_IsActiveFlag_TCBGT
+  * @param  USARTx USART Instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_USART_IsActiveFlag_TCBGT(USART_TypeDef *USARTx)
+{
+  return (READ_BIT(USARTx->ISR, USART_ISR_TCBGT) == (USART_ISR_TCBGT));
+}
+#endif /* USART_TCBGT_SUPPORT */
+
 /**
   * @brief  Clear Parity Error Flag
   * @rmtoll ICR          PECF          LL_USART_ClearFlag_PE
@@ -2817,6 +2840,20 @@ __STATIC_INLINE void LL_USART_ClearFlag_TC(USART_TypeDef *USARTx)
 {
   WRITE_REG(USARTx->ICR, USART_ICR_TCCF);
 }
+
+/* Function available only on devices supporting Transmit Complete before Guard Time feature */
+#if defined(USART_TCBGT_SUPPORT)
+/**
+  * @brief  Clear Smartcard Transmission Complete Before Guard Time Flag
+  * @rmtoll ICR          TCBGTCF       LL_USART_ClearFlag_TCBGT
+  * @param  USARTx USART Instance
+  * @retval None
+  */
+__STATIC_INLINE void LL_USART_ClearFlag_TCBGT(USART_TypeDef *USARTx)
+{
+  WRITE_REG(USARTx->ICR, USART_ICR_TCBGTCF);
+}
+#endif /* USART_TCBGT_SUPPORT */
 
 /**
   * @brief  Clear LIN Break Detection Flag
@@ -3044,6 +3081,22 @@ __STATIC_INLINE void LL_USART_EnableIT_WKUP(USART_TypeDef *USARTx)
   SET_BIT(USARTx->CR3, USART_CR3_WUFIE);
 }
 
+/* Function available only on devices supporting Transmit Complete before Guard Time feature */
+#if defined(USART_TCBGT_SUPPORT)
+/**
+  * @brief  Enable Smartcard Transmission Complete Before Guard Time Interrupt
+  * @note   Macro @ref IS_SMARTCARD_INSTANCE(USARTx) can be used to check whether or not
+  *         Smartcard feature is supported by the USARTx instance.
+  * @rmtoll CR3          TCBGTIE       LL_USART_EnableIT_TCBGT
+  * @param  USARTx USART Instance
+  * @retval None
+  */
+__STATIC_INLINE void LL_USART_EnableIT_TCBGT(USART_TypeDef *USARTx)
+{
+  SET_BIT(USARTx->CR3, USART_CR3_TCBGTIE);
+}
+#endif /* USART_TCBGT_SUPPORT */
+
 /**
   * @brief  Disable IDLE Interrupt
   * @rmtoll CR1          IDLEIE        LL_USART_DisableIT_IDLE
@@ -3188,6 +3241,22 @@ __STATIC_INLINE void LL_USART_DisableIT_WKUP(USART_TypeDef *USARTx)
   CLEAR_BIT(USARTx->CR3, USART_CR3_WUFIE);
 }
 
+/* Function available only on devices supporting Transmit Complete before Guard Time feature */
+#if defined(USART_TCBGT_SUPPORT)
+/**
+  * @brief  Disable Smartcard Transmission Complete Before Guard Time Interrupt
+  * @note   Macro @ref IS_SMARTCARD_INSTANCE(USARTx) can be used to check whether or not
+  *         Smartcard feature is supported by the USARTx instance.
+  * @rmtoll CR3          TCBGTIE       LL_USART_DisableIT_TCBGT
+  * @param  USARTx USART Instance
+  * @retval None
+  */
+__STATIC_INLINE void LL_USART_DisableIT_TCBGT(USART_TypeDef *USARTx)
+{
+  CLEAR_BIT(USARTx->CR3, USART_CR3_TCBGTIE);
+}
+#endif /* USART_TCBGT_SUPPORT */
+
 /**
   * @brief  Check if the USART IDLE Interrupt  source is enabled or disabled.
   * @rmtoll CR1          IDLEIE        LL_USART_IsEnabledIT_IDLE
@@ -3327,6 +3396,22 @@ __STATIC_INLINE uint32_t LL_USART_IsEnabledIT_WKUP(USART_TypeDef *USARTx)
 {
   return (READ_BIT(USARTx->CR3, USART_CR3_WUFIE) == (USART_CR3_WUFIE));
 }
+
+/* Function available only on devices supporting Transmit Complete before Guard Time feature */
+#if defined(USART_TCBGT_SUPPORT)
+/**
+  * @brief  Check if the Smartcard Transmission Complete Before Guard Time Interrupt is enabled or disabled.
+  * @note   Macro @ref IS_SMARTCARD_INSTANCE(USARTx) can be used to check whether or not
+  *         Smartcard feature is supported by the USARTx instance.
+  * @rmtoll CR3          TCBGTIE       LL_USART_IsEnabledIT_TCBGT
+  * @param  USARTx USART Instance
+  * @retval State of bit (1 or 0).
+  */
+__STATIC_INLINE uint32_t LL_USART_IsEnabledIT_TCBGT(USART_TypeDef *USARTx)
+{
+  return (READ_BIT(USARTx->CR3, USART_CR3_TCBGTIE) == (USART_CR3_TCBGTIE));
+}
+#endif /* USART_TCBGT_SUPPORT */
 
 /**
   * @}

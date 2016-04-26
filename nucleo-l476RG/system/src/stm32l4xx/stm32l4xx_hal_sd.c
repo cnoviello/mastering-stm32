@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_sd.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   SD card HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Secure Digital (SD) peripheral:
@@ -181,6 +181,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
+
+#if defined(SDMMC1)
 
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
@@ -3408,5 +3410,7 @@ static HAL_SD_ErrorTypedef SD_IsCardProgramming(SD_HandleTypeDef *hsd, uint8_t *
 /**
   * @}
   */
+
+#endif /* SDMMC1 */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

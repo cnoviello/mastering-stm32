@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_tim.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   TIM HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Timer (TIM) peripheral:
@@ -144,6 +144,11 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 /* Private function prototypes -----------------------------------------------*/
+static void TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config);
+static void TIM_OC3_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config);
+static void TIM_OC4_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config);
+static void TIM_OC5_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config);
+static void TIM_OC6_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config);
 static void TIM_TI1_ConfigInputStage(TIM_TypeDef *TIMx, uint32_t TIM_ICPolarity, uint32_t TIM_ICFilter);
 static void TIM_TI2_SetConfig(TIM_TypeDef *TIMx, uint32_t TIM_ICPolarity, uint32_t TIM_ICSelection,
                        uint32_t TIM_ICFilter);
@@ -2418,21 +2423,23 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Start(TIM_HandleTypeDef *htim, uint32_t Channe
   switch (Channel)
   {
     case TIM_CHANNEL_1:
-  {
-    TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
-      break;
-  }
-    case TIM_CHANNEL_2:
-  {
-    TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
-      break;
-  }
-    default :
-  {
-     TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
-     TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
-     break;
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
     }
+    break;
+
+    case TIM_CHANNEL_2:
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+    }
+    break;
+    
+    default :
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+    }
+    break;
   }
   /* Enable the Peripheral */
   __HAL_TIM_ENABLE(htim);
@@ -2461,21 +2468,23 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Stop(TIM_HandleTypeDef *htim, uint32_t Channel
   switch (Channel)
   {
     case TIM_CHANNEL_1:
-  {
-     TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_DISABLE);
-      break;
-  }
-    case TIM_CHANNEL_2:
-  {
-    TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_DISABLE);
-      break;
-  }
-    default :
-  {
-    TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_DISABLE);
-    TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_DISABLE);
-     break;
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_DISABLE);
     }
+    break;
+    
+    case TIM_CHANNEL_2:
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_DISABLE);
+    }
+    break;
+    
+    default :
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_DISABLE);
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_DISABLE);
+    }
+    break;
   }
 
   /* Disable the Peripheral */
@@ -2505,25 +2514,27 @@ HAL_StatusTypeDef HAL_TIM_Encoder_Start_IT(TIM_HandleTypeDef *htim, uint32_t Cha
   switch (Channel)
   {
     case TIM_CHANNEL_1:
-  {
-    TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
-    __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC1);
-      break;
-  }
-    case TIM_CHANNEL_2:
-  {
-    TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
-    __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC2);
-      break;
-  }
-    default :
-  {
-     TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
-     TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
-     __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC1);
-     __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC2);
-     break;
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
+      __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC1);
     }
+    break;
+    
+    case TIM_CHANNEL_2:
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+      __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC2);
+    }
+    break;
+    
+    default :
+    {
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_1, TIM_CCx_ENABLE);
+      TIM_CCxChannelCmd(htim->Instance, TIM_CHANNEL_2, TIM_CCx_ENABLE);
+      __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC1);
+      __HAL_TIM_ENABLE_IT(htim, TIM_IT_CC2);
+    }
+    break;
   }
 
   /* Enable the Peripheral */
@@ -2931,7 +2942,7 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   *         parameters in the TIM_OC_InitTypeDef.
   * @param  htim: TIM Output Compare handle
   * @param  sConfig: TIM Output Compare configuration structure
-  * @param  Channel : TIM Channels to be enabled
+  * @param  Channel : TIM Channels to configure
   *          This parameter can be one of the following values:
   *            @arg TIM_CHANNEL_1: TIM Channel 1 selected
   *            @arg TIM_CHANNEL_2: TIM Channel 2 selected
@@ -2941,14 +2952,16 @@ void HAL_TIM_IRQHandler(TIM_HandleTypeDef *htim)
   *            @arg TIM_CHANNEL_6: TIM Channel 6 selected
   * @retval HAL status
   */
-__weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef* sConfig, uint32_t Channel)
+HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim,
+                                           TIM_OC_InitTypeDef* sConfig,
+                                           uint32_t Channel)
 {
   /* Check the parameters */
   assert_param(IS_TIM_CHANNELS(Channel));
   assert_param(IS_TIM_OC_MODE(sConfig->OCMode));
   assert_param(IS_TIM_OC_POLARITY(sConfig->OCPolarity));
 
-  /* Check input state */
+  /* Process Locked */
   __HAL_LOCK(htim);
 
   htim->State = HAL_TIM_STATE_BUSY;
@@ -2957,15 +2970,19 @@ __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_O
   {
     case TIM_CHANNEL_1:
     {
+      /* Check the parameters */
       assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
-      /* Configure the TIM Channel 1 in Output Compare */
+
+     /* Configure the TIM Channel 1 in Output Compare */
       TIM_OC1_SetConfig(htim->Instance, sConfig);
     }
     break;
 
     case TIM_CHANNEL_2:
     {
+      /* Check the parameters */
       assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
+
       /* Configure the TIM Channel 2 in Output Compare */
       TIM_OC2_SetConfig(htim->Instance, sConfig);
     }
@@ -2973,7 +2990,9 @@ __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_O
 
     case TIM_CHANNEL_3:
     {
-       assert_param(IS_TIM_CC3_INSTANCE(htim->Instance));
+      /* Check the parameters */
+      assert_param(IS_TIM_CC3_INSTANCE(htim->Instance));
+
       /* Configure the TIM Channel 3 in Output Compare */
       TIM_OC3_SetConfig(htim->Instance, sConfig);
     }
@@ -2981,15 +3000,38 @@ __weak HAL_StatusTypeDef HAL_TIM_OC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_O
 
     case TIM_CHANNEL_4:
     {
+      /* Check the parameters */
       assert_param(IS_TIM_CC4_INSTANCE(htim->Instance));
+
        /* Configure the TIM Channel 4 in Output Compare */
        TIM_OC4_SetConfig(htim->Instance, sConfig);
+    }
+    break;
+
+    case TIM_CHANNEL_5:
+    {
+      /* Check the parameters */
+      assert_param(IS_TIM_CC5_INSTANCE(htim->Instance));
+
+       /* Configure the TIM Channel 5 in Output Compare */
+       TIM_OC5_SetConfig(htim->Instance, sConfig);
+    }
+    break;
+
+    case TIM_CHANNEL_6:
+    {
+      /* Check the parameters */
+      assert_param(IS_TIM_CC6_INSTANCE(htim->Instance));
+
+       /* Configure the TIM Channel 6 in Output Compare */
+       TIM_OC6_SetConfig(htim->Instance, sConfig);
     }
     break;
 
     default:
     break;
   }
+
   htim->State = HAL_TIM_STATE_READY;
 
   __HAL_UNLOCK(htim);
@@ -3019,6 +3061,7 @@ HAL_StatusTypeDef HAL_TIM_IC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_IC_InitT
   assert_param(IS_TIM_IC_PRESCALER(sConfig->ICPrescaler));
   assert_param(IS_TIM_IC_FILTER(sConfig->ICFilter));
 
+  /* Process Locked */
   __HAL_LOCK(htim);
 
   htim->State = HAL_TIM_STATE_BUSY;
@@ -3096,25 +3139,30 @@ HAL_StatusTypeDef HAL_TIM_IC_ConfigChannel(TIM_HandleTypeDef *htim, TIM_IC_InitT
 /**
   * @brief  Initializes the TIM PWM  channels according to the specified
   *         parameters in the TIM_OC_InitTypeDef.
-  * @param  htim: TIM handle
+  * @param  htim: TIM PWM handle
   * @param  sConfig: TIM PWM configuration structure
-  * @param  Channel : TIM Channels to be enabled
+  * @param  Channel : TIM Channels to be configured
   *          This parameter can be one of the following values:
   *            @arg TIM_CHANNEL_1: TIM Channel 1 selected
   *            @arg TIM_CHANNEL_2: TIM Channel 2 selected
   *            @arg TIM_CHANNEL_3: TIM Channel 3 selected
   *            @arg TIM_CHANNEL_4: TIM Channel 4 selected
+  *            @arg TIM_CHANNEL_5: TIM Channel 5 selected
+  *            @arg TIM_CHANNEL_6: TIM Channel 6 selected
   * @retval HAL status
   */
-__weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_OC_InitTypeDef* sConfig, uint32_t Channel)
+HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim,
+                                            TIM_OC_InitTypeDef* sConfig,
+                                            uint32_t Channel)
 {
-  __HAL_LOCK(htim);
-
   /* Check the parameters */
   assert_param(IS_TIM_CHANNELS(Channel));
   assert_param(IS_TIM_PWM_MODE(sConfig->OCMode));
   assert_param(IS_TIM_OC_POLARITY(sConfig->OCPolarity));
   assert_param(IS_TIM_FAST_STATE(sConfig->OCFastMode));
+
+  /* Process Locked */
+  __HAL_LOCK(htim);
 
   htim->State = HAL_TIM_STATE_BUSY;
 
@@ -3122,7 +3170,9 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
   {
     case TIM_CHANNEL_1:
     {
+      /* Check the parameters */
       assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
+
       /* Configure the Channel 1 in PWM mode */
       TIM_OC1_SetConfig(htim->Instance, sConfig);
 
@@ -3137,7 +3187,9 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
 
     case TIM_CHANNEL_2:
     {
+      /* Check the parameters */
       assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
+
       /* Configure the Channel 2 in PWM mode */
       TIM_OC2_SetConfig(htim->Instance, sConfig);
 
@@ -3152,7 +3204,9 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
 
     case TIM_CHANNEL_3:
     {
+      /* Check the parameters */
       assert_param(IS_TIM_CC3_INSTANCE(htim->Instance));
+
       /* Configure the Channel 3 in PWM mode */
       TIM_OC3_SetConfig(htim->Instance, sConfig);
 
@@ -3167,7 +3221,9 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
 
     case TIM_CHANNEL_4:
     {
+      /* Check the parameters */
       assert_param(IS_TIM_CC4_INSTANCE(htim->Instance));
+
       /* Configure the Channel 4 in PWM mode */
       TIM_OC4_SetConfig(htim->Instance, sConfig);
 
@@ -3177,6 +3233,40 @@ __weak HAL_StatusTypeDef HAL_TIM_PWM_ConfigChannel(TIM_HandleTypeDef *htim, TIM_
      /* Configure the Output Fast mode */
       htim->Instance->CCMR2 &= ~TIM_CCMR2_OC4FE;
       htim->Instance->CCMR2 |= sConfig->OCFastMode << 8;
+    }
+    break;
+
+    case TIM_CHANNEL_5:
+    {
+       /* Check the parameters */
+      assert_param(IS_TIM_CC5_INSTANCE(htim->Instance));
+
+     /* Configure the Channel 5 in PWM mode */
+      TIM_OC5_SetConfig(htim->Instance, sConfig);
+
+      /* Set the Preload enable bit for channel5*/
+      htim->Instance->CCMR3 |= TIM_CCMR3_OC5PE;
+
+     /* Configure the Output Fast mode */
+      htim->Instance->CCMR3 &= ~TIM_CCMR3_OC5FE;
+      htim->Instance->CCMR3 |= sConfig->OCFastMode;
+    }
+    break;
+
+    case TIM_CHANNEL_6:
+    {
+       /* Check the parameters */
+      assert_param(IS_TIM_CC6_INSTANCE(htim->Instance));
+
+     /* Configure the Channel 5 in PWM mode */
+      TIM_OC6_SetConfig(htim->Instance, sConfig);
+
+      /* Set the Preload enable bit for channel6 */
+      htim->Instance->CCMR3 |= TIM_CCMR3_OC6PE;
+
+     /* Configure the Output Fast mode */
+      htim->Instance->CCMR3 &= ~TIM_CCMR3_OC6FE;
+      htim->Instance->CCMR3 |= sConfig->OCFastMode << 8;
     }
     break;
 
@@ -3216,6 +3306,7 @@ HAL_StatusTypeDef HAL_TIM_OnePulse_ConfigChannel(TIM_HandleTypeDef *htim,  TIM_O
 
   if(OutputChannel != InputChannel)
   {
+  /* Process Locked */
   __HAL_LOCK(htim);
 
   htim->State = HAL_TIM_STATE_BUSY;
@@ -3799,103 +3890,162 @@ HAL_StatusTypeDef HAL_TIM_GenerateEvent(TIM_HandleTypeDef *htim, uint32_t EventS
   *         contains the OCREF clear feature and parameters for the TIM peripheral.
   * @param  Channel: specifies the TIM Channel
   *          This parameter can be one of the following values:
-  *            @arg TIM_CHANNEL_1: TIM Channel 1
-  *            @arg TIM_CHANNEL_2: TIM Channel 2
-  *            @arg TIM_CHANNEL_3: TIM Channel 3
-  *            @arg TIM_CHANNEL_4: TIM Channel 4
-  * @retval HAL status
+  *            @arg TIM_Channel_1: TIM Channel 1
+  *            @arg TIM_Channel_2: TIM Channel 2
+  *            @arg TIM_Channel_3: TIM Channel 3
+  *            @arg TIM_Channel_4: TIM Channel 4
+  *            @arg TIM_Channel_5: TIM Channel 5
+  *            @arg TIM_Channel_6: TIM Channel 6
+  * @retval None
   */
-__weak HAL_StatusTypeDef HAL_TIM_ConfigOCrefClear(TIM_HandleTypeDef *htim, TIM_ClearInputConfigTypeDef * sClearInputConfig, uint32_t Channel)
+HAL_StatusTypeDef HAL_TIM_ConfigOCrefClear(TIM_HandleTypeDef *htim,
+                                           TIM_ClearInputConfigTypeDef *sClearInputConfig,
+                                           uint32_t Channel)
 {
+  uint32_t tmpsmcr = 0;
+
   /* Check the parameters */
-  assert_param(IS_TIM_CC1_INSTANCE(htim->Instance));
-  assert_param(IS_TIM_CHANNELS(Channel));
+  assert_param(IS_TIM_OCXREF_CLEAR_INSTANCE(htim->Instance));
   assert_param(IS_TIM_CLEARINPUT_SOURCE(sClearInputConfig->ClearInputSource));
 
   /* Process Locked */
   __HAL_LOCK(htim);
 
-  htim->State = HAL_TIM_STATE_BUSY;
-
-  if(sClearInputConfig->ClearInputSource == TIM_CLEARINPUTSOURCE_ETR)
+  switch (sClearInputConfig->ClearInputSource)
   {
-    /* Check the parameters */
-    assert_param(IS_TIM_CLEARINPUT_POLARITY(sClearInputConfig->ClearInputPolarity));
-    assert_param(IS_TIM_CLEARINPUT_PRESCALER(sClearInputConfig->ClearInputPrescaler));
-    assert_param(IS_TIM_CLEARINPUT_FILTER(sClearInputConfig->ClearInputFilter));
+    case TIM_CLEARINPUTSOURCE_NONE:
+    {
+      /* Get the TIMx SMCR register value */
+      tmpsmcr = htim->Instance->SMCR;
+      
+      /* Clear the OCREF clear selection bit */
+      tmpsmcr &= ~TIM_SMCR_OCCS;
 
-    TIM_ETR_SetConfig(htim->Instance,
-                      sClearInputConfig->ClearInputPrescaler,
-                      sClearInputConfig->ClearInputPolarity,
-                      sClearInputConfig->ClearInputFilter);
+      /* Clear the ETR Bits */
+      tmpsmcr &= ~(TIM_SMCR_ETF | TIM_SMCR_ETPS | TIM_SMCR_ECE | TIM_SMCR_ETP);
+
+      /* Set TIMx_SMCR */
+      htim->Instance->SMCR = tmpsmcr;
+   }
+    break;
+
+    case TIM_CLEARINPUTSOURCE_OCREFCLR:
+    {
+      /* Clear the OCREF clear selection bit */
+      htim->Instance->SMCR &= ~TIM_SMCR_OCCS;
+    }
+    break;
+
+    case TIM_CLEARINPUTSOURCE_ETR:
+    {
+      /* Check the parameters */
+      assert_param(IS_TIM_CLEARINPUT_POLARITY(sClearInputConfig->ClearInputPolarity));
+      assert_param(IS_TIM_CLEARINPUT_PRESCALER(sClearInputConfig->ClearInputPrescaler));
+      assert_param(IS_TIM_CLEARINPUT_FILTER(sClearInputConfig->ClearInputFilter));
+
+      TIM_ETR_SetConfig(htim->Instance,
+                        sClearInputConfig->ClearInputPrescaler,
+                        sClearInputConfig->ClearInputPolarity,
+                        sClearInputConfig->ClearInputFilter);
+
+      /* Set the OCREF clear selection bit */
+      htim->Instance->SMCR |= TIM_SMCR_OCCS;
+    }
+    break;
+    
+  default:
+    break;
   }
 
   switch (Channel)
   {
     case TIM_CHANNEL_1:
-    {
-      if(sClearInputConfig->ClearInputState != RESET)
       {
-      /* Enable the OCREF clear feature for Channel 1 */
-      htim->Instance->CCMR1 |= TIM_CCMR1_OC1CE;
+        if(sClearInputConfig->ClearInputState != RESET)
+        {
+          /* Enable the OCREF clear feature for Channel 1 */
+          htim->Instance->CCMR1 |= TIM_CCMR1_OC1CE;
+        }
+        else
+        {
+          /* Disable the OCREF clear feature for Channel 1 */
+          htim->Instance->CCMR1 &= ~TIM_CCMR1_OC1CE;
+        }
       }
-      else
-      {
-        /* Disable the OCREF clear feature for Channel 1 */
-        htim->Instance->CCMR1 &= ~TIM_CCMR1_OC1CE;
-      }
-    }
-    break;
+      break;
     case TIM_CHANNEL_2:
-    {
-      assert_param(IS_TIM_CC2_INSTANCE(htim->Instance));
-      if(sClearInputConfig->ClearInputState != RESET)
       {
-      /* Enable the OCREF clear feature for Channel 2 */
-      htim->Instance->CCMR1 |= TIM_CCMR1_OC2CE;
+        if(sClearInputConfig->ClearInputState != RESET)
+        {
+          /* Enable the OCREF clear feature for Channel 2 */
+          htim->Instance->CCMR1 |= TIM_CCMR1_OC2CE;
+        }
+        else
+        {
+          /* Disable the OCREF clear feature for Channel 2 */
+          htim->Instance->CCMR1 &= ~TIM_CCMR1_OC2CE;
+        }
       }
-      else
-      {
-        /* Disable the OCREF clear feature for Channel 2 */
-        htim->Instance->CCMR1 &= ~TIM_CCMR1_OC2CE;
-      }
-    }
     break;
     case TIM_CHANNEL_3:
-    {
-      assert_param(IS_TIM_CC3_INSTANCE(htim->Instance));
-      if(sClearInputConfig->ClearInputState != RESET)
       {
-      /* Enable the OCREF clear feature for Channel 3 */
-      htim->Instance->CCMR2 |= TIM_CCMR2_OC3CE;
+        if(sClearInputConfig->ClearInputState != RESET)
+        {
+          /* Enable the OCREF clear feature for Channel 3 */
+          htim->Instance->CCMR2 |= TIM_CCMR2_OC3CE;
+        }
+        else
+        {
+          /* Disable the OCREF clear feature for Channel 3 */
+          htim->Instance->CCMR2 &= ~TIM_CCMR2_OC3CE;
+        }
       }
-      else
-      {
-        /* Disable the OCREF clear feature for Channel 3 */
-        htim->Instance->CCMR2 &= ~TIM_CCMR2_OC3CE;
-      }
-    }
     break;
     case TIM_CHANNEL_4:
-    {
-      assert_param(IS_TIM_CC4_INSTANCE(htim->Instance));
-      if(sClearInputConfig->ClearInputState != RESET)
       {
-      /* Enable the OCREF clear feature for Channel 4 */
-      htim->Instance->CCMR2 |= TIM_CCMR2_OC4CE;
+        if(sClearInputConfig->ClearInputState != RESET)
+        {
+          /* Enable the OCREF clear feature for Channel 4 */
+          htim->Instance->CCMR2 |= TIM_CCMR2_OC4CE;
+        }
+        else
+        {
+          /* Disable the OCREF clear feature for Channel 4 */
+          htim->Instance->CCMR2 &= ~TIM_CCMR2_OC4CE;
+        }
       }
-      else
+    break;
+    case TIM_CHANNEL_5:
       {
-        /* Disable the OCREF clear feature for Channel 4 */
-        htim->Instance->CCMR2 &= ~TIM_CCMR2_OC4CE;
+        if(sClearInputConfig->ClearInputState != RESET)
+        {
+          /* Enable the OCREF clear feature for Channel 1 */
+          htim->Instance->CCMR3 |= TIM_CCMR3_OC5CE;
+        }
+        else
+        {
+          /* Disable the OCREF clear feature for Channel 1 */
+          htim->Instance->CCMR3 &= ~TIM_CCMR3_OC5CE;
+        }
       }
-    }
+    break;
+    case TIM_CHANNEL_6:
+      {
+        if(sClearInputConfig->ClearInputState != RESET)
+        {
+          /* Enable the OCREF clear feature for Channel 1 */
+          htim->Instance->CCMR3 |= TIM_CCMR3_OC6CE;
+        }
+        else
+        {
+          /* Disable the OCREF clear feature for Channel 1 */
+          htim->Instance->CCMR3 &= ~TIM_CCMR3_OC6CE;
+        }
+      }
     break;
     default:
     break;
   }
-
-  htim->State = HAL_TIM_STATE_READY;
 
   __HAL_UNLOCK(htim);
 
@@ -4606,7 +4756,7 @@ void TIM_Base_SetConfig(TIM_TypeDef *TIMx, TIM_Base_InitTypeDef *Structure)
   * @param  OC_Config: The ouput configuration structure
   * @retval None
   */
-void TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
+static void TIM_OC1_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
 {
   uint32_t tmpccmrx = 0;
   uint32_t tmpccer = 0;
@@ -4756,7 +4906,7 @@ void TIM_OC2_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
   * @param  OC_Config: The ouput configuration structure
   * @retval None
   */
-void TIM_OC3_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
+static void TIM_OC3_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
 {
   uint32_t tmpccmrx = 0;
   uint32_t tmpccer = 0;
@@ -4830,7 +4980,7 @@ void TIM_OC3_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
   * @param  OC_Config: The ouput configuration structure
   * @retval None
   */
-void TIM_OC4_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
+static void TIM_OC4_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
 {
   uint32_t tmpccmrx = 0;
   uint32_t tmpccer = 0;
@@ -4877,6 +5027,113 @@ void TIM_OC4_SetConfig(TIM_TypeDef *TIMx, TIM_OC_InitTypeDef *OC_Config)
 
   /* Set the Capture Compare Register value */
   TIMx->CCR4 = OC_Config->Pulse;
+
+  /* Write to TIMx CCER */
+  TIMx->CCER = tmpccer;
+}
+
+/**
+  * @brief  Timer Ouput Compare 5 configuration
+  * @param  TIMx to select the TIM peripheral
+  * @param  OC_Config: The ouput configuration structure
+  * @retval None
+  */
+static void TIM_OC5_SetConfig(TIM_TypeDef *TIMx,
+                              TIM_OC_InitTypeDef *OC_Config)
+{
+  uint32_t tmpccmrx = 0;
+  uint32_t tmpccer = 0;
+  uint32_t tmpcr2 = 0;
+
+  /* Disable the output: Reset the CCxE Bit */
+  TIMx->CCER &= ~TIM_CCER_CC5E;
+
+  /* Get the TIMx CCER register value */
+  tmpccer = TIMx->CCER;
+  /* Get the TIMx CR2 register value */
+  tmpcr2 =  TIMx->CR2;
+  /* Get the TIMx CCMR1 register value */
+  tmpccmrx = TIMx->CCMR3;
+
+  /* Reset the Output Compare Mode Bits */
+  tmpccmrx &= ~(TIM_CCMR3_OC5M);
+  /* Select the Output Compare Mode */
+  tmpccmrx |= OC_Config->OCMode;
+
+  /* Reset the Output Polarity level */
+  tmpccer &= ~TIM_CCER_CC5P;
+  /* Set the Output Compare Polarity */
+  tmpccer |= (OC_Config->OCPolarity << 16);
+
+  if(IS_TIM_BREAK_INSTANCE(TIMx))
+  {
+    /* Reset the Output Compare IDLE State */
+    tmpcr2 &= ~TIM_CR2_OIS5;
+    /* Set the Output Idle state */
+    tmpcr2 |= (OC_Config->OCIdleState << 8);
+  }
+  /* Write to TIMx CR2 */
+  TIMx->CR2 = tmpcr2;
+
+  /* Write to TIMx CCMR3 */
+  TIMx->CCMR3 = tmpccmrx;
+
+  /* Set the Capture Compare Register value */
+  TIMx->CCR5 = OC_Config->Pulse;
+
+  /* Write to TIMx CCER */
+  TIMx->CCER = tmpccer;
+}
+
+/**
+  * @brief  Timer Ouput Compare 6 configuration
+  * @param  TIMx to select the TIM peripheral
+  * @param  OC_Config: The ouput configuration structure
+  * @retval None
+  */
+static void TIM_OC6_SetConfig(TIM_TypeDef *TIMx,
+                              TIM_OC_InitTypeDef *OC_Config)
+{
+  uint32_t tmpccmrx = 0;
+  uint32_t tmpccer = 0;
+  uint32_t tmpcr2 = 0;
+
+  /* Disable the output: Reset the CCxE Bit */
+  TIMx->CCER &= ~TIM_CCER_CC6E;
+
+  /* Get the TIMx CCER register value */
+  tmpccer = TIMx->CCER;
+  /* Get the TIMx CR2 register value */
+  tmpcr2 =  TIMx->CR2;
+  /* Get the TIMx CCMR1 register value */
+  tmpccmrx = TIMx->CCMR3;
+
+  /* Reset the Output Compare Mode Bits */
+  tmpccmrx &= ~(TIM_CCMR3_OC6M);
+  /* Select the Output Compare Mode */
+  tmpccmrx |= (OC_Config->OCMode << 8);
+
+  /* Reset the Output Polarity level */
+  tmpccer &= (uint32_t)~TIM_CCER_CC6P;
+  /* Set the Output Compare Polarity */
+  tmpccer |= (OC_Config->OCPolarity << 20);
+
+  if(IS_TIM_BREAK_INSTANCE(TIMx))
+  {
+    /* Reset the Output Compare IDLE State */
+    tmpcr2 &= ~TIM_CR2_OIS6;
+    /* Set the Output Idle state */
+    tmpcr2 |= (OC_Config->OCIdleState << 10);
+  }
+
+  /* Write to TIMx CR2 */
+  TIMx->CR2 = tmpcr2;
+
+  /* Write to TIMx CCMR3 */
+  TIMx->CCMR3 = tmpccmrx;
+
+  /* Set the Capture Compare Register value */
+  TIMx->CCR6 = OC_Config->Pulse;
 
   /* Write to TIMx CCER */
   TIMx->CCER = tmpccer;

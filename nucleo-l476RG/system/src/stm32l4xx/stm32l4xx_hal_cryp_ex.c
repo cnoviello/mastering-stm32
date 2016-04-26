@@ -2,10 +2,10 @@
   ******************************************************************************
   * @file    stm32l4xx_hal_cryp_ex.c
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   CRYPEx HAL module driver.
-  *          This file provides firmware functions to manage the extended 
+  *          This file provides firmware functions to manage the extended
   *          functionalities of the Cryptography (CRYP) peripheral.  
   *         
   ******************************************************************************
@@ -43,7 +43,7 @@
 
 #ifdef HAL_CRYP_MODULE_ENABLED
 
-#if defined(STM32L485xx) || defined(STM32L486xx)
+#if defined (STM32L442xx) || defined (STM32L443xx) || defined(STM32L485xx) || defined(STM32L486xx)
 
 /** @addtogroup STM32L4xx_HAL_Driver
   * @{
@@ -1257,6 +1257,16 @@ HAL_StatusTypeDef HAL_CRYPEx_AES_Auth_DMA(CRYP_HandleTypeDef *hcryp, uint8_t *pI
     /*========================*/
     else if (hcryp->Init.GCMCMACPhase == CRYP_GCM_PAYLOAD_PHASE)
     {
+      /* Coming from header phase, wait for CCF flag to be raised */
+      if(CRYP_WaitOnCCFlag(hcryp, CRYP_CCF_TIMEOUTVALUE) != HAL_OK)  
+      { 
+        hcryp->State = HAL_CRYP_STATE_READY;        
+        __HAL_UNLOCK(hcryp);
+        return HAL_TIMEOUT;
+      }
+      /* Clear CCF Flag */
+      __HAL_CRYP_CLEAR_FLAG(CRYP_CCF_CLEAR);     
+    
       MODIFY_REG(hcryp->Instance->CR, AES_CR_GCMPH, CRYP_GCM_PAYLOAD_PHASE);
       
       inputaddr  = (uint32_t)pInputData;
@@ -1269,6 +1279,20 @@ HAL_StatusTypeDef HAL_CRYPEx_AES_Auth_DMA(CRYP_HandleTypeDef *hcryp, uint8_t *pI
     /*==============================*/
     else if (hcryp->Init.GCMCMACPhase == CRYP_GCMCMAC_FINAL_PHASE)
     {
+      /* If coming from header phase (GMAC or CMAC case), 
+         wait for CCF flag to be raised */
+      if (READ_BIT(hcryp->Instance->CR, AES_CR_GCMPH) == CRYP_GCMCMAC_HEADER_PHASE)
+      {   
+        if(CRYP_WaitOnCCFlag(hcryp, CRYP_CCF_TIMEOUTVALUE) != HAL_OK)  
+        { 
+          hcryp->State = HAL_CRYP_STATE_READY;        
+          __HAL_UNLOCK(hcryp);
+          return HAL_TIMEOUT;
+        }
+        /* Clear CCF Flag */
+        __HAL_CRYP_CLEAR_FLAG(CRYP_CCF_CLEAR);
+      }        
+      
       tagaddr = (uint32_t)pOutputData;
       
       MODIFY_REG(hcryp->Instance->CR, AES_CR_GCMPH, CRYP_GCMCMAC_FINAL_PHASE);
@@ -1460,6 +1484,23 @@ void HAL_CRYPEx_Write_IVRegisters(CRYP_HandleTypeDef *hcryp, uint8_t* Input)
 void HAL_CRYPEx_Read_SuspendRegisters(CRYP_HandleTypeDef *hcryp, uint8_t* Output)
 {
   uint32_t outputaddr = (uint32_t)Output;
+  
+  /* In case of GCM payload phase encryption, check that suspension can be carried out */
+  if (READ_BIT(hcryp->Instance->CR, (AES_CR_GCMPH|AES_CR_MODE)) == (CRYP_GCM_PAYLOAD_PHASE|CRYP_ALGOMODE_ENCRYPT))
+  {
+    /* Ensure that Busy flag is reset */
+    if(CRYP_WaitOnBusyFlagReset(hcryp, CRYP_BUSY_TIMEOUTVALUE) != HAL_OK)  
+    { 
+      hcryp->ErrorCode |= HAL_CRYP_BUSY_ERROR;
+      hcryp->State = HAL_CRYP_STATE_ERROR;
+              
+      /* Process Unlocked */
+      __HAL_UNLOCK(hcryp);  
+    
+      HAL_CRYP_ErrorCallback(hcryp);
+      return ;
+    }
+  } 
     
   *(uint32_t*)(outputaddr) = __REV(hcryp->Instance->SUSP7R);
   outputaddr+=4;
@@ -1656,27 +1697,15 @@ static void CRYP_GCMCMAC_DMAInCplt(DMA_HandleTypeDef *hdma)
   
   /* Disable the DMA transfer for input request  */
   CLEAR_BIT(hcryp->Instance->CR, AES_CR_DMAINEN);
-  
-  if (hcryp->Init.GCMCMACPhase == CRYP_GCMCMAC_HEADER_PHASE)
-  {    
-    /* Wait for CCF flag to be raised */
-    if(CRYP_WaitOnCCFlag(hcryp, CRYP_CCF_TIMEOUTVALUE) != HAL_OK)  
-    { 
-      /* In case of time out, update hcryp->State to flag the issue */
-      hcryp->State = HAL_CRYP_STATE_TIMEOUT ;        
-      __HAL_UNLOCK(hcryp);
-    } 
-    else
-    {   
-      /* Clear CCF Flag */
-      __HAL_CRYP_CLEAR_FLAG(CRYP_CCF_CLEAR); 
-      /* Change the CRYP state */
-      hcryp->State = HAL_CRYP_STATE_READY;
-   
-      /* Mark that the header phase is over */
-      hcryp->Phase = HAL_CRYP_PHASE_HEADER_OVER;
-    }
-  }
+
+  hcryp->State = HAL_CRYP_STATE_READY;   
+  /* Mark that the header phase is over */
+  hcryp->Phase = HAL_CRYP_PHASE_HEADER_OVER;
+  /* CCF flag indicating header phase AES processing completion 
+     will be checked at the start of the next phase:
+     - payload phase (GCM)
+     - final phase (GMAC or CMAC).
+    This allows to avoid the Wait on Flag within the IRQ handling.  */
   
   /* Call input data transfer complete callback */
   HAL_CRYP_InCpltCallback(hcryp);
@@ -1792,13 +1821,6 @@ HAL_StatusTypeDef CRYP_AES_Auth_IT(CRYP_HandleTypeDef *hcryp)
       /* If suspension flag has been raised, suspend processing */
       else if (hcryp->SuspendRequest == HAL_CRYP_SUSPEND)
       {
-        /* Ensure that CCF flag is set */
-        if(CRYP_WaitOnCCFlag(hcryp, CRYP_CCF_TIMEOUTVALUE) != HAL_OK)  
-        { 
-          hcryp->State = HAL_CRYP_STATE_READY;        
-          __HAL_UNLOCK(hcryp);
-          return HAL_TIMEOUT;
-        }
         /* Clear CCF Flag */
         __HAL_CRYP_CLEAR_FLAG(CRYP_CCF_CLEAR);
        
@@ -1894,17 +1916,7 @@ HAL_StatusTypeDef CRYP_AES_Auth_IT(CRYP_HandleTypeDef *hcryp)
       }
       /* If suspension flag has been raised, suspend processing */
       else if (hcryp->SuspendRequest == HAL_CRYP_SUSPEND)
-      {
-        if (hcryp->Init.OperatingMode == CRYP_ALGOMODE_ENCRYPT)
-        {
-          /* Ensure that Busy flag is reset */
-          if(CRYP_WaitOnBusyFlagReset(hcryp, CRYP_BUSY_TIMEOUTVALUE) != HAL_OK)  
-          {   
-            hcryp->State = HAL_CRYP_STATE_READY;        
-            __HAL_UNLOCK(hcryp);
-            return HAL_TIMEOUT;
-          }
-        }
+      {     
         /* Clear CCF Flag */
         __HAL_CRYP_CLEAR_FLAG(CRYP_CCF_CLEAR);
        
@@ -2341,7 +2353,7 @@ static void CRYP_DMAError(DMA_HandleTypeDef *hdma)
   * @}
   */
 
-#endif /* defined(STM32L485xx) || defined(STM32L486xx) */
+#endif /* defined (STM32L442xx) || defined (STM32L443xx) || defined(STM32L485xx) || defined(STM32L486xx) */  
 
 #endif /* HAL_CRYP_MODULE_ENABLED */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32l4xx_ll_opamp.h
   * @author  MCD Application Team
-  * @version V1.3.0
-  * @date    29-January-2016
+  * @version V1.4.0
+  * @date    26-February-2016
   * @brief   Header file of OPAMP LL module.
   ******************************************************************************
   * @attention
@@ -69,8 +69,8 @@ extern "C" {
 /* - OPAMP trimming register offset                                           */
 
 /* Internal register offset for OPAMP trimming configuration */
-#define OPAMP_POWERMODE_OTR_REGOFFSET       ((uint32_t)0x00000000)
-#define OPAMP_POWERMODE_LPOTR_REGOFFSET     ((uint32_t)0x00000001)
+#define OPAMP_POWERMODE_OTR_REGOFFSET       ((uint32_t)0x00000000U)
+#define OPAMP_POWERMODE_LPOTR_REGOFFSET     ((uint32_t)0x00000001U)
 #define OPAMP_POWERMODE_OTR_REGOFFSET_MASK  (OPAMP_POWERMODE_OTR_REGOFFSET | OPAMP_POWERMODE_LPOTR_REGOFFSET)
 
 /* Mask for OPAMP power mode into control register */
@@ -103,7 +103,7 @@ extern "C" {
   * @retval Register address
 */
 #define __OPAMP_PTR_REG_OFFSET(__REG__, __REG_OFFSET__)                        \
- ((uint32_t *)((uint32_t) ((uint32_t)(&(__REG__)) + ((__REG_OFFSET__) << 2))))
+ ((uint32_t *)((uint32_t) ((uint32_t)(&(__REG__)) + ((__REG_OFFSET__) << 2U))))
 
 /**
   * @}
@@ -158,8 +158,8 @@ typedef struct
 /** @defgroup OPAMP_LL_EC_POWERSUPPLY_RANGE OPAMP power supply range
   * @{
   */
-#define LL_OPAMP_POWERSUPPLY_RANGE_LOW  ((uint32_t)0x00000000) /*!< Power supply range low. On STM32L4: Vdda lower than 2.4V. */
-#define LL_OPAMP_POWERSUPPLY_RANGE_HIGH (OPAMP1_CSR_OPARANGE)  /*!< Power supply range high. On STM32L4: Vdda higher than 2.4V. */
+#define LL_OPAMP_POWERSUPPLY_RANGE_LOW  ((uint32_t)0x00000000U) /*!< Power supply range low. On STM32L4: Vdda lower than 2.4V. */
+#define LL_OPAMP_POWERSUPPLY_RANGE_HIGH (OPAMP1_CSR_OPARANGE)   /*!< Power supply range high. On STM32L4: Vdda higher than 2.4V. */
 
 /**
   * @}
@@ -177,7 +177,7 @@ typedef struct
 /** @defgroup OPAMP_LL_EC_MODE OPAMP mode calibration or functional.
   * @{
   */
-#define LL_OPAMP_MODE_FUNCTIONAL        ((uint32_t)0x00000000)                      /*!< OPAMP functional mode */
+#define LL_OPAMP_MODE_FUNCTIONAL        ((uint32_t)0x00000000U)                     /*!< OPAMP functional mode */
 #define LL_OPAMP_MODE_CALIBRATION       (OPAMP1_CSR_CALON)                          /*!< OPAMP calibration mode */
 /**
   * @}
@@ -186,7 +186,7 @@ typedef struct
 /** @defgroup OPAMP_LL_EC_FUNCTIONAL_MODE OPAMP functional mode
   * @{
   */
-#define LL_OPAMP_MODE_STANDALONE        ((uint32_t)0x00000000)                      /*!< OPAMP functional mode, OPAMP operation in standalone */
+#define LL_OPAMP_MODE_STANDALONE        ((uint32_t)0x00000000U)                     /*!< OPAMP functional mode, OPAMP operation in standalone */
 #define LL_OPAMP_MODE_FOLLOWER          (OPAMP_CSR_OPAMODE_1 | OPAMP_CSR_OPAMODE_0) /*!< OPAMP functional mode, OPAMP operation in follower */
 #define LL_OPAMP_MODE_PGA               (OPAMP_CSR_OPAMODE_1)                       /*!< OPAMP functional mode, OPAMP operation in PGA */
 /**
@@ -196,7 +196,7 @@ typedef struct
 /** @defgroup OPAMP_LL_EC_MODE_PGA_GAIN OPAMP PGA gain (relevant when OPAMP is in functional mode PGA)
   * @{
   */
-#define LL_OPAMP_PGA_GAIN_2             ((uint32_t)0x00000000)                     /*!< OPAMP PGA gain 2 */
+#define LL_OPAMP_PGA_GAIN_2             ((uint32_t)0x00000000U)                    /*!< OPAMP PGA gain 2 */
 #define LL_OPAMP_PGA_GAIN_4             (OPAMP_CSR_PGGAIN_0)                       /*!< OPAMP PGA gain 4 */
 #define LL_OPAMP_PGA_GAIN_8             (OPAMP_CSR_PGGAIN_1)                       /*!< OPAMP PGA gain 8 */
 #define LL_OPAMP_PGA_GAIN_16            (OPAMP_CSR_PGGAIN_1 | OPAMP_CSR_PGGAIN_0 ) /*!< OPAMP PGA gain 16 */
@@ -207,8 +207,8 @@ typedef struct
 /** @defgroup OPAMP_LL_EC_INPUT_NONINVERTING OPAMP input non-inverting
   * @{
   */
-#define LL_OPAMP_INPUT_NONINVERT_IO0      ((uint32_t)0x00000000) /*!< OPAMP non inverting input connected to GPIO pin */
-#define LL_OPAMP_INPUT_NONINVERT_DAC1_CH1 (OPAMP1_CSR_VPSEL)     /*!< OPAMP non inverting input connected to DAC1 channel1 output */
+#define LL_OPAMP_INPUT_NONINVERT_IO0      ((uint32_t)0x00000000U) /*!< OPAMP non inverting input connected to GPIO pin */
+#define LL_OPAMP_INPUT_NONINVERT_DAC1_CH1 (OPAMP1_CSR_VPSEL)      /*!< OPAMP non inverting input connected to DAC1 channel1 output */
 /**
   * @}
   */
@@ -216,9 +216,9 @@ typedef struct
 /** @defgroup OPAMP_LL_EC_INPUT_INVERTING OPAMP input inverting
   * @{
   */
-#define LL_OPAMP_INPUT_INVERT_IO0        ((uint32_t)0x00000000) /*!< OPAMP inverting input connected to GPIO pin (valid also in PGA mode for filtering). Note: OPAMP inverting input is used with OPAMP in mode standalone or PGA with external capacitors for filtering circuit. Otherwise (OPAMP in mode follower), OPAMP inverting input is not used (not connected to GPIO pin). */
-#define LL_OPAMP_INPUT_INVERT_IO1        (OPAMP1_CSR_VMSEL_0)   /*!< OPAMP inverting input (low leakage input) connected to GPIO pin (available only on package BGA132). Note: OPAMP inverting input is used with OPAMP in mode standalone or PGA with external capacitors for filtering circuit. Otherwise (OPAMP in mode follower), OPAMP inverting input is not used (not connected to GPIO pin). */
-#define LL_OPAMP_INPUT_INVERT_CONNECT_NO (OPAMP1_CSR_VMSEL_1)   /*!< OPAMP inverting input not externally connected (intended for OPAMP in mode follower or PGA without external capacitors for filtering) */
+#define LL_OPAMP_INPUT_INVERT_IO0        ((uint32_t)0x00000000U) /*!< OPAMP inverting input connected to GPIO pin (valid also in PGA mode for filtering). Note: OPAMP inverting input is used with OPAMP in mode standalone or PGA with external capacitors for filtering circuit. Otherwise (OPAMP in mode follower), OPAMP inverting input is not used (not connected to GPIO pin). */
+#define LL_OPAMP_INPUT_INVERT_IO1        (OPAMP1_CSR_VMSEL_0)    /*!< OPAMP inverting input (low leakage input) connected to GPIO pin (available only on package BGA132). Note: OPAMP inverting input is used with OPAMP in mode standalone or PGA with external capacitors for filtering circuit. Otherwise (OPAMP in mode follower), OPAMP inverting input is not used (not connected to GPIO pin). */
+#define LL_OPAMP_INPUT_INVERT_CONNECT_NO (OPAMP1_CSR_VMSEL_1)    /*!< OPAMP inverting input not externally connected (intended for OPAMP in mode follower or PGA without external capacitors for filtering) */
 /**
   * @}
   */
@@ -239,8 +239,8 @@ typedef struct
 /** @defgroup OPAMP_LL_EC_TRIMMING_MODE OPAMP trimming mode
   * @{
   */
-#define LL_OPAMP_TRIMMING_FACTORY       ((uint32_t)0x00000000) /*!< Factory trimming */
-#define LL_OPAMP_TRIMMING_USER          (OPAMP_CSR_USERTRIM)   /*!< User trimming */
+#define LL_OPAMP_TRIMMING_FACTORY       ((uint32_t)0x00000000U) /*!< Factory trimming */
+#define LL_OPAMP_TRIMMING_USER          (OPAMP_CSR_USERTRIM)    /*!< User trimming */
 /**
   * @}
   */
