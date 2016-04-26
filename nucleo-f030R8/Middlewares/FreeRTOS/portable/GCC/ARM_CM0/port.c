@@ -121,7 +121,7 @@ static UBaseType_t uxCriticalNesting = 0xaaaaaaaa;
 /*
  * Setup the timer to generate the tick interrupts.
  */
-static void prvSetupTimerInterrupt( void );
+void prvSetupTimerInterrupt( void );
 
 /*
  * Exception handlers.
@@ -549,7 +549,7 @@ uint32_t ulPreviousMask;
  * Setup the systick timer to generate the tick interrupts at the required
  * frequency.
  */
-void prvSetupTimerInterrupt( void )
+  __attribute__((weak)) void prvSetupTimerInterrupt( void )
 {
 	/* Calculate the constants required to configure the tick interrupt. */
 	#if configUSE_TICKLESS_IDLE == 1
