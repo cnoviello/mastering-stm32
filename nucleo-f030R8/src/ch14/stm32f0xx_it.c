@@ -38,7 +38,7 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32f0xx.s).                    */
 /******************************************************************************/
 
-#ifdef TICKLESS_MODE
+#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
 
 void TIM6_IRQHandler( void )
 {
