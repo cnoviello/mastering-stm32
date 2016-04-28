@@ -42,6 +42,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern LPTIM_HandleTypeDef hlptim1;
+extern TIM_HandleTypeDef htim6;
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -74,6 +75,11 @@ void SysTick_Handler(void)
 void LPTIM1_IRQHandler(void)
 {
   HAL_LPTIM_IRQHandler(&hlptim1);
+}
+
+void TIM6_DAC_IRQHandler(void)
+{
+  HAL_TIM_IRQHandler(&htim6);
 }
 
 void EXTI15_10_IRQHandler(void)
