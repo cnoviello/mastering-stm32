@@ -107,11 +107,11 @@ void postSLEEP(TickType_t xModifiableIdleTime) {
 }
 
 void preSTOP() {
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
   __HAL_RCC_GPIOA_CLK_DISABLE();
   HAL_SuspendTick();
   __enable_irq();
   __disable_irq();
-//  SCB->ICSR |= SCB_ICSR_PENDSTCLR_Msk;
 }
 
 void postSTOP() {

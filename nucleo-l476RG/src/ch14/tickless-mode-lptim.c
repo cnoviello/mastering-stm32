@@ -132,10 +132,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
    clock is so slow it is unlikely to be stopped for a complete count period
    anyway. */
   lptim1CNT1 = HAL_LPTIM_ReadCounter(&hlptim1);
-  lptim1CNT2 = HAL_LPTIM_ReadCounter(&hlptim1);
-  HAL_LPTIM_Counter_Stop(&hlptim1);
-  if(lptim1CNT1 != lptim1CNT2)
-    asm("BKPT #0");
+//  HAL_LPTIM_Counter_Stop(&hlptim1);
 
 
   /* To avoid race conditions, enter a critical section.  */
@@ -152,25 +149,17 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
   eSleepAction = eTaskConfirmSleepModeStatus();
   if (eSleepAction == eAbortSleep) {
     /* Restart tick. */
-    HAL_LPTIM_Counter_Start(&hlptim1, ulPeriodValueForOneTick - lptim1CNT1);
+    __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulPeriodValueForOneTick - lptim1CNT1);
 
     /* Re-enable interrupts. */
     __enable_irq();
   } else if (eSleepAction == eNoTasksWaitingTimeout) {
-
-#if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
-    if(ucSleepModeCalled == 0) { /* This ensures that the message is printed just once */
-      ucSleepModeCalled = 1;
-      sprintf(pcUARTMessage, "No more running tasks and delays: we can enter STOP mode\r\n");
-      HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-    }
-#endif
     /* A user definable macro that allows application code to be inserted
      here.  Such application code can be used to minimize power consumption
      further by turning off IO, peripheral clocks, the Flash, etc. */
     configPRE_STOP_PROCESSING();
 
-//    HAL_LPTIM_Counter_Stop(&hlptim1);
+    HAL_LPTIM_Counter_Stop_IT(&hlptim1);
 
     /* There are no running state tasks and no tasks that are blocked with a
      time out.  Assuming the application does not care if the tick time slips
@@ -179,8 +168,8 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
      STM32L discovery board.  If the application does require the tick time
      to keep better track of the calendar time then the RTC peripheral can be
      used to make rough adjustments. */
-    SystemClock_Config_MSI();
-    HAL_SuspendTick();
+//    SystemClock_Config_MSI();
+//    HAL_SuspendTick();
 
     HAL_PWR_EnterSTOPMode(PWR_MAINREGULATOR_ON, PWR_STOPENTRY_WFI);
 
@@ -191,17 +180,9 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
      were turned off when STOP mode was entered. */
     configPOST_STOP_PROCESSING();
 
-#if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
-    if(ucSleepModeCalled == 1) { /* This ensures that the message is printed just once */
-      ucSleepModeCalled = 0;
-      sprintf(pcUARTMessage, "Exiting from STOP mode\r\n");
-      HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-    }
-#endif
-
-    SystemClock_Config();
+//    SystemClock_Config();
     /* Restart tick. */
-    HAL_LPTIM_Counter_Start(&hlptim1, ulPeriodValueForOneTick);
+    HAL_LPTIM_Counter_Start_IT(&hlptim1, ulPeriodValueForOneTick);
 
     /* Re-enable interrupts. */
     __enable_irq();
@@ -211,41 +192,25 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
 //    lptim1CNT2 = HAL_LPTIM_ReadCounter(&hlptim1);
 //    HAL_LPTIM_Counter_Stop(&hlptim1);
 
-    if(lptim1CNT1 != lptim1CNT2)
-      asm("BKPT #0");
+    lptim1CNT1 = HAL_LPTIM_ReadCounter(&hlptim1);
 
     /* Trap underflow before the next calculation. */
-    configASSERT(ulCounterValue >= lptim1CNT1);
+//    configASSERT(ulCounterValue >= lptim1CNT1);
 
     /* Adjust the LPTIM1 value to take into account that the current time
      slice is already partially complete. */
     ulCounterValue -= (uint32_t) lptim1CNT1;
 
     /* Trap overflow/underflow before the calculated value is written to LPTIM1. */
-    configASSERT(ulCounterValue < ( uint32_t ) USHRT_MAX);
-    configASSERT(ulCounterValue != 0);
+//    configASSERT(ulCounterValue < ( uint32_t ) USHRT_MAX);
+//    configASSERT(ulCounterValue != 0);
 
     /* Update to use the calculated overflow value. */
 //    __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulCounterValue);
 
-#if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
-    if(ucSleepModeCalled == 0) { /* This ensures that the message is printed just once */
-      ucSleepModeCalled = 1;
-      sprintf(pcUARTMessage, "eTaskConfirmSleepModeStatus returned eStandardSleep\r\n");
-      HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-
-      sprintf(pcUARTMessage, "Expected idle time in ticks: %lu\r\n", xExpectedIdleTime);
-      HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-
-      sprintf(pcUARTMessage, "MCU will sleep for %lu ticks\r\n", ulCounterValue/ulPeriodValueForOneTick);
-      HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-
-    }
-#endif
-
     /* Restart the LPTIM1. */
-    HAL_LPTIM_Counter_Start(&hlptim1, ulCounterValue);
-//    __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulCounterValue);
+//    HAL_LPTIM_Counter_Start(&hlptim1, ulCounterValue);
+    __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulCounterValue);
 
     /* Allow the application to define some pre-sleep processing.  This is
      the standard configPRE_SLEEP_PROCESSING() macro as described on the
@@ -263,23 +228,10 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
        is set purely for convenience of demonstration and is not intended
        to be an optimized value. */
       if (xModifiableIdleTime > xRegulatorOffIdleTime) {
-#if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
-    if(ucSleepModeCalled == 1) { /* This ensures that the message is printed just once */
-      ucSleepModeCalled = 2;
-      sprintf(pcUARTMessage, "There is sufficient time to enter a deeper SLEEP mode\r\n");
-      HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-    }
-#endif
+
         /* A slightly lower power sleep mode with a longer wake up time. */
         HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
       } else {
-#if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
-    if(ucSleepModeCalled == 1) { /* This ensures that the message is printed just once */
-      ucSleepModeCalled = 2;
-      sprintf(pcUARTMessage, "There is no sufficient time to enter a deeper SLEEP mode\r\n");
-      HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-    }
-#endif
         /* A slightly higher power sleep mode with a faster wake up time. */
         HAL_PWR_EnterSLEEPMode(PWR_MAINREGULATOR_ON, PWR_SLEEPENTRY_WFI);
       }
@@ -299,27 +251,15 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
      This is wrong, because it causes that the IRQ is leaved pending,
      even if has been set. So we must first re-enable interrupts - this
      causes that a pending LPTIM1 IRQ fires - and then stop the timer. */
-    __enable_irq();
+//    __enable_irq();
 
     /* Stop LPTIM1.  Again, the time the clock is stopped for in not accounted
      for here (as it would normally be) because the clock is so slow it is
      unlikely it will be stopped for a complete count period anyway. */
     lptim1CNT1 = HAL_LPTIM_ReadCounter(&hlptim1);
-    lptim1CNT2 = HAL_LPTIM_ReadCounter(&hlptim1);
-    HAL_LPTIM_Counter_Stop(&hlptim1);
-    if(lptim1CNT1 != lptim1CNT2)
-      asm("BKPT #0");
-
+//    HAL_LPTIM_Counter_Stop(&hlptim1);
 
     if (ucTickFlag != pdFALSE) {
-
-#if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
-      if(ucSleepModeCalled == 2) { /* This ensures that the message is printed just once */
-        ucSleepModeCalled = 3;
-        sprintf(pcUARTMessage, "LPTIM1 woken up the MCU and we can increase the tick count with %lu ticks\r\n", xExpectedIdleTime -1UL);
-        HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-      }
-#endif
       /* The MCU has been woken up by the LPTIM1. So we trap overflows
        before the next calculation. */
       configASSERT(
@@ -336,7 +276,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
       configASSERT(ulCounterValue != 0);
 
       /* Use the calculated reload value. */
-//      __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulCounterValue);
+      __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulCounterValue);
 
       /* The tick interrupt handler will already have pended the tick
        processing in the kernel.  As the pending tick will be processed as
@@ -365,22 +305,14 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
         ulCounterValue = ulPeriodValueForOneTick;
         ulCompleteTickPeriods++;
       }
-//      __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulCounterValue);
-
-#if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
-      if(ucSleepModeCalled == 2) { /* This ensures that the message is printed just once */
-        ucSleepModeCalled = 3;
-        sprintf(pcUARTMessage, "Another IRQ woken up the MCU and we can increase the tick count with %lu ticks\r\n", ulCompleteTickPeriods);
-        HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-      }
-#endif
+      __HAL_LPTIM_AUTORELOAD_SET(&hlptim1, ulCounterValue);
     }
 
     /* Restart LPTIM1 so it runs up to the reload value.  The reload value
      will get set to the value required to generate exactly one tick period
      the next time the LPTIM1 interrupt executes. */
-    HAL_LPTIM_Counter_Start(&hlptim1, ulCounterValue);
-
+//    HAL_LPTIM_Counter_Start(&hlptim1, ulCounterValue);
+        __enable_irq();
     /* Wind the tick forward by the number of tick periods that the CPU
      remained in a low power state. */
     vTaskStepTick(ulCompleteTickPeriods);

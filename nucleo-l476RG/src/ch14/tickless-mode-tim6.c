@@ -38,6 +38,7 @@ static volatile uint8_t ucTickFlag = pdFALSE;
 
 /* The HAL handler of the TIM6 timer */
 TIM_HandleTypeDef htim6;
+LPTIM_HandleTypeDef hlptim1;
 
 #if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
 
