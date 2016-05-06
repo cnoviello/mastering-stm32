@@ -143,8 +143,12 @@ void MX_GPIO_Init(void)
 
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
+#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+#else
+  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
+#endif
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
@@ -162,8 +166,10 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
   HAL_NVIC_SetPriority(EXTI15_10_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY, 0);
   HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+#endif
 }
 
 void SystemClock_Config_MSI(void)

@@ -35,6 +35,7 @@
 #include "stm32l4xx.h"
 #include "stm32l4xx_it.h"
 #include "FreeRTOS.h"
+#include "cmsis_os.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -58,6 +59,9 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   HAL_SYSTICK_IRQHandler();
+#ifndef TICKLESS
+  osSystickHandler();
+#endif
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -70,12 +74,7 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32l4xx.s).                    */
 /******************************************************************************/
 
-#if defined(configUSE_TICKLESS_IDLE)// && configUSE_TICKLESS_IDLE == 2
-
-void LPTIM1_IRQHandler(void)
-{
-  HAL_LPTIM_IRQHandler(&hlptim1);
-}
+#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
 
 void TIM6_DAC_IRQHandler(void)
 {

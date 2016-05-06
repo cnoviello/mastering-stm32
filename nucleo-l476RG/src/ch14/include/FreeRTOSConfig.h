@@ -1,5 +1,5 @@
 /*
-    FreeRTOS V8.2.3 - Copyright (C) 2015 Real Time Engineers Ltd.
+    FreeRTOS V8.2.1 - Copyright (C) 2015 Real Time Engineers Ltd.
     All rights reserved
 
     VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
@@ -70,6 +70,8 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#include "stm32l4xx_hal.h"
+
 /*-----------------------------------------------------------
  * Application specific definitions.
  *
@@ -93,21 +95,61 @@
     extern uint32_t SystemCoreClock;
 #endif
 
+#ifdef TICKLESS
 #define configUSE_TICKLESS_IDLE                  2
+#else
+#define configUSE_TICKLESS_IDLE                  0
+#endif
+
 #define configUSE_PREEMPTION                     1
 #define configUSE_TIME_SLICING                   1
 #define configUSE_IDLE_HOOK                      0
 #define configUSE_TICK_HOOK                      0
 #define configCPU_CLOCK_HZ                       ( SystemCoreClock )
 #define configTICK_RATE_HZ                       ((TickType_t)1000)
-#define configMAX_PRIORITIES                     ( 7 )
+#define configMAX_PRIORITIES                     ( 15 )
 #define configMINIMAL_STACK_SIZE                 ((uint16_t)128)
-#define configTOTAL_HEAP_SIZE                    ((size_t)5000)
+#define configTOTAL_HEAP_SIZE                    ((size_t)5072)
 #define configMAX_TASK_NAME_LEN                  ( 16 )
 #define configUSE_TRACE_FACILITY                 1
+#define configGENERATE_RUN_TIME_STATS            1
+#define configUSE_STATS_FORMATTING_FUNCTIONS     1
 #define configUSE_16_BIT_TICKS                   0
 #define configUSE_MUTEXES                        1
 #define configQUEUE_REGISTRY_SIZE                8
+#define configUSE_TIMERS                         0
+#define configTIMER_TASK_PRIORITY                2
+#define configTIMER_QUEUE_LENGTH                 5
+#define configTIMER_TASK_STACK_DEPTH             ( configMINIMAL_STACK_SIZE * 2 )
+
+#ifdef DEBUG
+#define configCHECK_FOR_STACK_OVERFLOW           1
+#endif
+
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()  \
+  do {                                            \
+    DWT->CTRL |= 1 ; /* enable the counter */     \
+    DWT->CYCCNT = 0;                              \
+  }while(0)
+
+#define portGET_RUN_TIME_COUNTER_VALUE() DWT->CYCCNT
+
+#if configUSE_TICKLESS_IDLE == 2
+
+void SystemClock_Config(void);
+void preSLEEP(TickType_t xModifiableIdleTime);
+void postSLEEP(TickType_t xModifiableIdleTime);
+
+void preSTOP();
+void postSTOP();
+
+#define configPRE_SLEEP_PROCESSING(x) (preSLEEP(x))
+#define configPOST_SLEEP_PROCESSING(x) (postSLEEP(x))
+
+#define configPRE_STOP_PROCESSING(x) (preSTOP(x))
+#define configPOST_STOP_PROCESSING(x) (postSTOP(x))
+
+#endif
 
 /* Co-routine definitions. */
 #define configUSE_CO_ROUTINES                    0
@@ -123,6 +165,7 @@ to exclude the API function. */
 #define INCLUDE_vTaskDelayUntil             0
 #define INCLUDE_vTaskDelay                  1
 #define INCLUDE_xTaskGetSchedulerState      1
+#define INCLUDE_eTaskGetState               1
 
 /* Cortex-M specific definitions. */
 #ifdef __NVIC_PRIO_BITS
@@ -149,6 +192,7 @@ to all Cortex-M ports, and do not rely on any particular library functions. */
 See http://www.FreeRTOS.org/RTOS-Cortex-M3-M4.html. */
 #define configMAX_SYSCALL_INTERRUPT_PRIORITY  ( configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY << (8 - configPRIO_BITS) )
 
+
 /* Normal assert() semantics without relying on the provision of an assert.h
 header file. */
 /* USER CODE BEGIN 1 */   
@@ -165,10 +209,7 @@ standard names. */
 /* #define xPortSysTickHandler SysTick_Handler */
 
 /* USER CODE BEGIN Defines */
-
-#define configPRE_STOP_PROCESSING()
-#define configPOST_STOP_PROCESSING()
-
+/* Section where parameter definitions can be added (for instance, to override default ones in FreeRTOS.h) */
 /* USER CODE END Defines */ 
 
 #endif /* FREERTOS_CONFIG_H */

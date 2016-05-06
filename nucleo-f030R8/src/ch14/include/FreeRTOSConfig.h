@@ -70,6 +70,8 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#include "stm32f0xx_hal.h"
+
 /*-----------------------------------------------------------
  * Application specific definitions.
  *
@@ -94,7 +96,11 @@
     extern uint32_t SystemCoreClock;
 #endif
 
+#ifdef TICKLESS
 #define configUSE_TICKLESS_IDLE                  2
+#else
+#define configUSE_TICKLESS_IDLE                  0
+#endif
 
 #define configUSE_PREEMPTION                     1
 #define configUSE_TIME_SLICING                   1
@@ -107,6 +113,7 @@
 #define configTOTAL_HEAP_SIZE                    ((size_t)5072)
 #define configMAX_TASK_NAME_LEN                  ( 16 )
 #define configUSE_TRACE_FACILITY                 1
+#define configGENERATE_RUN_TIME_STATS            1
 #define configUSE_STATS_FORMATTING_FUNCTIONS     1
 #define configUSE_16_BIT_TICKS                   0
 #define configUSE_MUTEXES                        1
@@ -119,6 +126,30 @@
 #ifdef DEBUG
 #define configCHECK_FOR_STACK_OVERFLOW           1
 #endif
+
+    /*
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()  \
+  do {                                            \
+    DWT->CTRL |= 1 ; // enable the counter        \
+    DWT->CYCCNT = 0;                              \
+  }while(0)
+
+#define portGET_RUN_TIME_COUNTER_VALUE() DWT->CYCNT;*/
+
+#define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()        \
+  do {                                                  \
+    TIM_HandleTypeDef htim6;                            \
+    htim6.Instance = TIM6;                              \
+    htim6.Init.Prescaler = 239; /*48MHz/2399 = 20KHz*/ \
+    htim6.Init.Period = 0xFFFFFFFF;                     \
+                                                        \
+    __TIM6_CLK_ENABLE();                                \
+    HAL_TIM_Base_Init(&htim6);                          \
+    HAL_TIM_Base_Start(&htim6);                         \
+  }while(0)
+
+#define portGET_RUN_TIME_COUNTER_VALUE() TIM6->CNT
+
 
 #if configUSE_TICKLESS_IDLE == 2
 
@@ -163,7 +194,7 @@ to exclude the API function. */
 
 /* The lowest interrupt priority that can be used in a call to a "set priority"
 function. */
-#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY   15
+#define configLIBRARY_LOWEST_INTERRUPT_PRIORITY   3
 
 /* The highest interrupt priority that can be used by any interrupt service
 routine that makes calls to interrupt safe FreeRTOS API functions.  DO NOT CALL
