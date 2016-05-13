@@ -98,8 +98,10 @@
 
 #ifdef TICKLESS
 #define configUSE_TICKLESS_IDLE                  2
+#define configUSE_TIMERS                         0
 #else
 #define configUSE_TICKLESS_IDLE                  0
+#define configUSE_TIMERS                         1
 #endif
 
 #define configUSE_PREEMPTION                     1
@@ -118,7 +120,6 @@
 #define configUSE_16_BIT_TICKS                   0
 #define configUSE_MUTEXES                        1
 #define configQUEUE_REGISTRY_SIZE                8
-#define configUSE_TIMERS                         0
 #define configTIMER_TASK_PRIORITY                2
 #define configTIMER_QUEUE_LENGTH                 5
 #define configTIMER_TASK_STACK_DEPTH             ( configMINIMAL_STACK_SIZE * 2 )

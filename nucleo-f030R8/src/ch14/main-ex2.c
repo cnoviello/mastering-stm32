@@ -20,7 +20,7 @@ int main(void) {
   osThreadDef(blink, blinkThread, osPriorityNormal, 0, 100);
   osThreadCreate(osThread(blink), NULL);
 
-  osThreadDef(uart, UARTThread, osPriorityNormal, 0, 100);
+  osThreadDef(uart, UARTThread, osPriorityAboveNormal, 0, 100);
   osThreadCreate(osThread(uart), NULL);
 
   osKernelStart();

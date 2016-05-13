@@ -97,8 +97,10 @@
 
 #ifdef TICKLESS
 #define configUSE_TICKLESS_IDLE                  2
+#define configUSE_TIMERS                         0
 #else
 #define configUSE_TICKLESS_IDLE                  0
+#define configUSE_TIMERS                         1
 #endif
 
 #define configUSE_PREEMPTION                     1
