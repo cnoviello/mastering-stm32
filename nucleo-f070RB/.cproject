@@ -146,8 +146,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -771,8 +771,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7/main-ex3.c|ch7/main-ex2.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7/main-ex3.c|ch7/main-ex2.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -924,8 +924,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7/main-ex3.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7/main-ex3.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1076,8 +1076,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9|ch8|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1228,8 +1228,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9|ch8/main-ex3.c|ch7|ch8/main-ex2.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9|ch8/main-ex3.c|ch7|ch8/main-ex2.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1380,8 +1380,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9|ch8/main-ex3.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9|ch8/main-ex3.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1533,8 +1533,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1686,8 +1686,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch8|ch9/mem2mem.c|ch9/main-ex3.c|ch9/main-ex2.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch8|ch9/mem2mem.c|ch9/main-ex3.c|ch9/main-ex2.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1839,8 +1839,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch9/main-ex3.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch9/main-ex3.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1993,8 +1993,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -2146,8 +2146,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11|ch13|ch9/main-ex3.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13|ch9/main-ex3.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -2458,7 +2458,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch5|ch12|ch11|ch13/main-ex5.c|ch13/main-ex4.c|ch13/main-ex3.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13/main-ex5.c|ch13/main-ex4.c|ch13/main-ex3.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2607,7 +2607,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex5.c|ch13/main-ex4.c|ch13/main-ex3.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex5.c|ch13/main-ex4.c|ch13/main-ex3.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2756,7 +2756,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex5.c|ch13/main-ex4.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex5.c|ch13/main-ex4.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2905,7 +2905,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex5.c|ch13/main-ex3.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex5.c|ch13/main-ex3.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3054,7 +3054,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex4.c|ch13/main-ex3.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch14|ch5|ch12|ch11|ch13/main-ex1.c|ch13/main-ex4.c|ch13/main-ex3.c|ch13/main-ex2.c|ch9|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch9/mem2mem.c|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3207,8 +3207,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex2.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex2.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -3361,8 +3361,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -3515,8 +3515,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -3683,8 +3683,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -3851,8 +3851,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -4020,8 +4020,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -4189,8 +4189,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -4358,8 +4358,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -4527,8 +4527,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -4696,8 +4696,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -4866,8 +4866,8 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch5|ch12|ch11/main-ex8.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ch14|ch5|ch12|ch11/main-ex8.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch13|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32f0xx/stm32f0xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -5860,7 +5860,7 @@
 				<memory section="IRAM1" size="0x2000" start="0x20000000" startup="0"/>
 				<memory section="IROM1" size="0x10000" start="0x08000000" startup="1"/>
 			</storageModule>
-		</cconfiguration>		
+		</cconfiguration>
 	</storageModule>
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="nucleo-f070RB.ilg.gnuarmeclipse.managedbuild.cross.target.elf.655038358" name="Executable" projectType="ilg.gnuarmeclipse.managedbuild.cross.target.elf"/>
