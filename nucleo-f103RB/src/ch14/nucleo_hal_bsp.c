@@ -25,7 +25,6 @@ void Nucleo_BSP_Init() {
 */
 void SystemClock_Config(void)
 {
-
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
 
@@ -51,8 +50,10 @@ void SystemClock_Config(void)
 
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
+  __HAL_RCC_PWR_CLK_ENABLE();
+
   /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+  HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
 }
 
 /* USART2 init function */
@@ -91,7 +92,7 @@ void MX_GPIO_Init(void)
 #if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
 #else
   /*Configure GPIO pin : B1_Pin */
@@ -110,8 +111,8 @@ void MX_GPIO_Init(void)
 
 #if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI4_15_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY, 0);
-  HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 #endif
 
 }

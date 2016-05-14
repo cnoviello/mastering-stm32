@@ -34,6 +34,7 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
+#include "FreeRTOSConfig.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -41,6 +42,7 @@
 
 /* External variables --------------------------------------------------------*/
 extern UART_HandleTypeDef huart2;
+extern TIM_HandleTypeDef htim2;
 
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
@@ -56,6 +58,9 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   HAL_SYSTICK_IRQHandler();
+#ifndef TICKLESS
+  osSystickHandler();
+#endif
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -72,12 +77,12 @@ void SysTick_Handler(void)
 */
 #if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
 
-void TIM6_IRQHandler( void )
+void TIM2_IRQHandler( void )
 {
-  HAL_TIM_IRQHandler(&htim6);
+  HAL_TIM_IRQHandler(&htim2);
 }
 
-void EXTI4_15_IRQHandler(void)
+void EXTI15_10_IRQHandler(void)
 {
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
 }

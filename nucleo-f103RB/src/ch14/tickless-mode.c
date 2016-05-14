@@ -2,7 +2,7 @@
 #include <string.h>
 #include "FreeRTOS.h"
 #include "task.h"
-#include "stm32f0xx_hal.h"
+#include "stm32f1xx_hal.h"
 
 /* This is used to print message on the serial console. */
 #define TICKLESS_DEBUG              1
@@ -10,11 +10,11 @@
 /*-----------------------------------------------------------*/
 
 /* Calculate how many clock increments make up a single tick period.
- Since we are using a prescaler equal to 1599, and assuming a clock
- speed of 48MHz, according the equation [1] in Chapter 11 this
+ Since we are using a prescaler equal to 1999, and assuming a clock
+ speed of 64MHz, according the equation [1] in Chapter 11 this
  period value ensure a timer overflow ever 1ms. */
-static const uint32_t ulMaximumPrescalerValue = 1599;
-static const uint32_t ulPeriodValueForOneTick = 29;
+static const uint32_t ulMaximumPrescalerValue = 1999;
+static const uint32_t ulPeriodValueForOneTick = 31;
 
 /* Holds the maximum number of ticks that can be suppressed - which is
  basically how far into the future an interrupt can be generated without
@@ -55,6 +55,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
      The period is so configured by vPortSuppressTicksAndSleep(). Here
      the reload value is reset to its default. */
     __HAL_TIM_SET_AUTORELOAD(htim, ulPeriodValueForOneTick);
+    __HAL_TIM_SET_COUNTER(htim, 0);
 
     /* The CPU woke because of a tick. */
     ucTickFlag = pdTRUE;
@@ -65,9 +66,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 /* Override the default definition of vPortSetupTimerInterrupt() that is weakly
  defined in the FreeRTOS Cortex-M0 port layer with a version that configures TIM2
  to generate the tick interrupt. */
-void prvSetupTimerInterrupt(void) {
-  uint32_t ulPrescalerValue;
-
+void vPortSetupTimerInterrupt(void) {
+ 
   /* Enable the TIM2 clock. */
   __HAL_RCC_TIM2_CLK_ENABLE();
 
@@ -142,6 +142,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
      further by turning off IO, peripheral clocks, the Flash, etc. */
     configPRE_STOP_PROCESSING();
 
+
     /* There are no running state tasks and no tasks that are blocked with a
      time out.  Assuming the application does not care if the tick time slips
      with respect to calendar time then enter a deep sleep that can only be
@@ -209,7 +210,6 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
 
       sprintf(pcUARTMessage, "MCU will sleep for %lu ticks\r\n", ulCounterValue/ulPeriodValueForOneTick);
       HAL_UART_Transmit(&huart2, (uint8_t*)pcUARTMessage, strlen(pcUARTMessage), HAL_MAX_DELAY);
-
     }
 #endif
 
