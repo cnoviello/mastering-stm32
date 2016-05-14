@@ -4,9 +4,6 @@
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 
-/* Private variables ---------------------------------------------------------*/
-extern UART_HandleTypeDef huart2;
-
 void blinkThread(void const *argument);
 
 uint8_t suspendBlink = 0;
