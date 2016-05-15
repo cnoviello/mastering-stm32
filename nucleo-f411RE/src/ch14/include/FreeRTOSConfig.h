@@ -70,7 +70,7 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
-#include "stm32f3xx_hal.h"
+#include "stm32f4xx_hal.h"
 
 /*-----------------------------------------------------------
  * Application specific definitions.
@@ -130,17 +130,17 @@
 
 #define portCONFIGURE_TIMER_FOR_RUN_TIME_STATS()        \
   do {                                                  \
-    TIM_HandleTypeDef htim2;                            \
-    htim2.Instance = TIM2;                              \
-    htim2.Init.Prescaler = 3599; /*72MHz/3599 = 20KHz*/ \
-    htim2.Init.Period = 0xFFFFFFFF;                     \
+    TIM_HandleTypeDef htim1;                            \
+    htim1.Instance = TIM1;                              \
+    htim1.Init.Prescaler = 4999; /*100MHz/4999 = 20KHz*/ \
+    htim1.Init.Period = 0xFFFFFFFF;                     \
                                                         \
-    __TIM2_CLK_ENABLE();                                \
-    HAL_TIM_Base_Init(&htim2);                          \
-    HAL_TIM_Base_Start(&htim2);                         \
+    __TIM1_CLK_ENABLE();                                \
+    HAL_TIM_Base_Init(&htim1);                          \
+    HAL_TIM_Base_Start(&htim1);                         \
   }while(0)
 
-#define portGET_RUN_TIME_COUNTER_VALUE() TIM2->CNT
+#define portGET_RUN_TIME_COUNTER_VALUE() TIM1->CNT
 
 
 #if configUSE_TICKLESS_IDLE == 2

@@ -1,7 +1,8 @@
 /**
   ******************************************************************************
-  * @file    stm32f3xx_it.c
-  * @brief   Interrupt Service Routines.
+  * File Name          : stm32f4xx_hal_msp.c
+  * Description        : This file provides code for the MSP Initialization 
+  *                      and de-Initialization codes.
   ******************************************************************************
   *
   * COPYRIGHT(c) 2015 STMicroelectronics
@@ -31,64 +32,96 @@
   ******************************************************************************
   */
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include "stm32f3xx.h"
-#include "stm32f3xx_it.h"
-#include "FreeRTOSConfig.h"
+#include "stm32f4xx_hal.h"
 
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
 
-/* External variables --------------------------------------------------------*/
-extern TIM_HandleTypeDef htim2;
-
-
-/******************************************************************************/
-/*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
-/******************************************************************************/
 /**
-* @brief This function handles System tick timer.
-*/
-void SysTick_Handler(void)
+  * Initializes the Global MSP.
+  */
+void HAL_MspInit(void)
 {
-  /* USER CODE BEGIN SysTick_IRQn 0 */
+  /* USER CODE BEGIN MspInit 0 */
 
-  /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
-  HAL_SYSTICK_IRQHandler();
-#ifndef TICKLESS
-  osSystickHandler();
-#endif
-  /* USER CODE BEGIN SysTick_IRQn 1 */
+  /* USER CODE END MspInit 0 */
 
-  /* USER CODE END SysTick_IRQn 1 */
+  HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
+
+  /* System interrupt init*/
+  /* SysTick_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
+
+  /* USER CODE BEGIN MspInit 1 */
+
+  /* USER CODE END MspInit 1 */
 }
 
-
-#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
-
-void TIM2_IRQHandler( void )
+void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 {
-  HAL_TIM_IRQHandler(&htim2);
+
+  GPIO_InitTypeDef GPIO_InitStruct;
+  if(huart->Instance==USART2)
+  {
+  /* USER CODE BEGIN USART2_MspInit 0 */
+
+  /* USER CODE END USART2_MspInit 0 */
+    /* Peripheral clock enable */
+    __USART2_CLK_ENABLE();
+  
+    /**USART2 GPIO Configuration    
+    PA2     ------> USART2_TX
+    PA3     ------> USART2_RX 
+    */
+    GPIO_InitStruct.Pin = USART_TX_Pin|USART_RX_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN USART2_MspInit 1 */
+
+  /* USER CODE END USART2_MspInit 1 */
+  }
+
 }
 
-void EXTI15_10_IRQHandler(void)
+void HAL_UART_MspDeInit(UART_HandleTypeDef* huart)
 {
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+
+  if(huart->Instance==USART2)
+  {
+  /* USER CODE BEGIN USART2_MspDeInit 0 */
+
+  /* USER CODE END USART2_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __USART2_CLK_DISABLE();
+  
+    /**USART2 GPIO Configuration    
+    PA2     ------> USART2_TX
+    PA3     ------> USART2_RX 
+    */
+    HAL_GPIO_DeInit(GPIOA, USART_TX_Pin|USART_RX_Pin);
+
+  }
+  /* USER CODE BEGIN USART2_MspDeInit 1 */
+
+  /* USER CODE END USART2_MspDeInit 1 */
+
 }
-
-#endif
-
-
-/******************************************************************************/
-/* STM32F3xx Peripheral Interrupt Handlers                                    */
-/* Add here the Interrupt Handlers for the used peripherals.                  */
-/* For the available peripheral interrupt handler names,                      */
-/* please refer to the startup file (startup_stm32f3xx.s).                    */
-/******************************************************************************/
 
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */
+
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

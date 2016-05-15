@@ -2,7 +2,7 @@
 #include <string.h>
 #include "FreeRTOS.h"
 #include "task.h"
-#include "stm32f3xx_hal.h"
+#include "stm32f4xx_hal.h"
 
 /* This is used to print message on the serial console. */
 #define TICKLESS_DEBUG              1
@@ -10,11 +10,11 @@
 /*-----------------------------------------------------------*/
 
 /* Calculate how many clock increments make up a single tick period.
- Since we are using a prescaler equal to 1999, and assuming a clock
- speed of 64MHz, according the equation [1] in Chapter 11 this
+ Since we are using a prescaler equal to 4999, and assuming a clock
+ speed of 84MHz, according the equation [1] in Chapter 11 this
  period value ensure a timer overflow ever 1ms. */
-static const uint32_t ulMaximumPrescalerValue = 1999;
-static const uint32_t ulPeriodValueForOneTick = 35;
+static const uint32_t ulMaximumPrescalerValue = 4999;
+static const uint32_t ulPeriodValueForOneTick = 19;
 
 /* Holds the maximum number of ticks that can be suppressed - which is
  basically how far into the future an interrupt can be generated without
@@ -26,7 +26,7 @@ static TickType_t xMaximumPossibleSuppressedTicks = 0;
 static volatile uint8_t ucTickFlag = pdFALSE;
 
 /* The HAL handler of the TIM2 timer */
-TIM_HandleTypeDef htim2;
+TIM_HandleTypeDef htim1;
 
 #if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
 
@@ -48,7 +48,7 @@ void xPortSysTickHandler( void );
 
 /* The callback function called by the HAL when TIM2 overflows. */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-  if (htim->Instance == TIM2) {
+  if (htim->Instance == TIM1) {
     xPortSysTickHandler();
 
     /* In case this is the first tick since the MCU left a low power mode.
@@ -69,23 +69,23 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 void vPortSetupTimerInterrupt(void) {
  
   /* Enable the TIM2 clock. */
-  __HAL_RCC_TIM2_CLK_ENABLE();
+  __HAL_RCC_TIM1_CLK_ENABLE();
 
   /* Ensure clock stops in debug mode. */
-  __HAL_DBGMCU_FREEZE_TIM2();
+  __HAL_DBGMCU_FREEZE_TIM1();
 
   /* Configure the TIM2 timer */
-  htim2.Instance = TIM2;
-  htim2.Init.Prescaler = (uint16_t) ulMaximumPrescalerValue;
-  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = ulPeriodValueForOneTick;
-  HAL_TIM_Base_Init(&htim2);
+  htim1.Instance = TIM1;
+  htim1.Init.Prescaler = (uint16_t) ulMaximumPrescalerValue;
+  htim1.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim1.Init.Period = ulPeriodValueForOneTick;
+  HAL_TIM_Base_Init(&htim1);
 
   /* Enable the TIM2 interrupt. This must execute at the lowest interrupt priority. */
-  HAL_NVIC_SetPriority(TIM2_IRQn, configLIBRARY_LOWEST_INTERRUPT_PRIORITY, 0);
-  HAL_NVIC_EnableIRQ(TIM2_IRQn);
+  HAL_NVIC_SetPriority(TIM1_UP_TIM10_IRQn, configLIBRARY_LOWEST_INTERRUPT_PRIORITY, 0);
+  HAL_NVIC_EnableIRQ(TIM1_UP_TIM10_IRQn);
 
-  HAL_TIM_Base_Start_IT(&htim2);
+  HAL_TIM_Base_Start_IT(&htim1);
   /* See the comments where xMaximumPossibleSuppressedTicks is declared. */
   xMaximumPossibleSuppressedTicks = ((unsigned long) USHRT_MAX)
       / ulPeriodValueForOneTick;
@@ -135,7 +135,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
 #endif
 
     /* Stop TIM2 */
-    HAL_TIM_Base_Stop_IT(&htim2);
+    HAL_TIM_Base_Stop_IT(&htim1);
 
     /* A user definable macro that allows application code to be inserted
      here.  Such application code can be used to minimize power consumption
@@ -168,7 +168,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
 #endif
 
     /* Restart tick. */
-    HAL_TIM_Base_Start_IT(&htim2);
+    HAL_TIM_Base_Start_IT(&htim1);
 
     /* Re-enable interrupts. */
     __enable_irq();
@@ -177,7 +177,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
      in this implementation (as it is in the generic implementation) because the
      clock is so slow it is unlikely to be stopped for a complete count period
      anyway. */
-    HAL_TIM_Base_Stop_IT(&htim2);
+    HAL_TIM_Base_Stop_IT(&htim1);
 
     /* The tick flag is set to false before sleeping.  If it is true when sleep
      mode is exited then sleep mode was probably exited because the tick was
@@ -185,19 +185,19 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
     ucTickFlag = pdFALSE;
 
     /* Trap underflow before the next calculation. */
-    configASSERT(ulCounterValue >= __HAL_TIM_GET_COUNTER(&htim2));
+    configASSERT(ulCounterValue >= __HAL_TIM_GET_COUNTER(&htim1));
 
     /* Adjust the TIM2 value to take into account that the current time
      slice is already partially complete. */
-    ulCounterValue -= (uint32_t) __HAL_TIM_GET_COUNTER(&htim2);
+    ulCounterValue -= (uint32_t) __HAL_TIM_GET_COUNTER(&htim1);
 
     /* Trap overflow/underflow before the calculated value is written to TIM2. */
     configASSERT(ulCounterValue < ( uint32_t ) USHRT_MAX);
     configASSERT(ulCounterValue != 0);
 
     /* Update to use the calculated overflow value. */
-    __HAL_TIM_SET_AUTORELOAD(&htim2, ulCounterValue);
-    __HAL_TIM_SET_COUNTER(&htim2, 0);
+    __HAL_TIM_SET_AUTORELOAD(&htim1, ulCounterValue);
+    __HAL_TIM_SET_COUNTER(&htim1, 0);
 
 #if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
     if(ucSleepModeCalled == 0) { /* This ensures that the message is printed just once */
@@ -214,7 +214,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
 #endif
 
     /* Restart the TIM2. */
-    HAL_TIM_Base_Start_IT(&htim2);
+    HAL_TIM_Base_Start_IT(&htim1);
 
     /* Allow the application to define some pre-sleep processing.  This is
      the standard configPRE_SLEEP_PROCESSING() macro as described on the
@@ -273,7 +273,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
     /* Stop TIM2.  Again, the time the clock is stopped for in not accounted
      for here (as it would normally be) because the clock is so slow it is
      unlikely it will be stopped for a complete count period anyway. */
-    HAL_TIM_Base_Stop_IT(&htim2);
+    HAL_TIM_Base_Stop_IT(&htim1);
 
     if (ucTickFlag != pdFALSE) {
 
@@ -287,22 +287,22 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
       /* The MCU has been woken up by the TIM2. So we trap overflows
        before the next calculation. */
       configASSERT(
-          ulPeriodValueForOneTick >= (uint32_t ) __HAL_TIM_GET_COUNTER(&htim2));
+          ulPeriodValueForOneTick >= (uint32_t ) __HAL_TIM_GET_COUNTER(&htim1));
 
       /* The tick interrupt has already executed, although because this
        function is called with the scheduler suspended the actual tick
        processing will not occur until after this function has exited.
        Reset the reload value with whatever remains of this tick period. */
       ulCounterValue = ulPeriodValueForOneTick
-          - (uint32_t) __HAL_TIM_GET_COUNTER(&htim2);
+          - (uint32_t) __HAL_TIM_GET_COUNTER(&htim1);
 
       /* Trap under/overflows before the calculated value is used. */
       configASSERT(ulCounterValue <= ( uint32_t ) USHRT_MAX);
       configASSERT(ulCounterValue != 0);
 
       /* Use the calculated reload value. */
-      __HAL_TIM_SET_AUTORELOAD(&htim2, ulCounterValue);
-      __HAL_TIM_SET_COUNTER(&htim2, 0);
+      __HAL_TIM_SET_AUTORELOAD(&htim1, ulCounterValue);
+      __HAL_TIM_SET_COUNTER(&htim1, 0);
 
       /* The tick interrupt handler will already have pended the tick
        processing in the kernel.  As the pending tick will be processed as
@@ -314,16 +314,16 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
       /* Something other than the tick interrupt ended the sleep.  How
        many complete tick periods passed while the processor was
        sleeping? */
-      ulCompleteTickPeriods = ((uint32_t) __HAL_TIM_GET_COUNTER(&htim2))
+      ulCompleteTickPeriods = ((uint32_t) __HAL_TIM_GET_COUNTER(&htim1))
           / ulPeriodValueForOneTick;
 
       /* Check for over/under flows before the following calculation. */
       configASSERT(
-          ((uint32_t ) __HAL_TIM_GET_COUNTER(&htim2)) >= (ulCompleteTickPeriods * ulPeriodValueForOneTick));
+          ((uint32_t ) __HAL_TIM_GET_COUNTER(&htim1)) >= (ulCompleteTickPeriods * ulPeriodValueForOneTick));
 
       /* The reload value is set to whatever fraction of a single tick
        period remains. */
-      ulCounterValue = ((uint32_t) __HAL_TIM_GET_COUNTER(&htim2))
+      ulCounterValue = ((uint32_t) __HAL_TIM_GET_COUNTER(&htim1))
           - (ulCompleteTickPeriods * ulPeriodValueForOneTick);
       configASSERT(ulCounterValue <= ( uint32_t ) USHRT_MAX);
       if (ulCounterValue == 0) {
@@ -331,8 +331,8 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
         ulCounterValue = ulPeriodValueForOneTick;
         ulCompleteTickPeriods++;
       }
-      __HAL_TIM_SET_AUTORELOAD(&htim2, ulCounterValue);
-      __HAL_TIM_SET_COUNTER(&htim2, 0);
+      __HAL_TIM_SET_AUTORELOAD(&htim1, ulCounterValue);
+      __HAL_TIM_SET_COUNTER(&htim1, 0);
 
 #if defined(TICKLESS_DEBUG) && TICKLESS_DEBUG == 1
       if(ucSleepModeCalled == 2) { /* This ensures that the message is printed just once */
@@ -346,7 +346,7 @@ void vPortSuppressTicksAndSleep(TickType_t xExpectedIdleTime) {
     /* Restart TIM2 so it runs up to the reload value.  The reload value
      will get set to the value required to generate exactly one tick period
      the next time the TIM2 interrupt executes. */
-    HAL_TIM_Base_Start_IT(&htim2);
+    HAL_TIM_Base_Start_IT(&htim1);
 
     /* Wind the tick forward by the number of tick periods that the CPU
      remained in a low power state. */
