@@ -371,6 +371,7 @@ void HAL_PWR_EnterSTOPMode(uint32_t Regulator, uint8_t STOPEntry)
   if(STOPEntry == PWR_STOPENTRY_WFI)
   {
     /* Request Wait For Interrupt */
+    __DSB();
     __WFI();
   }
   else
