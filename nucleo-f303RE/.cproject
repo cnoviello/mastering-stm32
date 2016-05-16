@@ -2685,6 +2685,8 @@
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm.1799861809" name="Remove command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm" value="rm" valueType="string"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.1439735895" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.1454766476" name="Print size" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit.646880723" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit" value="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit.fpv4spd16" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.abi.1898873848" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.abi" value="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.abi.hard" valueType="enumerated"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform.1923555053" isAbstract="false" osList="all" superClass="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform"/>
 							<builder buildPath="${workspace_loc:/nucleo-f030R8}/Debug" id="ilg.gnuarmeclipse.managedbuild.cross.builder.2073016284" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnuarmeclipse.managedbuild.cross.builder"/>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.1668955415" name="Cross ARM GNU Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler">
@@ -7033,5 +7035,123 @@
 		</scannerConfigBuildInfo>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="refreshScope"/>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="CH11-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX7">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX8">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX9">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH8-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH8-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX4">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX5">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH8-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX6">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH4-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH9-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH15-EX4">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH9-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH15-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH9-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH15-EX6">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH15-EX5">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH15-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH15-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH5-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX11">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH5-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH11-EX10">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH5-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH14-EX6">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH14-EX5">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH14-EX4">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH14-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH14-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH14-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH13-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH15-EX7">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH9-MEM2MEM">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH7-EX1">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH7-EX2">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+		<configuration configurationName="CH7-EX3">
+			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
+		</configuration>
+	</storageModule>
 </cproject>
