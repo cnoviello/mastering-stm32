@@ -8,7 +8,7 @@ extern UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 TIM_HandleTypeDef htim1;
-uint8_t convCompleted = 0;
+volatile uint8_t convCompleted = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 static void MX_ADC1_Init(void);
@@ -67,7 +67,8 @@ void MX_ADC1_Init(void) {
   hadc1.Init.NbrOfConversion = 3;
   hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = 0;
-  HAL_ADC_Init(&hadc1);
+  HAL_ADC_Init(&hadc1);
+
   /**Configure for the selected ADC regular channels */
   sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
   sConfig.Rank = 1;

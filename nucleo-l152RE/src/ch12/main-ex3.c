@@ -8,7 +8,7 @@ extern UART_HandleTypeDef huart2;
 ADC_HandleTypeDef hadc1;
 DMA_HandleTypeDef hdma_adc1;
 TIM_HandleTypeDef htim6;
-uint8_t convCompleted = 0;
+volatile uint8_t convCompleted = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 static void MX_ADC1_Init(void);
