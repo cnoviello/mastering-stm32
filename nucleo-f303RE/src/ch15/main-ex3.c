@@ -1,98 +1,94 @@
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include <cmsis_os.h>
-#include <nucleo_hal_bsp.h>
-#include <string.h>
-#include <../system/include/retarget/retarget.h>
+typedef unsigned long uint32_t;
 
-/* Private variables ---------------------------------------------------------*/
-extern UART_HandleTypeDef huart2;
+/* memory and peripheral start addresses */
+#define FLASH_BASE      0x08000000
+#define SRAM_BASE       0x20000000
+#define PERIPH_BASE     0x40000000
 
-void blinkThread(void const *argument);
-void UARTThread(void const *argument);
+/* Work out end of RAM address as initial stack pointer */
+#define SRAM_SIZE       64*1024     // STM32F303RE has 64 KB of RAM
+#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
 
-osMessageQDef(MsgBox, 5, uint16_t); // Define message queue
-osMessageQId  MsgBox;
+/* RCC peripheral addresses applicable to GPIOA */
+#define RCC_BASE        (PERIPH_BASE + 0x21000)
+#define RCC_APB1ENR     ((uint32_t*)(RCC_BASE + (0x14)))
 
-int main(void) {
-  HAL_Init();
+/* GPIOA peripheral addresses */
+#define GPIOA_BASE      (PERIPH_BASE + 0x8000000)
+#define GPIOA_MODER     ((uint32_t*)(GPIOA_BASE + 0x00))
+#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
 
-  Nucleo_BSP_Init();
+/* User functions */
+void _start (void);
+int main(void);
+void delay(uint32_t count);
 
-  RetargetInit(&huart2);
+/* Minimal vector table */
+uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
+    (uint32_t *)SRAM_END,   // initial stack pointer
+    (uint32_t *)_start        // main as Reset_Handler
+};
 
-  osThreadDef(blink, blinkThread, osPriorityNormal, 0, 100);
-  osThreadCreate(osThread(blink), NULL);
+// Begin address for the initialisation values of the .data section.
+// defined in linker script
+extern uint32_t _sidata;
+// Begin address for the .data section; defined in linker script
+extern uint32_t _sdata;
+// End address for the .data section; defined in linker script
+extern uint32_t _edata;
+// Begin address for the .bss section; defined in linker script
+extern uint32_t _sbss;
+// End address for the .bss section; defined in linker script
+extern uint32_t _ebss;
 
-  osThreadDef(uart, UARTThread, osPriorityNormal, 0, 300);
-  osThreadCreate(osThread(uart), NULL);
-
-  MsgBox = osMessageCreate(osMessageQ(MsgBox), NULL);
-  osKernelStart();
-
-  /* Infinite loop */
-  while (1);
-}
-
-void blinkThread(void const *argument) {
-  uint16_t delay = 500; /* Default delay */
-  osEvent evt;
-
-  while(1) {
-    evt = osMessageGet(MsgBox, 1);
-    if(evt.status == osEventMessage)
-      delay = evt.value.v;
-
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    osDelay(delay);
-  }
-}
-
-void UARTThread(void const *argument) {
-  uint16_t delay = 0;
-
-  while(1) {
-    printf("Specify the LD2 LED blink period: ");
-    scanf("%hu", &delay);
-    printf("\r\nSpecified period: %hu\n\r", delay);
-    osMessagePut(MsgBox, delay, osWaitForever);
-  }
-}
-
-#ifdef DEBUG
-
-void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName ) {
-  asm("BKPT #0");
-}
-
-#endif
-
-#ifdef USE_FULL_ASSERT
-
-/**
-   * @brief Reports the name of the source file and the source line number
-   * where the assert_param error has occurred.
-   * @param file: pointer to the source file name
-   * @param line: assert_param error line source number
-   * @retval None
-   */
-void assert_failed(uint8_t* file, uint32_t line)
+inline void
+__attribute__((always_inline))
+__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
 {
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-
+  // Iterate and copy word by word.
+  // It is assumed that the pointers are word aligned.
+  uint32_t *p = region_begin;
+  while (p < region_end)
+    *p++ = *from++;
 }
 
-#endif
+inline void
+__attribute__((always_inline))
+__initialize_bss (uint32_t* region_begin, uint32_t* region_end)
+{
+  // Iterate and copy word by word.
+  // It is assumed that the pointers are word aligned.
+  uint32_t *p = region_begin;
+  while (p < region_end)
+    *p++ = 0;
+}
 
-/**
-  * @}
-  */ 
+void __attribute__ ((noreturn,weak))
+_start (void)
+{
+	__initialize_data(&_sidata, &_sdata, &_edata);
+	__initialize_bss(&_sbss, &_ebss);
+	main();
 
-/**
-  * @}
-*/ 
+	for(;;);
+}
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+volatile uint32_t dataVar = 0x3f;
+volatile uint32_t bssVar;
+
+int main() {
+    /* enable clock on GPIOA peripheral */
+    *RCC_APB1ENR |= 0x1 << 17;
+    *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
+
+    while(bssVar == 0) {
+      *GPIOA_ODR = 0x20;
+      delay(200000);
+      *GPIOA_ODR = 0x0;
+      delay(200000);
+   	}
+}
+
+void delay(unsigned long count) {
+    while(count--);
+}
