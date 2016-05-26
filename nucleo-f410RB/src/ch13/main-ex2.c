@@ -55,7 +55,7 @@ void MX_DAC_Init(void) {
   HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1);
 
   /**DAC GPIO Configuration
-  PA4     ------> DAC_OUT1
+  PA5     ------> DAC_OUT1
   */
   GPIO_InitStruct.Pin = GPIO_PIN_5;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;

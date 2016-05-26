@@ -47,13 +47,13 @@ void MX_DAC_Init(void) {
   hdac.Instance = DAC;
   HAL_DAC_Init(&hdac);
 
-  /**DAC channel OUT2 config */
+  /**DAC channel OUT1 config */
   sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
   sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
   HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_1);
 
   /* DAC GPIO Configuration
-     PA5     ------> DAC_OUT2
+     PA4     ------> DAC_OUT1
   */
   GPIO_InitStruct.Pin = GPIO_PIN_4;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
