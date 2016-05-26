@@ -1,14 +1,10 @@
 /**
   ******************************************************************************
-  * @file    system_stm32f3xx.h
-  * @author  MCD Application Team
-  * @version V2.3.0
-  * @date    29-April-2015
-  * @brief   CMSIS Cortex-M4 Device System Source File for STM32F3xx devices.  
+  * @file    stm32f3xx_it.c
+  * @brief   Interrupt Service Routines.
   ******************************************************************************
-  * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
+  * COPYRIGHT(c) 2015 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -33,92 +29,52 @@
   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   *
   ******************************************************************************
-  */ 
-
-/** @addtogroup CMSIS
-  * @{
   */
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f3xx_hal.h"
+#include "stm32f3xx.h"
+#include "stm32f3xx_it.h"
 
-/** @addtogroup stm32f3xx_system
-  * @{
-  */  
-  
+/* External variables --------------------------------------------------------*/
+#ifdef USE_DMA
+extern DMA_HandleTypeDef hdma_dac_ch1;
+#endif
+
+
+/******************************************************************************/
+/*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
+/******************************************************************************/
 /**
-  * @brief Define to prevent recursive inclusion
-  */
-#ifndef __SYSTEM_STM32F3XX_H
-#define __SYSTEM_STM32F3XX_H
+* @brief This function handles System tick timer.
+*/
+void SysTick_Handler(void)
+{
+  /* USER CODE BEGIN SysTick_IRQn 0 */
 
-#ifdef __cplusplus
- extern "C" {
-#endif 
+  /* USER CODE END SysTick_IRQn 0 */
+  HAL_IncTick();
+  HAL_SYSTICK_IRQHandler();
+  /* USER CODE BEGIN SysTick_IRQn 1 */
 
-/** @addtogroup STM32F3xx_System_Includes
-  * @{
-  */
+  /* USER CODE END SysTick_IRQn 1 */
+}
 
-/**
-  * @}
-  */
+#ifdef USE_DMA
 
-
-/** @addtogroup STM32F3xx_System_Exported_types
-  * @{
-  */
-  /* This variable is updated in three ways:
-      1) by calling CMSIS function SystemCoreClockUpdate()
-      3) by calling HAL API function HAL_RCC_GetHCLKFreq()
-      3) by calling HAL API function HAL_RCC_ClockConfig()
-         Note: If you use this function to configure the system clock; then there
-               is no need to call the 2 first functions listed above, since SystemCoreClock
-               variable is updated automatically.
-  */
-extern uint32_t SystemCoreClock;          /*!< System Clock Frequency (Core Clock) */
-extern const uint8_t AHBPrescTable[16];   /*!< AHB prescalers table values */
-extern const uint8_t APBPrescTable[8];    /*!< APB prescalers table values */
-
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F3xx_System_Exported_Constants
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F3xx_System_Exported_Macros
-  * @{
-  */
-
-/**
-  * @}
-  */
-
-/** @addtogroup STM32F3xx_System_Exported_Functions
-  * @{
-  */
-  
-extern void SystemInit(void);
-extern void SystemCoreClockUpdate(void);
-/**
-  * @}
-  */
-
-#ifdef __cplusplus
+void DMA1_Channel3_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(&hdma_dac_ch1);
 }
 #endif
 
-#endif /*__SYSTEM_STM32F3XX_H */
+/******************************************************************************/
+/* STM32F3xx Peripheral Interrupt Handlers                                    */
+/* Add here the Interrupt Handlers for the used peripherals.                  */
+/* For the available peripheral interrupt handler names,                      */
+/* please refer to the startup file (startup_stm32f3xx.s).                    */
+/******************************************************************************/
 
-/**
-  * @}
-  */
-  
-/**
-  * @}
-  */  
+/* USER CODE BEGIN 1 */
+
+/* USER CODE END 1 */
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

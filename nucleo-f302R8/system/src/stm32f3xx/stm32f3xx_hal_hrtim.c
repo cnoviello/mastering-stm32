@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_hrtim.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   TIM HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the High Resolution Timer (HRTIM) peripheral:
@@ -289,7 +289,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -606,6 +606,9 @@ HAL_StatusTypeDef HAL_HRTIM_DeInit (HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_MspInit(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_HRTIM_MspInit could be implemented in the user file
    */ 
@@ -618,6 +621,9 @@ __weak void HAL_HRTIM_MspInit(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_MspDeInit(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_HRTIM_MspDeInit could be implemented in the user file
    */ 
@@ -1213,7 +1219,7 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOCChannelConfig(HRTIM_HandleTypeDef * hhrtim,
                                                  uint32_t OCChannel,
                                                  HRTIM_SimpleOCChannelCfgTypeDef* pSimpleOCChannelCfg)
 {
-  uint32_t CompareUnit = 0xFFFFFFFF;
+  uint32_t CompareUnit = 0xFFFFFFFFU;
   HRTIM_CompareCfgTypeDef CompareCfg = {0};
   HRTIM_OutputCfgTypeDef OutputCfg = {0};
   
@@ -1777,7 +1783,7 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMChannelConfig(HRTIM_HandleTypeDef * hhrtim,
                                                   uint32_t PWMChannel,
                                                   HRTIM_SimplePWMChannelCfgTypeDef* pSimplePWMChannelCfg)
 {
-  uint32_t CompareUnit = 0xFFFFFFFF;
+  uint32_t CompareUnit = 0xFFFFFFFFU;
   HRTIM_CompareCfgTypeDef CompareCfg;
   HRTIM_OutputCfgTypeDef OutputCfg;
   uint32_t hrtim_timcr;
@@ -2871,7 +2877,7 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOnePulseChannelConfig(HRTIM_HandleTypeDef * hh
                                                        uint32_t OnePulseChannel,
                                                        HRTIM_SimpleOnePulseChannelCfgTypeDef* pSimpleOnePulseChannelCfg)
 {
-  uint32_t CompareUnit = 0xFFFFFFFF;
+  uint32_t CompareUnit = 0xFFFFFFFFU;
   HRTIM_CompareCfgTypeDef CompareCfg;
   HRTIM_OutputCfgTypeDef OutputCfg;
   HRTIM_EventCfgTypeDef EventCfg;
@@ -5922,6 +5928,9 @@ void HAL_HRTIM_IRQHandler(HRTIM_HandleTypeDef * hhrtim,
   */
 __weak void HAL_HRTIM_Fault1Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault1Callback could be implenetd in the user file
    */ 
@@ -5934,6 +5943,9 @@ __weak void HAL_HRTIM_Fault1Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault2Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault2Callback could be implenetd in the user file
    */ 
@@ -5946,6 +5958,9 @@ __weak void HAL_HRTIM_Fault2Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault3Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault3Callback could be implenetd in the user file
    */ 
@@ -5958,6 +5973,9 @@ __weak void HAL_HRTIM_Fault3Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault4Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault4Callback could be implenetd in the user file
    */ 
@@ -5970,6 +5988,9 @@ __weak void HAL_HRTIM_Fault4Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault5Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault5Callback could be implenetd in the user file
    */ 
@@ -5982,6 +6003,9 @@ __weak void HAL_HRTIM_Fault5Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_SystemFaultCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_SystemFaultCallback could be implenetd in the user file
    */ 
@@ -5994,6 +6018,9 @@ __weak void HAL_HRTIM_SystemFaultCallback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_DLLCalbrationReadyCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_DLLCalbrationCallback could be implenetd in the user file
    */ 
@@ -6006,6 +6033,9 @@ __weak void HAL_HRTIM_DLLCalbrationReadyCallback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_BurstModePeriodCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_BurstModeCallback could be implenetd in the user file
    */ 
@@ -6018,6 +6048,9 @@ __weak void HAL_HRTIM_BurstModePeriodCallback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_SynchronizationEventCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_SynchronizationEventCallback could be implenetd in the user file
    */ 
@@ -6039,6 +6072,10 @@ __weak void HAL_HRTIM_SynchronizationEventCallback(HRTIM_HandleTypeDef * hhrtim)
 __weak void HAL_HRTIM_RegistersUpdateCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_RegistersUpdateCallback could be implenetd in the user file
    */ 
@@ -6060,6 +6097,10 @@ __weak void HAL_HRTIM_RegistersUpdateCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_RepetitionEventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_RepetitionEventCallback could be implenetd in the user file
    */ 
@@ -6082,6 +6123,10 @@ __weak void HAL_HRTIM_RepetitionEventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare1EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare1EventCallback could be implenetd in the user file
    */ 
@@ -6104,6 +6149,10 @@ __weak void HAL_HRTIM_Compare1EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare2EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare2EventCallback could be implenetd in the user file
    */ 
@@ -6126,6 +6175,10 @@ __weak void HAL_HRTIM_Compare2EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare3EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare3EventCallback could be implenetd in the user file
    */ 
@@ -6148,6 +6201,10 @@ __weak void HAL_HRTIM_Compare3EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare4EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare4EventCallback could be implenetd in the user file
    */ 
@@ -6168,6 +6225,10 @@ __weak void HAL_HRTIM_Compare4EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Capture1EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Capture1EventCallback could be implenetd in the user file
    */ 
@@ -6188,6 +6249,10 @@ __weak void HAL_HRTIM_Capture1EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Capture2EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Capture2EventCallback could be implenetd in the user file
    */ 
@@ -6209,6 +6274,10 @@ __weak void HAL_HRTIM_Capture2EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_DelayedProtectionCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_DelayedProtectionCallback could be implenetd in the user file
    */ 
@@ -6230,6 +6299,10 @@ __weak void HAL_HRTIM_DelayedProtectionCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_CounterResetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_CounterResetCallback could be implenetd in the user file
    */ 
@@ -6250,6 +6323,10 @@ __weak void HAL_HRTIM_CounterResetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output1SetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output1SetCallback could be implenetd in the user file
    */ 
@@ -6270,6 +6347,10 @@ __weak void HAL_HRTIM_Output1SetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output1ResetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output1ResetCallback could be implenetd in the user file
    */ 
@@ -6290,6 +6371,10 @@ __weak void HAL_HRTIM_Output1ResetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output2SetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output2SetCallback could be implenetd in the user file
    */ 
@@ -6310,6 +6395,10 @@ __weak void HAL_HRTIM_Output2SetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output2ResetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output2ResetCallback could be implenetd in the user file
    */ 
@@ -6331,6 +6420,10 @@ __weak void HAL_HRTIM_Output2ResetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_BurstDMATransferCallback(HRTIM_HandleTypeDef * hhrtim,
                                                uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_BurstDMATransferCallback could be implenetd in the user file
    */ 
@@ -6343,6 +6436,9 @@ __weak void HAL_HRTIM_BurstDMATransferCallback(HRTIM_HandleTypeDef * hhrtim,
   */
 __weak void HAL_HRTIM_ErrorCallback(HRTIM_HandleTypeDef *hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_ErrorCallback could be implenetd in the user file
    */ 
@@ -6698,7 +6794,7 @@ static void HRTIM_CaptureUnitConfig(HRTIM_HandleTypeDef * hhrtim,
                                     uint32_t CaptureUnit,
                                     uint32_t Event)
 {
-  uint32_t CaptureTrigger = 0xFFFFFFFF;
+  uint32_t CaptureTrigger = 0xFFFFFFFFU;
   
   switch (Event)
   {
@@ -6785,7 +6881,7 @@ static void  HRTIM_OutputConfig(HRTIM_HandleTypeDef * hhrtim,
   uint32_t hrtim_outr;
   uint32_t hrtim_dtr;
   
-  uint32_t shift = 0xFFFFFFFF;
+  uint32_t shift = 0xFFFFFFFFU;
   
   hrtim_outr = hhrtim->Instance->sTimerxRegs[TimerIdx].OUTxR;
   hrtim_dtr = hhrtim->Instance->sTimerxRegs[TimerIdx].DTxR;
@@ -7315,7 +7411,7 @@ static DMA_HandleTypeDef * HRTIM_GetDMAHandleFromTimerIdx(HRTIM_HandleTypeDef * 
 
 static uint32_t GetTimerIdxFromDMAHandle(DMA_HandleTypeDef *hdma)
 {
-  uint32_t timed_idx = 0xFFFFFFFF;
+  uint32_t timed_idx = 0xFFFFFFFFU;
   
   if (hdma->Instance ==  DMA1_Channel2)
   {

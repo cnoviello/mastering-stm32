@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_rtc_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of RTC HAL Extended module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -178,7 +178,9 @@ typedef struct
   */
 #define RTC_TAMPER_1                    RTC_TAFCR_TAMP1E
 #define RTC_TAMPER_2                    RTC_TAFCR_TAMP2E
+#if defined(RTC_TAMPER3_SUPPORT)
 #define RTC_TAMPER_3                    RTC_TAFCR_TAMP3E
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
@@ -610,6 +612,7 @@ typedef struct
   */
 #define __HAL_RTC_TAMPER2_DISABLE(__HANDLE__)                        ((__HANDLE__)->Instance->TAFCR &= ~(RTC_TAFCR_TAMP2E))
 
+#if defined(RTC_TAMPER3_SUPPORT)
 /**
   * @brief  Enable the RTC Tamper3 input detection.
   * @param  __HANDLE__: specifies the RTC handle.
@@ -623,6 +626,7 @@ typedef struct
   * @retval None
   */
 #define __HAL_RTC_TAMPER3_DISABLE(__HANDLE__)                        ((__HANDLE__)->Instance->TAFCR &= ~(RTC_TAFCR_TAMP3E))
+#endif /* RTC_TAMPER3_SUPPORT */
 
 /**
   * @brief  Enable the RTC Tamper interrupt.
@@ -651,7 +655,8 @@ typedef struct
   *         This parameter can be:
   *            @arg  RTC_IT_TAMP1: Tamper1 interrupt
   *            @arg  RTC_IT_TAMP2: Tamper2 interrupt
-  *            @arg  RTC_IT_TAMP3: Tamper3 interrupt
+  *            @arg  RTC_IT_TAMP3: Tamper3 interrupt (*)
+  * @note   (*) RTC_IT_TAMP3 not present on all the devices
   * @retval None
   */
 #define __HAL_RTC_TAMPER_GET_IT(__HANDLE__, __INTERRUPT__)       (((((__HANDLE__)->Instance->ISR) & ((__INTERRUPT__)>> 4)) != RESET)? SET : RESET)
@@ -671,9 +676,10 @@ typedef struct
   * @param  __HANDLE__: specifies the RTC handle.
   * @param  __FLAG__: specifies the RTC Tamper Flag is pending or not.
   *          This parameter can be:
-  *             @arg RTC_FLAG_TAMP1F 
+  *             @arg RTC_FLAG_TAMP1F
   *             @arg RTC_FLAG_TAMP2F
-  *             @arg RTC_FLAG_TAMP3F
+  *             @arg RTC_FLAG_TAMP3F (*)
+  * @note   (*) RTC_FLAG_TAMP3F not present on all the devices
   * @retval None
   */
 #define __HAL_RTC_TAMPER_GET_FLAG(__HANDLE__, __FLAG__)               (((((__HANDLE__)->Instance->ISR) & (__FLAG__)) != RESET)? SET : RESET)
@@ -686,7 +692,8 @@ typedef struct
   *          This parameter can be:
   *             @arg RTC_FLAG_TAMP1F
   *             @arg RTC_FLAG_TAMP2F
-  *             @arg RTC_FLAG_TAMP3F  
+  *             @arg RTC_FLAG_TAMP3F (*)
+  * @note   (*) RTC_FLAG_TAMP3F not present on all the devices
   * @retval None
   */
 #define __HAL_RTC_TAMPER_CLEAR_FLAG(__HANDLE__, __FLAG__)      ((__HANDLE__)->Instance->ISR) = (~((__FLAG__) | RTC_ISR_INIT)|((__HANDLE__)->Instance->ISR & RTC_ISR_INIT))
@@ -939,7 +946,7 @@ HAL_StatusTypeDef HAL_RTCEx_PollForAlarmBEvent(RTC_HandleTypeDef *hrtc, uint32_t
 #define IS_TIMESTAMP_EDGE(EDGE) (((EDGE) == RTC_TIMESTAMPEDGE_RISING) || \
                                  ((EDGE) == RTC_TIMESTAMPEDGE_FALLING))
 
-#define IS_RTC_TAMPER(TAMPER) ((((TAMPER) & (uint32_t)0xFFFFFFD6) == 0x00) && ((TAMPER) != (uint32_t)RESET))
+#define IS_RTC_TAMPER(TAMPER) ((((TAMPER) & (uint32_t)0xFFFFFFD6U) == 0x00) && ((TAMPER) != (uint32_t)RESET))
 
 
 #define IS_RTC_TIMESTAMP_PIN(PIN) (((PIN) == RTC_TIMESTAMPPIN_DEFAULT))

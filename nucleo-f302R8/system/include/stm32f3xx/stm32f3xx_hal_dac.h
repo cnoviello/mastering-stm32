@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_dac.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of DAC HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -173,6 +173,7 @@ typedef struct __DAC_HandleTypeDef
   * @}
   */
 
+#if defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)
 /** @defgroup DAC_output_switch DAC output switch
   * @{
   */
@@ -183,6 +184,7 @@ typedef struct __DAC_HandleTypeDef
   * @}
   */
 
+#endif /* STM32F303x8 || STM32F334x8 || STM32F328xx || */
 /** @defgroup DAC_data_alignement DAC data alignement
   * @{
   */
@@ -351,9 +353,11 @@ typedef struct __DAC_HandleTypeDef
 #define IS_DAC_OUTPUT_BUFFER_STATE(STATE) (((STATE) == DAC_OUTPUTBUFFER_ENABLE) || \
                                            ((STATE) == DAC_OUTPUTBUFFER_DISABLE))
 
+#if defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)
 #define IS_DAC_OUTPUT_SWITCH_STATE(STATE) (((STATE) == DAC_OUTPUTSWITCH_DISABLE) || \
                                            ((STATE) == DAC_OUTPUTSWITCH_ENABLE))
 
+#endif /* STM32F303x8 || STM32F334x8 || STM32F328xx || */
 #define IS_DAC_ALIGN(ALIGN) (((ALIGN) == DAC_ALIGN_12B_R) || \
                              ((ALIGN) == DAC_ALIGN_12B_L) || \
                              ((ALIGN) == DAC_ALIGN_8B_R))
@@ -414,7 +418,7 @@ void HAL_DAC_DMAUnderrunCallbackCh1(DAC_HandleTypeDef *hdac);
   * @{
   */
 /* Peripheral Control functions ***********************************************/
-HAL_StatusTypeDef HAL_DAC_SetValue(DAC_HandleTypeDef* hdac, uint32_t channel, uint32_t alignment, uint32_t data);
+HAL_StatusTypeDef HAL_DAC_SetValue(DAC_HandleTypeDef* hdac, uint32_t Channel, uint32_t Alignment, uint32_t Data);
 
 /**
   * @}

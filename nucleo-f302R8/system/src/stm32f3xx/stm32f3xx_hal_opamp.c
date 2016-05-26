@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_opamp.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   OPAMP HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the operational amplifiers (OPAMP1,...OPAMP4) 
@@ -73,36 +73,6 @@
            output.
        (++) OPAMP gain is either 2, 4, 8 or 16.
         
-       (#) The OPAMPs non inverting input (both default and secondary) can be 
-           selected among the list shown by table below.
-       
-       (#) The OPAMPs non inverting input (both default and secondary) can be 
-           selected among the list shown by table below.
-       
-   [..] Table 1.  OPAMPs inverting/non-inverting inputs for the STM32F3 devices:
-     
-    +--------------------------------------------------------------+     
-    |                 |        | OPAMP1 | OPAMP2 | OPAMP3 | OPAMP4 |
-    |-----------------|--------|--------|--------|--------|--------|
-    |                 | No conn|   X    |   X    |   X    |   X    |
-    | Inverting Input | VM0    |  PC5   |  PC5   |  PB10  |  PB10  |
-    | (1)             | VM1    |  PA3   |  PA5   |  PB2   |  PD8   |
-    |-----------------|--------|--------|--------|--------|--------|
-    |                 | VP0    |  PA1   |  PA7   |  PB0   |  PB13  |
-    |  Non Inverting  | VP1    |  PA7   |  PD14  |  PB13  |  PD11  |
-    |    Input        | VP2    |  PA3   |  PB0   |  PA1   |  PA4   |
-    |                 | VP3    |  PA5   |  PB14  |  PA5   |  PB11  |
-    +--------------------------------------------------------------+  
-    (1): NA in follower mode.
-           
-   [..] Table 2.  OPAMPs outputs for the STM32F3 devices:
-
-    +--------------------------------------------------------------+     
-    |                 |        | OPAMP1 | OPAMP2 | OPAMP3 | OPAMP4 |
-    |-----------------|--------|--------|--------|--------|--------|
-    | Output          |        |  PA2   |  PA6   |  PB1   |  PB12  |
-    |-----------------|--------|--------|--------|--------|--------|
-
       
             ##### How to use this driver #####
 ================================================================================
@@ -110,7 +80,7 @@
     *** Calibration ***
     ============================================
     [..]
-	To run the opamp calibration self calibration:
+  To run the opamp calibration self calibration:
 
       (#) Start calibration using HAL_OPAMP_SelfCalibrate. 
            Store the calibration results.
@@ -118,7 +88,7 @@
     *** Running mode ***
     ============================================
     [..]
-	To use the opamp, perform the following steps:
+  To use the opamp, perform the following steps:
             
       (#) Fill in the HAL_OPAMP_MspInit() to
       (++) Configure the opamp input AND output in analog mode using 
@@ -159,7 +129,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -185,6 +155,38 @@
   *
   ******************************************************************************  
   */
+
+/*
+  Additional Tables:
+    The OPAMPs non inverting input (both default and secondary) can be 
+    selected among the list shown by table below.
+       
+    The OPAMPs non inverting input (both default and secondary) can be 
+    selected among the list shown by table below.
+       
+    Table 1.  OPAMPs inverting/non-inverting inputs for the STM32F3 devices:
+    +--------------------------------------------------------------+     
+    |                 |        | OPAMP1 | OPAMP2 | OPAMP3 | OPAMP4 |
+    |-----------------|--------|--------|--------|--------|--------|
+    |                 | No conn|   X    |   X    |   X    |   X    |
+    | Inverting Input | VM0    |  PC5   |  PC5   |  PB10  |  PB10  |
+    | (1)             | VM1    |  PA3   |  PA5   |  PB2   |  PD8   |
+    |-----------------|--------|--------|--------|--------|--------|
+    |                 | VP0    |  PA1   |  PA7   |  PB0   |  PB13  |
+    |  Non Inverting  | VP1    |  PA7   |  PD14  |  PB13  |  PD11  |
+    |    Input        | VP2    |  PA3   |  PB0   |  PA1   |  PA4   |
+    |                 | VP3    |  PA5   |  PB14  |  PA5   |  PB11  |
+    +--------------------------------------------------------------+  
+    (1): NA in follower mode.
+           
+    Table 2.  OPAMPs outputs for the STM32F3 devices:
+    +--------------------------------------------------------------+     
+    |                 |        | OPAMP1 | OPAMP2 | OPAMP3 | OPAMP4 |
+    |-----------------|--------|--------|--------|--------|--------|
+    | Output          |        |  PA2   |  PA6   |  PB1   |  PB12  |
+    |-----------------|--------|--------|--------|--------|--------|
+
+*/
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
@@ -429,6 +431,9 @@ HAL_StatusTypeDef HAL_OPAMP_DeInit(OPAMP_HandleTypeDef *hopamp)
   */
 __weak void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef *hopamp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hopamp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_OPAMP_MspInit could be implemented in the user file
    */
@@ -443,6 +448,9 @@ __weak void HAL_OPAMP_MspInit(OPAMP_HandleTypeDef *hopamp)
   */
 __weak void HAL_OPAMP_MspDeInit(OPAMP_HandleTypeDef *hopamp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hopamp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_OPAMP_MspDeInit could be implemented in the user file
    */

@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_comp_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of COMP HAL Extended module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -102,13 +102,19 @@
 /** @defgroup COMPEx_InvertingInput COMP Extended InvertingInput (STM32F303x8/STM32F334x8/STM32F328xx Product devices)
   * @{
   */
+/* Note: On these STM32 devices, there is only 1 comparator inverting input   */
+/*       connected to a GPIO.                                                 */
+/*       It must be chosen among the 2 literals COMP_INVERTINGINPUT_IOx       */
+/*       depending on comparator instance COMPx.                              */
 #define COMP_INVERTINGINPUT_1_4VREFINT     ((uint32_t)0x00000000)                        /*!< 1/4 VREFINT connected to comparator inverting input */
 #define COMP_INVERTINGINPUT_1_2VREFINT     COMP_CSR_COMPxINSEL_0                         /*!< 1/2 VREFINT connected to comparator inverting input */
 #define COMP_INVERTINGINPUT_3_4VREFINT     COMP_CSR_COMPxINSEL_1                         /*!< 3/4 VREFINT connected to comparator inverting input */
 #define COMP_INVERTINGINPUT_VREFINT        (COMP_CSR_COMPxINSEL_1|COMP_CSR_COMPxINSEL_0) /*!< VREFINT connected to comparator inverting input */
 #define COMP_INVERTINGINPUT_DAC1_CH1       COMP_CSR_COMPxINSEL_2                         /*!< DAC1_CH1_OUT (PA4) connected to comparator inverting input */
 #define COMP_INVERTINGINPUT_DAC1_CH2       (COMP_CSR_COMPxINSEL_2|COMP_CSR_COMPxINSEL_0) /*!< DAC1_CH2_OUT (PA5) connected to comparator inverting input */
-#define COMP_INVERTINGINPUT_IO1            (COMP_CSR_COMPxINSEL_2|COMP_CSR_COMPxINSEL_1) /*!< IO1 (PA2 for COMP2, PB2 for COMP4, PB15 for COMP6)
+#define COMP_INVERTINGINPUT_IO1            (COMP_CSR_COMPxINSEL_2|COMP_CSR_COMPxINSEL_1) /*!< IO1 (PA2 for COMP2),
+                                                                                              connected to comparator inverting input */
+#define COMP_INVERTINGINPUT_IO2            (COMP_CSR_COMPxINSEL_2|COMP_CSR_COMPxINSEL_1|COMP_CSR_COMPxINSEL_0) /*!< IO2 (PB2 for COMP4, PB15 for COMP6)
                                                                                               connected to comparator inverting input */
 #define COMP_INVERTINGINPUT_DAC2_CH1       COMP_CSR_COMPxINSEL_3                         /*!< DAC2_CH1_OUT connected to comparator inverting input */
 
@@ -1687,7 +1693,8 @@
   */
 #define COMP_EXTI_CLEAR_FLAG(__FLAG__)             WRITE_REG(EXTI->PR, (__FLAG__))
 
-#else
+#else /* STM32F30x, STM32F32xx, STM32F35x, STM32F39x, STM32F33x */
+
 
 /**
   * @brief  Init a comparator instance
@@ -1798,6 +1805,46 @@
 #define COMP_EXTI_CLEAR_FLAG(__FLAG__)             ((((__FLAG__) & COMP_EXTI_LINE_REG2_MASK) != RESET) ? WRITE_REG(EXTI->PR2, (__FLAG__)) : WRITE_REG(EXTI->PR, (__FLAG__)))
 
 #endif /* STM32F373xC || STM32F378xx */
+
+
+/**
+  * @brief  Manage inverting input comparator inverting input connected to a GPIO
+  *         for STM32F302x, STM32F32xx, STM32F33x.
+  *         - On devices STM32F302x, STM32F32xx, STM32F33x, there is
+  *           only 1 comparator inverting input connected to a GPIO.
+  *           Legacy definition of literal COMP_INVERTINGINPUT_IO1
+  *           was initially the only selection, but depending on 
+  *           comparator instance it corresponds to COMP_INVERTINGINPUT_IO2
+  *           (for instances COMP4, COMP6).
+  *           Since, COMP_INVERTINGINPUT_IO2 has been created and this macro
+  *           selects the correct literal COMP_INVERTINGINPUT_IOx in function
+  *           of comparator instance.
+  *         - On other STM32F3 devices, this macro performs no action.
+  * @param  __COMP_INSTANCE__  COMP instance
+  * @param  __INVERTINGINPUT__  COMP inverting input 
+  * @retval None.
+  */
+#if defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)
+#define COMP_INVERTINGINPUT_SELECTION(__COMP_INSTANCE__, __INVERTINGINPUT__)   \
+  (((__INVERTINGINPUT__) != COMP_INVERTINGINPUT_IO1)                           \
+    ? (                                                                        \
+       (__INVERTINGINPUT__)                                                    \
+      )                                                                        \
+      :                                                                        \
+      (((__COMP_INSTANCE__) == COMP2)                                          \
+        ? (                                                                    \
+           (COMP_INVERTINGINPUT_IO1)                                           \
+          )                                                                    \
+          :                                                                    \
+          (                                                                    \
+           (COMP_INVERTINGINPUT_IO2)                                           \
+          )                                                                    \
+      )                                                                        \
+  )
+#else
+#define COMP_INVERTINGINPUT_SELECTION(__COMP_INSTANCE__, __INVERTINGINPUT__)   \
+  (__INVERTINGINPUT__)
+#endif
 
 /**
   * @}
@@ -1915,6 +1962,7 @@
                                        ((INPUT) == COMP_INVERTINGINPUT_DAC1_CH1)         || \
                                        ((INPUT) == COMP_INVERTINGINPUT_DAC1_CH2)         || \
                                        ((INPUT) == COMP_INVERTINGINPUT_IO1)              || \
+                                       ((INPUT) == COMP_INVERTINGINPUT_IO2)              || \
                                        ((INPUT) == COMP_INVERTINGINPUT_DAC2_CH1))
 
 /*!< Non inverting input not available */
