@@ -10,6 +10,7 @@
 #include "arm/semihosting.h"
 #include "diag/Trace.h"
 #include <string.h>
+#include "stm32f1xx_hal.h"
 
 // ----------------------------------------------------------------------------
 

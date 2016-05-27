@@ -86,7 +86,7 @@ void MX_GPIO_Init(void)
   __GPIOF_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
 
-#ifdef TICKLESS_MODE
+#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
@@ -114,7 +114,7 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-#ifdef TICKLESS_MODE
+#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
   /* EXTI interrupt init*/
   HAL_NVIC_SetPriority(EXTI4_15_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY, 0);
   HAL_NVIC_EnableIRQ(EXTI4_15_IRQn);

@@ -45,13 +45,6 @@ int main(void) {
   while (1);
 }
 
-/* Enable DMA controller clock */
-void MX_DMA_Init(void)
-{
-  /* DMA controller clock enable */
-  __DMA1_CLK_ENABLE();
-}
-
 #ifdef USE_FULL_ASSERT
 
 /**
