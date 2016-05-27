@@ -1,138 +1,101 @@
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include <cmsis_os.h>
-#include <nucleo_hal_bsp.h>
+#include <stm32f3xx_hal.h>
+#include <stm32f3xx_hal_gpio.h>
+
+#include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
-void blinkThread(void const *argument);
+#define HAL_MODULE_ENABLED
+#define HAL_GPIO_MODULE_ENABLED
 
-uint8_t suspendBlink = 0;
-osThreadId blinkTID;
-osMessageQId GPIOEvent = 0;
+extern uint32_t _estack;
+extern const uint32_t _sccm;
 
-extern volatile uint8_t ucSleepModeCalled;
+/* User functions */
+void _start (void);
+int main(void);
 
-static volatile uint32_t sleepTime = 50;
+/* Minimal vector table */
+uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
+    (uint32_t *)&_estack,   // initial stack pointer
+    (uint32_t *)_start        // main as Reset_Handler
+};
 
-int main(void) {
-  HAL_Init();
-  Nucleo_BSP_Init();
+// Begin address for the initialization values of the .data section.
+// defined in linker script
+extern uint32_t _sidata;
+// Begin address for the .data section; defined in linker script
+extern uint32_t _sdata;
+// End address for the .data section; defined in linker script
+extern uint32_t _edata;
+// Begin address for the initialization values of the .ccm section.
+extern uint32_t _siccm;
+// Begin address for the .ccm section; defined in linker script
+extern uint32_t _sccmd;
+// End address for the .ccm section; defined in linker script
+extern uint32_t _eccmd;
 
-  osThreadDef(blink, blinkThread, osPriorityNormal, 0, 1000);
-  blinkTID = osThreadCreate(osThread(blink), NULL);
+// Begin address for the .bss section; defined in linker script
+extern uint32_t _sbss;
+// End address for the .bss section; defined in linker script
+extern uint32_t _ebss;
 
-  osMessageQDef(GPIOQueue, 1, uint8_t);
-  GPIOEvent = osMessageCreate(osMessageQ(GPIOQueue), NULL);
-
-  osKernelStart();
-
-  /* Infinite loop */
-  while (1);
-}
-
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-  if (GPIO_Pin == B1_Pin) {
-    osMessagePut(GPIOEvent, 1, 0);
-    if (suspendBlink)
-      osThreadResume(blinkTID);
-  }
-}
-
-
-void blinkThread(void const *argument) {
-  UNUSED(argument);
-
-  osEvent evt;
-
-  while (1) {
-    evt = osMessageGet(GPIOEvent, 0);
-    if (evt.status == osEventMessage) {
-      ucSleepModeCalled = 0;
-      if (suspendBlink) {
-        suspendBlink = 0;
-        sleepTime = 50;
-      } else if (sleepTime == 50) {
-        sleepTime = 500;
-      } else if (sleepTime == 500) {
-        suspendBlink = 1;
-        osThreadSuspend(NULL);
-      }
-    }
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    osDelay(sleepTime);
-  }
-}
-
-#if configUSE_TICKLESS_IDLE == 2
-
-void preSLEEP(TickType_t xModifiableIdleTime) {
-  UNUSED(xModifiableIdleTime);
-
-  HAL_SuspendTick();
-  __enable_irq();
-  __disable_irq();
-}
-
-void postSLEEP(TickType_t xModifiableIdleTime) {
-  UNUSED(xModifiableIdleTime);
-
-  HAL_ResumeTick();
-}
-
-void preSTOP() {
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
-  __HAL_RCC_GPIOA_CLK_DISABLE();
-  HAL_SuspendTick();
-  __enable_irq();
-  __disable_irq();
-}
-
-void postSTOP() {
-  SystemClock_Config();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  HAL_ResumeTick();
-}
-
-
-#endif
-
-#ifdef DEBUG
-
-void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName) {
-  UNUSED(pxTask);
-  UNUSED(pcTaskName);
-  asm("BKPT #0");
-}
-
-#endif
-
-#ifdef USE_FULL_ASSERT
-
-/**
- * @brief Reports the name of the source file and the source line number
- * where the assert_param error has occurred.
- * @param file: pointer to the source file name
- * @param line: assert_param error line source number
- * @retval None
- */
-void assert_failed(uint8_t* file, uint32_t line)
+inline void
+__attribute__((always_inline))
+__initialize_data (uint32_t* from, uint32_t* region_begin, uint32_t* region_end)
 {
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-   ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-
+  // Iterate and copy word by word.
+  // It is assumed that the pointers are word aligned.
+  uint32_t *p = region_begin;
+  while (p < region_end)
+    *p++ = *from++;
 }
 
-#endif
+inline void
+__attribute__((always_inline))
+__initialize_bss (uint32_t* region_begin, uint32_t* region_end)
+{
+  // Iterate and copy word by word.
+  // It is assumed that the pointers are word aligned.
+  uint32_t *p = region_begin;
+  while (p < region_end)
+    *p++ = 0;
+}
 
-/**
- * @}
- */
+void __attribute__ ((noreturn,weak))
+_start (void) {
+  SCB->VTOR = (uint32_t)&_sccm;  /* Relocate vector table to 0x1000 0000 */
+  SYSCFG->RCR = 0xFF;            /* Enable write protection for CCM memory */
 
-/**
- * @}
- */
+	__initialize_data(&_sidata, &_sdata, &_edata);
+	__initialize_data(&_siccm, &_sccmd, &_eccmd);
+	__initialize_bss(&_sbss, &_ebss);
+	main();
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+	for(;;);
+}
 
+int main() {
+    GPIO_InitTypeDef GPIO_InitStruct;
+
+    HAL_Init();
+
+    /* GPIO Ports Clock Enable */
+    __GPIOA_CLK_ENABLE();
+
+    /*Configure GPIO pin : LD2_Pin */
+    GPIO_InitStruct.Pin = LD2_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
+    HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+    while(1) {
+      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+      HAL_Delay(500);
+    }
+}
+
+void delay(uint32_t count) {
+    while(count--);
+}
