@@ -1,10 +1,10 @@
-/* memory layout for an STM32F303RE */
+/* memory layout for an STM32F334R8 */
 
 MEMORY
 {
-    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 512K
-    SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 64K
-    CCM  (xrw)  : ORIGIN = 0x10000000, LENGTH = 16K
+    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 64K
+    SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 12K
+    CCM  (xrw)  : ORIGIN = 0x10000000, LENGTH = 4K
 }
  
  ENTRY(_start);
@@ -72,37 +72,21 @@ SECTIONS
 	    *(.rodata*)        /* .rodata* sections (strings, etc.) */
 	  } >FLASH
 	  
+	  /* Used by the startup to load ISR in CCM from FLASH */
+      _slccm = LOADADDR(.ccm);
+	  
 	  .ccm : ALIGN(4)
 	  {
 	  	 _sccm = .;
 	  	 *(.isr_vector_ccm)
 	  	 *(.ccm)
-	  	 KEEP(*(.isr_vector_ccm))
+	  	 KEEP(*(.isr_vector_ccm .ccm))
 	  	 	  	 
-	  	 *src/ch10/ccm_vector.o(.text* .bss* .data*)
 	  	 . = ALIGN(4);
 	  	 _eccm = .;
-    } >CCM
-    
-    /* Used by the startup to initialize data in CCM */
-    _siccm = LOADADDR(.ccm.data);
-    
-    .ccm.data : ALIGN(4)
-	  {
-	  	 _sccmd = .;
-	  	 *(.ccm.data .ccm.data*)
-	  	 . = ALIGN(4);
-	  	 _eccmd = .;
     } >CCM AT>FLASH
     
-    /* Uninitialized data section */
-		.ccm.bss (NOLOAD) : ALIGN(4)
-		{
-		  _sccmb = .;         /* define a global symbol at bss start */
-	  
-		  *(ccm.bss ccm.bss*)
-	  		
-		  . = ALIGN(4);
-		  _eccmb = .;         /* define a global symbol at bss end */
-		} >SRAM
+      /* Size of the .ccm section */
+    _ccmsize = _eccm - _sccm;
+
 }
