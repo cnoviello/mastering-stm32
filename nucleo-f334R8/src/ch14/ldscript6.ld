@@ -72,37 +72,21 @@ SECTIONS
 	    *(.rodata*)        /* .rodata* sections (strings, etc.) */
 	  } >FLASH
 	  
+	  /* Used by the startup to load ISR in CCM from FLASH */
+      _slccm = LOADADDR(.ccm);
+	  
 	  .ccm : ALIGN(4)
 	  {
 	  	 _sccm = .;
 	  	 *(.isr_vector_ccm)
 	  	 *(.ccm)
-	  	 KEEP(*(.isr_vector_ccm))
+	  	 KEEP(*(.isr_vector_ccm .ccm))
 	  	 	  	 
-	  	 *src/ch10/ccm_vector.o(.text* .bss* .data*)
 	  	 . = ALIGN(4);
 	  	 _eccm = .;
-    } >CCM
-    
-    /* Used by the startup to initialize data in CCM */
-    _siccm = LOADADDR(.ccm.data);
-    
-    .ccm.data : ALIGN(4)
-	  {
-	  	 _sccmd = .;
-	  	 *(.ccm.data .ccm.data*)
-	  	 . = ALIGN(4);
-	  	 _eccmd = .;
     } >CCM AT>FLASH
     
-    /* Uninitialized data section */
-		.ccm.bss (NOLOAD) : ALIGN(4)
-		{
-		  _sccmb = .;         /* define a global symbol at bss start */
-	  
-		  *(ccm.bss ccm.bss*)
-	  		
-		  . = ALIGN(4);
-		  _eccmb = .;         /* define a global symbol at bss end */
-		} >SRAM
+      /* Size of the .ccm section */
+    _ccmsize = _eccm - _sccm;
+
 }
