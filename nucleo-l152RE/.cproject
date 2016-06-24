@@ -191,7 +191,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9|ch8|ch7|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9|ch8|ch7|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -860,7 +860,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9|ch7/main-ex3.c|ch7/main-ex2.c|ch4|ch8|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9|ch7/main-ex3.c|ch7/main-ex2.c|ch4|ch8|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1057,7 +1057,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9|ch7/main-ex1.c|ch7/main-ex3.c|ch4|ch8|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9|ch7/main-ex1.c|ch7/main-ex3.c|ch4|ch8|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1254,7 +1254,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch8|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch8|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1451,7 +1451,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9|ch8/main-ex3.c|ch8/main-ex2.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9|ch8/main-ex3.c|ch8/main-ex2.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1648,7 +1648,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9|ch8/main-ex1.c|ch8/main-ex3.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9|ch8/main-ex1.c|ch8/main-ex3.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -1846,7 +1846,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -2044,7 +2044,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9/mem2mem.c|ch9/main-ex3.c|ch9/main-ex2.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9/mem2mem.c|ch9/main-ex3.c|ch9/main-ex2.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -2242,7 +2242,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9/mem2mem.c|ch9/main-ex3.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9/mem2mem.c|ch9/main-ex3.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -2441,7 +2441,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -2641,7 +2641,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15|ch9/main-ex3.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15|ch9/main-ex3.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -3782,7 +3782,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch5|ch9|ch16|ch11|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch5|ch9|ch17|ch11|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -3997,7 +3997,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15/main-ex5.c|ch15/main-ex4.c|ch15/main-ex3.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15/main-ex5.c|ch15/main-ex4.c|ch15/main-ex3.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -4197,7 +4197,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex5.c|ch15/main-ex4.c|ch15/main-ex3.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex5.c|ch15/main-ex4.c|ch15/main-ex3.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -4397,7 +4397,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex5.c|ch15/main-ex4.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex5.c|ch15/main-ex4.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -4597,7 +4597,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex5.c|ch15/main-ex3.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex5.c|ch15/main-ex3.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -4797,14 +4797,14 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex4.c|ch15/main-ex3.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11|ch15/main-ex1.c|ch15/main-ex4.c|ch15/main-ex3.c|ch15/main-ex2.c|ch9|ch9/mem2mem.c|ch9/main-ex2.c|ch9/main-ex1.c|ch8|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32l1xx_it.c|stm32l1xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480" moduleId="org.eclipse.cdt.core.settings" name="CH16-EX1">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480" moduleId="org.eclipse.cdt.core.settings" name="CH17-EX1">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -4816,7 +4816,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Example 1" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480" name="CH16-EX1" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 17 Example 1" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480" name="CH17-EX1" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1455854866" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1732772592" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -4876,7 +4876,7 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM3&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../src/ch16/include/&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch17/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.727110890" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -4954,7 +4954,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16/main-ex7.c|ch16/tickless-mode.c|ch16/main-ex6.c|ch5|ch14|ch16/main-ex5.c|ch16/main-ex4.c|ch16/main-ex3.c|ch16/main-ex2.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17/main-ex7.c|ch17/tickless-mode.c|ch17/main-ex6.c|ch5|ch14|ch17/main-ex5.c|ch17/main-ex4.c|ch17/main-ex3.c|ch17/main-ex2.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_msp_template.c|src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -4963,7 +4963,7 @@
 			<storageModule moduleId="ilg.gnuarmeclipse.managedbuild.packs"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873" moduleId="org.eclipse.cdt.core.settings" name="CH16-EX2">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873" moduleId="org.eclipse.cdt.core.settings" name="CH17-EX2">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -4975,7 +4975,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Example 2" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873" name="CH16-EX2" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 17 Example 2" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873" name="CH17-EX2" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1323338022" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1783461962" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -5035,7 +5035,7 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM3&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../src/ch16/include/&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch17/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.744783595" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -5115,7 +5115,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16/main-ex7.c|ch16/tickless-mode.c|ch16/main-ex6.c|ch5|ch14|ch16/main-ex5.c|ch16/main-ex4.c|ch16/main-ex3.c|ch16/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17/main-ex7.c|ch17/tickless-mode.c|ch17/main-ex6.c|ch5|ch14|ch17/main-ex5.c|ch17/main-ex4.c|ch17/main-ex3.c|ch17/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_msp_template.c|src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -5123,7 +5123,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060" moduleId="org.eclipse.cdt.core.settings" name="CH16-EX3">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060" moduleId="org.eclipse.cdt.core.settings" name="CH17-EX3">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -5135,7 +5135,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Example 3" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060" name="CH16-EX3" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 17 Example 3" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060" name="CH17-EX3" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1306151589" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.873085940" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -5195,7 +5195,7 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM3&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../src/ch16/include/&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch17/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.882983921" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -5275,7 +5275,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16/main-ex7.c|ch16/tickless-mode.c|ch16/main-ex6.c|ch5|ch14|ch16/main-ex5.c|ch16/main-ex4.c|ch16/main-ex2.c|ch16/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17/main-ex7.c|ch17/tickless-mode.c|ch17/main-ex6.c|ch5|ch14|ch17/main-ex5.c|ch17/main-ex4.c|ch17/main-ex2.c|ch17/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_msp_template.c|src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -5283,7 +5283,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174" moduleId="org.eclipse.cdt.core.settings" name="CH16-EX4">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174" moduleId="org.eclipse.cdt.core.settings" name="CH17-EX4">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -5295,7 +5295,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Example 4" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174" name="CH16-EX4" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 17 Example 4" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174" name="CH17-EX4" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1311097651" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1790378768" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -5355,7 +5355,7 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM3&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../src/ch16/include/&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch17/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.862386297" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -5435,7 +5435,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16/main-ex7.c|ch16/tickless-mode.c|ch16/main-ex6.c|ch5|ch14|ch16/main-ex5.c|ch16/main-ex3.c|ch16/main-ex2.c|ch16/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17/main-ex7.c|ch17/tickless-mode.c|ch17/main-ex6.c|ch5|ch14|ch17/main-ex5.c|ch17/main-ex3.c|ch17/main-ex2.c|ch17/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_msp_template.c|src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -5443,7 +5443,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476" moduleId="org.eclipse.cdt.core.settings" name="CH16-EX5">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476" moduleId="org.eclipse.cdt.core.settings" name="CH17-EX5">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -5455,7 +5455,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Example 5" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476" name="CH16-EX5" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 17 Example 5" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476" name="CH17-EX5" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.866842791" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1040531504" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -5515,7 +5515,7 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM3&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../src/ch16/include/&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch17/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.2136373596" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -5595,7 +5595,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16/main-ex7.c|ch16/tickless-mode.c|ch16/main-ex6.c|ch5|ch14|ch16/main-ex4.c|ch16/main-ex3.c|ch16/main-ex2.c|ch16/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17/main-ex7.c|ch17/tickless-mode.c|ch17/main-ex6.c|ch5|ch14|ch17/main-ex4.c|ch17/main-ex3.c|ch17/main-ex2.c|ch17/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_msp_template.c|src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -5603,7 +5603,7 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196" moduleId="org.eclipse.cdt.core.settings" name="CH16-EX6">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196" moduleId="org.eclipse.cdt.core.settings" name="CH17-EX6">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -5615,7 +5615,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Example 6" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196" name="CH16-EX6" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 17 Example 6" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196" name="CH17-EX6" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.322624109" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.897685960" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -5675,7 +5675,7 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM3&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../src/ch16/include/&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch17/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.1269869805" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -5756,7 +5756,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16/main-ex7.c|ch16/main-ex5.c|ch5|ch14|ch16/main-ex4.c|ch16/main-ex3.c|ch16/main-ex2.c|ch16/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17/main-ex7.c|ch17/main-ex5.c|ch5|ch14|ch17/main-ex4.c|ch17/main-ex3.c|ch17/main-ex2.c|ch17/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_msp_template.c|src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -5778,7 +5778,7 @@
 			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196.450956619">
-			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196.450956619" moduleId="org.eclipse.cdt.core.settings" name="CH16-EX7">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196.450956619" moduleId="org.eclipse.cdt.core.settings" name="CH17-EX7">
 				<externalSettings/>
 				<extensions>
 					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
@@ -5790,7 +5790,7 @@
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
-				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Example 7" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196.450956619" name="CH16-EX7" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 17 Example 7" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196.450956619" name="CH17-EX7" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1968318452.1950397480.627536873.386981060.1581178174.1037725476.1233629196.450956619." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.47569969" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.910650448" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
@@ -5850,7 +5850,7 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM3&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../src/ch16/include/&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch17/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.1225208795" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -5930,7 +5930,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16/tickless-mode.c|ch16/main-ex6.c|ch16/main-ex5.c|ch5|ch14|ch16/main-ex4.c|ch16/main-ex3.c|ch16/main-ex2.c|ch16/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17/tickless-mode.c|ch17/main-ex6.c|ch17/main-ex5.c|ch5|ch14|ch17/main-ex4.c|ch17/main-ex3.c|ch17/main-ex2.c|ch17/main-ex1.c|ch9|ch11|ch15|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_msp_template.c|src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -6101,7 +6101,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex2.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex2.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -6258,7 +6258,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -6415,7 +6415,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -6586,7 +6586,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -6757,7 +6757,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -6929,7 +6929,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -7101,7 +7101,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -7273,7 +7273,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -7445,7 +7445,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -7617,7 +7617,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -7789,7 +7789,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="ch12|ch16|ch5|ch14|ch11/main-ex8.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
+						<entry excluding="ch12|ch17|ch5|ch14|ch11/main-ex8.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch15|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 						<entry excluding="src/stm32l1xx/stm32l1xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -7857,13 +7857,13 @@
 			<resource resourceType="PROJECT" workspacePath="/nucleo-l152RE"/>
 		</configuration>
 		<configuration configurationName="CH5-EX1"/>
-		<configuration configurationName="CH16-EX7"/>
-		<configuration configurationName="CH16-EX6"/>
-		<configuration configurationName="CH16-EX5"/>
-		<configuration configurationName="CH16-EX4"/>
-		<configuration configurationName="CH16-EX3"/>
-		<configuration configurationName="CH16-EX2"/>
-		<configuration configurationName="CH16-EX1"/>
+		<configuration configurationName="CH17-EX7"/>
+		<configuration configurationName="CH17-EX6"/>
+		<configuration configurationName="CH17-EX5"/>
+		<configuration configurationName="CH17-EX4"/>
+		<configuration configurationName="CH17-EX3"/>
+		<configuration configurationName="CH17-EX2"/>
+		<configuration configurationName="CH17-EX1"/>
 		<configuration configurationName="CH15-EX2"/>
 		<configuration configurationName="CH15-EX1"/>
 		<configuration configurationName="CH15-EX4"/>

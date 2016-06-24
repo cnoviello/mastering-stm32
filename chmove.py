@@ -6,11 +6,11 @@ import sys, os
 
 DRYRUN = 0
 
-srcCH = "ch13"
-dstCH = "ch14"
+srcCH = "ch16"
+dstCH = "ch17"
 
-srcCHdes = "Chapter 13"
-dstCHdes = "Chapter 14"
+srcCHdes = "Chapter 16"
+dstCHdes = "Chapter 17"
 
 print "Retrieving projects list...."
 projectDirs = [d for d in os.listdir(os.getcwd()) if d.startswith("nucleo-")]
