@@ -15,7 +15,8 @@ int main(void) {
 
   HAL_FLASH_Unlock();
 
-  HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, 0x08008001, 0xAF);
+//  HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, 0x08008001, 0xAF);
+  HAL_FLASHEx_Erase()
 
   while(1);
 }
