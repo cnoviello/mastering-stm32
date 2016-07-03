@@ -5,21 +5,19 @@
 
 /* Private variables ---------------------------------------------------------*/
 extern UART_HandleTypeDef huart2;
+char msg[] = "This is the APP1\r\n";
 
 /* Private function prototypes -----------------------------------------------*/
 
 int main(void) {
-
   HAL_Init();
   Nucleo_BSP_Init();
 
-  HAL_FLASH_Unlock();
+  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 
-//  HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, 0x08008001, 0xAF);
-  HAL_FLASHEx_Erase()
-
-  while(1);
+  while (1);
 }
+
 
 #ifdef USE_FULL_ASSERT
 
