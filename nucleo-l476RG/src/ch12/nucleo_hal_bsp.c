@@ -9,6 +9,7 @@ void SystemClock_Config(void);
 void SystemClock_Decrease(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
+void MX_DMA_Init(void);
 
 void Nucleo_BSP_Init() {
   /* Configure the system clock */
@@ -17,6 +18,7 @@ void Nucleo_BSP_Init() {
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_DMA_Init();
 }
 
 /** System Clock Configuration
@@ -28,23 +30,28 @@ void SystemClock_Config(void)
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
   RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSICalibrationValue = 0;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_7;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+  RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+  RCC_OscInitStruct.HSICalibrationValue = 16;
+  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
+  RCC_OscInitStruct.PLL.PLLM = 1;
+  RCC_OscInitStruct.PLL.PLLN = 10;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV7;
+  RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
+  RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_MSI;
+  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0);
+  HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4);
 
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2;
-  PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_SYSCLK;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_SYSCLK;
   HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 
   __HAL_RCC_PWR_CLK_ENABLE();
@@ -59,43 +66,6 @@ void SystemClock_Config(void)
   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
-void SystemClock_Decrease(void)
-{
-  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
-  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
-
-  /* MSI is enabled after System reset, activate PLL with MSI as source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_MSI;
-  RCC_OscInitStruct.MSIState = RCC_MSI_ON;
-  RCC_OscInitStruct.MSIClockRange = RCC_MSIRANGE_6;
-  RCC_OscInitStruct.MSICalibrationValue = RCC_MSICALIBRATION_DEFAULT;
-  RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
-  RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_MSI;
-  RCC_OscInitStruct.PLL.PLLM = 1;
-  RCC_OscInitStruct.PLL.PLLN = 40;
-  RCC_OscInitStruct.PLL.PLLR = 2;
-  RCC_OscInitStruct.PLL.PLLP = 7;
-  RCC_OscInitStruct.PLL.PLLQ = 4;
-  if(HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
-
-  /* Select PLL as system clock source and configure the HCLK, PCLK1 and PCLK2
-     clocks dividers */
-  RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);
-  RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
-  RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
-  RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
-  if(HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_4) != HAL_OK)
-  {
-    /* Initialization Error */
-    while(1);
-  }
-
-}
 
 /* USART2 init function */
 void MX_USART2_UART_Init(void)
@@ -187,9 +157,17 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOH_CLK_DISABLE();
 }
 
-/* USER CODE BEGIN 4 */
+void MX_DMA_Init(void)
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
 
-/* USER CODE END 4 */
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Channel3_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Channel3_IRQn);
+
+}
 
 #ifdef USE_FULL_ASSERT
 

@@ -8,6 +8,7 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
+void MX_DMA_Init(void);
 
 void Nucleo_BSP_Init() {
   /* Configure the system clock */
@@ -16,15 +17,16 @@ void Nucleo_BSP_Init() {
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_DMA_Init();
 }
 
 /** System Clock Configuration
 */
 void SystemClock_Config(void)
 {
-
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+  RCC_PeriphCLKInitTypeDef PeriphClkInit;
 
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
@@ -42,7 +44,9 @@ void SystemClock_Config(void)
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
   HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2);
 
-  HAL_RCC_MCOConfig(RCC_MCO, RCC_MCO1SOURCE_HSI, RCC_MCODIV_1);
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV8;
+  HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit);
 
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
 
@@ -129,6 +133,19 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOC_CLK_DISABLE();
   __HAL_RCC_GPIOD_CLK_DISABLE();
 }
+
+void MX_DMA_Init(void)
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+
+}
+
 
 
 #ifdef USE_FULL_ASSERT

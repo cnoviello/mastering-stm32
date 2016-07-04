@@ -22,14 +22,14 @@ for projectDir in projectDirs:
 	cprojectData = cprojectData.replace(srcCH.upper(), dstCH.upper())
 	cprojectData = cprojectData.replace(srcCHdes, dstCHdes)
 	cproject.seek(0)
+	print "Changing projects: ", cproject.name
 	if not DRYRUN:
-		print "Changing projects: ", cproject.name
 		cproject.write(cprojectData)
 	cproject.close()
 
 	try:
+		print "Renaming directory: ", os.path.join(os.getcwd(), projectDir, "src", srcCH)
 		if not DRYRUN:
 			os.rename(os.path.join(os.getcwd(), projectDir, "src", srcCH), os.path.join(os.getcwd(), projectDir, "src", dstCH))
-			print "Renaming directory: ", os.path.join(os.getcwd(), projectDir, "src", srcCH)
 	except OSError:
 		pass

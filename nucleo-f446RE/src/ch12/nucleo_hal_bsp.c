@@ -8,6 +8,7 @@ UART_HandleTypeDef huart2;
 void SystemClock_Config(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
+void MX_DMA_Init(void);
 
 void Nucleo_BSP_Init() {
   /* Configure the system clock */
@@ -16,6 +17,7 @@ void Nucleo_BSP_Init() {
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_DMA_Init();
 }
 
 /** System Clock Configuration
@@ -28,7 +30,7 @@ void SystemClock_Config(void)
 
   __HAL_RCC_PWR_CLK_ENABLE();
 
-  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE3);
+  __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
 
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI|RCC_OSCILLATORTYPE_LSE;
   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
@@ -39,8 +41,7 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = 16;
   RCC_OscInitStruct.PLL.PLLN = 336;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
-  RCC_OscInitStruct.PLL.PLLQ = 2;
-  RCC_OscInitStruct.PLL.PLLR = 2;
+  RCC_OscInitStruct.PLL.PLLQ = 7;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -91,6 +92,7 @@ void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __GPIOC_CLK_ENABLE();
   __GPIOH_CLK_ENABLE();
+  __GPIOD_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
   __GPIOB_CLK_ENABLE();
 
@@ -120,6 +122,7 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
 
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
@@ -128,12 +131,26 @@ void MX_GPIO_Deinit(void)
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
   /* Disable GPIOs clock */
   __HAL_RCC_GPIOA_CLK_DISABLE();
   __HAL_RCC_GPIOB_CLK_DISABLE();
   __HAL_RCC_GPIOC_CLK_DISABLE();
+  __HAL_RCC_GPIOD_CLK_DISABLE();
 }
+
+void MX_DMA_Init(void)
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA2_Stream0_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 1, 0);
+  HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
+}
+
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */

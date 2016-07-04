@@ -40,7 +40,10 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern UART_HandleTypeDef huart2;
+extern ADC_HandleTypeDef hadc1;
+#ifdef USE_DMA
+extern DMA_HandleTypeDef hdma_adc1;
+#endif
 
 /******************************************************************************/
 /*            Cortex-M3 Processor Interruption and Exception Handlers         */ 
@@ -68,10 +71,17 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32f1xx.s).                    */
 /******************************************************************************/
 
-void EXTI15_10_IRQHandler(void) {
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+#ifdef USE_DMA
+void ADC1_2_IRQHandler(void)
+{
+   HAL_ADC_IRQHandler(&hadc1);
 }
 
+void DMA1_Channel1_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(&hdma_adc1);
+}
+#endif
 /* USER CODE BEGIN 1 */
 
 /* USER CODE END 1 */
