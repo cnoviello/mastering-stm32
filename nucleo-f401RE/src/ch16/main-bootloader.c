@@ -4,6 +4,10 @@
 #include <string.h>
 
 /* Global macros */
+
+#define ACK 0x79
+#define NACK 0x1F
+
 #define SRAM_SIZE       96*1024     // STM32F401RE has 96 KB of RAM
 #define SRAM_END        (SRAM_BASE + SRAM_SIZE)
 
@@ -85,20 +89,50 @@ int main(void) {
   Nucleo_BSP_Init();
 
   if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET) {
-    FLASH_EraseInitTypeDef eraseInfo;
-    eraseInfo.Banks = FLASH_BANK_1;
-    eraseInfo.NbSectors = 1;
-    eraseInfo.Sector = FLASH_SECTOR_1;
-    eraseInfo.TypeErase = FLASH_TYPEERASE_SECTORS;
-    eraseInfo.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+//    FLASH_EraseInitTypeDef eraseInfo;
+//    eraseInfo.Banks = FLASH_BANK_1;
+//    eraseInfo.NbSectors = 1;
+//    eraseInfo.Sector = FLASH_SECTOR_1;
+//    eraseInfo.TypeErase = FLASH_TYPEERASE_SECTORS;
+//    eraseInfo.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+//
+//    uint32_t badBlocks = 0;
+//
+//    HAL_FLASH_Unlock();
+//    HAL_FLASHEx_Erase(&eraseInfo, &badBlocks);
+//    while(1) {
+//          HAL_Delay(500);
+//          HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+//    }
+    uint8_t cmd = 0;
 
-    uint32_t badBlocks = 0;
+    HAL_UART_Transmit(&huart2, "ciao\r\n", strlen("ciao\r\n"), HAL_MAX_DELAY);
 
-    HAL_FLASH_Unlock();
-    HAL_FLASHEx_Erase(&eraseInfo, &badBlocks);
     while(1) {
-          HAL_Delay(500);
+      HAL_UART_Receive(&huart2, &cmd, 1, HAL_MAX_DELAY);
+      if(cmd == 0x7f) {
+        cmd = ACK;
+        uint32_t addr = APP_START_ADDRESS;
+        HAL_FLASH_Unlock();
+        FLASH_EraseInitTypeDef eraseInfo;
+        eraseInfo.Banks = FLASH_BANK_1;
+        eraseInfo.NbSectors = 1;
+        eraseInfo.Sector = FLASH_SECTOR_1;
+        eraseInfo.TypeErase = FLASH_TYPEERASE_SECTORS;
+        eraseInfo.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+
+        uint32_t badBlocks = 0;
+
+        HAL_FLASHEx_Erase(&eraseInfo, &badBlocks);
+
+        HAL_UART_Transmit(&huart2, &cmd, 1, HAL_MAX_DELAY);
+        while(1) {
+          HAL_UART_Receive(&huart2, &cmd, 1, HAL_MAX_DELAY);
+          HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addr, cmd);
           HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+          addr++;
+        }
+      }
     }
   }
 
@@ -114,7 +148,9 @@ int main(void) {
     } else {
       SCB->VTOR = APP_START_ADDRESS;
       __set_MSP(SRAM_END);
-      void (*reset_handler)(void) = (void*)APP_START_ADDRESS + 0x4;
+      RCC->CIR = 0x00000000;
+      uint32_t JumpAddress = *(__IO uint32_t*) (0x08004000 + 4);
+      void (*reset_handler)(void) = JumpAddress;
       reset_handler();
     }
   }

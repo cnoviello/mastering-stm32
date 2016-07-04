@@ -15,7 +15,10 @@ int main(void) {
 
   HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 
-  while (1);
+  while (1) {
+    HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+    HAL_Delay(200);
+  }
 }
 
 
