@@ -2,6 +2,7 @@
 #include "stm32f4xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
+#include "TI_aes_128.h"
 
 /* Global macros */
 
@@ -89,29 +90,21 @@ int main(void) {
   Nucleo_BSP_Init();
 
   if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET) {
-//    FLASH_EraseInitTypeDef eraseInfo;
-//    eraseInfo.Banks = FLASH_BANK_1;
-//    eraseInfo.NbSectors = 1;
-//    eraseInfo.Sector = FLASH_SECTOR_1;
-//    eraseInfo.TypeErase = FLASH_TYPEERASE_SECTORS;
-//    eraseInfo.VoltageRange = FLASH_VOLTAGE_RANGE_3;
-//
-//    uint32_t badBlocks = 0;
-//
-//    HAL_FLASH_Unlock();
-//    HAL_FLASHEx_Erase(&eraseInfo, &badBlocks);
-//    while(1) {
-//          HAL_Delay(500);
-//          HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-//    }
+    uint32_t ticks = HAL_GetTick();
     uint8_t cmd = 0;
+    uint8_t data[16];
+    const uint8_t key[] = {0x4D,0x61,0x73,0x74,0x65,0x72,0x69,0x6E,0x67,0x20,0x20,0x53,0x54,0x4D,0x33,0x32};
 
     HAL_UART_Transmit(&huart2, "ciao\r\n", strlen("ciao\r\n"), HAL_MAX_DELAY);
 
     while(1) {
-      HAL_UART_Receive(&huart2, &cmd, 1, HAL_MAX_DELAY);
-      if(cmd == 0x7f) {
-        cmd = ACK;
+      if(HAL_GetTick() - ticks > 500) {
+        HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+        ticks = HAL_GetTick();
+      }
+      HAL_UART_Receive(&huart2, data, 1, 10);
+      if(data[0] == 0x7f) {
+        data[0] = ACK;
         uint32_t addr = APP_START_ADDRESS;
         HAL_FLASH_Unlock();
         FLASH_EraseInitTypeDef eraseInfo;
@@ -125,12 +118,15 @@ int main(void) {
 
         HAL_FLASHEx_Erase(&eraseInfo, &badBlocks);
 
-        HAL_UART_Transmit(&huart2, &cmd, 1, HAL_MAX_DELAY);
+        HAL_UART_Transmit(&huart2, data, 1, HAL_MAX_DELAY);
         while(1) {
-          HAL_UART_Receive(&huart2, &cmd, 1, HAL_MAX_DELAY);
-          HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addr, cmd);
-          HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-          addr++;
+          HAL_UART_Receive(&huart2, data, 16, HAL_MAX_DELAY);
+          aes_enc_dec(data, key, 1);
+          for(int i = 0; i < 16; i++) {
+            HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, addr, data[i]);
+            HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+            addr++;
+          }
         }
       }
     }
