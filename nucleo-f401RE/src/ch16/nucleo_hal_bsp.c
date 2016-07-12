@@ -3,12 +3,14 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
+CRC_HandleTypeDef hcrc;
 
 /* Private function prototypes -----------------------------------------------*/
-void SystemClock_Config(void);
+void MX_CRC_Init(void);
+void MX_DMA_Init(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
-void MX_DMA_Init(void);
+void SystemClock_Config(void);
 
 void Nucleo_BSP_Init() {
   /* Configure the system clock */
@@ -108,8 +110,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
-
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 }
 
 void MX_GPIO_Deinit(void)
@@ -151,10 +151,14 @@ void MX_DMA_Init(void)
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 }
 
-/* USER CODE BEGIN 4 */
 
-/* USER CODE END 4 */
+void MX_CRC_Init(void)
+{
+  __HAL_RCC_CRC_CLK_ENABLE();
 
+  hcrc.Instance = CRC;
+  HAL_CRC_Init(&hcrc);
+}
 #ifdef USE_FULL_ASSERT
 
 /**
