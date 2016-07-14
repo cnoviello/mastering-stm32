@@ -58,6 +58,10 @@ void HAL_MspInit(void)
   /* USER CODE END MspInit 1 */
 }
 
+void HAL_MspDeInit(void) {
+
+}
+
 void HAL_UART_MspInit(UART_HandleTypeDef* huart)
 {
 

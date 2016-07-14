@@ -19,10 +19,11 @@
 
 #define ENABLE_BOOTLOADER_PROTECTION 0
 /* Private variables ---------------------------------------------------------*/
-//The AES_KEY cannot be defined const, because the aes_enc_dec() function temporarily
-//modifies its content
+
+/* The AES_KEY cannot be defined const, because the aes_enc_dec() function
+ temporarily modifies its content */
 uint8_t AES_KEY[] = { 0x4D, 0x61, 0x73, 0x74, 0x65, 0x72, 0x69, 0x6E, 0x67,
-    0x20, 0x20, 0x53, 0x54, 0x4D, 0x33, 0x32 };
+                      0x20, 0x20, 0x53, 0x54, 0x4D, 0x33, 0x32 };
 
 extern CRC_HandleTypeDef hcrc;
 extern UART_HandleTypeDef huart2;
@@ -30,11 +31,12 @@ extern UART_HandleTypeDef huart2;
 /* Private function prototypes -----------------------------------------------*/
 void _start(void);
 void CHECK_AND_SET_FLASH_PROTECTION(void);
-void cmdErase(uint8_t *data);
-void cmdGetID(uint8_t *data);
-void cmdWrite(uint8_t *data);
+void cmdErase(uint8_t *pucData);
+void cmdGetID(uint8_t *pucData);
+void cmdWrite(uint8_t *pucData);
 int main(void);
 void MX_CRC_Init(void);
+void MX_GPIO_Deinit(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
 void SysTick_Handler();
@@ -89,15 +91,15 @@ _start(void) {
 
 
 int main(void) {
-  uint32_t ticks = HAL_GetTick();
-  uint8_t data[20];
+  uint32_t ulTicks = 0;
+  uint8_t ucUartBuffer[20];
 
   HAL_Init();
   MX_GPIO_Init();
 
+#if ENABLE_BOOTLOADER_PROTECTION
   /* Ensures that the first sector of flash is write-protected preventing that the
    bootloader is overwritten */
-#if ENABLE_BOOTLOADER_PROTECTION
   CHECK_AND_SET_FLASH_PROTECTION();
 #endif
 
@@ -109,41 +111,42 @@ int main(void) {
     MX_CRC_Init(); /* CRC module enabled */
     MX_USART2_UART_Init();
 
-    ticks = HAL_GetTick();
+    ulTicks = HAL_GetTick();
 
     while (1) {
-      /* Every 500ms the LD2 LED blinks, so that we can check that the bootloader
-       is running. */
-      if (HAL_GetTick() - ticks > 500) {
+      /* Every 500ms the LD2 LED blinks, so that we can see the bootloader running. */
+      if (HAL_GetTick() - ulTicks > 500) {
         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-        ticks = HAL_GetTick();
+        ulTicks = HAL_GetTick();
       }
 
       /* We check for new commands arriving on the UART2 */
-      HAL_UART_Receive(&huart2, data, 20, 10);
-      switch (data[0]) {
+      HAL_UART_Receive(&huart2, ucUartBuffer, 20, 10);
+      switch (ucUartBuffer[0]) {
       case CMD_GETID:
-        cmdGetID(data);
+        cmdGetID(ucUartBuffer);
         break;
       case CMD_ERASE:
-        cmdErase(data);
+        cmdErase(ucUartBuffer);
         break;
       case CMD_WRITE:
-        cmdWrite(data);
+        cmdWrite(ucUartBuffer);
         break;
       };
     }
   } else {
-    /* USER_BUTTON is not pressed. We first check if the second sector is erased. If so,
-     the LD2 LED blinks quickly. */
+    /* USER_BUTTON is not pressed. We first check if the first 4 bytes of second sector
+     are erased (no firmware to run). If so, the LD2 LED blinks quickly. */
     if (*((uint32_t*) APP_START_ADDRESS) == 0xFFFFFFFF) {
       while (1) {
         HAL_Delay(30);
         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
       }
     } else {
-      /* A valid program seems to exist in the second sector: we so prepare the MCU to start
-       the main firmware */
+      /* A valid program seems to exist in the second sector: we so prepare the MCU
+       to start the main firmware */
+      MX_GPIO_Deinit(); //Puts GPIOs in default state
+      HAL_DeInit();
       SCB->VTOR = APP_START_ADDRESS; //We relocate vector table to the sector 1
       __set_MSP(SRAM_END); //Set the MSP to the end of SRAM
       RCC->CIR = 0x00000000; //Disable all interrupts related to clock
@@ -168,36 +171,35 @@ int main(void) {
  * |  0x43  | N or 0xFF for all |   CRC   |
  * ----------------------------------------
  */
-void cmdErase(uint8_t *data) {
+void cmdErase(uint8_t *pucData) {
   FLASH_EraseInitTypeDef eraseInfo;
-  uint32_t badBlocks = 0, crc = 0;
-  uint32_t cmd[] = { data[0], data[1] };
+  uint32_t ulBadBlocks = 0, ulCrc = 0;
+  uint32_t pulCmd[] = { pucData[0], pucData[1] };
 
-  memcpy(&crc, data + 2, sizeof(uint32_t));
+  memcpy(&ulCrc, pucData + 2, sizeof(uint32_t));
 
   /* Checks if provided CRC is correct */
-  if (crc == HAL_CRC_Calculate(&hcrc, cmd, 2)) {
+  if (ulCrc == HAL_CRC_Calculate(&hcrc, pulCmd, 2)) {
     /* If data[1] contains 0xFF, it deletes all sectors; otherwise
      * the number of sectors specified. */
     eraseInfo.Banks = FLASH_BANK_1;
-    eraseInfo.NbSectors = data[1] == 0xFF ? FLASH_SECTOR_TOTAL - 1 : data[1];
+    eraseInfo.NbSectors = pucData[1] == 0xFF ? FLASH_SECTOR_TOTAL - 1 : pucData[1];
     eraseInfo.Sector = FLASH_SECTOR_1;
     eraseInfo.TypeErase = FLASH_TYPEERASE_SECTORS;
     eraseInfo.VoltageRange = FLASH_VOLTAGE_RANGE_3;
 
     HAL_FLASH_Unlock(); //Unlocks the flash memory
-    HAL_FLASHEx_Erase(&eraseInfo, &badBlocks); //Deletes given sectors */
+    HAL_FLASHEx_Erase(&eraseInfo, &ulBadBlocks); //Deletes given sectors */
     HAL_FLASH_Lock(); //Locks again the flash memory
 
     /* Sends an ACK */
-    data[0] = ACK;
-    HAL_UART_Transmit(&huart2, (uint8_t *) data, 1, HAL_MAX_DELAY);
+    pucData[0] = ACK;
+    HAL_UART_Transmit(&huart2, (uint8_t *) pucData, 1, HAL_MAX_DELAY);
   } else {
     /* The CRC is wrong: sends a NACK */
-    data[0] = NACK;
-    HAL_UART_Transmit(&huart2, data, 1, HAL_MAX_DELAY);
+    pucData[0] = NACK;
+    HAL_UART_Transmit(&huart2, pucData, 1, HAL_MAX_DELAY);
   }
-
 }
 
 /* Retrieve the STM32 MCU ID
@@ -211,27 +213,27 @@ void cmdErase(uint8_t *data) {
  * |  0x02  |   CRC   |
  * --------------------
  */
-void cmdGetID(uint8_t *data) {
-  uint16_t devID;
-  uint32_t crc = 0;
-  uint32_t cmd = data[0];
+void cmdGetID(uint8_t *pucData) {
+  uint16_t usDevID;
+  uint32_t ulCrc = 0;
+  uint32_t ulCmd = pucData[0];
 
-  memcpy(&crc, data + 1, sizeof(uint32_t));
+  memcpy(&ulCrc, pucData + 1, sizeof(uint32_t));
 
   /* Checks if provided CRC is correct */
-  if (crc == HAL_CRC_Calculate(&hcrc, &cmd, 1)) {
-    devID = (uint16_t) (DBGMCU->IDCODE & 0xFFF); //Retrieves MCU ID from DEBUG interface
+  if (ulCrc == HAL_CRC_Calculate(&hcrc, &ulCmd, 1)) {
+    usDevID = (uint16_t) (DBGMCU->IDCODE & 0xFFF); //Retrieves MCU ID from DEBUG interface
 
     /* Sends an ACK */
-    data[0] = ACK;
-    HAL_UART_Transmit(&huart2, data, 1, HAL_MAX_DELAY);
+    pucData[0] = ACK;
+    HAL_UART_Transmit(&huart2, pucData, 1, HAL_MAX_DELAY);
 
     /* Sends the MCU ID */
-    HAL_UART_Transmit(&huart2, (uint8_t *) &devID, 2, HAL_MAX_DELAY);
+    HAL_UART_Transmit(&huart2, (uint8_t *) &usDevID, 2, HAL_MAX_DELAY);
   } else {
     /* The CRC is wrong: sends a NACK */
-    data[0] = NACK;
-    HAL_UART_Transmit(&huart2, data, 1, HAL_MAX_DELAY);
+    pucData[0] = NACK;
+    HAL_UART_Transmit(&huart2, pucData, 1, HAL_MAX_DELAY);
   }
 }
 
@@ -255,44 +257,44 @@ void cmdGetID(uint8_t *data) {
  * | BBBBBBBBBBBBBBBB |   CRC   |
  * ------------------------------
  */
-void cmdWrite(uint8_t *data) {
-  uint32_t saddr = 0, crc = 0;
+void cmdWrite(uint8_t *pucData) {
+  uint32_t ulSaddr = 0, ulCrc = 0;
 
-  memcpy(&saddr, data + 1, sizeof(uint32_t));
-  memcpy(&crc, data + 5, sizeof(uint32_t));
+  memcpy(&ulSaddr, pucData + 1, sizeof(uint32_t));
+  memcpy(&ulCrc, pucData + 5, sizeof(uint32_t));
 
-  uint32_t data32[5];
+  uint32_t pulData[5];
   for(int i = 0; i < 5; i++)
-    data32[i] = data[i];
+    pulData[i] = pucData[i];
 
   /* Checks if provided CRC is correct */
-  if (crc == HAL_CRC_Calculate(&hcrc, data32, 5)) {
+  if (ulCrc == HAL_CRC_Calculate(&hcrc, pulData, 5)) {
     /* Sends an ACK */
-    data[0] = ACK;
-    HAL_UART_Transmit(&huart2, (uint8_t *) data, 1, HAL_MAX_DELAY);
+    pucData[0] = ACK;
+    HAL_UART_Transmit(&huart2, (uint8_t *) pucData, 1, HAL_MAX_DELAY);
 
     /* Now retrieves given amount of bytes plus the CRC32 */
-    if (HAL_UART_Receive(&huart2, data, 16 + 4, 200) == HAL_TIMEOUT)
+    if (HAL_UART_Receive(&huart2, pucData, 16 + 4, 200) == HAL_TIMEOUT)
       return;
 
-    memcpy(&crc, data + 16, sizeof(uint32_t));
+    memcpy(&ulCrc, pucData + 16, sizeof(uint32_t));
 
     /* Checks if provided CRC is correct */
-    if (crc == HAL_CRC_Calculate(&hcrc, (uint32_t*) data, 4)) {
+    if (ulCrc == HAL_CRC_Calculate(&hcrc, (uint32_t*) pucData, 4)) {
       HAL_FLASH_Unlock(); //Unlocks the flash memory
 
       /* Decode the sent bytes using AES-128 ECB */
-      aes_enc_dec((uint8_t*) data, AES_KEY, 1);
+      aes_enc_dec((uint8_t*) pucData, AES_KEY, 1);
       for (uint8_t i = 0; i < 16; i++) {
         /* Store each byte in flash memory starting from the specified address */
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, saddr, data[i]);
-        saddr += 1;
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, ulSaddr, pucData[i]);
+        ulSaddr += 1;
       }
       HAL_FLASH_Lock(); //Locks again the flash memory
 
       /* Sends an ACK */
-      data[0] = ACK;
-      HAL_UART_Transmit(&huart2, (uint8_t *) data, 1, HAL_MAX_DELAY);
+      pucData[0] = ACK;
+      HAL_UART_Transmit(&huart2, (uint8_t *) pucData, 1, HAL_MAX_DELAY);
     } else {
       goto sendnack;
     }
@@ -300,8 +302,9 @@ void cmdWrite(uint8_t *data) {
     goto sendnack;
   }
 
-  sendnack: data[0] = NACK;
-  HAL_UART_Transmit(&huart2, (uint8_t *) data, 1, HAL_MAX_DELAY);
+sendnack:
+  pucData[0] = NACK;
+  HAL_UART_Transmit(&huart2, (uint8_t *) pucData, 1, HAL_MAX_DELAY);
 }
 
 void CHECK_AND_SET_FLASH_PROTECTION(void) {
