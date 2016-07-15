@@ -161,7 +161,6 @@ if __name__ == '__main__':
         time.sleep(0.5)
 
     print(" Done")
-    sys.exit(0)
     print("Loading %s HEX file...." % sys.argv[2])
 
     for e in flasher.writeImage(sys.argv[2]):

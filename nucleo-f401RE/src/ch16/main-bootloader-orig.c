@@ -149,25 +149,11 @@ int main(void) {
       HAL_DeInit();
 
       RCC->CIR = 0x00000000; //Disable all interrupts related to clock
-
-      uint32_t *pulSRAMBase = (uint32_t*)0x20000000;
-
-      memcpy((uint32_t*)0x20000000, (uint32_t*)0x08004000, 0x60);
-
-//      for(uint32_t i = APP_START_ADDRESS; i < APP_START_ADDRESS + 100;) {
-//        if(*((__IO uint32_t*)i) == 0xAABBCCDD)
-//          break;
-//        *((__IO uint32_t*)0x20000000 + (i-APP_START_ADDRESS))= *((__IO uint32_t*)i);
-//        i += sizeof(uint32_t);
-//      }
-
       __set_MSP(*((__IO uint32_t*) APP_START_ADDRESS)); //Set the MSP
 
-      SYSCFG->MEMRMP = 0x3;
-
-//      __DMB(); //ARM says to use a DMB instruction before relocating VTOR */
-//      SCB->VTOR = APP_START_ADDRESS; //We relocate vector table to the sector 1
-//      __DSB(); //ARM says to use a DSB instruction just after relocating VTOR */
+      __DMB(); //ARM says to use a DMB instruction before relocating VTOR */
+      SCB->VTOR = APP_START_ADDRESS; //We relocate vector table to the sector 1
+      __DSB(); //ARM says to use a DSB instruction just after relocating VTOR */
 
       /* We are now ready to jump to the main firmware */
       uint32_t JumpAddress = *((__IO uint32_t*) (APP_START_ADDRESS + 4));
