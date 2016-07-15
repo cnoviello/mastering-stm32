@@ -43,8 +43,8 @@ void SysTick_Handler();
 
 /* Minimal vector table */
 uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
-    (uint32_t *) SRAM_END,    // initial stack pointer
-    (uint32_t *) _start,  // _boot_init is the Reset_Handler
+    (uint32_t *) SRAM_END, // initial stack pointer
+    (uint32_t *) _start,   // _start is the Reset_Handler
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, (uint32_t *) SysTick_Handler };
 
 // Begin address for the initialization values of the .data section.
@@ -94,6 +94,7 @@ int main(void) {
   uint32_t ulTicks = 0;
   uint8_t ucUartBuffer[20];
 
+  /* HAL_Init() sets SysTick timer so that it overflows every 1ms */
   HAL_Init();
   MX_GPIO_Init();
 
@@ -105,10 +106,8 @@ int main(void) {
 
   /* If USER_BUTTON is pressed */
   if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_RESET) {
-    /* We set so that the SysTick timer overflows ever 1ms */
-    HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / 1000);
-    HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
-    MX_CRC_Init(); /* CRC module enabled */
+    /* CRC and UART2 peripherals enabled */
+    MX_CRC_Init();
     MX_USART2_UART_Init();
 
     ulTicks = HAL_GetTick();
@@ -146,11 +145,18 @@ int main(void) {
       /* A valid program seems to exist in the second sector: we so prepare the MCU
        to start the main firmware */
       MX_GPIO_Deinit(); //Puts GPIOs in default state
+      SysTick->CTRL = 0x0; //Disables SysTick timer and its related interrupt
       HAL_DeInit();
-      SCB->VTOR = APP_START_ADDRESS; //We relocate vector table to the sector 1
-      __set_MSP(SRAM_END); //Set the MSP to the end of SRAM
+
       RCC->CIR = 0x00000000; //Disable all interrupts related to clock
-      uint32_t JumpAddress = *(__IO uint32_t*) (0x08004000 + 4);
+      __set_MSP(*((__IO uint32_t*) APP_START_ADDRESS)); //Set the MSP
+
+      __DMB(); //ARM says to use a DMB instruction before relocating VTOR */
+      SCB->VTOR = APP_START_ADDRESS; //We relocate vector table to the sector 1
+      __DSB(); //ARM says to use a DSB instruction just after relocating VTOR */
+
+      /* We are now ready to jump to the main firmware */
+      uint32_t JumpAddress = *((__IO uint32_t*) (APP_START_ADDRESS + 4));
       void (*reset_handler)(void) = (void*)JumpAddress;
       reset_handler(); //We start the execution from he Reset_Handler of the main firmware
 
@@ -179,12 +185,13 @@ void cmdErase(uint8_t *pucData) {
   memcpy(&ulCrc, pucData + 2, sizeof(uint32_t));
 
   /* Checks if provided CRC is correct */
-  if (ulCrc == HAL_CRC_Calculate(&hcrc, pulCmd, 2)) {
+  if (ulCrc == HAL_CRC_Calculate(&hcrc, pulCmd, 2) &&
+      (pucData[1] > 0 && pucData[1] < FLASH_SECTOR_TOTAL)) {
     /* If data[1] contains 0xFF, it deletes all sectors; otherwise
      * the number of sectors specified. */
     eraseInfo.Banks = FLASH_BANK_1;
-    eraseInfo.NbSectors = pucData[1] == 0xFF ? FLASH_SECTOR_TOTAL - 1 : pucData[1];
     eraseInfo.Sector = FLASH_SECTOR_1;
+    eraseInfo.NbSectors = pucData[1] == 0xFF ? FLASH_SECTOR_TOTAL - 1 : pucData[1];
     eraseInfo.TypeErase = FLASH_TYPEERASE_SECTORS;
     eraseInfo.VoltageRange = FLASH_VOLTAGE_RANGE_3;
 
@@ -268,7 +275,7 @@ void cmdWrite(uint8_t *pucData) {
     pulData[i] = pucData[i];
 
   /* Checks if provided CRC is correct */
-  if (ulCrc == HAL_CRC_Calculate(&hcrc, pulData, 5)) {
+  if (ulCrc == HAL_CRC_Calculate(&hcrc, pulData, 5) && ulSaddr >= APP_START_ADDRESS) {
     /* Sends an ACK */
     pucData[0] = ACK;
     HAL_UART_Transmit(&huart2, (uint8_t *) pucData, 1, HAL_MAX_DELAY);

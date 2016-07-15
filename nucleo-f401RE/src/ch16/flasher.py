@@ -4,18 +4,18 @@ import sys, serial, binascii, time, struct, thread
 from intelhex import IntelHex
 from Crypto.Cipher import AES
 
+#The AES key used to encrypt exchanged firmware
 AES_KEY = "4D:61:73:74:65:72:69:6E:67:20:20:53:54:4D:33:32"
 
+#We convert the key from the hexadecimal form to binary data
 AES_KEY = binascii.unhexlify(AES_KEY.replace(":", ""))
 AESEncryptor = AES.new(AES_KEY, AES.MODE_ECB)
 
-ACK  = 0x79
-NACK = 0x1F
-
-CMD_ENTER_PROGRAM_MODE = 0x7f
-CMD_ERASE              = 0x43
-CMD_GETID              = 0x02
-CMD_WRITE              = 0x2b
+ACK       = 0x79
+NACK      = 0x1F
+CMD_ERASE = 0x43
+CMD_GETID = 0x02
+CMD_WRITE = 0x2b
 
 STM32_TYPE = {
     0x433: "STM32F401RE"
@@ -30,9 +30,9 @@ class TimeoutError(Exception):
 class STM32Flasher(object):
     def __init__(self, serialPort, baudrate=38400):
         self.serial = serial.Serial(serialPort, baudrate=baudrate, timeout=20)
-        # self.inProgramMode = False
 
     def _crc_stm32(self, data):
+        #Computes CRC checksum using CRC-32 polynomial 
         crc = 0xFFFFFFFF
 
         for d in data:
@@ -46,17 +46,20 @@ class STM32Flasher(object):
         return (crc & 0xFFFFFFFF)
 
     def _create_cmd_message(self, msg):
+        #Encodes a command adding the CRC32
         cmd = list(msg) + list(struct.pack("I", self._crc_stm32(msg)))
-        # print(cmd)
         return cmd
 
     def _encryptMessage(self, data):
+        #Encrypts a sequence of bytes using the AES-128 algorithm and
+        #adds the CRC-32
         data = AESEncryptor.encrypt("".join(map(chr,data)))
         data32 = struct.unpack("IIII", data)
         data += struct.pack("I", self._crc_stm32(data32))
         return data
 
     def eraseFLASH(self, nsectors=0xFF):
+        #Sends an CMD_ERASE to the bootloader
         self.serial.flushInput()
         self.serial.write(self._create_cmd_message((CMD_ERASE,nsectors)))
         data = self.serial.read(1)
@@ -67,6 +70,7 @@ class STM32Flasher(object):
             raise TimeoutError("Timeout error")
      
     def getID(self):
+        #Sends an CMD_ERASE to the bootloader
         self.serial.flushInput()
         self.serial.write(self._create_cmd_message((CMD_GETID,)))
         data = self.serial.read(1)
@@ -82,6 +86,10 @@ class STM32Flasher(object):
             raise TimeoutError("Timeout error")
 
     def writeImage(self, filename):
+        #Sends an CMD_WRITE to the bootloader
+        #This is method is a generator, that returns its progresses to the caller.
+        #In this way, it's possibile for the caller to live-print messages about
+        #writing progress
         ih = IntelHex()  
         ih.loadhex(filename)
         yield {"saddr": ih.minaddr(), "eaddr": ih.maxaddr()}
@@ -143,7 +151,6 @@ if __name__ == '__main__':
         eraseDone = 1
 
     flasher = STM32Flasher(sys.argv[1])
-    # flasher.enterProgramMode()
     id = flasher.getID()
     print("STM32 MCU Type: ", STM32_TYPE[id])
     print("Erasing Flash memory", end="")
@@ -154,6 +161,7 @@ if __name__ == '__main__':
         time.sleep(0.5)
 
     print(" Done")
+    sys.exit(0)
     print("Loading %s HEX file...." % sys.argv[2])
 
     for e in flasher.writeImage(sys.argv[2]):
