@@ -14,7 +14,7 @@ void HAL_MspInit(void)
 
   /* USER CODE END MspInit 0 */
 
-//  __SYSCFG_CLK_ENABLE();
+  __SYSCFG_CLK_ENABLE();
 
   /* System interrupt init*/
   /* SysTick_IRQn interrupt configuration */
