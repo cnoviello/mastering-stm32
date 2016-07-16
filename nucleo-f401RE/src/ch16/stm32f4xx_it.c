@@ -36,10 +36,6 @@
 #include "stm32f4xx_it.h"
 
 /* External variables --------------------------------------------------------*/
-extern ADC_HandleTypeDef hadc1;
-#ifdef USE_DMA
-extern DMA_HandleTypeDef hdma_adc1;
-#endif
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -66,17 +62,5 @@ void SysTick_Handler(void)
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32f4xx.s).                    */
 /******************************************************************************/
-
-#ifdef USE_DMA
-void ADC_IRQHandler(void)
-{
-   HAL_ADC_IRQHandler(&hadc1);
-}
-
-void DMA2_Stream0_IRQHandler(void)
-{
-  HAL_DMA_IRQHandler(&hdma_adc1);
-}
-#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

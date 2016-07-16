@@ -147,7 +147,7 @@ if __name__ == '__main__':
     def doErase(arg):
         global eraseDone
 
-        flasher.eraseFLASH(1)
+        flasher.eraseFLASH(0xFF)
         time.sleep(1)
         eraseDone = 1
 

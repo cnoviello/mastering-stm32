@@ -2,8 +2,8 @@
 
 MEMORY
 {
-    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 16K /* Just the 1st sector */
-    SRAM (xrw)  : ORIGIN = 0x20000000, LENGTH = 96K
+    FLASH (rx)  : ORIGIN = 0x08000000, LENGTH = 10K /* Just the 1st sector */
+    SRAM (xrw)  : ORIGIN = 0x200000B8, LENGTH = 8K - 0xB8
 }
  
  ENTRY(_start);

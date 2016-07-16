@@ -149,11 +149,32 @@ int main(void) {
       HAL_DeInit();
 
       RCC->CIR = 0x00000000; //Disable all interrupts related to clock
+
+      uint32_t *pulSRAMBase = (uint32_t*)SRAM_BASE;
+      uint32_t *pulFlashBase = (uint32_t*)APP_START_ADDRESS;
+
+//      memcpy((uint32_t*)0x20000000, (uint32_t*)0x08004000, 0x60);
+//      for(int i = 0; i < 60; i++)
+//      {
+//        pulSRAMBase[i] = *(__IO uint32_t*)(APP_START_ADDRESS + (i<<2));
+//      }
+
+      uint32_t i = 0;
+      do {
+        if(pulFlashBase[i] == 0xAABBCCDD)
+          break;
+        pulSRAMBase[i] = pulFlashBase[i];
+//        i += sizeof(uint32_t);
+      }while(++i);
+
       __set_MSP(*((volatile uint32_t*) APP_START_ADDRESS)); //Set the MSP
 
-      __DMB(); //ARM says to use a DMB instruction before relocating VTOR */
-      SCB->VTOR = APP_START_ADDRESS; //We relocate vector table to the sector 1
-      __DSB(); //ARM says to use a DSB instruction just after relocating VTOR */
+      __HAL_RCC_SYSCFG_CLK_ENABLE();
+      SYSCFG->MEMRMP = 0x3;
+
+//      __DMB(); //ARM says to use a DMB instruction before relocating VTOR */
+      SCB->VTOR = 0x20000000; //We relocate vector table to the sector 1
+//      __DSB(); //ARM says to use a DSB instruction just after relocating VTOR */
 
       /* We are now ready to jump to the main firmware */
       uint32_t JumpAddress = *((volatile uint32_t*) (APP_START_ADDRESS + 4));
@@ -186,7 +207,7 @@ void cmdErase(uint8_t *pucData) {
 
   /* Checks if provided CRC is correct */
   if (ulCrc == HAL_CRC_Calculate(&hcrc, pulCmd, 2) &&
-      (pucData[1] > 0 && (pucData[1] < FLASH_TOTAL_PAGES || pucData[1] == 0xFF))) {
+      (pucData[1] > 0 && pucData[1] < FLASH_SECTOR_TOTAL)) {
     /* If data[1] contains 0xFF, it deletes all sectors; otherwise
      * the number of sectors specified. */
     eraseInfo.Banks = FLASH_BANK_1;

@@ -1,5 +1,5 @@
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
+#include "stm32f0xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 

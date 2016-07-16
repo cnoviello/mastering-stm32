@@ -279,7 +279,7 @@ g_pfnVectors:
    .thumb_set SysTick_Handler,Default_Handler
 
    .weak      WWDG_IRQHandler
-   .thumb_set WWDG_IRQHandler,0xAABBCCDD
+   .thumb_set WWDG_IRQHandler,Default_Handler
 
    .weak      PVD_IRQHandler
    .thumb_set PVD_IRQHandler,Default_Handler
