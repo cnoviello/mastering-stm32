@@ -4,6 +4,9 @@
 #include "stm32f0xx_it.h"
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_dac_ch1;
+extern DAC_HandleTypeDef hdac;
+extern TIM_HandleTypeDef htim6;
 
 /******************************************************************************/
 /*            Cortex-M0 Processor Interruption and Exception Handlers         */ 
@@ -31,9 +34,13 @@ void SysTick_Handler(void)
 /* please refer to the startup file (startup_stm32f0xx.s).                    */
 /******************************************************************************/
 
-void EXTI4_15_IRQHandler(void) {
-  HAL_GPIO_EXTI_IRQHandler(B1_Pin);
+#ifdef USE_DMA
+
+void DMA1_Channel2_3_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(&hdma_dac_ch1);
 }
 
+#endif
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

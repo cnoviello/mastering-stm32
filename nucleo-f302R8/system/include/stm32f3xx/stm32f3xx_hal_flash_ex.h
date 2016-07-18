@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_flash_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of Flash HAL Extended module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -291,7 +291,7 @@ typedef struct
 #define OB_WRP_PAGES56TO57             ((uint32_t)0x10000000) /* Write protection of page 56 to 57 */
 #define OB_WRP_PAGES58TO59             ((uint32_t)0x20000000) /* Write protection of page 58 to 59 */
 #define OB_WRP_PAGES60TO61             ((uint32_t)0x40000000) /* Write protection of page 60 to 61 */
-#define OB_WRP_PAGES62TO127            ((uint32_t)0x80000000) /* Write protection of page 62 to 127 */
+#define OB_WRP_PAGES62TO127            ((uint32_t)0x80000000U) /* Write protection of page 62 to 127 */
 #endif /* STM32F302xC || STM32F303xC || STM32F358xx || */ 
        /* STM32F373xC || STM32F378xx                   */
 
@@ -311,35 +311,35 @@ typedef struct
 #define OB_WRP_PAGES56TO57             ((uint32_t)0x10000000) /* Write protection of page 56 to 57 */
 #define OB_WRP_PAGES58TO59             ((uint32_t)0x20000000) /* Write protection of page 58 to 59 */
 #define OB_WRP_PAGES60TO61             ((uint32_t)0x40000000) /* Write protection of page 60 to 61 */
-#define OB_WRP_PAGES62TO255            ((uint32_t)0x80000000) /* Write protection of page 62 to 255 */
+#define OB_WRP_PAGES62TO255            ((uint32_t)0x80000000U) /* Write protection of page 62 to 255 */
 #endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 
-#define OB_WRP_PAGES0TO15MASK          ((uint32_t)0x000000FF)
-#define OB_WRP_PAGES16TO31MASK         ((uint32_t)0x0000FF00)
+#define OB_WRP_PAGES0TO15MASK          ((uint32_t)0x000000FFU)
+#define OB_WRP_PAGES16TO31MASK         ((uint32_t)0x0000FF00U)
 
 #if defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx) \
  || defined(STM32F373xC) || defined(STM32F378xx)
-#define OB_WRP_PAGES32TO47MASK         ((uint32_t)0x00FF0000)
-#define OB_WRP_PAGES48TO127MASK        ((uint32_t)0xFF000000)
+#define OB_WRP_PAGES32TO47MASK         ((uint32_t)0x00FF0000U)
+#define OB_WRP_PAGES48TO127MASK        ((uint32_t)0xFF000000U)
 #endif /* STM32F302xC || STM32F303xC || STM32F358xx || */
        /* STM32F373xC || STM32F378xx                   */
 
 #if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
-#define OB_WRP_PAGES32TO47MASK         ((uint32_t)0x00FF0000)
-#define OB_WRP_PAGES48TO255MASK        ((uint32_t)0xFF000000)
+#define OB_WRP_PAGES32TO47MASK         ((uint32_t)0x00FF0000U)
+#define OB_WRP_PAGES48TO255MASK        ((uint32_t)0xFF000000U)
 #endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 
 #if defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx) \
  || defined(STM32F373xC) || defined(STM32F378xx)
-#define OB_WRP_PAGES32TO47MASK         ((uint32_t)0x00FF0000)
-#define OB_WRP_PAGES48TO127MASK        ((uint32_t)0xFF000000)
+#define OB_WRP_PAGES32TO47MASK         ((uint32_t)0x00FF0000U)
+#define OB_WRP_PAGES48TO127MASK        ((uint32_t)0xFF000000U)
 #endif /* STM32F302xC || STM32F303xC || STM32F358xx || */
        /* STM32F373xC || STM32F378xx                   */
 
 #if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx) \
  || defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx) \
  || defined(STM32F373xC) || defined(STM32F378xx)
-#define OB_WRP_ALLPAGES                ((uint32_t)0xFFFFFFFF) /*!< Write protection of all pages */
+#define OB_WRP_ALLPAGES                ((uint32_t)0xFFFFFFFFU) /*!< Write protection of all pages */
 #endif /* STM32F302xE || STM32F303xE || STM32F398xx || */
        /* STM32F302xC || STM32F303xC || STM32F358xx || */
        /* STM32F373xC || STM32F378xx                   */

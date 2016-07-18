@@ -35,11 +35,11 @@
 #include "stm32f3xx.h"
 #include "stm32f3xx_it.h"
 
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
 /* External variables --------------------------------------------------------*/
+#ifdef USE_DMA
+extern DMA_HandleTypeDef hdma_dac_ch1;
+#endif
+
 
 /******************************************************************************/
 /*            Cortex-M4 Processor Interruption and Exception Handlers         */ 
@@ -59,11 +59,13 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 1 */
 }
 
+#ifdef USE_DMA
 
-void EXTI15_10_IRQHandler(void) {
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
+void DMA1_Channel3_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(&hdma_dac_ch1);
 }
-
+#endif
 
 /******************************************************************************/
 /* STM32F3xx Peripheral Interrupt Handlers                                    */

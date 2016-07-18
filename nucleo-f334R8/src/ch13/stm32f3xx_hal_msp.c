@@ -47,7 +47,7 @@ void HAL_MspInit(void)
 
   /* USER CODE END MspInit 0 */
 
-  __SYSCFG_CLK_ENABLE();
+  __HAL_RCC_SYSCFG_CLK_ENABLE();
 
   HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
 

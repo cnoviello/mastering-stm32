@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_comp.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   COMP HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the COMP peripheral:
@@ -17,22 +17,20 @@
 ================================================================================
           ##### COMP Peripheral features #####
 ================================================================================
-           
-  [..]       
+
+  [..]
       The STM32F3xx device family integrates up to 7 analog comparators COMP1, COMP2...COMP7:
-      (#) The non inverting input and inverting input can be set to GPIO pins
-          as shown in table1. COMP Inputs below for STM32F303xB/STM32F303xC as example.
-          For other STM32F3xx devices please refer to the COMP peripheral section in corresponding 
+      (#) The non inverting input and inverting input can be set to GPIO pins.
+          For STM32F3xx devices please refer to the COMP peripheral section in corresponding 
           Reference Manual.
   
       (#) The COMP output is available using HAL_COMP_GetOutputLevel()
-          and can be set on GPIO pins. Refer to table 2. COMP Outputs below for STM32F303xB/STM32F303xC as example.
-          For other STM32F3xx devices please refer to the COMP peripheral section in corresponding 
+          and can be set on GPIO pins.
+          For STM32F3xx devices please refer to the COMP peripheral section in corresponding 
           Reference Manual.
   
-      (#) The COMP output can be redirected to embedded timers (TIM1, TIM2, TIM3...)
-          Refer to table 3. COMP Outputs redirection to embedded timers below for STM32F303xB/STM32F303xC as example.
-          For other STM32F3xx devices please refer to the COMP peripheral section in corresponding 
+      (#) The COMP output can be redirected to embedded timers (TIM1, TIM2, TIM3...).
+          For STM32F3xx devices please refer to the COMP peripheral section in corresponding 
           Reference Manual.
   
       (#) Each couple of comparators COMP1 and COMP2, COMP3 and COMP4, COMP5 and COMP6 can be combined in window
@@ -51,117 +49,6 @@
           From the corresponding IRQ handler, the right interrupt source can be retrieved with the 
           adequate macro __HAL_COMP_COMPx_EXTI_GET_FLAG().
 
-[..] Table 1. COMP Inputs for the STM32F303xB/STM32F303xC/STM32F303xE devices
- +------------------------------------------------------------------------------------------+     
- |                 |                | COMP1 | COMP2 | COMP3 | COMP4 | COMP5 | COMP6 | COMP7 |
- |-----------------|----------------|---------------|---------------------------------------|
- |                 | 1/4 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
- |                 | 1/2 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
- |                 | 3/4 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
- | Inverting Input | VREFINT        |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
- |                 | DAC1 OUT (PA4) |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
- |                 | DAC2 OUT (PA5) |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
- |                 | IO1            |  PA0  |  PA2  |  PD15 |  PE8  |  PD13 |  PD10 |  PC0  |
- |                 | IO2            |  ---  |  ---  |  PB12 |  PB2  |  PB10 |  PB15 |  ---  |
- |-----------------|----------------|-------|-------|-------|-------|-------|-------|-------|
- |  Non Inverting  | IO1            |  PA1  |  PA7  |  PB14 |  PB0  |  PD12 |  PD11 |  PA0  |
- |    Input        | IO2            |  ---  |  PA3  |  PD14 |  PE7  |  PB13 |  PB11 |  PC1  |
- +------------------------------------------------------------------------------------------+  
-  
- [..] Table 2. COMP Outputs for the STM32F303xB/STM32F303xC/STM32F303xE devices
- +-------------------------------------------------------+     
- | COMP1 | COMP2 | COMP3 | COMP4 | COMP5 | COMP6 | COMP7 |
- |-------|-------|-------|-------|-------|-------|-------|
- |  PA0  |  PA2  |  PB1  |  PC8  |  PC7  |  PA10 |  PC2  |
- |  PF4  |  PA7  |  ---  |  PA8  |  PA9  |  PC6  |  ---  |
- |  PA6  |  PA12 |  ---  |  ---  |  ---  |  ---  |  ---  |
- |  PA11 |  PB9  |  ---  |  ---  |  ---  |  ---  |  ---  |
- |  PB8  |  ---  |  ---  |  ---  |  ---  |  ---  |  ---  |
- +-------------------------------------------------------+
-
- [..] Table 3. COMP Outputs redirection to embedded timers for the STM32F303xB/STM32F303xC devices
- +----------------------------------------------------------------------------------------------------------------------+     
- |     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
- |----------------|----------------|----------------|----------------|----------------|----------------|----------------|
- |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |
- |                |                |                |                |                |                |                |
- |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
- |                |                |                |                |                |                |                |
- |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |
- |                |                |                |                |                |                |                |
- |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |
- |                |                |                |                |                |                |                |
- |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
- |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
- |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |
- |                |                |                |                |                |                |                |
- |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM1 OCREFCLR |  
- |                |                |                |                |                |                |                |
- |  TIM1 IC1      |  TIM1 IC1      |  TIM2 OCREFCLR |  TIM3 IC3      |  TIM2 IC1      |  TIM2 IC2      |  TIM8 OCREFCLR |
- |                |                |                |                |                |                |                |
- |  TIM2 IC4      |  TIM2 IC4      |  TIM3 IC2      |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM2 OCREFCLR |  TIM2 IC3      |
- |                |                |                |                |                |                |                |
- |  TIM2 OCREFCLR |  TIM2 OCREFCLR |  TIM4 IC1      |  TIM4 IC2      |  TIM4 IC3      |  TIM16 OCREFCLR|  TIM1 IC2      |
- |                |                |                |                |                |                |                |
- |  TIM3 IC1      |  TIM3 IC1      |  TIM15 IC1     |  TIM15 OCREFCLR|  TIM16 BKIN    |  TIM16 IC1     |  TIM17 OCREFCLR|          
- |                |                |                |                |                |                |                |
- |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM15 BKIN    |  TIM15 IC2     |  TIM17 IC1     |  TIM4 IC4      |  TIM17 BKIN    |
- +----------------------------------------------------------------------------------------------------------------------+
-
- [..] Table 4. COMP Outputs redirection to embedded timers for the STM32F303xE devices
- +----------------------------------------------------------------------------------------------------------------------+
- |     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
- |----------------|----------------|----------------|----------------|----------------|----------------|----------------|
- |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN (1) |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN (1) |
- |                |                |                |                |                |                |                |
- |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
- |                |                |                |                |                |                |                |
- |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN (1) |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN (1) |
- |                |                |                |                |                |                |                |
- |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |
- |                |                |                |                |                |                |                |
- |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
- |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
- |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |
- |                |                |                |                |                |                |                |
- |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM1 OCREFCLR |  
- |                |                |                |                |                |                |                |
- |  TIM1 IC1      |  TIM1 IC1      |  TIM2 OCREFCLR |  TIM3 IC3      |  TIM2 IC1      |  TIM2 IC2      |  TIM8 OCREFCLR |
- |                |                |                |                |                |                |                |
- |  TIM2 IC4      |  TIM2 IC4      |  TIM3 IC2      |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM2 OCREFCLR |  TIM2 IC3      |
- |                |                |                |                |                |                |                |
- |  TIM2 OCREFCLR |  TIM2 OCREFCLR |  TIM4 IC1      |  TIM4 IC2      |  TIM4 IC3      |  TIM16 OCREFCLR|  TIM1 IC2      |
- |                |                |                |                |                |                |                |
- |  TIM3 IC1      |  TIM3 IC1      |  TIM15 IC1     |  TIM15 OCREFCLR|  TIM16 BKIN    |  TIM16 IC1     |  TIM17 OCREFCLR|          
- |                |                |                |                |                |                |                |
- |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM15 BKIN    |  TIM15 IC2     |  TIM17 IC1     |  TIM4 IC4      |  TIM17 BKIN    |
- |                |                |                |                |                |                |                |
- |  TIM20 BKIN    |  TIM20 BKIN    |  TIM20 BKIN    |  TIM20 BKIN (1)|  TIM20 BKIN    |  TIM20 BKIN    |  TIM20 BKIN (1)|
- |                |                |                |                |                |                |                |
- |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |
- |                |                |                |                |                |                |                |
- |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
- |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
- |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |
- |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
- |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |
- |                |                |                |                |                |                |                |
- +----------------------------------------------------------------------------------------------------------------------+
- (1):This connection consists of connecting both GPIO and COMP output to TIM1/8/20 BRK input through an OR gate, instead
-     of connecting the GPIO to the TIM1/8/20 BRK input and the COMP output to the TIM1/8/20 BRK_ACTH input. The aim is to 
-     add a digital filter (3  bits) on the COMP output.
-
- [..] Table 5. COMP Outputs blanking sources for the STM32F303xB/STM32F303xC/STM32F303xE devices
- +----------------------------------------------------------------------------------------------------------------------+
- |     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
- |----------------|----------------|----------------|----------------|----------------|----------------|----------------|
- |  TIM1 OC5      |  TIM1 OC5      |  TIM1 OC5      |  TIM3 OC4      |  --------      |  TIM8 OC5      |  TIM1 OC5      |
- |                |                |                |                |                |                |                |
- |  TIM2 OC3      |  TIM2 OC3      |  --------      |  TIM8 OC5      |  TIM3 OC3      |  TIM2 OC4      |  TIM8 OC5      |
- |                |                |                |                |                |                |                |
- |  TIM3 OC3      |  TIM3 OC3      |  TIM2 OC4      |  TIM15 OC1     |  TIM8 OC5      |  TIM15 OC2     |  TIM15 OC2     |
- |                |                |                |                |                |                |                |
- +----------------------------------------------------------------------------------------------------------------------+
    
             ##### How to use this driver #####
 ================================================================================
@@ -211,7 +98,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -237,6 +124,123 @@
   *
   ******************************************************************************  
   */
+
+/*
+  Additional Tables:
+
+    Table 1. COMP Inputs for the STM32F303xB/STM32F303xC/STM32F303xE devices
+    +------------------------------------------------------------------------------------------+     
+    |                 |                | COMP1 | COMP2 | COMP3 | COMP4 | COMP5 | COMP6 | COMP7 |
+    |-----------------|----------------|---------------|---------------------------------------|
+    |                 | 1/4 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+    |                 | 1/2 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+    |                 | 3/4 VREFINT    |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+    | Inverting Input | VREFINT        |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+    |                 | DAC1 OUT (PA4) |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+    |                 | DAC2 OUT (PA5) |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |  OK   |
+    |                 | IO1            |  PA0  |  PA2  |  PD15 |  PE8  |  PD13 |  PD10 |  PC0  |
+    |                 | IO2            |  ---  |  ---  |  PB12 |  PB2  |  PB10 |  PB15 |  ---  |
+    |-----------------|----------------|-------|-------|-------|-------|-------|-------|-------|
+    |  Non Inverting  | IO1            |  PA1  |  PA7  |  PB14 |  PB0  |  PD12 |  PD11 |  PA0  |
+    |    Input        | IO2            |  ---  |  PA3  |  PD14 |  PE7  |  PB13 |  PB11 |  PC1  |
+    +------------------------------------------------------------------------------------------+  
+
+    Table 2. COMP Outputs for the STM32F303xB/STM32F303xC/STM32F303xE devices
+    +-------------------------------------------------------+     
+    | COMP1 | COMP2 | COMP3 | COMP4 | COMP5 | COMP6 | COMP7 |
+    |-------|-------|-------|-------|-------|-------|-------|
+    |  PA0  |  PA2  |  PB1  |  PC8  |  PC7  |  PA10 |  PC2  |
+    |  PF4  |  PA7  |  ---  |  PA8  |  PA9  |  PC6  |  ---  |
+    |  PA6  |  PA12 |  ---  |  ---  |  ---  |  ---  |  ---  |
+    |  PA11 |  PB9  |  ---  |  ---  |  ---  |  ---  |  ---  |
+    |  PB8  |  ---  |  ---  |  ---  |  ---  |  ---  |  ---  |
+    +-------------------------------------------------------+
+
+    Table 3. COMP Outputs redirection to embedded timers for the STM32F303xB/STM32F303xC devices
+    +----------------------------------------------------------------------------------------------------------------------+     
+    |     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
+    |----------------|----------------|----------------|----------------|----------------|----------------|----------------|
+    |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |
+    |                |                |                |                |                |                |                |
+    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
+    |                |                |                |                |                |                |                |
+    |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |
+    |                |                |                |                |                |                |                |
+    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |
+    |                |                |                |                |                |                |                |
+    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
+    |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
+    |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |
+    |                |                |                |                |                |                |                |
+    |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM1 OCREFCLR |  
+    |                |                |                |                |                |                |                |
+    |  TIM1 IC1      |  TIM1 IC1      |  TIM2 OCREFCLR |  TIM3 IC3      |  TIM2 IC1      |  TIM2 IC2      |  TIM8 OCREFCLR |
+    |                |                |                |                |                |                |                |
+    |  TIM2 IC4      |  TIM2 IC4      |  TIM3 IC2      |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM2 OCREFCLR |  TIM2 IC3      |
+    |                |                |                |                |                |                |                |
+    |  TIM2 OCREFCLR |  TIM2 OCREFCLR |  TIM4 IC1      |  TIM4 IC2      |  TIM4 IC3      |  TIM16 OCREFCLR|  TIM1 IC2      |
+    |                |                |                |                |                |                |                |
+    |  TIM3 IC1      |  TIM3 IC1      |  TIM15 IC1     |  TIM15 OCREFCLR|  TIM16 BKIN    |  TIM16 IC1     |  TIM17 OCREFCLR|          
+    |                |                |                |                |                |                |                |
+    |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM15 BKIN    |  TIM15 IC2     |  TIM17 IC1     |  TIM4 IC4      |  TIM17 BKIN    |
+    +----------------------------------------------------------------------------------------------------------------------+
+
+    Table 4. COMP Outputs redirection to embedded timers for the STM32F303xE devices
+    +----------------------------------------------------------------------------------------------------------------------+
+    |     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
+    |----------------|----------------|----------------|----------------|----------------|----------------|----------------|
+    |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN (1) |  TIM1 BKIN     |  TIM1 BKIN     |  TIM1 BKIN (1) |
+    |                |                |                |                |                |                |                |
+    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
+    |                |                |                |                |                |                |                |
+    |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN (1) |  TIM8 BKIN     |  TIM8 BKIN     |  TIM8 BKIN (1) |
+    |                |                |                |                |                |                |                |
+    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |
+    |                |                |                |                |                |                |                |
+    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
+    |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
+    |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |  TIM8BKIN2     |
+    |                |                |                |                |                |                |                |
+    |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM1 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM8 OCREFCLR |  TIM1 OCREFCLR |  
+    |                |                |                |                |                |                |                |
+    |  TIM1 IC1      |  TIM1 IC1      |  TIM2 OCREFCLR |  TIM3 IC3      |  TIM2 IC1      |  TIM2 IC2      |  TIM8 OCREFCLR |
+    |                |                |                |                |                |                |                |
+    |  TIM2 IC4      |  TIM2 IC4      |  TIM3 IC2      |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM2 OCREFCLR |  TIM2 IC3      |
+    |                |                |                |                |                |                |                |
+    |  TIM2 OCREFCLR |  TIM2 OCREFCLR |  TIM4 IC1      |  TIM4 IC2      |  TIM4 IC3      |  TIM16 OCREFCLR|  TIM1 IC2      |
+    |                |                |                |                |                |                |                |
+    |  TIM3 IC1      |  TIM3 IC1      |  TIM15 IC1     |  TIM15 OCREFCLR|  TIM16 BKIN    |  TIM16 IC1     |  TIM17 OCREFCLR|          
+    |                |                |                |                |                |                |                |
+    |  TIM3 OCREFCLR |  TIM3 OCREFCLR |  TIM15 BKIN    |  TIM15 IC2     |  TIM17 IC1     |  TIM4 IC4      |  TIM17 BKIN    |
+    |                |                |                |                |                |                |                |
+    |  TIM20 BKIN    |  TIM20 BKIN    |  TIM20 BKIN    |  TIM20 BKIN (1)|  TIM20 BKIN    |  TIM20 BKIN    |  TIM20 BKIN (1)|
+    |                |                |                |                |                |                |                |
+    |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |
+    |                |                |                |                |                |                |                |
+    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |  TIM1 BKIN2    |
+    |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
+    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |  TIM8 BKIN2    |
+    |     +          |     +          |     +          |     +          |     +          |     +          |     +          |
+    |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |  TIM20 BKIN2   |
+    |                |                |                |                |                |                |                |
+    +----------------------------------------------------------------------------------------------------------------------+
+    (1):  This connection consists of connecting both GPIO and COMP output to TIM1/8/20 BRK input through an OR gate, instead
+          of connecting the GPIO to the TIM1/8/20 BRK input and the COMP output to the TIM1/8/20 BRK_ACTH input. The aim is to 
+          add a digital filter (3  bits) on the COMP output.
+
+    Table 5. COMP Outputs blanking sources for the STM32F303xB/STM32F303xC/STM32F303xE devices
+    +----------------------------------------------------------------------------------------------------------------------+
+    |     COMP1      |     COMP2      |     COMP3      |     COMP4      |     COMP5      |     COMP6      |     COMP7      |
+    |----------------|----------------|----------------|----------------|----------------|----------------|----------------|
+    |  TIM1 OC5      |  TIM1 OC5      |  TIM1 OC5      |  TIM3 OC4      |  --------      |  TIM8 OC5      |  TIM1 OC5      |
+    |                |                |                |                |                |                |                |
+    |  TIM2 OC3      |  TIM2 OC3      |  --------      |  TIM8 OC5      |  TIM3 OC3      |  TIM2 OC4      |  TIM8 OC5      |
+    |                |                |                |                |                |                |                |
+    |  TIM3 OC3      |  TIM3 OC3      |  TIM2 OC4      |  TIM15 OC1     |  TIM8 OC5      |  TIM15 OC2     |  TIM15 OC2     |
+    |                |                |                |                |                |                |                |
+    +----------------------------------------------------------------------------------------------------------------------+
+
+*/
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
@@ -335,6 +339,10 @@ HAL_StatusTypeDef HAL_COMP_Init(COMP_HandleTypeDef *hcomp)
       hcomp->Lock = HAL_UNLOCKED;
     }
 
+    /* Manage inverting input comparator inverting input connected to a GPIO  */
+    /* for STM32F302x, STM32F32xx, STM32F33x.                                 */
+    hcomp->Init.InvertingInput = COMP_INVERTINGINPUT_SELECTION(hcomp->Instance, hcomp->Init.InvertingInput);
+    
     /* Set COMP parameters */
     /*     Set COMPxINSEL bits according to hcomp->Init.InvertingInput value        */
     /*     Set COMPxNONINSEL bits according to hcomp->Init.NonInvertingInput value  */
@@ -395,6 +403,9 @@ HAL_StatusTypeDef HAL_COMP_DeInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_COMP_MspInit could be implemented in the user file
    */
@@ -407,6 +418,9 @@ __weak void HAL_COMP_MspInit(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_MspDeInit(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_COMP_MspDeInit could be implemented in the user file
    */
@@ -440,7 +454,7 @@ __weak void HAL_COMP_MspDeInit(COMP_HandleTypeDef *hcomp)
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_COMP_Start(COMP_HandleTypeDef *hcomp)
-{ 
+{
   HAL_StatusTypeDef status = HAL_OK;
   uint32_t extiline = 0;
   
@@ -657,6 +671,9 @@ void HAL_COMP_IRQHandler(COMP_HandleTypeDef *hcomp)
   */
 __weak void HAL_COMP_TriggerCallback(COMP_HandleTypeDef *hcomp)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hcomp);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_COMP_TriggerCallback should be implemented in the user file
    */

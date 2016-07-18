@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_dac_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   DACEx HAL module driver.
   *          This file provides firmware functions to manage the extended 
   *          functionalities of the DAC peripheral.  
@@ -24,7 +24,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -784,30 +784,21 @@ HAL_StatusTypeDef HAL_DAC_ConfigChannel(DAC_HandleTypeDef* hdac, DAC_ChannelConf
 
   /* Check the DAC parameters */
   assert_param(IS_DAC_TRIGGER(sConfig->DAC_Trigger));
-#if defined(STM32F328xx)
-  assert_param(IS_DAC_OUTPUT_SWITCH_STATE(sConfig->DAC_OutputSwitch));
-#endif
-#if defined(STM32F334x8)
-  if (Channel == DAC_CHANNEL_1) /* DAC1 channel 1 or DAC2 channel 1*/
-  {
-    assert_param(IS_DAC_OUTPUT_BUFFER_STATE(sConfig->DAC_OutputBuffer));    
-  }
-  else /* DAC1 channel 2 */
-  {
-    assert_param(IS_DAC_OUTPUT_SWITCH_STATE(sConfig->DAC_OutputSwitch));    
-  }    
-#endif
-#if defined(STM32F303x8)
-  /* DAC1 channel 1 */
+
+#if defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)
   if ((hdac->Instance == DAC1) && (Channel == DAC_CHANNEL_1)) 
   {
+    /* Output Buffer (BOFF1) control */
     assert_param(IS_DAC_OUTPUT_BUFFER_STATE(sConfig->DAC_OutputBuffer));    
   }
   else /* DAC1 channel 2 & DAC2 channel 1 */
   {
+    /* Output Switch (OUTEN) control */
     assert_param(IS_DAC_OUTPUT_SWITCH_STATE(sConfig->DAC_OutputSwitch));    
   }    
-#endif
+#else
+  assert_param(IS_DAC_OUTPUT_BUFFER_STATE(sConfig->DAC_OutputBuffer));    
+#endif /* STM32F303x8 || STM32F334x8 || STM32F328xx || */
   assert_param(IS_DAC_CHANNEL(Channel));   
  
   /* Process locked */
@@ -818,41 +809,30 @@ HAL_StatusTypeDef HAL_DAC_ConfigChannel(DAC_HandleTypeDef* hdac, DAC_ChannelConf
   
   /* Get the DAC CR value */
   tmpreg1 = hdac->Instance->CR;
-  /* Clear BOFFx, TENx, TSELx, WAVEx and MAMPx bits */
-#if defined(STM32F328xx) 
-  tmpreg1 &= ~(((uint32_t)(DAC_CR_MAMP1 | DAC_CR_WAVE1 | DAC_CR_TSEL1 | DAC_CR_TEN1 | DAC_CR_OUTEN1)) << Channel);
-#else
-  tmpreg1 &= ~(((uint32_t)(DAC_CR_MAMP1 | DAC_CR_WAVE1 | DAC_CR_TSEL1 | DAC_CR_TEN1 | DAC_CR_BOFF1)) << Channel);
-#endif  
+  
+  /* Clear BOFFx-OUTENx, TENx, TSELx, WAVEx and MAMPx bits */
   
   /* Configure for the selected DAC channel: buffer output or switch output, trigger */
   /* Set TSELx and TENx bits according to DAC_Trigger value */
   /* Set BOFFx bit according to DAC_OutputBuffer value OR */   
   /* Set OUTEN bit according to DAC_OutputSwitch value */   
-#if defined(STM32F328xx)
-  tmpreg2 = (sConfig->DAC_Trigger | sConfig->DAC_OutputSwitch);
-#elif defined(STM32F334x8)
-  if (Channel == DAC_CHANNEL_1) /* DAC1 channel 1 or DAC2 channel 1*/
-  {
-    tmpreg2 = (sConfig->DAC_Trigger | sConfig->DAC_OutputBuffer);    
-  }
-  else /* DAC1 channel 2 */
-  {
-    tmpreg2 = (sConfig->DAC_Trigger | sConfig->DAC_OutputSwitch);    
-  }    
-#elif defined(STM32F303x8)
-  /* DAC1 channel 1 */
+#if defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)
   if ((hdac->Instance == DAC1) && (Channel == DAC_CHANNEL_1)) 
   {
+    /* Output Buffer (BOFF1) control */
+    tmpreg1 &= ~(((uint32_t)(DAC_CR_MAMP1 | DAC_CR_WAVE1 | DAC_CR_TSEL1 | DAC_CR_TEN1 | DAC_CR_BOFF1)) << Channel);
     tmpreg2 = (sConfig->DAC_Trigger | sConfig->DAC_OutputBuffer);    
   }
   else /* DAC1 channel 2 & DAC2 channel 1 */
   {
+    /* Output Switch (OUTEN) control */
+    tmpreg1 &= ~(((uint32_t)(DAC_CR_MAMP1 | DAC_CR_WAVE1 | DAC_CR_TSEL1 | DAC_CR_TEN1 | DAC_CR_OUTEN1)) << Channel);    
     tmpreg2 = (sConfig->DAC_Trigger | sConfig->DAC_OutputSwitch);    
   }    
 #else
+  tmpreg1 &= ~(((uint32_t)(DAC_CR_MAMP1 | DAC_CR_WAVE1 | DAC_CR_TSEL1 | DAC_CR_TEN1 | DAC_CR_BOFF1)) << Channel);
   tmpreg2 = (sConfig->DAC_Trigger | sConfig->DAC_OutputBuffer);
-#endif
+#endif  /* STM32F303x8 || STM32F334x8 || STM32F328xx || */
   
   /* Calculate CR register value depending on DAC_Channel */
   tmpreg1 |= tmpreg2 << Channel;
@@ -871,9 +851,6 @@ HAL_StatusTypeDef HAL_DAC_ConfigChannel(DAC_HandleTypeDef* hdac, DAC_ChannelConf
   /* Return function status */
   return HAL_OK;
 }
-
-
-
 
 /**
   * @brief  Enables or disables the selected DAC channel wave generation.
@@ -987,6 +964,9 @@ HAL_StatusTypeDef HAL_DACEx_NoiseWaveGenerate(DAC_HandleTypeDef* hdac, uint32_t 
   */
 __weak void HAL_DACEx_ConvCpltCallbackCh2(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DACEx_ConvCpltCallbackCh2 could be implemented in the user file
    */
@@ -1000,6 +980,9 @@ __weak void HAL_DACEx_ConvCpltCallbackCh2(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DACEx_ConvHalfCpltCallbackCh2(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DACEx_ConvHalfCpltCallbackCh2 could be implemented in the user file
    */
@@ -1013,6 +996,9 @@ __weak void HAL_DACEx_ConvHalfCpltCallbackCh2(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DACEx_ErrorCallbackCh2(DAC_HandleTypeDef *hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DACEx_ErrorCallbackCh2 could be implemented in the user file
    */
@@ -1026,6 +1012,9 @@ __weak void HAL_DACEx_ErrorCallbackCh2(DAC_HandleTypeDef *hdac)
   */
 __weak void HAL_DACEx_DMAUnderrunCallbackCh2(DAC_HandleTypeDef *hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DACEx_DMAUnderrunCallbackCh2 could be implemented in the user file
    */

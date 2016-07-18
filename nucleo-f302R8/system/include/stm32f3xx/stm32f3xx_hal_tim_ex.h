@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_tim_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of TIM HAL Extended module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -216,11 +216,11 @@ typedef struct {
 /** @defgroup TIMEx_Slave_Mode TIMEx Slave Mode
   * @{
   */
-#define TIM_SLAVEMODE_DISABLE              ((uint32_t)0x0000)
-#define TIM_SLAVEMODE_RESET                ((uint16_t)0x0004)
-#define TIM_SLAVEMODE_GATED                ((uint16_t)0x0005)
-#define TIM_SLAVEMODE_TRIGGER              ((uint16_t)0x0006)
-#define TIM_SLAVEMODE_EXTERNAL1            ((uint16_t)0x0007)
+#define TIM_SLAVEMODE_DISABLE                ((uint32_t)0x0000)
+#define TIM_SLAVEMODE_RESET                  ((uint32_t)(TIM_SMCR_SMS_2))
+#define TIM_SLAVEMODE_GATED                  ((uint32_t)(TIM_SMCR_SMS_2 | TIM_SMCR_SMS_0))
+#define TIM_SLAVEMODE_TRIGGER                ((uint32_t)(TIM_SMCR_SMS_2 | TIM_SMCR_SMS_1))
+#define TIM_SLAVEMODE_EXTERNAL1              ((uint32_t)(TIM_SMCR_SMS_2 | TIM_SMCR_SMS_1 | TIM_SMCR_SMS_0))
 /**
   * @}
   */
@@ -608,7 +608,7 @@ typedef struct {
                                  ((MODE) == TIM_SLAVEMODE_TRIGGER) || \
                                  ((MODE) == TIM_SLAVEMODE_EXTERNAL1))
 
-#define IS_TIM_EVENT_SOURCE(SOURCE) ((((SOURCE) & 0xFFFFFF00) == 0x00000000) && ((SOURCE) != 0x00000000))                                          
+#define IS_TIM_EVENT_SOURCE(SOURCE) ((((SOURCE) & 0xFFFFFF00U) == 0x00000000) && ((SOURCE) != 0x00000000))                                          
   
 #define IS_TIM_DMA_BASE(BASE) (((BASE) == TIM_DMABASE_CR1) || \
                                ((BASE) == TIM_DMABASE_CR2) || \
@@ -708,7 +708,7 @@ typedef struct {
                                  ((MODE) == TIM_SLAVEMODE_EXTERNAL1) || \
                                  ((MODE) == TIM_SLAVEMODE_COMBINED_RESETTRIGGER))
 
-#define IS_TIM_EVENT_SOURCE(SOURCE) ((((SOURCE) & 0xFFFFFE00) == 0x00000000) && ((SOURCE) != 0x00000000))                                          
+#define IS_TIM_EVENT_SOURCE(SOURCE) ((((SOURCE) & 0xFFFFFE00U) == 0x00000000) && ((SOURCE) != 0x00000000))                                          
   
 #define IS_TIM_DMA_BASE(BASE) (((BASE) == TIM_DMABASE_CR1)   || \
                                ((BASE) == TIM_DMABASE_CR2)   || \

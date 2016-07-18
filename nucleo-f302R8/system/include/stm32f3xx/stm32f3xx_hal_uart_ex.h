@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_uart_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of UART HAL Extension module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -157,6 +157,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
         case RCC_USART1CLKSOURCE_LSE:                         \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
           break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
+          break;                                              \
        }                                                      \
     }                                                         \
     else if((__HANDLE__)->Instance == USART2)                 \
@@ -174,6 +177,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
           break;                                              \
         case RCC_USART2CLKSOURCE_LSE:                         \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
+          break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
        }                                                      \
     }                                                         \
@@ -193,6 +199,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
         case RCC_USART3CLKSOURCE_LSE:                         \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
           break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
+          break;                                              \
        }                                                      \
     }                                                         \
     else if((__HANDLE__)->Instance == UART4)                  \
@@ -210,6 +219,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
           break;                                              \
         case RCC_UART4CLKSOURCE_LSE:                          \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
+          break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
        }                                                      \
     }                                                         \
@@ -229,7 +241,14 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
         case RCC_UART5CLKSOURCE_LSE:                          \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
           break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
+          break;                                              \
        }                                                      \
+    }                                                         \
+    else                                                      \
+    {                                                         \
+      (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;         \
     }                                                         \
   } while(0)
 #elif defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx) || \
@@ -252,43 +271,22 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
         case RCC_USART1CLKSOURCE_LSE:                         \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
           break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
+          break;                                              \
        }                                                      \
     }                                                         \
     else if((__HANDLE__)->Instance == USART2)                 \
     {                                                         \
-       switch(__HAL_RCC_GET_USART2_SOURCE())                  \
-       {                                                      \
-        case RCC_USART2CLKSOURCE_PCLK1:                       \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
-          break;                                              \
-        case RCC_USART2CLKSOURCE_HSI:                         \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_HSI;           \
-          break;                                              \
-        case RCC_USART2CLKSOURCE_SYSCLK:                      \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_SYSCLK;        \
-          break;                                              \
-        case RCC_USART2CLKSOURCE_LSE:                         \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
-          break;                                              \
-       }                                                      \
+      (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;             \
     }                                                         \
     else if((__HANDLE__)->Instance == USART3)                 \
     {                                                         \
-       switch(__HAL_RCC_GET_USART3_SOURCE())                  \
-       {                                                      \
-        case RCC_USART3CLKSOURCE_PCLK1:                       \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;         \
-          break;                                              \
-        case RCC_USART3CLKSOURCE_HSI:                         \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_HSI;           \
-          break;                                              \
-        case RCC_USART3CLKSOURCE_SYSCLK:                      \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_SYSCLK;        \
-          break;                                              \
-        case RCC_USART3CLKSOURCE_LSE:                         \
-          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
-          break;                                              \
-       }                                                      \
+      (__CLOCKSOURCE__) = UART_CLOCKSOURCE_PCLK1;             \
+    }                                                         \
+    else                                                      \
+    {                                                         \
+      (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;         \
     }                                                         \
   } while(0)
 #else
@@ -310,6 +308,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
         case RCC_USART1CLKSOURCE_LSE:                         \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
           break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
+          break;                                              \
        }                                                      \
     }                                                         \
     else if((__HANDLE__)->Instance == USART2)                 \
@@ -327,6 +328,9 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
           break;                                              \
         case RCC_USART2CLKSOURCE_LSE:                         \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
+          break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
           break;                                              \
        }                                                      \
     }                                                         \
@@ -346,7 +350,14 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
         case RCC_USART3CLKSOURCE_LSE:                         \
           (__CLOCKSOURCE__) = UART_CLOCKSOURCE_LSE;           \
           break;                                              \
+        default:                                              \
+          (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;     \
+          break;                                              \
        }                                                      \
+    }                                                         \
+    else                                                      \
+    {                                                         \
+      (__CLOCKSOURCE__) = UART_CLOCKSOURCE_UNDEFINED;         \
     }                                                         \
   } while(0)
 #endif /* STM32F302xE || STM32F303xE || STM32F398xx || */

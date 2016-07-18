@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_opamp.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of OPAMP HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -206,13 +206,13 @@ typedef  uint32_t OPAMP_TrimmingValueTypeDef;
   * @{
   */
 
-#define OPAMP_NONINVERTINGINPUT_IO0         OPAMP_CSR_VPSEL                 /*!< VP0 (PA1 for OPAMP1, PA7 for OPAMP2, PB0 for OPAMP3, PB13 for OPAMP4)
+#define OPAMP_NONINVERTINGINPUT_IO0         OPAMP_CSR_VPSEL         /*!< VP0 (PA1 for OPAMP1, VP0 PA7  for OPAMP2, VP0 PB0  for OPAMP3, VP0 PB13 for OPAMP4)
                                                                                   connected to OPAMPx non inverting input */
-#define OPAMP_NONINVERTINGINPUT_IO1         ((uint32_t)0x00000000)          /*!< VP1 (PA7 for OPAMP1, PD14 for OPAMP2, PB13 for OPAMP3, PD11 for OPAMP4)
+#define OPAMP_NONINVERTINGINPUT_IO1         ((uint32_t)0x00000000)  /*!< VP1 (PA7 for OPAMP1, VP3 PD14 for OPAMP2, VP1 PB13 for OPAMP3, VP1 PD11 for OPAMP4)
                                                                                   connected to OPAMPx non inverting input */
-#define OPAMP_NONINVERTINGINPUT_IO2         OPAMP_CSR_VPSEL_1               /*!< VP2 (PA3 for OPAMP1, PB0 for OPAMP2, PA1 for OPAMP3, PA4 for OPAMP4)
+#define OPAMP_NONINVERTINGINPUT_IO2         OPAMP_CSR_VPSEL_1       /*!< VP2 (PA3 for OPAMP1, VP2 PB0  for OPAMP2, VP2 PA1  for OPAMP3, VP3 PA4  for OPAMP4)
                                                                                   connected to OPAMPx non inverting input */
-#define OPAMP_NONINVERTINGINPUT_IO3         OPAMP_CSR_VPSEL_0               /*!< vp3 (PA5 for OPAMP1, PB14 for OPAMP2, PA5 for OPAMP3, PB11 for OPAMP4)
+#define OPAMP_NONINVERTINGINPUT_IO3         OPAMP_CSR_VPSEL_0       /*!< VP3 (PA5 for OPAMP1, VP1 PB14 for OPAMP2, VP3 PA5  for OPAMP3, VP2 PB11 for OPAMP4)
                                                                                   connected to OPAMPx non inverting input */
 
 #define IS_OPAMP_NONINVERTING_INPUT(INPUT) (((INPUT) == OPAMP_NONINVERTINGINPUT_IO0) || \
@@ -335,7 +335,7 @@ typedef  uint32_t OPAMP_TrimmingValueTypeDef;
   * @{
   */
 
-#define OPAMP_FACTORYTRIMMING_DUMMY    ((uint32_t)0xFFFFFFFF)                          /*!< Dummy trimming value */
+#define OPAMP_FACTORYTRIMMING_DUMMY    ((uint32_t)0xFFFFFFFFU)                          /*!< Dummy trimming value */
 
 #define OPAMP_FACTORYTRIMMING_N        ((uint32_t)0x00000000)                          /*!< Offset trimming N */
 #define OPAMP_FACTORYTRIMMING_P        ((uint32_t)0x00000001)                          /*!< Offset trimming P */

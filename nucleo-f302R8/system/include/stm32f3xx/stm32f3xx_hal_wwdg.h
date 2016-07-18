@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_wwdg.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of WWDG HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -133,8 +133,8 @@ typedef struct
   * @{
   */ 
 #define WWDG_PRESCALER_1    ((uint32_t)0x00000000)       /*!< WWDG counter clock = (PCLK1/4096)/1 */
-#define WWDG_PRESCALER_2    WWDG_CFR_WDGTB0              /*!< WWDG counter clock = (PCLK1/4096)/2 */
-#define WWDG_PRESCALER_4    WWDG_CFR_WDGTB1              /*!< WWDG counter clock = (PCLK1/4096)/4 */
+#define WWDG_PRESCALER_2    WWDG_CFR_WDGTB_0              /*!< WWDG counter clock = (PCLK1/4096)/2 */
+#define WWDG_PRESCALER_4    WWDG_CFR_WDGTB_1              /*!< WWDG counter clock = (PCLK1/4096)/4 */
 #define WWDG_PRESCALER_8    WWDG_CFR_WDGTB               /*!< WWDG counter clock = (PCLK1/4096)/8 */
 
 /**

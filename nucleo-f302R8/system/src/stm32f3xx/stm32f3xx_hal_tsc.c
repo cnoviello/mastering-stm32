@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_tsc.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Touch Sensing Controller (TSC) peripheral:
   *           + Initialization and De-initialization
@@ -53,7 +53,7 @@
       (++) Enable the clock for the TSC GPIOs using __HAL_RCC_GPIOx_CLK_ENABLE() macro.
       (++) Configure the TSC pins used as sampling IOs in alternate function output Open-Drain mode,
            and TSC pins used as channel/shield IOs in alternate function output Push-Pull mode
-           using HAL_GPIO_Init() function (see Table 1).
+           using HAL_GPIO_Init() function.
 
     (#) Interrupts configuration
       (++) Configure the NVIC (if the interrupt model is used) using HAL_NVIC_SetPriority() 
@@ -62,54 +62,6 @@
     (#) TSC configuration
       (++) Configure all TSC parameters and used TSC IOs using HAL_TSC_Init() function.
 
-[..] Table 1. IOs for the STM32L4xx devices
- (+)   +--------------------------------+     
- (+)   |       IOs    |   TSC functions | 
- (+)   |--------------|-----------------|
- (+)   |   PA0  (AF)  |   TSC_G1_IO1    | 
- (+)   |   PA1  (AF)  |   TSC_G1_IO2    | 
- (+)   |   PA2  (AF)  |   TSC_G1_IO3    | 
- (+)   |   PA3  (AF)  |   TSC_G1_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PA4 (AF)   |   TSC_G2_IO1    | 
- (+)   |   PA5 (AF)   |   TSC_G2_IO2    | 
- (+)   |   PA6 (AF)   |   TSC_G2_IO3    | 
- (+)   |   PA7 (AF)   |   TSC_G2_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PC5  (AF)  |   TSC_G3_IO1    | 
- (+)   |   PB0  (AF)  |   TSC_G3_IO2    | 
- (+)   |   PB1  (AF)  |   TSC_G3_IO3    | 
- (+)   |   PB2  (AF)  |   TSC_G3_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PA9  (AF)  |   TSC_G4_IO1    | 
- (+)   |   PA10 (AF)  |   TSC_G4_IO2    | 
- (+)   |   PA13 (AF)  |   TSC_G4_IO3    | 
- (+)   |   PA14 (AF)  |   TSC_G4_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PB3  (AF)  |   TSC_G5_IO1    | 
- (+)   |   PB4  (AF)  |   TSC_G5_IO2    | 
- (+)   |   PB6  (AF)  |   TSC_G5_IO3    | 
- (+)   |   PB7  (AF)  |   TSC_G5_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PB11 (AF)  |   TSC_G6_IO1    | 
- (+)   |   PB12 (AF)  |   TSC_G6_IO2    | 
- (+)   |   PB13 (AF)  |   TSC_G6_IO3    | 
- (+)   |   PB14 (AF)  |   TSC_G6_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PE2  (AF)  |   TSC_G7_IO1    | 
- (+)   |   PE3  (AF)  |   TSC_G7_IO2    | 
- (+)   |   PE4  (AF)  |   TSC_G7_IO3    | 
- (+)   |   PE5  (AF)  |   TSC_G7_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PD12 (AF)  |   TSC_G8_IO1    | 
- (+)   |   PD13 (AF)  |   TSC_G8_IO2    | 
- (+)   |   PD14 (AF)  |   TSC_G8_IO3    | 
- (+)   |   PD15 (AF)  |   TSC_G8_IO4    | 
- (+)   |--------------|-----------------|
- (+)   |   PB8  (AF)  |   TSC_SYNC      | 
- (+)   |   PB10 (AF)  |                 | 
- (+)   +--------------------------------+
- [..]   TSC peripheral alternate functions are mapped on AF9.
  
    *** Acquisition sequence ***
   ===================================
@@ -130,7 +82,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -156,6 +108,60 @@
   *
   ******************************************************************************
   */
+
+/*
+  Addition Table:
+    Table 1. IOs for the STM32F3xx devices
+    +--------------------------------+     
+    |       IOs    |   TSC functions | 
+    |--------------|-----------------|
+    |   PA0  (AF)  |   TSC_G1_IO1    | 
+    |   PA1  (AF)  |   TSC_G1_IO2    | 
+    |   PA2  (AF)  |   TSC_G1_IO3    | 
+    |   PA3  (AF)  |   TSC_G1_IO4    | 
+    |--------------|-----------------|
+    |   PA4 (AF)   |   TSC_G2_IO1    | 
+    |   PA5 (AF)   |   TSC_G2_IO2    | 
+    |   PA6 (AF)   |   TSC_G2_IO3    | 
+    |   PA7 (AF)   |   TSC_G2_IO4    | 
+    |--------------|-----------------|
+    |   PC5  (AF)  |   TSC_G3_IO1    | 
+    |   PB0  (AF)  |   TSC_G3_IO2    | 
+    |   PB1  (AF)  |   TSC_G3_IO3    | 
+    |   PB2  (AF)  |   TSC_G3_IO4    | 
+    |--------------|-----------------|
+    |   PA9  (AF)  |   TSC_G4_IO1    | 
+    |   PA10 (AF)  |   TSC_G4_IO2    | 
+    |   PA13 (AF)  |   TSC_G4_IO3    | 
+    |   PA14 (AF)  |   TSC_G4_IO4    | 
+    |--------------|-----------------|
+    |   PB3  (AF)  |   TSC_G5_IO1    | 
+    |   PB4  (AF)  |   TSC_G5_IO2    | 
+    |   PB6  (AF)  |   TSC_G5_IO3    | 
+    |   PB7  (AF)  |   TSC_G5_IO4    | 
+    |--------------|-----------------|
+    |   PB11 (AF)  |   TSC_G6_IO1    | 
+    |   PB12 (AF)  |   TSC_G6_IO2    | 
+    |   PB13 (AF)  |   TSC_G6_IO3    | 
+    |   PB14 (AF)  |   TSC_G6_IO4    | 
+    |--------------|-----------------|
+    |   PE2  (AF)  |   TSC_G7_IO1    | 
+    |   PE3  (AF)  |   TSC_G7_IO2    | 
+    |   PE4  (AF)  |   TSC_G7_IO3    | 
+    |   PE5  (AF)  |   TSC_G7_IO4    | 
+    |--------------|-----------------|
+    |   PD12 (AF)  |   TSC_G8_IO1    | 
+    |   PD13 (AF)  |   TSC_G8_IO2    | 
+    |   PD14 (AF)  |   TSC_G8_IO3    | 
+    |   PD15 (AF)  |   TSC_G8_IO4    | 
+    |--------------|-----------------|
+    |   PB8  (AF)  |   TSC_SYNC      | 
+    |   PB10 (AF)  |                 | 
+    +--------------------------------+
+    TSC peripheral alternate functions are mapped on AF3.
+
+*/
+
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
@@ -251,7 +257,6 @@ HAL_StatusTypeDef HAL_TSC_Init(TSC_HandleTypeDef* htsc)
                          htsc->Init.SpreadSpectrumPrescaler |
                          htsc->Init.PulseGeneratorPrescaler |
                          htsc->Init.MaxCountValue |
-                         htsc->Init.IODefaultMode |
                          htsc->Init.SynchroPinPolarity |
                          htsc->Init.AcquisitionMode);
 
@@ -328,6 +333,9 @@ HAL_StatusTypeDef HAL_TSC_DeInit(TSC_HandleTypeDef* htsc)
   */
 __weak void HAL_TSC_MspInit(TSC_HandleTypeDef* htsc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htsc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TSC_MspInit could be implemented in the user file.
    */ 
@@ -341,6 +349,9 @@ __weak void HAL_TSC_MspInit(TSC_HandleTypeDef* htsc)
   */
 __weak void HAL_TSC_MspDeInit(TSC_HandleTypeDef* htsc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htsc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TSC_MspDeInit could be implemented in the user file.
    */ 
@@ -379,10 +390,10 @@ HAL_StatusTypeDef HAL_TSC_Start(TSC_HandleTypeDef* htsc)
 {
   /* Check the parameters */
   assert_param(IS_TSC_ALL_INSTANCE(htsc->Instance));
-  
+
   /* Process locked */
   __HAL_LOCK(htsc);
-  
+
   /* Change TSC state */
   htsc->State = HAL_TSC_STATE_BUSY;
 
@@ -392,15 +403,22 @@ HAL_StatusTypeDef HAL_TSC_Start(TSC_HandleTypeDef* htsc)
   /* Clear flags */
   __HAL_TSC_CLEAR_FLAG(htsc, (TSC_FLAG_EOA | TSC_FLAG_MCE));
 
-  /* Stop discharging the IOs */
-  __HAL_TSC_SET_IODEF_INFLOAT(htsc);
-  
+  /* Set touch sensing IOs not acquired to the specified IODefaultMode */
+  if (htsc->Init.IODefaultMode == TSC_IODEF_OUT_PP_LOW)
+  {
+    __HAL_TSC_SET_IODEF_OUTPPLOW(htsc);
+  }
+  else
+  {
+    __HAL_TSC_SET_IODEF_INFLOAT(htsc);
+  }
+
   /* Launch the acquisition */
   __HAL_TSC_START_ACQ(htsc);
-  
+
   /* Process unlocked */
   __HAL_UNLOCK(htsc);
-  
+
   /* Return function status */
   return HAL_OK;
 }
@@ -419,10 +437,10 @@ HAL_StatusTypeDef HAL_TSC_Start_IT(TSC_HandleTypeDef* htsc)
 
   /* Process locked */
   __HAL_LOCK(htsc);
-  
+
   /* Change TSC state */
   htsc->State = HAL_TSC_STATE_BUSY;
-  
+
   /* Enable end of acquisition interrupt */
   __HAL_TSC_ENABLE_IT(htsc, TSC_IT_EOA);
 
@@ -438,16 +456,23 @@ HAL_StatusTypeDef HAL_TSC_Start_IT(TSC_HandleTypeDef* htsc)
 
   /* Clear flags */
   __HAL_TSC_CLEAR_FLAG(htsc, (TSC_FLAG_EOA | TSC_FLAG_MCE));
-  
-  /* Stop discharging the IOs */
-  __HAL_TSC_SET_IODEF_INFLOAT(htsc);
-  
+
+  /* Set touch sensing IOs not acquired to the specified IODefaultMode */
+  if (htsc->Init.IODefaultMode == TSC_IODEF_OUT_PP_LOW)
+  {
+    __HAL_TSC_SET_IODEF_OUTPPLOW(htsc);
+  }
+  else
+  {
+    __HAL_TSC_SET_IODEF_INFLOAT(htsc);
+  }
+
   /* Launch the acquisition */
   __HAL_TSC_START_ACQ(htsc);
 
   /* Process unlocked */
   __HAL_UNLOCK(htsc);
-  
+
   /* Return function status */
   return HAL_OK;
 }
@@ -465,19 +490,22 @@ HAL_StatusTypeDef HAL_TSC_Stop(TSC_HandleTypeDef* htsc)
 
   /* Process locked */
   __HAL_LOCK(htsc);
-  
+
   /* Stop the acquisition */
   __HAL_TSC_STOP_ACQ(htsc);
 
+  /* Set touch sensing IOs in low power mode (output push-pull) */
+  __HAL_TSC_SET_IODEF_OUTPPLOW(htsc);
+
   /* Clear flags */
   __HAL_TSC_CLEAR_FLAG(htsc, (TSC_FLAG_EOA | TSC_FLAG_MCE));
-  
+
   /* Change TSC state */
   htsc->State = HAL_TSC_STATE_READY;
 
   /* Process unlocked */
   __HAL_UNLOCK(htsc);
-  
+
   /* Return function status */
   return HAL_OK;
 }
@@ -495,22 +523,25 @@ HAL_StatusTypeDef HAL_TSC_Stop_IT(TSC_HandleTypeDef* htsc)
 
   /* Process locked */
   __HAL_LOCK(htsc);
-  
+
   /* Stop the acquisition */
   __HAL_TSC_STOP_ACQ(htsc);
-  
+
+  /* Set touch sensing IOs in low power mode (output push-pull) */
+  __HAL_TSC_SET_IODEF_OUTPPLOW(htsc);
+
   /* Disable interrupts */
   __HAL_TSC_DISABLE_IT(htsc, (TSC_IT_EOA | TSC_IT_MCE));
 
   /* Clear flags */
   __HAL_TSC_CLEAR_FLAG(htsc, (TSC_FLAG_EOA | TSC_FLAG_MCE));
-  
+
   /* Change TSC state */
   htsc->State = HAL_TSC_STATE_READY;
 
   /* Process unlocked */
   __HAL_UNLOCK(htsc);
-  
+
   /* Return function status */
   return HAL_OK;
 }
@@ -530,7 +561,7 @@ HAL_StatusTypeDef HAL_TSC_PollForAcquisition(TSC_HandleTypeDef* htsc)
 
   /* Process locked */
   __HAL_LOCK(htsc);
-  
+
   /* Check end of acquisition */
   while (HAL_TSC_GetState(htsc) == HAL_TSC_STATE_BUSY)
   {
@@ -539,7 +570,7 @@ HAL_StatusTypeDef HAL_TSC_PollForAcquisition(TSC_HandleTypeDef* htsc)
 
   /* Process unlocked */
   __HAL_UNLOCK(htsc);
-  
+
   return HAL_OK;
 }
 
@@ -769,6 +800,9 @@ void HAL_TSC_IRQHandler(TSC_HandleTypeDef* htsc)
   */
 __weak void HAL_TSC_ConvCpltCallback(TSC_HandleTypeDef* htsc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htsc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TSC_ConvCpltCallback could be implemented in the user file.
    */
@@ -782,6 +816,9 @@ __weak void HAL_TSC_ConvCpltCallback(TSC_HandleTypeDef* htsc)
   */
 __weak void HAL_TSC_ErrorCallback(TSC_HandleTypeDef* htsc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(htsc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_TSC_ErrorCallback could be implemented in the user file.
    */

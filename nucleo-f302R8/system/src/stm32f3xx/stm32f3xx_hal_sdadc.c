@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_sdadc.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Sigma-Delta Analog to Digital Converter
   *          (SDADC) peripherals:
@@ -161,7 +161,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -210,8 +210,8 @@
 #define SDADC_TIMEOUT          200
 #define SDADC_CONFREG_OFFSET   0x00000020
 #define SDADC_JDATAR_CH_OFFSET 24
-#define SDADC_MSB_MASK         0xFFFF0000
-#define SDADC_LSB_MASK         0x0000FFFF
+#define SDADC_MSB_MASK         0xFFFF0000U
+#define SDADC_LSB_MASK         0x0000FFFFU
 /**
   * @}
   */
@@ -324,7 +324,9 @@ HAL_StatusTypeDef HAL_SDADC_Init(SDADC_HandleTypeDef* hsdadc)
   hsdadc->Instance->CR2 |= SDADC_CR2_ADON;
 
   /* Wait end of stabilization */
-  while((hsdadc->Instance->ISR & SDADC_ISR_STABIP) != 0);
+  while((hsdadc->Instance->ISR & SDADC_ISR_STABIP) != 0)
+  {
+  }
   
   /* Set SDADC to ready state */
   hsdadc->State = HAL_SDADC_STATE_READY;
@@ -379,6 +381,9 @@ HAL_StatusTypeDef HAL_SDADC_DeInit(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_MspInit(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_MspInit could be implemented in the user file.
    */ 
@@ -391,6 +396,9 @@ __weak void HAL_SDADC_MspInit(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_MspDeInit(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_MspDeInit could be implemented in the user file.
    */ 
@@ -2137,6 +2145,11 @@ void HAL_SDADC_IRQHandler(SDADC_HandleTypeDef* hsdadc)
     /* Call error callback */
     HAL_SDADC_ErrorCallback(hsdadc);
   }
+  else
+  {
+    /* No additional IRQ source */
+  }
+  
   return;
 }
 
@@ -2147,6 +2160,9 @@ void HAL_SDADC_IRQHandler(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_CalibrationCpltCallback(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_CalibrationCpltCallback could be implemented in the user file
    */
@@ -2159,6 +2175,9 @@ __weak void HAL_SDADC_CalibrationCpltCallback(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_ConvHalfCpltCallback(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_ConvHalfCpltCallback could be implemented in the user file
    */
@@ -2173,6 +2192,9 @@ __weak void HAL_SDADC_ConvHalfCpltCallback(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_ConvCpltCallback(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_ConvCpltCallback could be implemented in the user file.
    */
@@ -2185,6 +2207,9 @@ __weak void HAL_SDADC_ConvCpltCallback(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_InjectedConvHalfCpltCallback(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_InjectedConvHalfCpltCallback could be implemented in the user file.
    */
@@ -2199,6 +2224,9 @@ __weak void HAL_SDADC_InjectedConvHalfCpltCallback(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_InjectedConvCpltCallback(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_InjectedConvCpltCallback could be implemented in the user file.
    */
@@ -2211,6 +2239,9 @@ __weak void HAL_SDADC_InjectedConvCpltCallback(SDADC_HandleTypeDef* hsdadc)
   */
 __weak void HAL_SDADC_ErrorCallback(SDADC_HandleTypeDef* hsdadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsdadc);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SDADC_ErrorCallback could be implemented in the user file.
    */
@@ -2387,7 +2418,7 @@ static uint32_t SDADC_GetInjChannelsNbr(uint32_t Channels)
   tmp = (uint32_t) (Channels & SDADC_LSB_MASK);
   for(i = 0 ; i < 9 ; i++)
   {
-    if(tmp & 1)
+    if((tmp & (uint32_t)0x00000001) != 0)
     {
       nbChannels++;
     }

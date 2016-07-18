@@ -1,71 +1,46 @@
-/* Includes ------------------------------------------------------------------*/
-#include "stm32f3xx_hal.h"
-#include <cmsis_os.h>
-#include <nucleo_hal_bsp.h>
-#include <string.h>
+typedef unsigned long uint32_t;
 
-/* Private variables ---------------------------------------------------------*/
-extern UART_HandleTypeDef huart2;
+/* memory and peripheral start addresses */
+#define FLASH_BASE      0x08000000
+#define SRAM_BASE       0x20000000
+#define PERIPH_BASE     0x40000000
 
-void blinkThread(void const *argument);
+/* Work out end of RAM address as initial stack pointer */
+#define SRAM_SIZE       64*1024     // STM32F303RE has 64 KB of RAM
+#define SRAM_END        (SRAM_BASE + SRAM_SIZE)
 
-int main(void) {
-  osThreadId blinkTID;
+/* RCC peripheral addresses applicable to GPIOA */
+#define RCC_BASE        (PERIPH_BASE + 0x21000)
+#define RCC_APB1ENR     ((uint32_t*)(RCC_BASE + (0x14)))
 
-  HAL_Init();
+/* GPIOA peripheral addresses */
+#define GPIOA_BASE      (PERIPH_BASE + 0x8000000)
+#define GPIOA_MODER     ((uint32_t*)(GPIOA_BASE + 0x00))
+#define GPIOA_ODR       ((uint32_t*)(GPIOA_BASE + 0x14))
 
-  Nucleo_BSP_Init();
+/* User functions */
+int main(void);
+void delay(uint32_t count);
 
-  osThreadDef(blink, blinkThread, osPriorityNormal, 0, 100);
-  blinkTID = osThreadCreate(osThread(blink), NULL);
+/* Minimal vector table */
+uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
+		(uint32_t *)SRAM_END,   // initial stack pointer
+		(uint32_t *)main        // main as Reset_Handler
+};
 
-  osKernelStart();
+int main() {
+	/* enable clock on GPIOA peripheral */
+	*RCC_APB1ENR |= 0x1 << 17;
+	*GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
-  /* Infinite loop */
-  while (1);
+	while(1) {
+		*GPIOA_ODR = 0x20;
+		delay(200000);
+		*GPIOA_ODR = 0x0;
+		delay(200000);
+	}
 }
 
-void blinkThread(void const *argument) {
-  while(1) {
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    osDelay(500);
-  }
+void delay(uint32_t count) {
+	while(count--);
 }
-
-#ifdef DEBUG
-
-void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName ) {
-  asm("BKPT #0");
-}
-
-#endif
-
-#ifdef USE_FULL_ASSERT
-
-/**
-   * @brief Reports the name of the source file and the source line number
-   * where the assert_param error has occurred.
-   * @param file: pointer to the source file name
-   * @param line: assert_param error line source number
-   * @retval None
-   */
-void assert_failed(uint8_t* file, uint32_t line)
-{
-  /* USER CODE BEGIN 6 */
-  /* User can add his own implementation to report the file name and line number,
-    ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
-  /* USER CODE END 6 */
-
-}
-
-#endif
-
-/**
-  * @}
-  */ 
-
-/**
-  * @}
-*/ 
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

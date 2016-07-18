@@ -2,14 +2,14 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_irda.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   This file contains all the functions prototypes for the IRDA 
   *          firmware library.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -92,17 +92,62 @@ typedef struct
 
 /**
   * @brief HAL IRDA State structures definition
+  * @note  HAL IRDA State value is a combination of 2 different substates: gState and RxState.
+  *        - gState contains IRDA state information related to global Handle management 
+  *          and also information related to Tx operations.
+  *          gState value coding follow below described bitmap :
+  *          b7-b6  Error information 
+  *             00 : No Error
+  *             01 : (Not Used)
+  *             10 : Timeout
+  *             11 : Error
+  *          b5     IP initilisation status
+  *             0  : Reset (IP not initialized)
+  *             1  : Init done (IP not initialized. HAL IRDA Init function already called)
+  *          b4-b3  (not used)
+  *             xx : Should be set to 00
+  *          b2     Intrinsic process state
+  *             0  : Ready
+  *             1  : Busy (IP busy with some configuration or internal operations)
+  *          b1     (not used)
+  *             x  : Should be set to 0
+  *          b0     Tx state
+  *             0  : Ready (no Tx operation ongoing)
+  *             1  : Busy (Tx operation ongoing)
+  *        - RxState contains information related to Rx operations.
+  *          RxState value coding follow below described bitmap :
+  *          b7-b6  (not used)
+  *             xx : Should be set to 00
+  *          b5     IP initilisation status
+  *             0  : Reset (IP not initialized)
+  *             1  : Init done (IP not initialized)
+  *          b4-b2  (not used)
+  *            xxx : Should be set to 000
+  *          b1     Rx state
+  *             0  : Ready (no Rx operation ongoing)
+  *             1  : Busy (Rx operation ongoing)
+  *          b0     (not used)
+  *             x  : Should be set to 0.
   */
 typedef enum
 {
-  HAL_IRDA_STATE_RESET             = 0x00,    /*!< Peripheral is not initialized */
-  HAL_IRDA_STATE_READY             = 0x01,    /*!< Peripheral Initialized and ready for use */
-  HAL_IRDA_STATE_BUSY              = 0x02,    /*!< an internal process is ongoing */
-  HAL_IRDA_STATE_BUSY_TX           = 0x12,    /*!< Data Transmission process is ongoing */
-  HAL_IRDA_STATE_BUSY_RX           = 0x22,    /*!< Data Reception process is ongoing */
-  HAL_IRDA_STATE_BUSY_TX_RX        = 0x32,    /*!< Data Transmission and Reception process is ongoing */
-  HAL_IRDA_STATE_TIMEOUT           = 0x03,    /*!< Timeout state */
-  HAL_IRDA_STATE_ERROR             = 0x04     /*!< Error */
+  HAL_IRDA_STATE_RESET             = 0x00U,   /*!< Peripheral is not initialized
+                                                   Value is allowed for gState and RxState */
+  HAL_IRDA_STATE_READY             = 0x20U,   /*!< Peripheral Initialized and ready for use
+                                                   Value is allowed for gState and RxState */
+  HAL_IRDA_STATE_BUSY              = 0x24U,   /*!< an internal process is ongoing 
+                                                   Value is allowed for gState only */
+  HAL_IRDA_STATE_BUSY_TX           = 0x21U,   /*!< Data Transmission process is ongoing
+                                                   Value is allowed for gState only */
+  HAL_IRDA_STATE_BUSY_RX           = 0x22U,   /*!< Data Reception process is ongoing
+                                                   Value is allowed for RxState only */
+  HAL_IRDA_STATE_BUSY_TX_RX        = 0x23U,   /*!< Data Transmission and Reception process is ongoing
+                                                   Not to be used for neither gState nor RxState.
+                                                   Value is result of combination (Or) between gState and RxState values */
+  HAL_IRDA_STATE_TIMEOUT           = 0xA0U,   /*!< Timeout state
+                                                   Value is allowed for gState only */
+  HAL_IRDA_STATE_ERROR             = 0xE0U    /*!< Error
+                                                   Value is allowed for gState only */
 }HAL_IRDA_StateTypeDef;
 
 /**
@@ -147,7 +192,12 @@ typedef struct
 
   HAL_LockTypeDef          Lock;             /*!< Locking object                     */
 
-  __IO HAL_IRDA_StateTypeDef State;          /*!< IRDA communication state           */
+  __IO HAL_IRDA_StateTypeDef    gState;      /*!< IRDA state information related to global Handle management 
+                                                  and also related to Tx operations.
+                                                  This parameter can be a value of @ref HAL_IRDA_StateTypeDef */
+
+  __IO HAL_IRDA_StateTypeDef    RxState;     /*!< IRDA state information related to Rx operations.
+                                                  This parameter can be a value of @ref HAL_IRDA_StateTypeDef */
 
   __IO uint32_t            ErrorCode;        /*!< IRDA Error code
                                                   This parameter can be a value of @ref IRDA_Error */
@@ -218,7 +268,7 @@ typedef enum
   * @}
   */
 
- /** @defgroup IRDA_State IRDA State
+/** @defgroup IRDA_State IRDA State
   * @{
   */
 #define IRDA_STATE_DISABLE                  ((uint32_t)0x00000000)     /*!< IRDA disabled  */ 
@@ -227,7 +277,7 @@ typedef enum
   * @}
   */
 
- /** @defgroup IRDA_Mode  IRDA Mode
+/** @defgroup IRDA_Mode  IRDA Mode
   * @{
   */
 #define IRDA_MODE_DISABLE                   ((uint32_t)0x00000000)      /*!< Associated UART disabled in IRDA mode */
@@ -363,7 +413,10 @@ typedef enum
   * @param  __HANDLE__: IRDA handle.
   * @retval None
   */
-#define __HAL_IRDA_RESET_HANDLE_STATE(__HANDLE__) ((__HANDLE__)->State = HAL_IRDA_STATE_RESET)
+#define __HAL_IRDA_RESET_HANDLE_STATE(__HANDLE__)  do{                                                   \
+                                                       (__HANDLE__)->gState = HAL_IRDA_STATE_RESET;      \
+                                                       (__HANDLE__)->RxState = HAL_IRDA_STATE_RESET;     \
+                                                     } while(0)
 
 /** @brief  Flush the IRDA Data registers.
   * @param  __HANDLE__: specifies the IRDA Handle.
@@ -374,7 +427,6 @@ typedef enum
          SET_BIT((__HANDLE__)->Instance->RQR, IRDA_RXDATA_FLUSH_REQUEST); \
          SET_BIT((__HANDLE__)->Instance->RQR, IRDA_TXDATA_FLUSH_REQUEST); \
       } while(0)
-
 
 /** @brief  Clear the specified IRDA pending flag.
   * @param  __HANDLE__: specifies the IRDA Handle.

@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_rcc_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of RCC HAL Extension module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -58,20 +58,7 @@
  * @{
  */
 
-#if defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx)\
-  || defined(STM32F373xC) || defined(STM32F378xx)
-#define IS_RCC_MCO1SOURCE(SOURCE)  (((SOURCE) == RCC_MCO1SOURCE_NOCLOCK)    || \
-                                   ((SOURCE) == RCC_MCO1SOURCE_LSI)     || \
-                                   ((SOURCE) == RCC_MCO1SOURCE_LSE)     || \
-                                   ((SOURCE) == RCC_MCO1SOURCE_SYSCLK)  || \
-                                   ((SOURCE) == RCC_MCO1SOURCE_HSI)     || \
-                                   ((SOURCE) == RCC_MCO1SOURCE_HSE)     || \
-                                   ((SOURCE) == RCC_MCO1SOURCE_PLLCLK_DIV2))
-#endif /* STM32F302xC || STM32F303xC || STM32F358xx || */
-       /* STM32F373xC || STM32F378xx                   */
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)\
-  || defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)\
-  || defined(STM32F301x8) || defined(STM32F302x8) || defined(STM32F318xx)
+#if defined(RCC_CFGR_PLLNODIV)
 #define IS_RCC_MCO1SOURCE(SOURCE)  (((SOURCE) == RCC_MCO1SOURCE_NOCLOCK)        || \
                                    ((SOURCE) == RCC_MCO1SOURCE_LSI)         || \
                                    ((SOURCE) == RCC_MCO1SOURCE_LSE)         || \
@@ -80,26 +67,32 @@
                                    ((SOURCE) == RCC_MCO1SOURCE_HSE)         || \
                                    ((SOURCE) == RCC_MCO1SOURCE_PLLCLK) || \
                                    ((SOURCE) == RCC_MCO1SOURCE_PLLCLK_DIV2))
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx || */
-       /* STM32F303x8 || STM32F334x8 || STM32F328xx || */
-       /* STM32F301x8 || STM32F302x8 || STM32F318xx    */
+#else
+#define IS_RCC_MCO1SOURCE(SOURCE)  (((SOURCE) == RCC_MCO1SOURCE_NOCLOCK)    || \
+                                   ((SOURCE) == RCC_MCO1SOURCE_LSI)     || \
+                                   ((SOURCE) == RCC_MCO1SOURCE_LSE)     || \
+                                   ((SOURCE) == RCC_MCO1SOURCE_SYSCLK)  || \
+                                   ((SOURCE) == RCC_MCO1SOURCE_HSI)     || \
+                                   ((SOURCE) == RCC_MCO1SOURCE_HSE)     || \
+                                   ((SOURCE) == RCC_MCO1SOURCE_PLLCLK_DIV2))
+#endif /* RCC_CFGR_PLLNODIV */
 
 #if defined(STM32F301x8) || defined(STM32F318xx)
-#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | \
-                                                     RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_I2C2   | \
-                                                     RCC_PERIPHCLK_ADC1   | RCC_PERIPHCLK_I2S    | \
-                                                     RCC_PERIPHCLK_I2C3   | RCC_PERIPHCLK_TIM1   | \
-                                                     RCC_PERIPHCLK_TIM15  | RCC_PERIPHCLK_TIM16  | \
-                                                     RCC_PERIPHCLK_TIM17  | RCC_PERIPHCLK_RTC))
+#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | \
+                                                       RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_I2C2   | \
+                                                       RCC_PERIPHCLK_ADC1   | RCC_PERIPHCLK_I2S    | \
+                                                       RCC_PERIPHCLK_I2C3   | RCC_PERIPHCLK_TIM1   | \
+                                                       RCC_PERIPHCLK_TIM15  | RCC_PERIPHCLK_TIM16  | \
+                                                       RCC_PERIPHCLK_TIM17  | RCC_PERIPHCLK_RTC))
 #endif /* STM32F301x8 || STM32F318xx */
 #if defined(STM32F302x8)
-#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | \
-                                                     RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_I2C2   | \
-                                                     RCC_PERIPHCLK_ADC1   | RCC_PERIPHCLK_I2S    | \
-                                                     RCC_PERIPHCLK_I2C3   | RCC_PERIPHCLK_TIM1   | \
-                                                     RCC_PERIPHCLK_RTC    | RCC_PERIPHCLK_USB    |  \
-                                                     RCC_PERIPHCLK_TIM15  | RCC_PERIPHCLK_TIM16  |  \
-                                                     RCC_PERIPHCLK_TIM17))
+#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | \
+                                                       RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_I2C2   | \
+                                                       RCC_PERIPHCLK_ADC1   | RCC_PERIPHCLK_I2S    | \
+                                                       RCC_PERIPHCLK_I2C3   | RCC_PERIPHCLK_TIM1   | \
+                                                       RCC_PERIPHCLK_RTC    | RCC_PERIPHCLK_USB    |  \
+                                                       RCC_PERIPHCLK_TIM15  | RCC_PERIPHCLK_TIM16  |  \
+                                                       RCC_PERIPHCLK_TIM17))
 #endif /* STM32F302x8 */
 #if defined(STM32F302xC)
 #define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | \
@@ -162,20 +155,20 @@
                                                      RCC_PERIPHCLK_TIM8   | RCC_PERIPHCLK_RTC))
 #endif /* STM32F358xx */
 #if defined(STM32F303x8)
-#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | \
-                                                     RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_ADC12  | \
-                                                     RCC_PERIPHCLK_TIM1   | RCC_PERIPHCLK_RTC))
+#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | \
+                                                       RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_ADC12  | \
+                                                       RCC_PERIPHCLK_TIM1   | RCC_PERIPHCLK_RTC))
 #endif /* STM32F303x8 */
 #if defined(STM32F334x8)
-#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | \
-                                                     RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_ADC12  | \
-                                                     RCC_PERIPHCLK_TIM1   | RCC_PERIPHCLK_HRTIM1 | \
-                                                     RCC_PERIPHCLK_RTC))
+#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | \
+                                                       RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_ADC12  | \
+                                                       RCC_PERIPHCLK_TIM1   | RCC_PERIPHCLK_HRTIM1 | \
+                                                       RCC_PERIPHCLK_RTC))
 #endif /* STM32F334x8 */
 #if defined(STM32F328xx)
-#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | \
-                                                     RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_ADC12  | \
-                                                     RCC_PERIPHCLK_TIM1   | RCC_PERIPHCLK_RTC))
+#define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | \
+                                                       RCC_PERIPHCLK_I2C1   | RCC_PERIPHCLK_ADC12  | \
+                                                       RCC_PERIPHCLK_TIM1   | RCC_PERIPHCLK_RTC))
 #endif /* STM32F328xx */
 #if defined(STM32F373xC)
 #define IS_RCC_PERIPHCLOCK(SELECTION) ((SELECTION) <= (RCC_PERIPHCLK_USART1 | RCC_PERIPHCLK_USART2 | RCC_PERIPHCLK_USART3 | \
@@ -388,12 +381,6 @@ typedef struct
   uint32_t Usart1ClockSelection; /*!< USART1 clock source      
                                       This parameter can be a value of @ref RCCEx_USART1_Clock_Source */
 
-  uint32_t Usart2ClockSelection; /*!< USART2 clock source      
-                                      This parameter can be a value of @ref RCC_USART2_Clock_Source */
-
-  uint32_t Usart3ClockSelection; /*!< USART3 clock source      
-                                      This parameter can be a value of @ref RCC_USART3_Clock_Source */
-
   uint32_t I2c1ClockSelection;   /*!< I2C1 clock source      
                                       This parameter can be a value of @ref RCC_I2C1_Clock_Source */
 
@@ -434,12 +421,6 @@ typedef struct
 
   uint32_t Usart1ClockSelection; /*!< USART1 clock source      
                                       This parameter can be a value of @ref RCCEx_USART1_Clock_Source */
-
-  uint32_t Usart2ClockSelection; /*!< USART2 clock source      
-                                      This parameter can be a value of @ref RCC_USART2_Clock_Source */
-
-  uint32_t Usart3ClockSelection; /*!< USART3 clock source      
-                                      This parameter can be a value of @ref RCC_USART3_Clock_Source */
 
   uint32_t I2c1ClockSelection;   /*!< I2C1 clock source      
                                       This parameter can be a value of @ref RCC_I2C1_Clock_Source */
@@ -834,12 +815,6 @@ typedef struct
   uint32_t Usart1ClockSelection; /*!< USART1 clock source      
                                       This parameter can be a value of @ref RCCEx_USART1_Clock_Source */
 
-  uint32_t Usart2ClockSelection; /*!< USART2 clock source      
-                                      This parameter can be a value of @ref RCC_USART2_Clock_Source */
-
-  uint32_t Usart3ClockSelection; /*!< USART3 clock source      
-                                      This parameter can be a value of @ref RCC_USART3_Clock_Source */
-
   uint32_t I2c1ClockSelection;   /*!< I2C1 clock source      
                                       This parameter can be a value of @ref RCC_I2C1_Clock_Source */
 
@@ -863,12 +838,6 @@ typedef struct
 
   uint32_t Usart1ClockSelection; /*!< USART1 clock source
                                       This parameter can be a value of @ref RCCEx_USART1_Clock_Source */
-
-  uint32_t Usart2ClockSelection; /*!< USART2 clock source
-                                      This parameter can be a value of @ref RCC_USART2_Clock_Source */
-
-  uint32_t Usart3ClockSelection; /*!< USART3 clock source
-                                      This parameter can be a value of @ref RCC_USART3_Clock_Source */
 
   uint32_t I2c1ClockSelection;   /*!< I2C1 clock source
                                       This parameter can be a value of @ref RCC_I2C1_Clock_Source */
@@ -896,12 +865,6 @@ typedef struct
 
   uint32_t Usart1ClockSelection; /*!< USART1 clock source
                                       This parameter can be a value of @ref RCCEx_USART1_Clock_Source */
-
-  uint32_t Usart2ClockSelection; /*!< USART2 clock source
-                                      This parameter can be a value of @ref RCC_USART2_Clock_Source */
-
-  uint32_t Usart3ClockSelection; /*!< USART3 clock source
-                                      This parameter can be a value of @ref RCC_USART3_Clock_Source */
 
   uint32_t I2c1ClockSelection;   /*!< I2C1 clock source
                                       This parameter can be a value of @ref RCC_I2C1_Clock_Source */
@@ -998,54 +961,29 @@ typedef struct
 /** @defgroup RCCEx_Exported_Constants RCC Extended Exported Constants
   * @{
   */
-#if defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx)\
-  || defined(STM32F373xC) || defined(STM32F378xx)
 /** @defgroup RCCEx_MCO_Clock_Source RCC Extended MCO Clock Source
   * @{
   */
-#define RCC_MCO1SOURCE_NOCLOCK           RCC_CFGR_MCO_NOCLOCK
+#define RCC_MCO1SOURCE_NOCLOCK            RCC_CFGR_MCO_NOCLOCK
 #define RCC_MCO1SOURCE_LSI                RCC_CFGR_MCO_LSI
 #define RCC_MCO1SOURCE_LSE                RCC_CFGR_MCO_LSE
 #define RCC_MCO1SOURCE_SYSCLK             RCC_CFGR_MCO_SYSCLK
 #define RCC_MCO1SOURCE_HSI                RCC_CFGR_MCO_HSI
 #define RCC_MCO1SOURCE_HSE                RCC_CFGR_MCO_HSE
-#define RCC_MCO1SOURCE_PLLCLK_DIV2        RCC_CFGR_MCO_PLL
-
-/**
-  * @}
-  */
-#endif /* STM32F302xC || STM32F303xC || STM32F358xx || */
-       /* STM32F373xC || STM32F378xx                   */
-
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)\
-  || defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)\
-  || defined(STM32F301x8) || defined(STM32F302x8) || defined(STM32F318xx)
-/** @defgroup RCCEx_MCO_Clock_Source RCC Extended MCO Clock Source
-  * @{
-  */
-#define RCC_MCO1SOURCE_NOCLOCK           RCC_CFGR_MCO_NOCLOCK
-#define RCC_MCO1SOURCE_LSI                RCC_CFGR_MCO_LSI
-#define RCC_MCO1SOURCE_LSE                RCC_CFGR_MCO_LSE
-#define RCC_MCO1SOURCE_SYSCLK             RCC_CFGR_MCO_SYSCLK
-#define RCC_MCO1SOURCE_HSI                RCC_CFGR_MCO_HSI
-#define RCC_MCO1SOURCE_HSE                RCC_CFGR_MCO_HSE
+#if defined(RCC_CFGR_PLLNODIV)
 #define RCC_MCO1SOURCE_PLLCLK             (RCC_CFGR_PLLNODIV | RCC_CFGR_MCO_PLL)
+#endif /* RCC_CFGR_PLLNODIV */
 #define RCC_MCO1SOURCE_PLLCLK_DIV2        RCC_CFGR_MCO_PLL
 
 /**
   * @}
   */
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx || */
-       /* STM32F303x8 || STM32F334x8 || STM32F328xx || */
-       /* STM32F301x8 || STM32F302x8 || STM32F318xx    */
 
 /** @defgroup RCCEx_Periph_Clock_Selection RCC Extended Periph Clock Selection
   * @{
   */
 #if defined(STM32F301x8) || defined(STM32F318xx)
 #define RCC_PERIPHCLK_USART1           ((uint32_t)0x00000001)
-#define RCC_PERIPHCLK_USART2           ((uint32_t)0x00000002)
-#define RCC_PERIPHCLK_USART3           ((uint32_t)0x00000004)
 #define RCC_PERIPHCLK_I2C1             ((uint32_t)0x00000020)
 #define RCC_PERIPHCLK_I2C2             ((uint32_t)0x00000040)
 #define RCC_PERIPHCLK_ADC1             ((uint32_t)0x00000080)
@@ -1061,8 +999,6 @@ typedef struct
 
 #if defined(STM32F302x8)
 #define RCC_PERIPHCLK_USART1           ((uint32_t)0x00000001)
-#define RCC_PERIPHCLK_USART2           ((uint32_t)0x00000002)
-#define RCC_PERIPHCLK_USART3           ((uint32_t)0x00000004)
 #define RCC_PERIPHCLK_I2C1             ((uint32_t)0x00000020)
 #define RCC_PERIPHCLK_I2C2             ((uint32_t)0x00000040)
 #define RCC_PERIPHCLK_ADC1             ((uint32_t)0x00000080)
@@ -1203,8 +1139,6 @@ typedef struct
 
 #if defined(STM32F303x8)
 #define RCC_PERIPHCLK_USART1           ((uint32_t)0x00000001)
-#define RCC_PERIPHCLK_USART2           ((uint32_t)0x00000002)
-#define RCC_PERIPHCLK_USART3           ((uint32_t)0x00000004)
 #define RCC_PERIPHCLK_I2C1             ((uint32_t)0x00000020)
 #define RCC_PERIPHCLK_ADC12            ((uint32_t)0x00000080)
 #define RCC_PERIPHCLK_TIM1             ((uint32_t)0x00001000)
@@ -1214,8 +1148,6 @@ typedef struct
 
 #if defined(STM32F334x8)
 #define RCC_PERIPHCLK_USART1           ((uint32_t)0x00000001)
-#define RCC_PERIPHCLK_USART2           ((uint32_t)0x00000002)
-#define RCC_PERIPHCLK_USART3           ((uint32_t)0x00000004)
 #define RCC_PERIPHCLK_I2C1             ((uint32_t)0x00000020)
 #define RCC_PERIPHCLK_ADC12            ((uint32_t)0x00000080)
 #define RCC_PERIPHCLK_TIM1             ((uint32_t)0x00001000)
@@ -1227,8 +1159,6 @@ typedef struct
 
 #if defined(STM32F328xx)
 #define RCC_PERIPHCLK_USART1           ((uint32_t)0x00000001)
-#define RCC_PERIPHCLK_USART2           ((uint32_t)0x00000002)
-#define RCC_PERIPHCLK_USART3           ((uint32_t)0x00000004)
 #define RCC_PERIPHCLK_I2C1             ((uint32_t)0x00000020)
 #define RCC_PERIPHCLK_ADC12            ((uint32_t)0x00000080)
 #define RCC_PERIPHCLK_TIM1             ((uint32_t)0x00001000)
@@ -1855,8 +1785,8 @@ typedef struct
   */
 
 #define RCC_LSEDRIVE_LOW                 ((uint32_t)0x00000000) /*!< Xtal mode lower driving capability */
-#define RCC_LSEDRIVE_MEDIUMLOW           RCC_BDCR_LSEDRV_0      /*!< Xtal mode medium low driving capability */
-#define RCC_LSEDRIVE_MEDIUMHIGH          RCC_BDCR_LSEDRV_1      /*!< Xtal mode medium high driving capability */
+#define RCC_LSEDRIVE_MEDIUMLOW           RCC_BDCR_LSEDRV_1      /*!< Xtal mode medium low driving capability */
+#define RCC_LSEDRIVE_MEDIUMHIGH          RCC_BDCR_LSEDRV_0      /*!< Xtal mode medium high driving capability */
 #define RCC_LSEDRIVE_HIGH                RCC_BDCR_LSEDRV        /*!< Xtal mode higher driving capability */
 
 /**

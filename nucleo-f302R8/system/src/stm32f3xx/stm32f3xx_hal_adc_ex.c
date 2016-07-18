@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_adc_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -26,7 +26,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -3873,7 +3873,7 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedPollForConversion(ADC_HandleTypeDef* hadc, u
 {
   uint32_t tickstart;
   uint32_t tmp_Flag_EOC;
-  uint32_t tmp_cfgr     = 0x0;
+  uint32_t tmp_cfgr = 0x00000000;
   
   /* Check the parameters */
   assert_param(IS_ADC_ALL_INSTANCE(hadc->Instance));
@@ -3930,7 +3930,7 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedPollForConversion(ADC_HandleTypeDef* hadc, u
   /* by external trigger or by automatic injected conversion                  */
   /* from group regular.                                                      */
   if(ADC_IS_SOFTWARE_START_INJECTED(hadc)                   ||
-     ((READ_BIT (tmp_cfgr, (ADC_CFGR_JAUTO) == RESET))  &&
+     ((READ_BIT (tmp_cfgr, ADC_CFGR_JAUTO) == RESET)    &&
       (ADC_IS_SOFTWARE_START_REGULAR(hadc)          &&
       (READ_BIT (tmp_cfgr, ADC_CFGR_CONT) == RESET)   )   )   )
   {
@@ -5314,6 +5314,9 @@ HAL_StatusTypeDef HAL_ADCEx_RegularMultiModeStop_DMA(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_ADCEx_InjectedConvCpltCallback could be implemented in the user file
   */
@@ -5334,6 +5337,9 @@ __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_InjectedQueueOverflowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADCEx_InjectedQueueOverflowCallback must be implemented 
             in the user file.
@@ -5347,6 +5353,9 @@ __weak void HAL_ADCEx_InjectedQueueOverflowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOoutOfWindow2Callback must be implemented in the user file.
   */
@@ -5359,6 +5368,9 @@ __weak void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_LevelOutOfWindow3Callback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOoutOfWindow3Callback must be implemented in the user file.
   */
@@ -6732,7 +6744,7 @@ HAL_StatusTypeDef HAL_ADC_AnalogWDGConfig(ADC_HandleTypeDef* hadc, ADC_AnalogWDG
       {
         /* Set the Analog watchdog channel or group of channels. This also    */
         /* enables the watchdog.                                              */
-        /* Note: Conditionnal register reset, because several channels can be */
+        /* Note: Conditional register reset, because several channels can be  */
         /*       set by successive calls of this function.                    */
         if (AnalogWDGConfig->WatchdogMode != ADC_ANALOGWATCHDOG_NONE) 
         {

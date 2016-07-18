@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_nor.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of NOR HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -45,8 +45,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
-  #include "stm32f3xx_ll_fmc.h"
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
+#include "stm32f3xx_ll_fmc.h"
 
 /** @addtogroup STM32F3xx_HAL_Driver
   * @{
@@ -56,7 +55,6 @@
   * @{
   */ 
 
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
 
 /** @addtogroup NOR_Private_Constants
   * @{
@@ -283,7 +281,6 @@ HAL_NOR_StatusTypeDef HAL_NOR_GetStatus(NOR_HandleTypeDef *hnor, uint32_t Addres
   * @}
   */  
 
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 /**
   * @}
   */ 
@@ -291,6 +288,8 @@ HAL_NOR_StatusTypeDef HAL_NOR_GetStatus(NOR_HandleTypeDef *hnor, uint32_t Addres
 /**
   * @}
   */
+
+#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 
 #ifdef __cplusplus
 }

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_dac.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   DAC HAL module driver.
   *         This file provides firmware functions to manage the following 
   *         functionalities of the Digital to Analog Converter (DAC) peripheral:
@@ -189,7 +189,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -354,6 +354,9 @@ HAL_StatusTypeDef HAL_DAC_DeInit(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_DAC_MspInit could be implemented in the user file
    */ 
@@ -367,6 +370,9 @@ __weak void HAL_DAC_MspInit(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_DAC_MspDeInit could be implemented in the user file
    */ 
@@ -407,8 +413,11 @@ __weak void HAL_DAC_MspDeInit(DAC_HandleTypeDef* hdac)
   * @retval HAL status
   */
 __weak HAL_StatusTypeDef HAL_DAC_Start(DAC_HandleTypeDef* hdac, uint32_t Channel)
-
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+  UNUSED(Channel);
+
   /* Note : This function is defined into this file for library reference */
   /*        Function content is located into file stm32f3xx_hal_dac_ex.c  */
   
@@ -513,15 +522,19 @@ HAL_StatusTypeDef HAL_DAC_Stop_DMA(DAC_HandleTypeDef* hdac, uint32_t Channel)
   * @brief  Returns the last data output value of the selected DAC channel.
   * @param  hdac: pointer to a DAC_HandleTypeDef structure that contains
   *         the configuration information for the specified DAC.
-  * @param  channel: The selected DAC channel. 
+  * @param  Channel: The selected DAC channel. 
   *          This parameter can be one of the following values:
   *            @arg DAC_CHANNEL_1: DAC1 Channel1 selected
   *            @arg DAC_CHANNEL_2: DAC1 Channel2 selected  
   *            @arg DAC_CHANNEL_1: DAC2 Channel1 selected 
   * @retval The selected DAC channel data output value.
   */
-__weak uint32_t HAL_DAC_GetValue(DAC_HandleTypeDef* hdac, uint32_t channel)
-{ 
+__weak uint32_t HAL_DAC_GetValue(DAC_HandleTypeDef* hdac, uint32_t Channel)
+{
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+  UNUSED(Channel);
+
   /* Note : This function is defined into this file for library reference */
   /*        Function content is located into file stm32f3xx_hal_dac_ex.c  */
 
@@ -537,13 +550,14 @@ __weak uint32_t HAL_DAC_GetValue(DAC_HandleTypeDef* hdac, uint32_t channel)
   */
 __weak uint32_t HAL_DACEx_DualGetValue(DAC_HandleTypeDef* hdac)
 {
-{ 
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* Note : This function is defined into this file for library reference */
   /*        Function content is located into file stm32f3xx_hal_dac_ex.c  */
 
   /* Return function status */
   return HAL_OK;
-}
 }
 
 /**
@@ -583,12 +597,23 @@ __weak uint32_t HAL_DACEx_DualGetValue(DAC_HandleTypeDef* hdac)
 
 __weak HAL_StatusTypeDef HAL_DAC_ConfigChannel(DAC_HandleTypeDef* hdac, DAC_ChannelConfTypeDef* sConfig, uint32_t Channel)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+  UNUSED(sConfig);
+  UNUSED(Channel);
+
   /* Return function status */
   return HAL_OK;
 }
 
-__weak HAL_StatusTypeDef HAL_DAC_SetValue(DAC_HandleTypeDef* hdac, uint32_t Channel, uint32_t alignment, uint32_t data)
+__weak HAL_StatusTypeDef HAL_DAC_SetValue(DAC_HandleTypeDef* hdac, uint32_t Channel, uint32_t Alignment, uint32_t Data)
 { 
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+  UNUSED(Channel);
+  UNUSED(Alignment);
+  UNUSED(Data);
+
   /* Note : This function is defined into this file for library reference */
   /*        Function content is located into file stm32f3xx_hal_dac_ex.c  */
 
@@ -596,8 +621,14 @@ __weak HAL_StatusTypeDef HAL_DAC_SetValue(DAC_HandleTypeDef* hdac, uint32_t Chan
   return HAL_ERROR;
 }
 
-__weak HAL_StatusTypeDef HAL_DACEx_DualSetValue(DAC_HandleTypeDef* hdac, uint32_t alignment, uint32_t data1, uint32_t data2)
+__weak HAL_StatusTypeDef HAL_DACEx_DualSetValue(DAC_HandleTypeDef* hdac, uint32_t Alignment, uint32_t Data1, uint32_t Data2)
 { 
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+  UNUSED(Alignment);
+  UNUSED(Data1);
+  UNUSED(Data2);
+
   /* Note : This function is defined into this file for library reference */
   /*        Function content is located into file stm32f3xx_hal_dac_ex.c  */
 
@@ -665,6 +696,9 @@ uint32_t HAL_DAC_GetError(DAC_HandleTypeDef *hdac)
   */
 __weak void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DAC_ConvCpltCallback1 could be implemented in the user file
    */
@@ -678,6 +712,9 @@ __weak void HAL_DAC_ConvCpltCallbackCh1(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef* hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DAC_ConvHalfCpltCallbackCh1 could be implemented in the user file
    */
@@ -691,6 +728,9 @@ __weak void HAL_DAC_ConvHalfCpltCallbackCh1(DAC_HandleTypeDef* hdac)
   */
 __weak void HAL_DAC_ErrorCallbackCh1(DAC_HandleTypeDef *hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DAC_ErrorCallback could be implemented in the user file
    */
@@ -705,6 +745,9 @@ __weak void HAL_DAC_ErrorCallbackCh1(DAC_HandleTypeDef *hdac)
   */
 __weak void HAL_DAC_DMAUnderrunCallbackCh1(DAC_HandleTypeDef *hdac)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hdac);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_DAC_DMAUnderrunCallbackCh1 could be implemented in the user file
    */

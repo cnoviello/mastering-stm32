@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_rtc.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.2.1
+  * @date    29-April-2015
   * @brief   Header file of RTC HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -380,7 +380,9 @@ typedef struct
 #define RTC_IT_TAMP                       RTC_TAFCR_TAMPIE       /* Used only to Enable the Tamper Interrupt */
 #define RTC_IT_TAMP1                      ((uint32_t)0x00020000) /*only for RTC_ISR flag check*/
 #define RTC_IT_TAMP2                      ((uint32_t)0x00040000) /*only for RTC_ISR flag check*/
+#if defined(RTC_TAMPER3_SUPPORT)
 #define RTC_IT_TAMP3                      ((uint32_t)0x00080000) /*only for RTC_ISR flag check*/
+#endif /* RTC_TAMPER3_SUPPORT */
 /**
   * @}
   */
@@ -389,7 +391,9 @@ typedef struct
   * @{
   */
 #define RTC_FLAG_RECALPF                  RTC_ISR_RECALPF
+#if defined(RTC_TAMPER3_SUPPORT)
 #define RTC_FLAG_TAMP3F                   RTC_ISR_TAMP3F
+#endif /* RTC_TAMPER3_SUPPORT */
 #define RTC_FLAG_TAMP2F                   RTC_ISR_TAMP2F
 #define RTC_FLAG_TAMP1F                   RTC_ISR_TAMP1F
 #define RTC_FLAG_TSOVF                    RTC_ISR_TSOVF
@@ -701,8 +705,8 @@ HAL_RTCStateTypeDef HAL_RTC_GetState(RTC_HandleTypeDef *hrtc);
 /* Masks Definition */
 #define RTC_TR_RESERVED_MASK    ((uint32_t)0x007F7F7F)
 #define RTC_DR_RESERVED_MASK    ((uint32_t)0x00FFFF3F) 
-#define RTC_INIT_MASK           ((uint32_t)0xFFFFFFFF)  
-#define RTC_RSF_MASK            ((uint32_t)0xFFFFFF5F)
+#define RTC_INIT_MASK           ((uint32_t)0xFFFFFFFFU)  
+#define RTC_RSF_MASK            ((uint32_t)0xFFFFFF5FU)
 #define RTC_FLAGS_MASK          ((uint32_t) (RTC_FLAG_RECALPF | RTC_FLAG_TAMP3F | RTC_FLAG_TAMP2F | \
                                              RTC_FLAG_TAMP1F| RTC_FLAG_TSOVF | RTC_FLAG_TSF       | \
                                              RTC_FLAG_WUTF | RTC_FLAG_ALRBF | RTC_FLAG_ALRAF      | \
