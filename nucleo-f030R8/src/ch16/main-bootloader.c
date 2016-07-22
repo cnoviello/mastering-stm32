@@ -154,24 +154,16 @@ int main(void) {
       uint32_t *pulSRAMBase = (uint32_t*)SRAM_BASE;
       uint32_t *pulFlashBase = (uint32_t*)APP_START_ADDRESS;
 
-//      memcpy((uint32_t*)0x20000000, (uint32_t*)0x08004000, 0x60);
-//      for(int i = 0; i < 60; i++)
-//      {
-//        pulSRAMBase[i] = *(__IO uint32_t*)(APP_START_ADDRESS + (i<<2));
-//      }
-
       uint32_t i = 0;
       do {
         if(pulFlashBase[i] == 0xAABBCCDD)
           break;
         pulSRAMBase[i] = pulFlashBase[i];
-//        i += sizeof(uint32_t);
       }while(++i);
 
       __set_MSP(*((volatile uint32_t*) APP_START_ADDRESS)); //Set the MSP
 
-//      __HAL_RCC_SYSCFG_CLK_ENABLE();
-      SYSCFG->CFGR1 |= 0x3;
+      SYSCFG->CFGR1 |= 0x3; //__HAL_RCC_SYSCFG_CLK_ENABLE() already called from HAL_MspInit()
 
       /* We are now ready to jump to the main firmware */
       uint32_t JumpAddress = *((volatile uint32_t*) (APP_START_ADDRESS + 4));
