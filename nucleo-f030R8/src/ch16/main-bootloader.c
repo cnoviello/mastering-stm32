@@ -153,13 +153,13 @@ int main(void) {
 
       uint32_t *pulSRAMBase = (uint32_t*)SRAM_BASE;
       uint32_t *pulFlashBase = (uint32_t*)APP_START_ADDRESS;
+      uint16_t i = 0;
 
-      uint32_t i = 0;
       do {
         if(pulFlashBase[i] == 0xAABBCCDD)
           break;
         pulSRAMBase[i] = pulFlashBase[i];
-      }while(++i);
+      } while(++i);
 
       __set_MSP(*((volatile uint32_t*) APP_START_ADDRESS)); //Set the MSP
 

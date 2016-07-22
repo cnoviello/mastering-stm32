@@ -11,8 +11,7 @@
  * using functions like 'ORIGIN(RAM)' or 'LENGTH(RAM)'.
  */
 
-MEMORY
-{
+MEMORY {
   FLASH (rx) : ORIGIN = 0x08002C00, LENGTH = 64K - 10K
   RAM (xrw) : ORIGIN = 0x200000B8, LENGTH = 8K - 0xB8
 
