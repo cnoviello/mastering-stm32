@@ -1,6 +1,6 @@
 from __future__ import print_function
 
-import sys, serial, binascii, time, struct, thread
+import sys, serial, binascii, time, struct, thread, argparse
 from intelhex import IntelHex
 from Crypto.Cipher import AES
 
@@ -89,8 +89,8 @@ class STM32Flasher(object):
     def writeImage(self, filename):
         #Sends an CMD_WRITE to the bootloader
         #This is method is a generator, that returns its progresses to the caller.
-        #In this way, it's possibile for the caller to live-print messages about
-        #writing progress
+        #In this way, it's possible for the caller to live-print messages about
+        #writing progress 
         ih = IntelHex()  
         ih.loadhex(filename)
         yield {"saddr": ih.minaddr(), "eaddr": ih.maxaddr()}
@@ -107,6 +107,8 @@ class STM32Flasher(object):
                   try:
                       data.append(content[addr])
                   except KeyError:
+                      #if the HEX file doesn't contain a value for the given address
+                      #we "pad" it with 0xFF, which corresponds to the erase value
                       data.append(0xFF)
                   addr+=1
             try:
@@ -143,6 +145,17 @@ class STM32Flasher(object):
 
 if __name__ == '__main__':
     eraseDone = 0
+    
+    parser = argparse.ArgumentParser(
+        description='Loads a IntelHEX binary file using the custom bootloader described in the "MasteringSTM32 book')
+
+    parser.add_argument('com_port', metavar='com_port_path', type=str,
+                        help="Serial port ('/dev/tty.usbxxxxx' for UNIX-like systems or 'COMx' for Windows")
+
+    parser.add_argument('hex_file', metavar='hex_file_path', type=str,
+                        help="Path to the IntelHEX file containing the firmware to flash on the target MCU")
+
+    args = parser.parse_args()
 
     def doErase(arg):
         global eraseDone
@@ -151,18 +164,22 @@ if __name__ == '__main__':
         time.sleep(1)
         eraseDone = 1
 
-    flasher = STM32Flasher(sys.argv[1])
+    flasher = STM32Flasher(args.com_port)
     id = flasher.getID()
     print("STM32 MCU Type: ", STM32_TYPE[id])
     print("Erasing Flash memory", end="")
+    #Start a new thread so that the user can receive
+    #a feedback that the erase is ongoing
     thread.start_new_thread(doErase, (None,))
+    #While the 'doErase' thread does't set the 'eraseDone'
+    #variable to 1, we print a dot every 0.5s 
     while eraseDone == 0:
         print(".", end="")
         sys.stdout.flush()
         time.sleep(0.5)
 
     print(" Done")
-    print("Loading %s HEX file...." % sys.argv[2])
+    print("Loading %s HEX file...." % args.hex_file)
 
     for e in flasher.writeImage(sys.argv[2]):
         if "saddr" in e:
