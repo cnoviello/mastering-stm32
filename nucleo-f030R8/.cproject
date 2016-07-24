@@ -6721,7 +6721,7 @@
 				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 16 Bootloader example" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.274352852" name="CH16-BOOTLOADER" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
 					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.274352852." name="/" resourcePath="">
 						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.1726967983" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1170743285" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.debug" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.1170743285" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.size" valueType="enumerated"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength.169581167" name="Message length (-fmessage-length=0)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar.1540549291" name="'char' is signed (-fsigned-char)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections.789298285" name="Function sections (-ffunction-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections" value="true" valueType="boolean"/>
@@ -7025,6 +7025,11 @@
 		<configuration configurationName="CH11-EX7">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f030R8"/>
 		</configuration>
+		<configuration configurationName="CH17-EX6"/>
+		<configuration configurationName="CH11-EX8"/>
+		<configuration configurationName="CH17-EX5"/>
+		<configuration configurationName="CH11-EX9"/>
+		<configuration configurationName="CH17-EX7"/>
 		<configuration configurationName="CH8-EX2"/>
 		<configuration configurationName="CH11-EX3"/>
 		<configuration configurationName="CH8-EX1"/>
@@ -7036,27 +7041,42 @@
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f030R8"/>
 		</configuration>
 		<configuration configurationName="CH9-EX3"/>
+		<configuration configurationName="CH15-EX4"/>
 		<configuration configurationName="CH11-PRO"/>
 		<configuration configurationName="CH9-EX2"/>
+		<configuration configurationName="CH15-EX3"/>
 		<configuration configurationName="CH9-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f030R8"/>
 		</configuration>
+		<configuration configurationName="CH15-EX5"/>
+		<configuration configurationName="CH15-EX2"/>
+		<configuration configurationName="CH15-EX1"/>
+		<configuration configurationName="CH5-EX2"/>
+		<configuration configurationName="CH11-EX11"/>
+		<configuration configurationName="CH5-EX3"/>
+		<configuration configurationName="CH11-EX10"/>
 		<configuration configurationName="Debug">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f030R8"/>
 		</configuration>
 		<configuration configurationName="Release">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f030R8"/>
 		</configuration>
-		<configuration configurationName="CH15-EX1"/>
+		<configuration configurationName="CH5-EX1"/>
+		<configuration configurationName="CH16-BOOTLOADER"/>
+		<configuration configurationName="CH14-EX1"/>
+		<configuration configurationName="CH17-EX2"/>
+		<configuration configurationName="CH12-EX1"/>
+		<configuration configurationName="CH17-EX1"/>
+		<configuration configurationName="CH17-EX4"/>
+		<configuration configurationName="CH17-EX3"/>
 		<configuration configurationName="CH9-MEM2MEM"/>
-		<configuration configurationName="CH15-EX4"/>
 		<configuration configurationName="CH7-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f030R8"/>
 		</configuration>
-		<configuration configurationName="CH15-EX5"/>
-		<configuration configurationName="CH15-EX2"/>
-		<configuration configurationName="CH15-EX3"/>
+		<configuration configurationName="CH12-EX2"/>
+		<configuration configurationName="CH12-EX3"/>
 		<configuration configurationName="CH7-EX2"/>
+		<configuration configurationName="CH16-APP1"/>
 		<configuration configurationName="CH7-EX3"/>
 	</storageModule>
 </cproject>

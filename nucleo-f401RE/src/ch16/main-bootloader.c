@@ -5,17 +5,17 @@
 #include "TI_aes_128.h"
 
 /* Global macros */
-#define ACK 0x79
-#define NACK 0x1F
-#define CMD_ERASE         0x43
-#define CMD_GETID         0x02
-#define CMD_WRITE         0x2b
+#define ACK                 0x79
+#define NACK                0x1F
+#define CMD_ERASE           0x43
+#define CMD_GETID           0x02
+#define CMD_WRITE           0x2b
 
-#define APP_START_ADDRESS 0x08004000 /* In STM32F401RE this corresponds with the start
+#define APP_START_ADDRESS   0x08004000 /* In STM32F401RE this corresponds with the start
                                         address of Sector 1 */
 
-#define SRAM_SIZE         96*1024     // STM32F401RE has 96 KB of RAM
-#define SRAM_END          (SRAM_BASE + SRAM_SIZE)
+#define SRAM_SIZE           96*1024     // STM32F401RE has 96 KB of RAM
+#define SRAM_END            (SRAM_BASE + SRAM_SIZE)
 
 #define ENABLE_BOOTLOADER_PROTECTION 0
 /* Private variables ---------------------------------------------------------*/
@@ -186,7 +186,7 @@ void cmdErase(uint8_t *pucData) {
 
   /* Checks if provided CRC is correct */
   if (ulCrc == HAL_CRC_Calculate(&hcrc, pulCmd, 2) &&
-      (pucData[1] > 0 && (pucData[1] < FLASH_TOTAL_PAGES || pucData[1] == 0xFF))) {
+      (pucData[1] > 0 && (pucData[1] < FLASH_SECTOR_TOTAL - 1 || pucData[1] == 0xFF))) {
     /* If data[1] contains 0xFF, it deletes all sectors; otherwise
      * the number of sectors specified. */
     eraseInfo.Banks = FLASH_BANK_1;
@@ -322,12 +322,15 @@ void CHECK_AND_SET_FLASH_PROTECTION(void) {
 
   /* If the first sector is not protected */
   if ((obConfig.WRPSector & OB_WRP_SECTOR_0) == OB_WRP_SECTOR_0) {
+    HAL_FLASH_Unlock(); //Unlocks flash
     HAL_FLASH_OB_Unlock(); //Unlocks OB
+    obConfig.OptionType = OPTIONBYTE_WRP;
     obConfig.WRPState = OB_WRPSTATE_ENABLE; //Enables changing of WRP settings
     obConfig.WRPSector = OB_WRP_SECTOR_0; //Enables WP on first sector
     HAL_FLASHEx_OBProgram(&obConfig); //Programs the OB
     HAL_FLASH_OB_Launch(); //Ensures that the new configuration is saved in flash
     HAL_FLASH_OB_Lock(); //Locks OB
+    HAL_FLASH_Lock(); //Locks flash
   }
 }
 

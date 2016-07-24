@@ -19,6 +19,7 @@
 #define FLASH_TOTAL_PAGES 64
 
 #define ENABLE_BOOTLOADER_PROTECTION 0
+#define PAGES_TO_PROTECT (OB_WRP_PAGES0TO3 | OB_WRP_PAGES4TO7)
 /* Private variables ---------------------------------------------------------*/
 
 /* The AES_KEY cannot be defined const, because the aes_enc_dec() function
@@ -196,7 +197,7 @@ void cmdErase(uint8_t *pucData) {
 
   /* Checks if provided CRC is correct */
   if (ulCrc == HAL_CRC_Calculate(&hcrc, pulCmd, 2) &&
-      (pucData[1] > 0 && (pucData[1] < FLASH_TOTAL_PAGES || pucData[1] == 0xFF))) {
+      (pucData[1] > 0 && (pucData[1] < FLASH_TOTAL_PAGES - 1 || pucData[1] == 0xFF))) {
     /* If data[1] contains 0xFF, it deletes all sectors; otherwise
      * the number of sectors specified. */
     eraseInfo.PageAddress = 0x08002000;
@@ -323,20 +324,20 @@ sendnack:
 }
 
 void CHECK_AND_SET_FLASH_PROTECTION(void) {
-//  FLASH_OBProgramInitTypeDef obConfig;
-//
-//  /* Retrieves current OB */
-//  HAL_FLASHEx_OBGetConfig(&obConfig);
-//
-//  /* If the first sector is not protected */
-//  if ((obConfig.WRPSector & OB_WRP_SECTOR_0) == OB_WRP_SECTOR_0) {
-//    HAL_FLASH_OB_Unlock(); //Unlocks OB
-//    obConfig.WRPState = OB_WRPSTATE_ENABLE; //Enables changing of WRP settings
-//    obConfig.WRPSector = OB_WRP_SECTOR_0; //Enables WP on first sector
-//    HAL_FLASHEx_OBProgram(&obConfig); //Programs the OB
-//    HAL_FLASH_OB_Launch(); //Ensures that the new configuration is saved in flash
-//    HAL_FLASH_OB_Lock(); //Locks OB
-//  }
+  FLASH_OBProgramInitTypeDef obConfig;
+
+  /* If the first sector is not protected */
+  if ((obConfig.WRPPage & PAGES_TO_PROTECT) == PAGES_TO_PROTECT) {
+    HAL_FLASH_Unlock(); //Unlocks flash
+    HAL_FLASH_OB_Unlock(); //Unlocks OB
+    obConfig.OptionType = OPTIONBYTE_WRP;
+    obConfig.WRPState = OB_WRPSTATE_ENABLE; //Enables changing of WRP settings
+    obConfig.WRPPage = PAGES_TO_PROTECT; //Enables WP on first pages
+    HAL_FLASHEx_OBProgram(&obConfig); //Programs the OB
+    HAL_FLASH_OB_Launch(); //Ensures that the new configuration is saved in flash
+    HAL_FLASH_OB_Lock(); //Locks OB
+    HAL_FLASH_Lock(); //Locks flash
+  }
 }
 
 #ifdef USE_FULL_ASSERT
