@@ -200,7 +200,7 @@ void cmdErase(uint8_t *pucData) {
       (pucData[1] > 0 && (pucData[1] < FLASH_TOTAL_PAGES - 1 || pucData[1] == 0xFF))) {
     /* If data[1] contains 0xFF, it deletes all sectors; otherwise
      * the number of sectors specified. */
-    eraseInfo.PageAddress = 0x08002000;
+    eraseInfo.PageAddress = APP_START_ADDRESS;
     eraseInfo.NbPages = pucData[1] == 0xFF ? FLASH_TOTAL_PAGES - 10 : pucData[1];
     eraseInfo.TypeErase = FLASH_TYPEERASE_PAGES;
 
