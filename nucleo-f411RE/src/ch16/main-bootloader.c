@@ -11,10 +11,10 @@
 #define CMD_GETID           0x02
 #define CMD_WRITE           0x2b
 
-#define APP_START_ADDRESS   0x08004000 /* In STM32F401RE this corresponds with the start
+#define APP_START_ADDRESS   0x08004000 /* In STM32F411RE this corresponds with the start
                                         address of Sector 1 */
 
-#define SRAM_SIZE           96*1024     // STM32F401RE has 96 KB of RAM
+#define SRAM_SIZE           96*1024     // STM32F411RE has 96 KB of RAM
 #define SRAM_END            (SRAM_BASE + SRAM_SIZE)
 
 #define ENABLE_BOOTLOADER_PROTECTION 0

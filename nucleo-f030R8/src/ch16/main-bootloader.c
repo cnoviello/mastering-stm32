@@ -11,10 +11,10 @@
 #define CMD_GETID         0x02
 #define CMD_WRITE         0x2b
 
-#define APP_START_ADDRESS 0x08002C00 /* In STM32F401RE this corresponds with the start
-                                        address of Sector 1 */
+#define APP_START_ADDRESS 0x08002C00 /* In STM32F030R8 this corresponds with the start
+                                        address of Page 10 */
 
-#define SRAM_SIZE         8*1024     // STM32F401RE has 96 KB of RAM
+#define SRAM_SIZE         8*1024     // STM32F030R8 has 8 KB of RAM
 #define SRAM_END          (SRAM_BASE + SRAM_SIZE)
 #define FLASH_TOTAL_PAGES 64
 

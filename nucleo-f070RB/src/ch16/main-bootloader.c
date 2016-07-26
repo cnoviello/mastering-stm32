@@ -1,23 +1,25 @@
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f4xx_hal.h"
+#include "stm32f0xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 #include "TI_aes_128.h"
 
 /* Global macros */
-#define ACK                 0x79
-#define NACK                0x1F
-#define CMD_ERASE           0x43
-#define CMD_GETID           0x02
-#define CMD_WRITE           0x2b
+#define ACK 0x79
+#define NACK 0x1F
+#define CMD_ERASE         0x43
+#define CMD_GETID         0x02
+#define CMD_WRITE         0x2b
 
-#define APP_START_ADDRESS   0x08004000 /* In STM32F410RB this corresponds with the start
-                                        address of Sector 1 */
+#define APP_START_ADDRESS 0x08002C00 /* In STM32F070RB this corresponds with the start
+                                        address of Page 10 */
 
-#define SRAM_SIZE           32*1024     // STM32F410RB has 96 KB of RAM
-#define SRAM_END            (SRAM_BASE + SRAM_SIZE)
+#define SRAM_SIZE         16*1024     // STM32F070RB has 16KB of RAM
+#define SRAM_END          (SRAM_BASE + SRAM_SIZE)
+#define FLASH_TOTAL_PAGES 127
 
 #define ENABLE_BOOTLOADER_PROTECTION 0
+#define PAGES_TO_PROTECT (OB_WRP_PAGES0TO1 | OB_WRP_PAGES2TO3 | OB_WRP_PAGES4TO5 | OB_WRP_PAGES6TO7)
 /* Private variables ---------------------------------------------------------*/
 
 /* The AES_KEY cannot be defined const, because the aes_enc_dec() function
@@ -120,8 +122,7 @@ int main(void) {
       }
 
       /* We check for new commands arriving on the UART2 */
-      memset(ucUartBuffer, 0, 20);
-      HAL_UART_Receive(&huart2, ucUartBuffer, 20, 200);
+      HAL_UART_Receive(&huart2, ucUartBuffer, 20, 10);
       switch (ucUartBuffer[0]) {
       case CMD_GETID:
         cmdGetID(ucUartBuffer);
@@ -150,11 +151,20 @@ int main(void) {
       HAL_DeInit();
 
       RCC->CIR = 0x00000000; //Disable all interrupts related to clock
+
+      uint32_t *pulSRAMBase = (uint32_t*)SRAM_BASE;
+      uint32_t *pulFlashBase = (uint32_t*)APP_START_ADDRESS;
+      volatile uint16_t i = 0;
+
+      do {
+        if(pulFlashBase[i] == 0xAABBCCDD)
+          break;
+        pulSRAMBase[i] = pulFlashBase[i];
+      } while(++i);
+
       __set_MSP(*((volatile uint32_t*) APP_START_ADDRESS)); //Set the MSP
 
-      __DMB(); //ARM says to use a DMB instruction before relocating VTOR */
-      SCB->VTOR = APP_START_ADDRESS; //We relocate vector table to the sector 1
-      __DSB(); //ARM says to use a DSB instruction just after relocating VTOR */
+      SYSCFG->CFGR1 |= 0x3; //__HAL_RCC_SYSCFG_CLK_ENABLE() already called from HAL_MspInit()
 
       /* We are now ready to jump to the main firmware */
       uint32_t JumpAddress = *((volatile uint32_t*) (APP_START_ADDRESS + 4));
@@ -187,14 +197,12 @@ void cmdErase(uint8_t *pucData) {
 
   /* Checks if provided CRC is correct */
   if (ulCrc == HAL_CRC_Calculate(&hcrc, pulCmd, 2) &&
-      (pucData[1] > 0 && (pucData[1] < FLASH_SECTOR_TOTAL - 1 || pucData[1] == 0xFF))) {
+      (pucData[1] > 0 && (pucData[1] < FLASH_TOTAL_PAGES - 10 || pucData[1] == 0xFF))) {
     /* If data[1] contains 0xFF, it deletes all sectors; otherwise
      * the number of sectors specified. */
-    eraseInfo.Banks = FLASH_BANK_1;
-    eraseInfo.Sector = FLASH_SECTOR_1;
-    eraseInfo.NbSectors = pucData[1] == 0xFF ? FLASH_SECTOR_TOTAL - 1 : pucData[1];
-    eraseInfo.TypeErase = FLASH_TYPEERASE_SECTORS;
-    eraseInfo.VoltageRange = FLASH_VOLTAGE_RANGE_3;
+    eraseInfo.PageAddress = 0x08002000;
+    eraseInfo.NbPages = pucData[1] == 0xFF ? FLASH_TOTAL_PAGES - 10 : pucData[1];
+    eraseInfo.TypeErase = FLASH_TYPEERASE_PAGES;
 
     HAL_FLASH_Unlock(); //Unlocks the flash memory
     HAL_FLASHEx_Erase(&eraseInfo, &ulBadBlocks); //Deletes given sectors */
@@ -293,10 +301,10 @@ void cmdWrite(uint8_t *pucData) {
 
       /* Decode the sent bytes using AES-128 ECB */
       aes_enc_dec((uint8_t*) pucData, AES_KEY, 1);
-      for (uint8_t i = 0; i < 16; i++) {
+      for (uint8_t i = 0; i < 4; i++) {
         /* Store each byte in flash memory starting from the specified address */
-        HAL_FLASH_Program(FLASH_TYPEPROGRAM_BYTE, ulSaddr, pucData[i]);
-        ulSaddr += 1;
+        HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, ulSaddr, ((uint32_t*)pucData)[i]);
+        ulSaddr += 4;
       }
       HAL_FLASH_Lock(); //Locks again the flash memory
 
@@ -318,16 +326,13 @@ sendnack:
 void CHECK_AND_SET_FLASH_PROTECTION(void) {
   FLASH_OBProgramInitTypeDef obConfig;
 
-  /* Retrieves current OB */
-  HAL_FLASHEx_OBGetConfig(&obConfig);
-
   /* If the first sector is not protected */
-  if ((obConfig.WRPSector & OB_WRP_SECTOR_0) == OB_WRP_SECTOR_0) {
+  if ((obConfig.WRPPage & PAGES_TO_PROTECT) == PAGES_TO_PROTECT) {
     HAL_FLASH_Unlock(); //Unlocks flash
     HAL_FLASH_OB_Unlock(); //Unlocks OB
     obConfig.OptionType = OPTIONBYTE_WRP;
     obConfig.WRPState = OB_WRPSTATE_ENABLE; //Enables changing of WRP settings
-    obConfig.WRPSector = OB_WRP_SECTOR_0; //Enables WP on first sector
+    obConfig.WRPPage = PAGES_TO_PROTECT; //Enables WP on first pages
     HAL_FLASHEx_OBProgram(&obConfig); //Programs the OB
     HAL_FLASH_OB_Launch(); //Ensures that the new configuration is saved in flash
     HAL_FLASH_OB_Lock(); //Locks OB
