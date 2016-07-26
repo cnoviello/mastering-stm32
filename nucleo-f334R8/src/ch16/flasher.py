@@ -22,11 +22,12 @@ STM32_TYPE = {
     0x431: "STM32F411RE",
     0x433: "STM32F401RE",
     0x439: "STM32F302R8",    
-    0x458: "STM32F410RB",
+    0x438: "STM32F334R8",        
     0x440: "STM32F030R8",
     0x442: "STM32F091RC",
     0x446: "STM32F303RE",
-    0x448: "STM32F070RB/STM32F072RB"    
+    0x448: "STM32F070RB/STM32F072RB",
+    0x458: "STM32F410RB",    
 }
 
 class ProgramModeError(Exception):
