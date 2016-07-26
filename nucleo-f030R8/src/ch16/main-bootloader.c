@@ -136,9 +136,9 @@ int main(void) {
       };
     }
   } else {
-    /* USER_BUTTON is not pressed. We first check if the first 4 bytes of second sector
-     are erased (no firmware to run). If so, the LD2 LED blinks quickly. */
-    if (*((uint32_t*) APP_START_ADDRESS) == 0xFFFFFFFF) {
+    /* USER_BUTTON is not pressed. We first check if the first 4 bytes starting from
+     APP_START_ADDRESS contain the MSP (end of SRAM). If not, the LD2 LED blinks quickly. */
+    if (*((uint32_t*) APP_START_ADDRESS) != SRAM_END) {
       while (1) {
         HAL_Delay(30);
         HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
