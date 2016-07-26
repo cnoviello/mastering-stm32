@@ -11,15 +11,15 @@
 #define CMD_GETID         0x02
 #define CMD_WRITE         0x2b
 
-#define APP_START_ADDRESS 0x08002800 /* In STM32F091RC this corresponds with the start
-                                        address of Page 10 */
+#define APP_START_ADDRESS 0x08003000 /* In STM32F091RC this corresponds with the start
+                                        address of Page 6 */
 
 #define SRAM_SIZE         32*1024     // STM32F091RC has 32KB of RAM
 #define SRAM_END          (SRAM_BASE + SRAM_SIZE)
 #define FLASH_TOTAL_PAGES 127
 
 #define ENABLE_BOOTLOADER_PROTECTION 0
-#define PAGES_TO_PROTECT (OB_WRP_PAGES0TO1 | OB_WRP_PAGES2TO3 | OB_WRP_PAGES4TO5 | OB_WRP_PAGES6TO7)
+#define PAGES_TO_PROTECT (OB_WRP_PAGES0TO1 | OB_WRP_PAGES2TO3 | OB_WRP_PAGES4TO5)
 /* Private variables ---------------------------------------------------------*/
 
 /* The AES_KEY cannot be defined const, because the aes_enc_dec() function
