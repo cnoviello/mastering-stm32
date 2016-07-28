@@ -18,8 +18,21 @@ CMD_GETID = 0x02
 CMD_WRITE = 0x2b
 
 STM32_TYPE = {
+    0x410: "STM32F103RB",
+    0x415: "STM32L152RG",        
+    0x417: "STM32L053R8",    
+    0x421: "STM32F446RE",
+    0x431: "STM32F411RE",
     0x433: "STM32F401RE",
-    0x440: "STM32F030R8"
+    0x437: "STM32L152RE",
+    0x439: "STM32F302R8",    
+    0x438: "STM32F334R8",        
+    0x440: "STM32F030R8",
+    0x442: "STM32F091RC",
+    0x446: "STM32F303RE",
+    0x447: "STM32L073RZ",    
+    0x448: "STM32F070RB/STM32F072RB",
+    0x458: "STM32F410RB",    
 }
 
 class ProgramModeError(Exception):
@@ -30,7 +43,7 @@ class TimeoutError(Exception):
 
 class STM32Flasher(object):
     def __init__(self, serialPort, baudrate=38400):
-        self.serial = serial.Serial(serialPort, baudrate=baudrate, timeout=20)
+        self.serial = serial.Serial(serialPort, baudrate=baudrate, timeout=30)
 
     def _crc_stm32(self, data):
         #Computes CRC checksum using CRC-32 polynomial 
@@ -160,13 +173,17 @@ if __name__ == '__main__':
     def doErase(arg):
         global eraseDone
 
-        flasher.eraseFLASH(1)
+        flasher.eraseFLASH(0xFF)
         time.sleep(1)
         eraseDone = 1
 
     flasher = STM32Flasher(args.com_port)
     id = flasher.getID()
-    print("STM32 MCU Type: ", STM32_TYPE[id])
+    try:
+        print("STM32 MCU Type: ", STM32_TYPE[id])
+    except KeyError:
+        print("STM32 MCU Type: Unknown - Received ID: ", id)
+        
     print("Erasing Flash memory", end="")
     #Start a new thread so that the user can receive
     #a feedback that the erase is ongoing

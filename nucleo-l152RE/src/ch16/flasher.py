@@ -19,6 +19,7 @@ CMD_WRITE = 0x2b
 
 STM32_TYPE = {
     0x410: "STM32F103RB",
+    0x415: "STM32L152RG",        
     0x417: "STM32L053R8",    
     0x421: "STM32F446RE",
     0x431: "STM32F411RE",

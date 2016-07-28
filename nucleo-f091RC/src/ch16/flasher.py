@@ -18,14 +18,21 @@ CMD_GETID = 0x02
 CMD_WRITE = 0x2b
 
 STM32_TYPE = {
+    0x410: "STM32F103RB",
+    0x415: "STM32L152RG",        
+    0x417: "STM32L053R8",    
     0x421: "STM32F446RE",
     0x431: "STM32F411RE",
     0x433: "STM32F401RE",
+    0x437: "STM32L152RE",
     0x439: "STM32F302R8",    
-    0x458: "STM32F410RB",
+    0x438: "STM32F334R8",        
     0x440: "STM32F030R8",
     0x442: "STM32F091RC",
-    0x448: "STM32F070RB/STM32F072RB"    
+    0x446: "STM32F303RE",
+    0x447: "STM32L073RZ",    
+    0x448: "STM32F070RB/STM32F072RB",
+    0x458: "STM32F410RB",    
 }
 
 class ProgramModeError(Exception):
@@ -166,7 +173,7 @@ if __name__ == '__main__':
     def doErase(arg):
         global eraseDone
 
-        flasher.eraseFLASH(0x10)
+        flasher.eraseFLASH(0xFF)
         time.sleep(1)
         eraseDone = 1
 
