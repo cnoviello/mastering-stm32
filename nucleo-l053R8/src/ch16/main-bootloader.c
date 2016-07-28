@@ -12,14 +12,14 @@
 #define CMD_WRITE           0x2b
 
 #define APP_START_ADDRESS   0x08004000 /* In STM32L053R8 this corresponds with the start
-                                        address of Page 96 */
+                                        address of Page 128 */
 
 #define SRAM_SIZE           8*1024     // STM32L053R8 has 8KB of RAM
 #define SRAM_END            (SRAM_BASE + SRAM_SIZE)
 #define FLASH_TOTAL_PAGES   511
 
 #define ENABLE_BOOTLOADER_PROTECTION 0
-#define SECTORS_TO_PROTECT (OB_WRP_Pages0to31 | OB_WRP_Pages32to63 | OB_WRP_Pages64to95)
+#define SECTORS_TO_PROTECT (OB_WRP_Pages0to31 | OB_WRP_Pages32to63 | OB_WRP_Pages64to95 | OB_WRP_Pages96to127)
 /* Private variables ---------------------------------------------------------*/
 
 /* The AES_KEY cannot be defined const, because the aes_enc_dec() function
