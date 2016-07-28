@@ -317,6 +317,9 @@ sendnack:
 void CHECK_AND_SET_FLASH_PROTECTION(void) {
   FLASH_OBProgramInitTypeDef obConfig;
 
+  /* Retrieves current OB */
+  HAL_FLASHEx_OBGetConfig(&obConfig);
+
   /* If the first sector is not protected */
   if ((obConfig.WRPPage & PAGES_TO_PROTECT) == PAGES_TO_PROTECT) {
     HAL_FLASH_Unlock(); //Unlocks flash
