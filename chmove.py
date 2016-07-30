@@ -4,7 +4,7 @@
 #
 import sys, os
 
-DRYRUN = 1
+DRYRUN = 0
 
 start = 14
 end = 17

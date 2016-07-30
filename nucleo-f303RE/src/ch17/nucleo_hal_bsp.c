@@ -1,12 +1,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
-#include "FreeRTOSConfig.h"
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
+CRC_HandleTypeDef hcrc;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_CRC_Init(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
 
@@ -17,6 +18,7 @@ void Nucleo_BSP_Init() {
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
+  MX_CRC_Init();
 }
 
 /** System Clock Configuration
@@ -105,7 +107,7 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
 #endif
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
   GPIO_InitStruct.Pin = LD2_Pin;
@@ -155,6 +157,23 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOB_CLK_DISABLE();
   __HAL_RCC_GPIOC_CLK_DISABLE();
   __HAL_RCC_GPIOD_CLK_DISABLE();
+}
+
+
+void MX_CRC_Init(void)
+{
+  __HAL_RCC_CRC_CLK_ENABLE();
+
+  hcrc.Instance = CRC;
+  hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_DISABLE;
+  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_DISABLE;
+  hcrc.Init.GeneratingPolynomial = 0x4C11DB7;
+  hcrc.Init.CRCLength = CRC_POLYLENGTH_32B;
+  hcrc.Init.InitValue = 0xFFFFFFFF;
+  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
+  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
+  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
+  HAL_CRC_Init(&hcrc);
 }
 
 

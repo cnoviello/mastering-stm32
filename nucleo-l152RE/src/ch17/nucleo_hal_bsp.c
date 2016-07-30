@@ -1,13 +1,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l1xx_hal.h"
 #include <mxconstants.h>
-#include "FreeRTOSConfig.h"
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
+CRC_HandleTypeDef hcrc;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+void MX_CRC_Init(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
 
@@ -37,8 +38,8 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = 16;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
-  RCC_OscInitStruct.PLL.PLLDIV = RCC_PLL_DIV3;
+  RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL4;
+  RCC_OscInitStruct.PLL.PLLDIV = RCC_PLL_DIV2;
   HAL_RCC_OscConfig(&RCC_OscInitStruct);
 
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -54,10 +55,8 @@ void SystemClock_Config(void)
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
   /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
+  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
-
-
 
 /* USART2 init function */
 void MX_USART2_UART_Init(void)
@@ -92,17 +91,10 @@ void MX_GPIO_Init(void)
   __GPIOC_CLK_ENABLE();
   __GPIOA_CLK_ENABLE();
 
-#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-#else
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-#endif
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
@@ -111,19 +103,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIOC pin8 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
-  /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-#endif
 }
 
 void MX_GPIO_Deinit(void)
@@ -151,6 +130,13 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOC_CLK_DISABLE();
 }
 
+void MX_CRC_Init(void)
+{
+  __HAL_RCC_CRC_CLK_ENABLE();
+
+  hcrc.Instance = CRC;
+  HAL_CRC_Init(&hcrc);
+}
 
 /* USER CODE BEGIN 4 */
 
