@@ -29,9 +29,9 @@ int main(void) {
     ret = HAL_I2C_Mem_Read(&hi2c1, (uint16_t)0xBE, (uint16_t)0x2B, I2C_MEMADD_SIZE_8BIT, &reg2, 1, HAL_MAX_DELAY);
     if(ret != HAL_OK)
       asm("BKPT #0");
-//    HAL_I2C_Master_Transmit(&hi2c1, 0xBE, &reg, 1, HAL_MAX_DELAY);
-//    HAL_I2C_Master_Receive(&hi2c1, 0xBE, &reg, 1, HAL_MAX_DELAY);
-//    HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, 0xBE, &reg, 2, I2C_NEXT_FRAME);
+    HAL_I2C_Master_Transmit(&hi2c1, 0xBE, &reg, 1, HAL_MAX_DELAY);
+    HAL_I2C_Master_Receive(&hi2c1, 0xBE, &reg, 1, HAL_MAX_DELAY);
+    HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, 0xBE, &reg, 2, I2C_NEXT_FRAME);
 
     uint16_t temp = reg2 << 8 | reg;
     sprintf(msg, "Ricevuto: %d\r\n", temp);
