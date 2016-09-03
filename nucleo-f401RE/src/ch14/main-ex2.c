@@ -4,9 +4,11 @@
 #include <stdlib.h>
 
 I2C_HandleTypeDef hi2c1;
+I2C_HandleTypeDef hi2c3;
 UART_HandleTypeDef huart2;
 
 static void MX_I2C1_Init(void);
+static void MX_I2C3_Init(void);
 
 HAL_StatusTypeDef Write_To_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len);
 HAL_StatusTypeDef Read_From_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len);
@@ -19,9 +21,14 @@ int main(void) {
   Nucleo_BSP_Init();
 
   MX_I2C1_Init();
+  MX_I2C3_Init();
 
-  Write_To_24LCxx(&hi2c1, 0xA0, 0x1AAA, (uint8_t*)wmsg, strlen(wmsg)+1);
-  Read_From_24LCxx(&hi2c1, 0xA0, 0x1AAA, (uint8_t*)rmsg, strlen(wmsg)+1);
+  HAL_I2C_EnableListen_IT(&hi2c3);
+
+
+//  HAL_I2C_Master_Receive_IT(&hi2c3, 0x33, rmsg, 10);
+
+  HAL_I2C_Master_Transmit(&hi2c1, 0x33, wmsg, 10, HAL_MAX_DELAY);
 
   if(strcmp(wmsg, rmsg) == 0) {
     while(1) {
@@ -43,7 +50,7 @@ static void MX_I2C1_Init(void) {
   hi2c1.Instance = I2C1;
   hi2c1.Init.ClockSpeed = 100000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c1.Init.OwnAddress1 = 0x33;
+  hi2c1.Init.OwnAddress1 = 0xaa;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c1.Init.OwnAddress2 = 0;
@@ -58,6 +65,80 @@ static void MX_I2C1_Init(void) {
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   HAL_I2C_Init(&hi2c1);
+}
+
+/* I2C3 init function */
+static void MX_I2C3_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct;
+
+  /* Peripheral clock enable */
+  __HAL_RCC_I2C3_CLK_ENABLE();
+
+  hi2c3.Instance = I2C3;
+  hi2c3.Init.ClockSpeed = 100000;
+  hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c3.Init.OwnAddress1 = 0x33;
+  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c3.Init.OwnAddress2 = 0;
+  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+
+  /**I2C3 GPIO Configuration
+  PA8     ------> I2C3_SCL
+  PB4     ------> I2C3_SDA
+  */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  GPIO_InitStruct.Pin = GPIO_PIN_4;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF9_I2C3;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  HAL_NVIC_SetPriority(I2C3_EV_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(I2C3_EV_IRQn);
+  HAL_NVIC_SetPriority(I2C3_ER_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(I2C3_ER_IRQn);
+
+  HAL_I2C_Init(&hi2c3);
+}
+
+void I2C3_EV_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C3_EV_IRQn 0 */
+
+  /* USER CODE END I2C3_EV_IRQn 0 */
+  HAL_I2C_EV_IRQHandler(&hi2c3);
+  /* USER CODE BEGIN I2C3_EV_IRQn 1 */
+
+  /* USER CODE END I2C3_EV_IRQn 1 */
+}
+
+/**
+* @brief This function handles I2C3 error interrupt.
+*/
+void I2C3_ER_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C3_ER_IRQn 0 */
+
+  /* USER CODE END I2C3_ER_IRQn 0 */
+  HAL_I2C_ER_IRQHandler(&hi2c3);
+  /* USER CODE BEGIN I2C3_ER_IRQn 1 */
+
+  /* USER CODE END I2C3_ER_IRQn 1 */
+}
+
+void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, uint16_t AddrMatchCode) {
+  HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
+  asm("BKPT #0");
 }
 
 HAL_StatusTypeDef Read_From_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len) {
