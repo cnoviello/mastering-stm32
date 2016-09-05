@@ -3,42 +3,144 @@
 #include <string.h>
 #include <stdlib.h>
 
+ADC_HandleTypeDef hadc1;
 I2C_HandleTypeDef hi2c1;
-I2C_HandleTypeDef hi2c3;
 UART_HandleTypeDef huart2;
+volatile uint8_t transferRequested, transferDirection;
 
+static void MX_ADC1_Init(void);
 static void MX_I2C1_Init(void);
-static void MX_I2C3_Init(void);
 
-HAL_StatusTypeDef Write_To_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len);
-HAL_StatusTypeDef Read_From_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len);
+typedef enum {
+  REGISTER,
+} TransactionStatus;
+
+#define TEMP_OUT_L_REGISTER 0x0
+#define TEMP_OUT_H_REGISTER 0x1
+#define WHO_AM_I_REGISTER 0xF
+#define WHO_AM_I_VALUE 0xBC
 
 int main(void) {
-  const char wmsg[] = "We love STM32!";
-  char rmsg[20];
+  uint16_t rawValue;
+  uint32_t lastConversion;
+  float ftemp;
+  int8_t t_low,t_high;
+  char msg[20];
+  uint8_t buf[2];
 
   HAL_Init();
   Nucleo_BSP_Init();
 
   MX_I2C1_Init();
-  MX_I2C3_Init();
 
-  HAL_I2C_EnableListen_IT(&hi2c3);
+#ifdef SLAVE_BOARD
 
+  MX_ADC1_Init();
+  HAL_ADC_Start(&hadc1);
+  HAL_I2C_EnableListen_IT(&hi2c1);
 
-//  HAL_I2C_Master_Receive_IT(&hi2c3, 0x33, rmsg, 10);
+  while(1) {
+    while(!transferRequested) {
+      if(HAL_GetTick() - lastConversion > 1000L) {
+        HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
 
-  HAL_I2C_Master_Transmit(&hi2c1, 0x33, wmsg, 10, HAL_MAX_DELAY);
+        rawValue = HAL_ADC_GetValue(&hadc1);
+        ftemp = ((float)rawValue) / 4095 * 3300;
+        ftemp = ((ftemp - 760.0) / 2.5) + 25;
 
-  if(strcmp(wmsg, rmsg) == 0) {
-    while(1) {
-      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-      HAL_Delay(100);
+        t_low = ftemp;
+        t_high = (ftemp - t_low)*100;
+
+        sprintf(msg, "ftemp: %f\r\n", ftemp);
+        HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+        sprintf(msg, "t_low: %d - t_high: %d\r\n", t_low, t_high);
+        HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+        lastConversion = HAL_GetTick();
+      }
     }
+
+    transferRequested = 0;
+
+    HAL_I2C_Slave_Sequential_Receive_IT(&hi2c1, buf, 1, I2C_FIRST_FRAME);
+
+    while(!transferRequested);
+
+    if(HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_LISTEN) /* Provare facendo trasferire al master 1 byte */
+      asm("BKPT #0");
+
+    switch(buf[0]) {
+    case WHO_AM_I_REGISTER:
+      buf[0] = WHO_AM_I_VALUE;
+      break;
+    case TEMP_OUT_L_REGISTER:
+      buf[0] = t_low;
+      break;
+    case TEMP_OUT_H_REGISTER:
+      buf[0] = t_high;
+      break;
+    default:
+      buf[0] = 0xFF;
+    }
+    HAL_I2C_Slave_Sequential_Transmit_IT(&hi2c1, buf, 1, I2C_LAST_FRAME);
+    while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY)
+    {
+    }
+
+    transferRequested = 0;
   }
+
+#else //Master board
+  HAL_StatusTypeDef ret;
+  buf[0] = WHO_AM_I_REGISTER;
+  ret = HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, 0x33, buf, 1, I2C_FIRST_FRAME);
+  while (!transferRequested);
+  transferRequested = 0;
+  ret = HAL_I2C_Master_Sequential_Receive_IT(&hi2c1, 0x33, buf, 1, I2C_LAST_FRAME);
+  while (!transferRequested);
+  transferRequested = 0;
+
+  sprintf(msg, "WHO AM I: %x\r\n", buf[0]);
+  HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+#endif
 
   while(1);
 }
+
+#ifdef SLAVE_BOARD
+
+/* ADC1 init function */
+void MX_ADC1_Init(void) {
+  ADC_ChannelConfTypeDef sConfig;
+
+  /* Enable ADC peripheral */
+  __HAL_RCC_ADC1_CLK_ENABLE();
+
+  /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+   */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
+  HAL_ADC_Init(&hadc1);
+
+  /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+   */
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+}
+
+#endif
 
 /* I2C1 init function */
 static void MX_I2C1_Init(void) {
@@ -50,7 +152,7 @@ static void MX_I2C1_Init(void) {
   hi2c1.Instance = I2C1;
   hi2c1.Init.ClockSpeed = 100000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c1.Init.OwnAddress1 = 0xaa;
+  hi2c1.Init.OwnAddress1 = 0x33;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c1.Init.OwnAddress2 = 0;
@@ -65,127 +167,41 @@ static void MX_I2C1_Init(void) {
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   HAL_I2C_Init(&hi2c1);
+
+  /* Peripheral interrupt init */
+  HAL_NVIC_SetPriority(I2C1_EV_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(I2C1_EV_IRQn);
+  HAL_NVIC_SetPriority(I2C1_ER_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(I2C1_ER_IRQn);
 }
 
-/* I2C3 init function */
-static void MX_I2C3_Init(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct;
-
-  /* Peripheral clock enable */
-  __HAL_RCC_I2C3_CLK_ENABLE();
-
-  hi2c3.Instance = I2C3;
-  hi2c3.Init.ClockSpeed = 100000;
-  hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
-  hi2c3.Init.OwnAddress1 = 0x33;
-  hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
-  hi2c3.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
-  hi2c3.Init.OwnAddress2 = 0;
-  hi2c3.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
-  hi2c3.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
-
-  /**I2C3 GPIO Configuration
-  PA8     ------> I2C3_SCL
-  PB4     ------> I2C3_SDA
-  */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF4_I2C3;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  GPIO_InitStruct.Pin = GPIO_PIN_4;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF9_I2C3;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  HAL_NVIC_SetPriority(I2C3_EV_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(I2C3_EV_IRQn);
-  HAL_NVIC_SetPriority(I2C3_ER_IRQn, 0, 0);
-  HAL_NVIC_EnableIRQ(I2C3_ER_IRQn);
-
-  HAL_I2C_Init(&hi2c3);
-}
-
-void I2C3_EV_IRQHandler(void)
-{
-  /* USER CODE BEGIN I2C3_EV_IRQn 0 */
-
-  /* USER CODE END I2C3_EV_IRQn 0 */
-  HAL_I2C_EV_IRQHandler(&hi2c3);
-  /* USER CODE BEGIN I2C3_EV_IRQn 1 */
-
-  /* USER CODE END I2C3_EV_IRQn 1 */
+void I2C1_EV_IRQHandler(void) {
+  HAL_I2C_EV_IRQHandler(&hi2c1);
 }
 
 /**
 * @brief This function handles I2C3 error interrupt.
 */
-void I2C3_ER_IRQHandler(void)
-{
-  /* USER CODE BEGIN I2C3_ER_IRQn 0 */
-
-  /* USER CODE END I2C3_ER_IRQn 0 */
-  HAL_I2C_ER_IRQHandler(&hi2c3);
-  /* USER CODE BEGIN I2C3_ER_IRQn 1 */
-
-  /* USER CODE END I2C3_ER_IRQn 1 */
+void I2C1_ER_IRQHandler(void) {
+  HAL_I2C_ER_IRQHandler(&hi2c1);
 }
 
 void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, uint16_t AddrMatchCode) {
   HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-  asm("BKPT #0");
+  transferRequested = 1;
+  transferDirection = TransferDirection;
 }
 
-HAL_StatusTypeDef Read_From_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len) {
-  HAL_StatusTypeDef returnValue;
-  uint8_t addr[2];
-
-  /* We compute the MSB and LSB parts of the memory address */
-  addr[0] = (uint8_t) ((MemAddress & 0xFF00) >> 8);
-  addr[1] = (uint8_t) (MemAddress & 0xFF);
-
-  /* First we send the memory location address where start reading data */
-  returnValue = HAL_I2C_Master_Transmit(hi2c, DevAddress, addr, 2, HAL_MAX_DELAY);
-  if(returnValue != HAL_OK)
-    return returnValue;
-
-  /* Next we can retrieve the data from EEPROM */
-  returnValue = HAL_I2C_Master_Receive(hi2c, DevAddress, pData, len, HAL_MAX_DELAY);
-
-  return returnValue;
+void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c) {
+  transferRequested = 1;
 }
 
-HAL_StatusTypeDef Write_To_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len) {
-  HAL_StatusTypeDef returnValue;
-  uint8_t *data;
+void HAL_I2C_MasterTxCpltCallback(I2C_HandleTypeDef *hi2c) {
+  transferRequested = 1;
+}
 
-  /* First we allocate a temporary buffer to store the destination memory
-   * address and the data to store */
-  data = (uint8_t*)malloc(sizeof(uint8_t)*(len+2));
-
-  /* We compute the MSB and LSB parts of the memory address */
-  data[0] = (uint8_t) ((MemAddress & 0xFF00) >> 8);
-  data[1] = (uint8_t) (MemAddress & 0xFF);
-
-  /* And copy the content of the pData array in the temporary buffer */
-  memcpy(data+2, pData, len);
-
-  /* We are now ready to transfer the buffer over the I2C bus */
-  returnValue = HAL_I2C_Master_Transmit(hi2c, DevAddress, data, len + 2, HAL_MAX_DELAY);
-  if(returnValue != HAL_OK)
-    return returnValue;
-
-  free(data);
-
-  /* We wait until the EEPROM effectively stores data in memory */
-  while(HAL_I2C_Master_Transmit(hi2c, DevAddress, 0, 0, HAL_MAX_DELAY) != HAL_OK);
-
-  return HAL_OK;
+void HAL_I2C_MasterRxCpltCallback(I2C_HandleTypeDef *hi2c) {
+  transferRequested = 1;
 }
 
 #ifdef USE_FULL_ASSERT
