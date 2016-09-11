@@ -20,7 +20,7 @@ volatile uint8_t transferDirection, transferRequested;
 #define WHO_AM_I_VALUE          0xBC
 #define TRANSFER_DIR_WRITE      0x1
 #define TRANSFER_DIR_READ       0x0
-#define I2C_SLAVE_ADDR          0xA0
+#define I2C_SLAVE_ADDR          0x33
 
 int main(void) {
   char uartBuf[20];
@@ -91,27 +91,33 @@ int main(void) {
 
 #else //Master board
   i2cBuf[0] = WHO_AM_I_REGISTER;
-  HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf, 1, I2C_FIRST_FRAME);
+  HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf,
+                                        1, I2C_FIRST_FRAME);
   while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
 
-  HAL_I2C_Master_Sequential_Receive_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf, 1, I2C_LAST_FRAME);
+  HAL_I2C_Master_Sequential_Receive_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf,
+                                       1, I2C_LAST_FRAME);
   while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
 
   sprintf(uartBuf, "WHO AM I: %x\r\n", i2cBuf[0]);
   HAL_UART_Transmit(&huart2, (uint8_t*) uartBuf, strlen(uartBuf), HAL_MAX_DELAY);
 
   i2cBuf[0] = TEMP_OUT_INT_REGISTER;
-  HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf, 1, I2C_FIRST_FRAME);
+  HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf,
+                                        1, I2C_FIRST_FRAME);
   while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
 
-  HAL_I2C_Master_Sequential_Receive_IT(&hi2c1, I2C_SLAVE_ADDR, (uint8_t*)&t_int, 1, I2C_LAST_FRAME);
+  HAL_I2C_Master_Sequential_Receive_IT(&hi2c1, I2C_SLAVE_ADDR, (uint8_t*)&t_int,
+                                       1, I2C_LAST_FRAME);
   while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
 
   i2cBuf[0] = TEMP_OUT_FRAC_REGISTER;
-  HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf, 1, I2C_FIRST_FRAME);
+  HAL_I2C_Master_Sequential_Transmit_IT(&hi2c1, I2C_SLAVE_ADDR, i2cBuf,
+                                        1, I2C_FIRST_FRAME);
   while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
 
-  HAL_I2C_Master_Sequential_Receive_IT(&hi2c1, I2C_SLAVE_ADDR, (uint8_t*)&t_frac, 1, I2C_LAST_FRAME);
+  HAL_I2C_Master_Sequential_Receive_IT(&hi2c1, I2C_SLAVE_ADDR, (uint8_t*)&t_frac,
+                                       1, I2C_LAST_FRAME);
   while (HAL_I2C_GetState(&hi2c1) != HAL_I2C_STATE_READY);
 
   ftemp = ((float)t_frac)/100.0;
