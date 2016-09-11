@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_uart_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   Extended UART HAL module driver.
   *          This file provides firmware functions to manage the following extended
   *          functionalities of the Universal Asynchronous Receiver Transmitter Peripheral (UART).
@@ -26,7 +26,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -92,39 +92,7 @@
         (++) Baud Rate
         (++) Word Length (Fixed to 8-bits only for LIN mode)
         (++) Stop Bit
-        (++) Parity: If the parity is enabled, then the MSB bit of the data written
-             in the data register is transmitted but is changed by the parity bit.
-             According to device capability (support or not of 7-bit word length),
-             frame length is either defined by the M bit (8-bits or 9-bits)
-             or by the M1 and M0 bits (7-bit, 8-bit or 9-bit).
-             Possible UART frame formats are as listed in the following table:
-            
-            (+++)    Table 1. UART frame format.             
-            (+++)    +-----------------------------------------------------------------------+
-            (+++)    |       M bit       |  PCE bit  |             UART frame                |
-            (+++)    |-------------------|-----------|---------------------------------------|
-            (+++)    |         0         |     0     |    | SB |    8-bit data   | STB |     |
-            (+++)    |-------------------|-----------|---------------------------------------|
-            (+++)    |         0         |     1     |    | SB | 7-bit data | PB | STB |     |
-            (+++)    |-------------------|-----------|---------------------------------------|
-            (+++)    |         1         |     0     |    | SB |    9-bit data   | STB |     |
-            (+++)    |-------------------|-----------|---------------------------------------|
-            (+++)    |         1         |     1     |    | SB | 8-bit data | PB | STB |     |
-            (+++)    +-----------------------------------------------------------------------+
-            (+++)    |  M1 bit |  M0 bit |  PCE bit  |             UART frame                |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |     0     |    | SB |    8 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    0    |     1     |    | SB | 7 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |     0     |    | SB |    9 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    0    |    1    |     1     |    | SB | 8 bit data | PB | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |     0     |    | SB |    7 bit data   | STB |     |
-            (+++)    |---------|---------|-----------|---------------------------------------|
-            (+++)    |    1    |    0    |     1     |    | SB | 6 bit data | PB | STB |     |
-            (+++)    +-----------------------------------------------------------------------+
+        (++) Parity
         (++) Hardware flow control
         (++) Receiver/transmitter modes
         (++) Over Sampling Method
@@ -144,6 +112,43 @@
 @endverbatim
   * @{
   */
+
+/*
+  Additional Table:  If the parity is enabled, then the MSB bit of the data written
+                     in the data register is transmitted but is changed by the parity bit.
+                     According to device capability (support or not of 7-bit word length),
+                     frame length is either defined by the M bit (8-bits or 9-bits)
+                     or by the M1 and M0 bits (7-bit, 8-bit or 9-bit).
+                     Possible UART frame formats are as listed in the following table:
+            
+      Table 1. UART frame format.             
+      +-----------------------------------------------------------------------+
+      |       M bit       |  PCE bit  |             UART frame                |
+      |-------------------|-----------|---------------------------------------|
+      |         0         |     0     |    | SB |    8-bit data   | STB |     |
+      |-------------------|-----------|---------------------------------------|
+      |         0         |     1     |    | SB | 7-bit data | PB | STB |     |
+      |-------------------|-----------|---------------------------------------|
+      |         1         |     0     |    | SB |    9-bit data   | STB |     |
+      |-------------------|-----------|---------------------------------------|
+      |         1         |     1     |    | SB | 8-bit data | PB | STB |     |
+      +-----------------------------------------------------------------------+
+      |  M1 bit |  M0 bit |  PCE bit  |             UART frame                |
+      |---------|---------|-----------|---------------------------------------|
+      |    0    |    0    |     0     |    | SB |    8 bit data   | STB |     |
+      |---------|---------|-----------|---------------------------------------|
+      |    0    |    0    |     1     |    | SB | 7 bit data | PB | STB |     |
+      |---------|---------|-----------|---------------------------------------|
+      |    0    |    1    |     0     |    | SB |    9 bit data   | STB |     |
+      |---------|---------|-----------|---------------------------------------|
+      |    0    |    1    |     1     |    | SB | 8 bit data | PB | STB |     |
+      |---------|---------|-----------|---------------------------------------|
+      |    1    |    0    |     0     |    | SB |    7 bit data   | STB |     |
+      |---------|---------|-----------|---------------------------------------|
+      |    1    |    0    |     1     |    | SB | 6 bit data | PB | STB |     |
+      +-----------------------------------------------------------------------+
+
+*/
 
 /**
   * @brief Initialize the RS485 Driver enable feature according to the specified
@@ -185,7 +190,7 @@ HAL_StatusTypeDef HAL_RS485Ex_Init(UART_HandleTypeDef *huart, uint32_t Polarity,
   /* Check the Driver Enable deassertion time */
   assert_param(IS_UART_DEASSERTIONTIME(DeassertionTime));
 
-  if(huart->State == HAL_UART_STATE_RESET)
+  if(huart->gState == HAL_UART_STATE_RESET)
   {
     /* Allocate lock resource and initialize it */
     huart->Lock = HAL_UNLOCKED;
@@ -194,7 +199,7 @@ HAL_StatusTypeDef HAL_RS485Ex_Init(UART_HandleTypeDef *huart, uint32_t Polarity,
     HAL_UART_MspInit(huart);
   }
 
-  huart->State = HAL_UART_STATE_BUSY;
+  huart->gState = HAL_UART_STATE_BUSY;
 
   /* Disable the Peripheral */
   __HAL_UART_DISABLE(huart);
@@ -224,7 +229,7 @@ HAL_StatusTypeDef HAL_RS485Ex_Init(UART_HandleTypeDef *huart, uint32_t Polarity,
   /* Enable the Peripheral */
   __HAL_UART_ENABLE(huart);
 
-  /* TEACK and/or REACK to check before moving huart->State to Ready */
+  /* TEACK and/or REACK to check before moving huart->gState and huart->RxState to Ready */
   return (UART_CheckIdleState(huart));
 }
 
@@ -259,6 +264,9 @@ HAL_StatusTypeDef HAL_RS485Ex_Init(UART_HandleTypeDef *huart, uint32_t Polarity,
   */
  __weak void HAL_UARTEx_WakeupCallback(UART_HandleTypeDef *huart)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(huart);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_UARTEx_WakeupCallback can be implemented in the user file
    */ 
@@ -310,7 +318,7 @@ HAL_StatusTypeDef HAL_UARTEx_StopModeWakeUpSourceConfig(UART_HandleTypeDef *huar
   /* Process Locked */
   __HAL_LOCK(huart);
 
-  huart->State = HAL_UART_STATE_BUSY;
+  huart->gState = HAL_UART_STATE_BUSY;
 
   /* Disable the Peripheral */
   __HAL_UART_DISABLE(huart);
@@ -334,7 +342,7 @@ HAL_StatusTypeDef HAL_UARTEx_StopModeWakeUpSourceConfig(UART_HandleTypeDef *huar
   else
   {
     /* Initialize the UART State */
-    huart->State = HAL_UART_STATE_READY;
+    huart->gState = HAL_UART_STATE_READY;
   }
 
   /* Process Unlocked */
@@ -358,12 +366,12 @@ HAL_StatusTypeDef HAL_UARTEx_EnableStopMode(UART_HandleTypeDef *huart)
   /* Process Locked */
   __HAL_LOCK(huart);
 
-  huart->State = HAL_UART_STATE_BUSY;
+  huart->gState = HAL_UART_STATE_BUSY;
 
   /* Set UESM bit */
   SET_BIT(huart->Instance->CR1, USART_CR1_UESM);
 
-  huart->State = HAL_UART_STATE_READY;
+  huart->gState = HAL_UART_STATE_READY;
 
   /* Process Unlocked */
   __HAL_UNLOCK(huart);
@@ -384,12 +392,12 @@ HAL_StatusTypeDef HAL_UARTEx_DisableStopMode(UART_HandleTypeDef *huart)
   /* Process Locked */
   __HAL_LOCK(huart);
 
-  huart->State = HAL_UART_STATE_BUSY;
+  huart->gState = HAL_UART_STATE_BUSY;
 
   /* Clear UESM bit */
   CLEAR_BIT(huart->Instance->CR1, USART_CR1_UESM);
 
-  huart->State = HAL_UART_STATE_READY;
+  huart->gState = HAL_UART_STATE_READY;
 
   /* Process Unlocked */
   __HAL_UNLOCK(huart);
@@ -421,7 +429,7 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
   /* Check the address length parameter */
   assert_param(IS_UART_ADDRESSLENGTH_DETECT(AddressLength));
 
-  huart->State = HAL_UART_STATE_BUSY;
+  huart->gState = HAL_UART_STATE_BUSY;
 
   /* Disable the Peripheral */
   __HAL_UART_DISABLE(huart);
@@ -432,7 +440,7 @@ HAL_StatusTypeDef HAL_MultiProcessorEx_AddressLength_Set(UART_HandleTypeDef *hua
   /* Enable the Peripheral */
   __HAL_UART_ENABLE(huart);
 
-  /* TEACK and/or REACK to check before moving huart->State to Ready */
+  /* TEACK and/or REACK to check before moving huart->gState to Ready */
   return (UART_CheckIdleState(huart));
 }
 

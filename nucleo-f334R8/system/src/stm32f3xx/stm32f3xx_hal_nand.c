@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_nand.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   NAND HAL module driver.
   *          This file provides a generic firmware to drive NAND memories mounted 
   *          as external device.
@@ -55,7 +55,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -85,13 +85,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
 
+#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
+
 /** @addtogroup STM32F3xx_HAL_Driver
   * @{
   */
 
 #ifdef HAL_NAND_MODULE_ENABLED
 
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
 /** @defgroup NAND NAND
   * @brief NAND HAL module driver
   * @{
@@ -221,6 +222,9 @@ HAL_StatusTypeDef HAL_NAND_DeInit(NAND_HandleTypeDef *hnand)
   */
 __weak void HAL_NAND_MspInit(NAND_HandleTypeDef *hnand)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnand);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NAND_MspInit could be implemented in the user file
    */ 
@@ -234,6 +238,9 @@ __weak void HAL_NAND_MspInit(NAND_HandleTypeDef *hnand)
   */
 __weak void HAL_NAND_MspDeInit(NAND_HandleTypeDef *hnand)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnand);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NAND_MspDeInit could be implemented in the user file
    */ 
@@ -297,6 +304,9 @@ void HAL_NAND_IRQHandler(NAND_HandleTypeDef *hnand)
   */
 __weak void HAL_NAND_ITCallback(NAND_HandleTypeDef *hnand)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnand);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NAND_ITCallback could be implemented in the user file
    */
@@ -1161,11 +1171,11 @@ static uint32_t NAND_AddressIncrement(NAND_HandleTypeDef *hnand, NAND_AddressTyp
   * @}
   */
 
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 #endif /* HAL_NAND_MODULE_ENABLED  */
 
 /**
   * @}
   */
+#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

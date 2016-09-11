@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_pcd.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   Header file of PCD HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -770,7 +770,7 @@ PCD_StateTypeDef HAL_PCD_GetState(PCD_HandleTypeDef *hpcd);
     {PCD_SET_EP_RX_CNT((USBx), (bEpNum),(wCount));}\
     else if((bDir) == PCD_EP_DBUF_IN)\
       /* IN endpoint */\
-      *PCD_EP_TX_CNT((USBx), (bEpNum)) = (uint32_t)(wCount); \
+      *PCD_EP_RX_CNT((USBx), (bEpNum)) = (uint32_t)(wCount); \
   } /* SetEPDblBuf1Count */
 
 #define PCD_SET_EP_DBUF_CNT(USBx, bEpNum, bDir, wCount) {\
@@ -786,7 +786,10 @@ PCD_StateTypeDef HAL_PCD_GetState(PCD_HandleTypeDef *hpcd);
   */
 #define PCD_GET_EP_DBUF0_CNT(USBx, bEpNum) (PCD_GET_EP_TX_CNT((USBx), (bEpNum)))
 #define PCD_GET_EP_DBUF1_CNT(USBx, bEpNum) (PCD_GET_EP_RX_CNT((USBx), (bEpNum)))
-
+/**
+  * @}
+  */
+  
 /** @defgroup PCD_Instance_definition PCD Instance definition
   * @{
   */

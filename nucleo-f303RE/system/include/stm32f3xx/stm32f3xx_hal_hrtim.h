@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_hrtim.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   Header file of HRTIM HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -856,9 +856,9 @@ typedef struct {
   * @brief Constants defining the behavior of the output signal when the timer
            operates in basic output compare mode
   */              
-#define HRTIM_BASICOCMODE_TOGGLE    ((uint32_t)0x00000001)  /*!< Output toggles when the timer counter reaches the compare value */
-#define HRTIM_BASICOCMODE_INACTIVE  ((uint32_t)0x00000002)  /*!< Output forced to active level when the timer counter reaches the compare value */
-#define HRTIM_BASICOCMODE_ACTIVE    ((uint32_t)0x00000003)  /*!< Output forced to inactive level when the timer counter reaches the compare value */
+#define HRTIM_BASICOCMODE_TOGGLE    (0x00000001U)  /*!< Output toggles when the timer counter reaches the compare value */
+#define HRTIM_BASICOCMODE_INACTIVE  (0x00000002U)  /*!< Output forced to active level when the timer counter reaches the compare value */
+#define HRTIM_BASICOCMODE_ACTIVE    (0x00000003U)  /*!< Output forced to inactive level when the timer counter reaches the compare value */
 
 #define IS_HRTIM_BASICOCMODE(BASICOCMODE)\
               (((BASICOCMODE) == HRTIM_BASICOCMODE_TOGGLE)   || \
@@ -872,7 +872,7 @@ typedef struct {
   * @{
   * @brief Constants defining the polarity of a timer output
   */              
-#define HRTIM_OUTPUTPOLARITY_HIGH    ((uint32_t)0x00000000)  /*!< Output is acitve HIGH */
+#define HRTIM_OUTPUTPOLARITY_HIGH    (0x00000000U)  /*!< Output is acitve HIGH */
 #define HRTIM_OUTPUTPOLARITY_LOW     (HRTIM_OUTR_POL1)       /*!< Output is active LOW */
 /**
   * @}
@@ -1650,8 +1650,8 @@ typedef struct {
   * @{
   * @brief Constants defining the DLL calibration periods (in micro seconds)
   */
-#define HRTIM_SINGLE_CALIBRATION    (uint32_t)0xFFFFFFFF                           /*!< Non periodic DLL calibration */
-#define HRTIM_CALIBRATIONRATE_7300  (uint32_t)0x00000000                           /*!< Periodic DLL calibration: T = 1048576 * tHRTIM (7.3 ms) */
+#define HRTIM_SINGLE_CALIBRATION    0xFFFFFFFFU                           /*!< Non periodic DLL calibration */
+#define HRTIM_CALIBRATIONRATE_7300  0x00000000U                           /*!< Periodic DLL calibration: T = 1048576 * tHRTIM (7.3 ms) */
 #define HRTIM_CALIBRATIONRATE_910   (HRTIM_DLLCR_CALRTE_0)                         /*!< Periodic DLL calibration: T = 131072 * tHRTIM (910 ms) */
 #define HRTIM_CALIBRATIONRATE_114   (HRTIM_DLLCR_CALRTE_1)                         /*!< Periodic DLL calibration: T = 16384 * tHRTIM (114 ms) */
 #define HRTIM_CALIBRATIONRATE_14    (HRTIM_DLLCR_CALRTE_1 | HRTIM_DLLCR_CALRTE_0)  /*!< Periodic DLL calibration: T = 2048 * tHRTIM (14 ms) */
@@ -1746,8 +1746,8 @@ typedef struct {
   * @{
   * @brief Constants defining the level of a timer output
   */ 
-#define HRTIM_OUTPUTLEVEL_ACTIVE     (uint32_t)0x00000001 /*!< Forces the output to its active state */
-#define HRTIM_OUTPUTLEVEL_INACTIVE   (uint32_t)0x00000002 /*!< Forces the output to its inactive state */
+#define HRTIM_OUTPUTLEVEL_ACTIVE     (0x00000001U) /*!< Forces the output to its active state */
+#define HRTIM_OUTPUTLEVEL_INACTIVE   (0x00000002U) /*!< Forces the output to its inactive state */
       
 #define IS_HRTIM_OUTPUTLEVEL(OUTPUTLEVEL)\
     (((OUTPUTLEVEL) == HRTIM_OUTPUTLEVEL_ACTIVE)  || \
@@ -1760,11 +1760,11 @@ typedef struct {
   * @{
   * @brief Constants defining the state of a timer output
   */ 
-#define HRTIM_OUTPUTSTATE_IDLE     (uint32_t)0x00000001  /*!< Main operating mode, where the output can take the active or 
+#define HRTIM_OUTPUTSTATE_IDLE     (0x00000001U)  /*!< Main operating mode, where the output can take the active or 
                                                               inactive level as programmed in the crossbar unit */
-#define HRTIM_OUTPUTSTATE_RUN      (uint32_t)0x00000002  /*!< Default operating state (e.g. after an HRTIM reset, when the 
+#define HRTIM_OUTPUTSTATE_RUN      (0x00000002U)  /*!< Default operating state (e.g. after an HRTIM reset, when the 
                                                               outputs are disabled by software or during a burst mode operation */
-#define HRTIM_OUTPUTSTATE_FAULT    (uint32_t)0x00000003  /*!< Safety state, entered in case of a shut-down request on
+#define HRTIM_OUTPUTSTATE_FAULT    (0x00000003U)  /*!< Safety state, entered in case of a shut-down request on
                                                               FAULTx inputs */
 /**
   * @}
@@ -1967,7 +1967,7 @@ typedef struct {
       ((TIMERINDEX) == HRTIM_TIMERINDEX_TIMER_D)  || \
       ((TIMERINDEX) == HRTIM_TIMERINDEX_TIMER_E))
 
-#define IS_HRTIM_TIMERID(TIMERID) (((TIMERID) & 0xFFC0FFFF) == 0x00000000)
+#define IS_HRTIM_TIMERID(TIMERID) (((TIMERID) & 0xFFC0FFFFU) == 0x00000000)
 
 #define IS_HRTIM_COMPAREUNIT(COMPAREUNIT)\
     (((COMPAREUNIT) == HRTIM_COMPAREUNIT_1)  || \
@@ -1979,7 +1979,7 @@ typedef struct {
     (((CAPTUREUNIT) == HRTIM_CAPTUREUNIT_1)   || \
      ((CAPTUREUNIT) == HRTIM_CAPTUREUNIT_2))
       
-#define IS_HRTIM_OUTPUT(OUTPUT) (((OUTPUT) & 0xFFFFFC00) == 0x00000000)
+#define IS_HRTIM_OUTPUT(OUTPUT) (((OUTPUT) & 0xFFFFFC00U) == 0x00000000)
 
 #define IS_HRTIM_TIMER_OUTPUT(TIMER, OUTPUT)\
     ((((TIMER) == HRTIM_TIMERINDEX_TIMER_A) &&   \
@@ -2091,7 +2091,7 @@ typedef struct {
                   (((TIMPUSHPULLMODE) == HRTIM_TIMPUSHPULLMODE_DISABLED) || \
                    ((TIMPUSHPULLMODE) == HRTIM_TIMPUSHPULLMODE_ENABLED))
 
-#define IS_HRTIM_TIMFAULTENABLE(TIMFAULTENABLE) (((TIMFAULTENABLE) & 0xFFFFFFE0) == 0x00000000)
+#define IS_HRTIM_TIMFAULTENABLE(TIMFAULTENABLE) (((TIMFAULTENABLE) & 0xFFFFFFE0U) == 0x00000000)
 
 
 #define IS_HRTIM_TIMFAULTLOCK(TIMFAULTLOCK)\
@@ -2116,12 +2116,12 @@ typedef struct {
             ((TIMDELAYEDPROTECTION) == HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_DELAYEDBOTH_EEV7))    \
             ||                                                                           \
             (((TIMPUSHPULLMODE) ==  HRTIM_TIMPUSHPULLMODE_ENABLED) &&                    \
-            ((TIMDELAYEDPROTECTION) == HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_BALANCED_EEV6)     || \
-            ((TIMDELAYEDPROTECTION) == HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_BALANCED_EEV7)))
+             (((TIMDELAYEDPROTECTION) == HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_BALANCED_EEV6)     || \
+             ((TIMDELAYEDPROTECTION) == HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_BALANCED_EEV7))))
 
-#define IS_HRTIM_TIMUPDATETRIGGER(TIMUPDATETRIGGER) (((TIMUPDATETRIGGER) & 0xFE07FFFF) == 0x00000000)
+#define IS_HRTIM_TIMUPDATETRIGGER(TIMUPDATETRIGGER) (((TIMUPDATETRIGGER) & 0xFE07FFFFU) == 0x00000000)
 
-#define IS_HRTIM_TIMRESETTRIGGER(TIMRESETTRIGGER) (((TIMRESETTRIGGER) & 0x800000001) == 0x00000000)
+#define IS_HRTIM_TIMRESETTRIGGER(TIMRESETTRIGGER) (((TIMRESETTRIGGER) & 0x800000001U) == 0x00000000)
 
 
 #define IS_HRTIM_TIMUPDATEONRESET(TIMUPDATEONRESET)                       \
@@ -2659,38 +2659,38 @@ typedef struct {
      ((CALIBRATIONRATE) == HRTIM_CALIBRATIONRATE_14))
      
 #define IS_HRTIM_TIMER_BURSTDMA(TIMER, BURSTDMA)                                       \
-   ((((TIMER) == HRTIM_TIMERINDEX_MASTER) && (((BURSTDMA) & 0xFFFFFC000) == 0x00000000)) \
+   ((((TIMER) == HRTIM_TIMERINDEX_MASTER) && (((BURSTDMA) & 0xFFFFFC000U) == 0x00000000)) \
     ||                                                                                 \
-    (((TIMER) == HRTIM_TIMERINDEX_TIMER_A) && (((BURSTDMA) & 0xFFE00000) == 0x00000000)) \
+    (((TIMER) == HRTIM_TIMERINDEX_TIMER_A) && (((BURSTDMA) & 0xFFE00000U) == 0x00000000)) \
     ||                                                                                 \
-    (((TIMER) == HRTIM_TIMERINDEX_TIMER_B) && (((BURSTDMA) & 0xFFE00000) == 0x00000000)) \
+    (((TIMER) == HRTIM_TIMERINDEX_TIMER_B) && (((BURSTDMA) & 0xFFE00000U) == 0x00000000)) \
     ||                                                                                 \
-    (((TIMER) == HRTIM_TIMERINDEX_TIMER_C) && (((BURSTDMA) & 0xFFE00000) == 0x00000000)) \
+    (((TIMER) == HRTIM_TIMERINDEX_TIMER_C) && (((BURSTDMA) & 0xFFE00000U) == 0x00000000)) \
     ||                                                                                 \
-    (((TIMER) == HRTIM_TIMERINDEX_TIMER_D) && (((BURSTDMA) & 0xFFE00000) == 0x00000000)) \
+    (((TIMER) == HRTIM_TIMERINDEX_TIMER_D) && (((BURSTDMA) & 0xFFE00000U) == 0x00000000)) \
     ||                                                                                 \
-    (((TIMER) == HRTIM_TIMERINDEX_TIMER_E) && (((BURSTDMA) & 0xFFE00000) == 0x00000000)))   
+    (((TIMER) == HRTIM_TIMERINDEX_TIMER_E) && (((BURSTDMA) & 0xFFE00000U) == 0x00000000)))   
 	
 #define IS_HRTIM_BURSTMODECTL(BURSTMODECTL)\
     (((BURSTMODECTL) == HRTIM_BURSTMODECTL_DISABLED)  || \
      ((BURSTMODECTL) == HRTIM_BURSTMODECTL_ENABLED))
 	 
-#define IS_HRTIM_TIMERUPDATE(TIMERUPDATE) (((TIMERUPDATE) & 0xFFFFFFC0) == 0x00000000)
+#define IS_HRTIM_TIMERUPDATE(TIMERUPDATE) (((TIMERUPDATE) & 0xFFFFFFC0U) == 0x00000000)
 
-#define IS_HRTIM_TIMERRESET(TIMERRESET) (((TIMERRESET) & 0xFFFFC0FF) == 0x00000000)
+#define IS_HRTIM_TIMERRESET(TIMERRESET) (((TIMERRESET) & 0xFFFFC0FFU) == 0x00000000)
 
-#define IS_HRTIM_IT(IT) (((IT) & 0xFFFCFFC0) == 0x00000000)
+#define IS_HRTIM_IT(IT) (((IT) & 0xFFFCFFC0U) == 0x00000000)
       
 
-#define IS_HRTIM_MASTER_IT(MASTER_IT) (((MASTER_IT) & 0xFFFFFF80) == 0x00000000)
+#define IS_HRTIM_MASTER_IT(MASTER_IT) (((MASTER_IT) & 0xFFFFFF80U) == 0x00000000)
 
 
-#define IS_HRTIM_TIM_IT(IS_HRTIM_TIM_IT) (((IS_HRTIM_TIM_IT) & 0xFFFF8020) == 0x00000000)
+#define IS_HRTIM_TIM_IT(IS_HRTIM_TIM_IT) (((IS_HRTIM_TIM_IT) & 0xFFFF8020U) == 0x00000000)
       
 
-#define IS_HRTIM_MASTER_DMA(MASTER_DMA) (((MASTER_DMA) & 0xFF80FFFF) == 0x00000000)
+#define IS_HRTIM_MASTER_DMA(MASTER_DMA) (((MASTER_DMA) & 0xFF80FFFFU) == 0x00000000)
 
-#define IS_HRTIM_TIM_DMA(TIM_DMA) (((TIM_DMA) & 0x8020FFFF) == 0x00000000)  
+#define IS_HRTIM_TIM_DMA(TIM_DMA) (((TIM_DMA) & 0x8020FFFFU) == 0x00000000)  
 /**
   * @}
   */ 

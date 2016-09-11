@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_usart.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   Header file of USART HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -184,9 +184,10 @@ typedef struct
 /** @defgroup USART_Stop_Bits  USART Number of Stop Bits
   * @{
   */
-#define USART_STOPBITS_1                     ((uint32_t)0x0000)
-#define USART_STOPBITS_2                     ((uint32_t)USART_CR2_STOP_1)
-#define USART_STOPBITS_1_5                   ((uint32_t)(USART_CR2_STOP_0 | USART_CR2_STOP_1))
+#define USART_STOPBITS_0_5                 ((uint32_t)USART_CR2_STOP_0)                      /*!< USART frame with 0.5 stop bit  */
+#define USART_STOPBITS_1                   ((uint32_t)0x00000000)                            /*!< USART frame with 1 stop bit    */   
+#define USART_STOPBITS_1_5                 ((uint32_t)(USART_CR2_STOP_0 | USART_CR2_STOP_1)) /*!< USART frame with 1.5 stop bits */ 
+#define USART_STOPBITS_2                   ((uint32_t)USART_CR2_STOP_1)                      /*!< USART frame with 2 stop bits   */ 
 /**
   * @}
   */ 
@@ -547,15 +548,16 @@ typedef struct
   *         The maximum Baud Rate is derived from the maximum clock on F3 (i.e. 72 MHz)
   *         divided by the smallest oversampling used on the USART (i.e. 8)
   * @retval Test result (TRUE or FALSE).
-  */ 
+  */
 #define IS_USART_BAUDRATE(__BAUDRATE__) ((__BAUDRATE__) < 9000001)
 
 /**
   * @brief Ensure that USART frame number of stop bits is valid.
-  * @param __STOPBITS__: USART frame number of stop bits. 
+  * @param __STOPBITS__: USART frame number of stop bits.
   * @retval SET (__STOPBITS__ is valid) or RESET (__STOPBITS__ is invalid)
   */
-#define IS_USART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == USART_STOPBITS_1) || \
+#define IS_USART_STOPBITS(__STOPBITS__) (((__STOPBITS__) == USART_STOPBITS_0_5) || \
+                                         ((__STOPBITS__) == USART_STOPBITS_1)   || \
                                          ((__STOPBITS__) == USART_STOPBITS_1_5) || \
                                          ((__STOPBITS__) == USART_STOPBITS_2))
 
@@ -573,7 +575,7 @@ typedef struct
   * @param __MODE__: USART communication mode. 
   * @retval SET (__MODE__ is valid) or RESET (__MODE__ is invalid)
   */ 
-#define IS_USART_MODE(__MODE__) ((((__MODE__) & (uint32_t)0xFFFFFFF3) == 0x00) && ((__MODE__) != (uint32_t)0x00))
+#define IS_USART_MODE(__MODE__) ((((__MODE__) & (uint32_t)0xFFFFFFF3U) == 0x00) && ((__MODE__) != (uint32_t)0x00))
 
 /**
   * @brief Ensure that USART clock state is valid.

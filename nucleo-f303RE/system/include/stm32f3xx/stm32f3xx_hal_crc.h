@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_crc.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   Header file of CRC HAL module.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -158,7 +158,7 @@ typedef struct
 /** @defgroup CRC_Default_InitValue    Default CRC computation initialization value
   * @{
   */
-#define DEFAULT_CRC_INITVALUE   0xFFFFFFFF   /*!< Initial CRC default value */
+#define DEFAULT_CRC_INITVALUE   0xFFFFFFFFU   /*!< Initial CRC default value */
 
 /**
   * @}

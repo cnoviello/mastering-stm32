@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_adc_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -26,7 +26,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -3873,7 +3873,7 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedPollForConversion(ADC_HandleTypeDef* hadc, u
 {
   uint32_t tickstart;
   uint32_t tmp_Flag_EOC;
-  uint32_t tmp_cfgr     = 0x0;
+  uint32_t tmp_cfgr = 0x00000000;
   
   /* Check the parameters */
   assert_param(IS_ADC_ALL_INSTANCE(hadc->Instance));
@@ -3930,7 +3930,7 @@ HAL_StatusTypeDef HAL_ADCEx_InjectedPollForConversion(ADC_HandleTypeDef* hadc, u
   /* by external trigger or by automatic injected conversion                  */
   /* from group regular.                                                      */
   if(ADC_IS_SOFTWARE_START_INJECTED(hadc)                   ||
-     ((READ_BIT (tmp_cfgr, (ADC_CFGR_JAUTO) == RESET))  &&
+     ((READ_BIT (tmp_cfgr, ADC_CFGR_JAUTO) == RESET)    &&
       (ADC_IS_SOFTWARE_START_REGULAR(hadc)          &&
       (READ_BIT (tmp_cfgr, ADC_CFGR_CONT) == RESET)   )   )   )
   {
@@ -5314,6 +5314,9 @@ HAL_StatusTypeDef HAL_ADCEx_RegularMultiModeStop_DMA(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_ADCEx_InjectedConvCpltCallback could be implemented in the user file
   */
@@ -5334,6 +5337,9 @@ __weak void HAL_ADCEx_InjectedConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_InjectedQueueOverflowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADCEx_InjectedQueueOverflowCallback must be implemented 
             in the user file.
@@ -5347,6 +5353,9 @@ __weak void HAL_ADCEx_InjectedQueueOverflowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOoutOfWindow2Callback must be implemented in the user file.
   */
@@ -5359,6 +5368,9 @@ __weak void HAL_ADCEx_LevelOutOfWindow2Callback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADCEx_LevelOutOfWindow3Callback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOoutOfWindow3Callback must be implemented in the user file.
   */
@@ -6732,7 +6744,7 @@ HAL_StatusTypeDef HAL_ADC_AnalogWDGConfig(ADC_HandleTypeDef* hadc, ADC_AnalogWDG
       {
         /* Set the Analog watchdog channel or group of channels. This also    */
         /* enables the watchdog.                                              */
-        /* Note: Conditionnal register reset, because several channels can be */
+        /* Note: Conditional register reset, because several channels can be  */
         /*       set by successive calls of this function.                    */
         if (AnalogWDGConfig->WatchdogMode != ADC_ANALOGWATCHDOG_NONE) 
         {
@@ -6929,8 +6941,11 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeConfigChannel(ADC_HandleTypeDef* hadc, ADC_
   /* Check the parameters */
   assert_param(IS_ADC_MULTIMODE_MASTER_INSTANCE(hadc->Instance));
   assert_param(IS_ADC_MODE(multimode->Mode));
-  assert_param(IS_ADC_DMA_ACCESS_MODE(multimode->DMAAccessMode));
-  assert_param(IS_ADC_SAMPLING_DELAY(multimode->TwoSamplingDelay));
+  if(multimode->Mode != ADC_MODE_INDEPENDENT)
+  {
+    assert_param(IS_ADC_DMA_ACCESS_MODE(multimode->DMAAccessMode));
+    assert_param(IS_ADC_SAMPLING_DELAY(multimode->TwoSamplingDelay));
+  }
   
   /* Process locked */
   __HAL_LOCK(hadc);
@@ -6952,31 +6967,22 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeConfigChannel(ADC_HandleTypeDef* hadc, ADC_
     /* control registers)                                                     */
     tmpADC_Common = ADC_COMMON_REGISTER(hadc);
     
-    /* Configuration of ADC common group ADC1&ADC2, ADC3&ADC4 if available    */
-    /* (ADC2, ADC3, ADC4 availability depends on STM32 product)               */
-    /*  - DMA access mode                                                     */
-    MODIFY_REG(tmpADC_Common->CCR                                          ,
-               ADC_CCR_MDMA  |
-               ADC_CCR_DMACFG                                              ,
-               multimode->DMAAccessMode                                   |
-               ADC_CCR_MULTI_DMACONTREQ(hadc->Init.DMAContinuousRequests)   );
-    
-    /* Parameters that can be updated only when ADC is disabled:              */
-    /*  - Multimode mode selection                                            */
-    /*  - Multimode delay                                                     */
-    /* Note: If ADC is not in the appropriate state to modify these           */
-    /*       parameters, their setting is bypassed without error reporting    */
-    /*       (as it can be the expected behaviour in case of intended action  */
-    /*       to update parameter above (which fulfills the ADC state          */
-    /*       condition: no conversion on going on group regular)              */
-    /*       on the fly).                                                     */
-    if ((ADC_IS_ENABLE(hadc) == RESET)                              &&
-        (ADC_IS_ENABLE(&tmphadcSharingSameCommonRegister) == RESET)   )
+    /* If multimode is selected, configure all multimode paramaters.          */
+    /* Otherwise, reset multimode parameters (can be used in case of          */
+    /* transition from multimode to independent mode).                        */
+    if(multimode->Mode != ADC_MODE_INDEPENDENT)
     {
       /* Configuration of ADC common group ADC1&ADC2, ADC3&ADC4 if available    */
       /* (ADC2, ADC3, ADC4 availability depends on STM32 product)               */
-      /*  - set the selected multimode                                          */
       /*  - DMA access mode                                                     */
+      MODIFY_REG(tmpADC_Common->CCR                                          ,
+                 ADC_CCR_MDMA  |
+                 ADC_CCR_DMACFG                                              ,
+                 multimode->DMAAccessMode                                   |
+                 ADC_CCR_MULTI_DMACONTREQ(hadc->Init.DMAContinuousRequests)   );
+      
+      /* Parameters that can be updated only when ADC is disabled:              */
+      /*  - Multimode mode selection                                            */
       /*  - Set delay between two sampling phases                               */
       /*    Note: Delay range depends on selected resolution:                   */
       /*      from 1 to 12 clock cycles for 12 bits                             */
@@ -6985,11 +6991,34 @@ HAL_StatusTypeDef HAL_ADCEx_MultiModeConfigChannel(ADC_HandleTypeDef* hadc, ADC_
       /*      from 1 to 6 clock cycles for 6 bits                               */
       /*    If a higher delay is selected, it will be clamped to maximum delay  */
       /*    range                                                               */
-      MODIFY_REG(tmpADC_Common->CCR                                          ,
-                 ADC_CCR_MULTI |
-                 ADC_CCR_DELAY                                               ,
-                 multimode->Mode                                            |
-                 multimode->TwoSamplingDelay                                  );
+      /* Note: If ADC is not in the appropriate state to modify these           */
+      /*       parameters, their setting is bypassed without error reporting    */
+      /*       (as it can be the expected behaviour in case of intended action  */
+      /*       to update parameter above (which fulfills the ADC state          */
+      /*       condition: no conversion on going on group regular)              */
+      /*       on the fly).                                                     */
+      if ((ADC_IS_ENABLE(hadc) == RESET)                              &&
+          (ADC_IS_ENABLE(&tmphadcSharingSameCommonRegister) == RESET)   )
+      {
+        MODIFY_REG(tmpADC_Common->CCR                                          ,
+                   ADC_CCR_MULTI |
+                   ADC_CCR_DELAY                                               ,
+                   multimode->Mode                                            |
+                   multimode->TwoSamplingDelay                                  );
+      }
+    }
+    else /* ADC_MODE_INDEPENDENT */
+    {
+      CLEAR_BIT(tmpADC_Common->CCR, ADC_CCR_MDMA | ADC_CCR_DMACFG);
+      
+      /* Parameters that can be updated only when ADC is disabled:                */
+      /*  - Multimode mode selection                                              */
+      /*  - Multimode delay                                                       */
+      if ((ADC_IS_ENABLE(hadc) == RESET)                              &&
+          (ADC_IS_ENABLE(&tmphadcSharingSameCommonRegister) == RESET)   )
+      {
+        CLEAR_BIT(tmpADC_Common->CCR, ADC_CCR_MULTI | ADC_CCR_DELAY);
+      }
     }
   }
   /* If one of the ADC sharing the same common group is enabled, no update    */
