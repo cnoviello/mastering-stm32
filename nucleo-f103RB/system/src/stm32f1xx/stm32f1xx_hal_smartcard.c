@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_smartcard.c
   * @author  MCD Application Team
-  * @version V1.0.3
-  * @date    11-January-2016
+  * @version V1.0.4
+  * @date    29-April-2016
   * @brief   SMARTCARD HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the SMARTCARD peripheral:
@@ -194,11 +194,6 @@ static HAL_StatusTypeDef SMARTCARD_WaitOnFlagUntilTimeout(SMARTCARD_HandleTypeDe
       (++) Word Length => Should be 9 bits (8 bits + parity)
       (++) Stop Bit
       (++) Parity: => Should be enabled 
-   +-------------------------------------------------------------+
-   |   M bit |  PCE bit  |        SMARTCARD frame                |
-   |---------------------|---------------------------------------|
-   |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-   +-------------------------------------------------------------+
       (++) USART polarity
       (++) USART phase
       (++) USART LastBit
@@ -227,6 +222,15 @@ static HAL_StatusTypeDef SMARTCARD_WaitOnFlagUntilTimeout(SMARTCARD_HandleTypeDe
 @endverbatim
   * @{
   */
+
+/*
+  Additionnal remark on the smartcard frame:
+   +-------------------------------------------------------------+
+   |   M bit |  PCE bit  |        SMARTCARD frame                |
+   |---------------------|---------------------------------------|
+   |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+   +-------------------------------------------------------------+
+*/
 
 /**
   * @brief  Initializes the SmartCard mode according to the specified

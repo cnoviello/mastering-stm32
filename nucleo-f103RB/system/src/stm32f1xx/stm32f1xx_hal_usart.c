@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_usart.c
   * @author  MCD Application Team
-  * @version V1.0.3
-  * @date    11-January-2016
+  * @version V1.0.4
+  * @date    29-April-2016
   * @brief   USART HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the Universal Synchronous Asynchronous Receiver Transmitter (USART) peripheral:
@@ -200,21 +200,7 @@ static HAL_StatusTypeDef USART_WaitOnFlagUntilTimeout(USART_HandleTypeDef *husar
       (++) Baud Rate
       (++) Word Length 
       (++) Stop Bit
-      (++) Parity: If the parity is enabled, then the MSB bit of the data written
-           in the data register is transmitted but is changed by the parity bit.
-           Depending on the frame length defined by the M bit (8-bits or 9-bits),
-           the possible USART frame formats are as listed in the following table:
-      (+++)    +-------------------------------------------------------------+
-      (+++)    |   M bit |  PCE bit  |            USART frame                |
-      (+++)    |---------------------|---------------------------------------|
-      (+++)    |    0    |    0      |    | SB | 8 bit data | STB |          |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    1    |    0      |    | SB | 9 bit data | STB |          |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-      (+++)    +-------------------------------------------------------------+
+      (++) Parity
       (++) USART polarity
       (++) USART phase
       (++) USART LastBit
@@ -228,6 +214,24 @@ static HAL_StatusTypeDef USART_WaitOnFlagUntilTimeout(USART_HandleTypeDef *husar
 @endverbatim
   * @{
   */
+  
+/*
+  Additionnal remark: If the parity is enabled, then the MSB bit of the data written
+                      in the data register is transmitted but is changed by the parity bit.
+                      Depending on the frame length defined by the M bit (8-bits or 9-bits),
+                      the possible USART frame formats are as listed in the following table:
+    +-------------------------------------------------------------+
+    |   M bit |  PCE bit  |            USART frame                |
+    |---------------------|---------------------------------------|
+    |    0    |    0      |    | SB | 8 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|-----------|---------------------------------------|
+    |    1    |    0      |    | SB | 9 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    +-------------------------------------------------------------+
+*/
 
 /**
   * @brief  Initializes the USART mode according to the specified

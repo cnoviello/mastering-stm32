@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_irda.c
   * @author  MCD Application Team
-  * @version V1.0.3
-  * @date    11-January-2016
+  * @version V1.0.4
+  * @date    29-April-2016
   * @brief   IRDA HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the IrDA SIR ENDEC block (IrDA):
@@ -199,21 +199,7 @@ static HAL_StatusTypeDef IRDA_WaitOnFlagUntilTimeout(IRDA_HandleTypeDef *hirda, 
   (+) For the asynchronous mode only these parameters can be configured: 
       (++) Baud Rate
       (++) Word Length 
-      (++) Parity: If the parity is enabled, then the MSB bit of the data written
-           in the data register is transmitted but is changed by the parity bit.
-           Depending on the frame length defined by the M bit (8-bits or 9-bits),
-           the possible IRDA frame formats are as listed in the following table:
-      (+++)    +-------------------------------------------------------------+
-      (+++)    |   M bit |  PCE bit  |            IRDA frame                 |
-      (+++)    |---------------------|---------------------------------------|
-      (+++)    |    0    |    0      |    | SB | 8 bit data | STB |          |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    1    |    0      |    | SB | 9 bit data | STB |          |
-      (+++)    |---------|-----------|---------------------------------------|
-      (+++)    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
-      (+++)    +-------------------------------------------------------------+
+      (++) Parity
       (++) Prescaler: A pulse of width less than two and greater than one PSC period(s) may or may
            not be rejected. The receiver set up time should be managed by software. The IrDA physical layer
            specification specifies a minimum of 10 ms delay between transmission and 
@@ -228,6 +214,25 @@ static HAL_StatusTypeDef IRDA_WaitOnFlagUntilTimeout(IRDA_HandleTypeDef *hirda, 
 @endverbatim
   * @{
   */
+
+
+/*
+  Additionnal remark: If the parity is enabled, then the MSB bit of the data written
+                      in the data register is transmitted but is changed by the parity bit.
+                      Depending on the frame length defined by the M bit (8-bits or 9-bits),
+                      the possible IRDA frame formats are as listed in the following table:
+    +-------------------------------------------------------------+
+    |   M bit |  PCE bit  |            IRDA frame                 |
+    |---------------------|---------------------------------------|
+    |    0    |    0      |    | SB | 8 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    0    |    1      |    | SB | 7 bit data | PB | STB |     |
+    |---------|-----------|---------------------------------------|
+    |    1    |    0      |    | SB | 9 bit data | STB |          |
+    |---------|-----------|---------------------------------------|
+    |    1    |    1      |    | SB | 8 bit data | PB | STB |     |
+    +-------------------------------------------------------------+
+*/
 
 /**
   * @brief  Initializes the IRDA mode according to the specified
@@ -641,9 +646,6 @@ HAL_StatusTypeDef HAL_IRDA_Transmit_IT(IRDA_HandleTypeDef *hirda, uint8_t *pData
 
     /* Process Unlocked */
     __HAL_UNLOCK(hirda);
-
-    /* Enable the IRDA Error Interrupt: (Frame error, noise error, overrun error) */
-    __HAL_IRDA_ENABLE_IT(hirda, IRDA_IT_ERR);
 
     /* Enable the IRDA Transmit Data Register Empty Interrupt */
     __HAL_IRDA_ENABLE_IT(hirda, IRDA_IT_TXE);
@@ -1475,7 +1477,6 @@ static HAL_StatusTypeDef IRDA_Receive_IT(IRDA_HandleTypeDef *hirda)
 
     if(--hirda->RxXferCount == 0)
     {
-
       __HAL_IRDA_DISABLE_IT(hirda, IRDA_IT_RXNE);
       
       if(hirda->State == HAL_IRDA_STATE_BUSY_TX_RX) 
@@ -1484,11 +1485,12 @@ static HAL_StatusTypeDef IRDA_Receive_IT(IRDA_HandleTypeDef *hirda)
       }
       else
       {
+        /* Disable the IRDA Error Interrupt: (Frame error, noise error, overrun error) */
+        __HAL_IRDA_DISABLE_IT(hirda, IRDA_IT_ERR);
+
         /* Disable the IRDA Parity Error Interrupt */
         __HAL_IRDA_DISABLE_IT(hirda, IRDA_IT_PE);
 
-        /* Disable the IRDA Error Interrupt: (Frame error, noise error, overrun error) */
-        __HAL_IRDA_DISABLE_IT(hirda, IRDA_IT_ERR);
 
         hirda->State = HAL_IRDA_STATE_READY;
       }
