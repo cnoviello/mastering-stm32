@@ -1,4 +1,4 @@
-#include "stm32f1xx_hal.h"
+#include "stm32l0xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
 #include <stdlib.h>
@@ -37,31 +37,30 @@ int main(void) {
 static void MX_I2C1_Init(void) {
   GPIO_InitTypeDef GPIO_InitStruct;
 
+  /* Peripheral clock enable */
+  __HAL_RCC_I2C1_CLK_ENABLE();
+
   hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 400000;
-  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.Timing = 0x00707CBB;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
   hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
   hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.OwnAddress2Masks = I2C_OA2_NOMASK;
   hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
   hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  HAL_I2C_Init(&hi2c1);
+
+  /**Configure Analog filter
+  */
+  HAL_I2CEx_ConfigAnalogFilter(&hi2c1, I2C_ANALOGFILTER_ENABLE);
 
   GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF4_I2C1;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  __HAL_AFIO_REMAP_I2C1_ENABLE();
-  /* Peripheral clock enable */
-  __HAL_RCC_I2C1_CLK_ENABLE();
-
-  /* This is also required before configuring the I2C peripheral
-   * in STM32F1xx devices */
-  __HAL_RCC_I2C1_FORCE_RESET();
-  __HAL_RCC_I2C1_RELEASE_RESET();
-
-  HAL_I2C_Init(&hi2c1);
 }
 
 HAL_StatusTypeDef Read_From_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len) {
@@ -105,11 +104,7 @@ HAL_StatusTypeDef Write_To_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, 
 
   free(data);
 
-  /* We wait until the EEPROM effectively stores data in memory.
-   * The technique shown in the book doesn't work here, due some
-   * limitations of the I2C peripheral in STM32F1 devices. We
-   * so use the dedicated HAL routine.
-   */
+  /* We wait until the EEPROM effectively stores data in memory */
   while(HAL_I2C_IsDeviceReady(hi2c, DevAddress, 1, HAL_MAX_DELAY) != HAL_OK);
 
   return HAL_OK;
