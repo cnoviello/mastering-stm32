@@ -37,11 +37,9 @@ int main(void) {
 static void MX_I2C1_Init(void) {
   GPIO_InitTypeDef GPIO_InitStruct;
 
-  /* Peripheral clock enable */
-  __HAL_RCC_I2C1_CLK_ENABLE();
 
   hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.ClockSpeed = 400000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -56,6 +54,13 @@ static void MX_I2C1_Init(void) {
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   __HAL_AFIO_REMAP_I2C1_ENABLE();
+  /* Peripheral clock enable */
+  __HAL_RCC_I2C1_CLK_ENABLE();
+
+  /* This is also required before configuring the I2C peripheral
+   * in STM32F1xx devices */
+  __HAL_RCC_I2C1_FORCE_RESET();
+  __HAL_RCC_I2C1_RELEASE_RESET();
 
   HAL_I2C_Init(&hi2c1);
 }
@@ -101,8 +106,13 @@ HAL_StatusTypeDef Write_To_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, 
 
   free(data);
 
-  /* We wait until the EEPROM effectively stores data in memory */
-  while(HAL_I2C_Master_Transmit(hi2c, DevAddress, 0, 0, HAL_MAX_DELAY) != HAL_OK);
+  /* We wait until the EEPROM effectively stores data in memory.
+   * The technique shown in the book doesn't work here, due some
+   * limitations of the I2C peripheral in STM32F1 devices. We
+   * so do a silly busy wait. It's strongly suggested to have
+   * a look to the errata sheet for the STM32F103 family.
+   */
+  HAL_Delay(500);
 
   return HAL_OK;
 }
