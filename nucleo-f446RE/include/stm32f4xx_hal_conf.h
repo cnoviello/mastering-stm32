@@ -53,7 +53,7 @@
 
 #define HAL_ADC_MODULE_ENABLED
 //#define HAL_CAN_MODULE_ENABLED   
-//#define HAL_CRC_MODULE_ENABLED   
+#define HAL_CRC_MODULE_ENABLED
 //#define HAL_CRYP_MODULE_ENABLED   
 #define HAL_DAC_MODULE_ENABLED
 //#define HAL_DCMI_MODULE_ENABLED   
@@ -134,6 +134,11 @@
 #if !defined  (LSE_VALUE)
  #define LSE_VALUE  ((uint32_t)32768)    /*!< Value of the External Low Speed oscillator in Hz */
 #endif /* LSE_VALUE */
+
+
+#if !defined  (LSE_STARTUP_TIMEOUT)
+  #define LSE_STARTUP_TIMEOUT    ((uint32_t)5000U)   /*!< Time out for LSE start up, in ms */
+#endif /* LSE_STARTUP_TIMEOUT */
 
 /**
   * @brief External clock source for I2S peripheral

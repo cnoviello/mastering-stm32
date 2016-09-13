@@ -8,6 +8,8 @@
 #ifndef NUCLEO_HAL_BSP_H_
 #define NUCLEO_HAL_BSP_H_
 
+#include <mxconstants.h>
+
 void Nucleo_BSP_Init() ;
 
 #endif /* NUCLEO_F030_HAL_BSP_H_ */

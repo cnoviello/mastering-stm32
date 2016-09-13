@@ -1,13 +1,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_hal.h"
-#include "FreeRTOS.h"
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
+CRC_HandleTypeDef hcrc;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 void SystemClock_Decrease(void);
+void MX_CRC_Init(void);
 void MX_GPIO_Init(void);
 void MX_USART2_UART_Init(void);
 
@@ -113,7 +114,7 @@ void MX_USART2_UART_Init(void)
 {
 
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 38400;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -144,11 +145,7 @@ void MX_GPIO_Init(void)
   /*Configure GPIO pin : B1_Pin */
   GPIO_InitStruct.Pin = B1_Pin;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-#else
   GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
-#endif
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : LD2_Pin */
@@ -157,19 +154,6 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_HIGH;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : PA8 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  GPIO_InitStruct.Alternate = GPIO_AF0_MCO;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-#if defined(configUSE_TICKLESS_IDLE) && configUSE_TICKLESS_IDLE == 2
-  HAL_NVIC_SetPriority(EXTI15_10_IRQn, configLIBRARY_MAX_SYSCALL_INTERRUPT_PRIORITY, 0);
-  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
-#endif
 }
 
 void SystemClock_Config_MSI(void)
@@ -249,6 +233,22 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOF_CLK_DISABLE();
   __HAL_RCC_GPIOG_CLK_DISABLE();
   __HAL_RCC_GPIOH_CLK_DISABLE();
+}
+
+void MX_CRC_Init(void)
+{
+  __HAL_RCC_CRC_CLK_ENABLE();
+
+  hcrc.Instance = CRC;
+  hcrc.Init.DefaultPolynomialUse = DEFAULT_POLYNOMIAL_DISABLE;
+  hcrc.Init.DefaultInitValueUse = DEFAULT_INIT_VALUE_DISABLE;
+  hcrc.Init.GeneratingPolynomial = 0x4C11DB7;
+  hcrc.Init.CRCLength = CRC_POLYLENGTH_32B;
+  hcrc.Init.InitValue = 0xFFFFFFFF;
+  hcrc.Init.InputDataInversionMode = CRC_INPUTDATA_INVERSION_NONE;
+  hcrc.Init.OutputDataInversionMode = CRC_OUTPUTDATA_INVERSION_DISABLE;
+  hcrc.InputDataFormat = CRC_INPUTDATA_FORMAT_WORDS;
+  HAL_CRC_Init(&hcrc);
 }
 
 /* USER CODE BEGIN 4 */
