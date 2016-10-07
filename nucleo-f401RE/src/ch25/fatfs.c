@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * File Name          : mxconstants.h
-  * Description        : This file contains the common defines of the application
+  * @file   fatfs.c
+  * @brief  Code for fatfs applications
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2015 STMicroelectronics
+  * COPYRIGHT(c) 2016 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -30,43 +30,38 @@
   *
   ******************************************************************************
   */
-/* Includes ------------------------------------------------------------------*/
 
-/* USER CODE BEGIN Includes */
+#include "fatfs.h"
 
-/* USER CODE END Includes */
+uint8_t retUSER;    /* Return value for USER */
+char USER_Path[4];  /* USER logical drive path */
 
-/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN Variables */
 
-#define B1_Pin GPIO_PIN_13
-#define B1_GPIO_Port GPIOC
-#define USART_TX_Pin GPIO_PIN_2
-#define USART_TX_GPIO_Port GPIOA
-#define USART_RX_Pin GPIO_PIN_3
-#define USART_RX_GPIO_Port GPIOA
-#define LD2_Pin GPIO_PIN_5
-#define LD2_GPIO_Port GPIOA
-#define TMS_Pin GPIO_PIN_13
-#define TMS_GPIO_Port GPIOA
-#define TCK_Pin GPIO_PIN_14
-#define TCK_GPIO_Port GPIOA
-#define SWO_Pin GPIO_PIN_3
-#define SWO_GPIO_Port GPIOB
-#define SD_CS_Pin GPIO_PIN_5
-#define SD_CS_GPIO_Port GPIOB
-#define W5500_CS_Pin GPIO_PIN_6
-#define W5500_CS_GPIO_Port GPIOB
+/* USER CODE END Variables */    
 
-/* USER CODE BEGIN Private defines */
+void MX_FATFS_Init(void) 
+{
+  /*## FatFS: Link the USER driver ###########################*/
+  retUSER = FATFS_LinkDriver(&SD_SPI_Driver, USER_Path);
 
-/* USER CODE END Private defines */
+
+}
 
 /**
-  * @}
-  */ 
+  * @brief  Gets Time from RTC 
+  * @param  None
+  * @retval Time in DWORD
+  */
+DWORD get_fattime(void)
+{
+  /* USER CODE BEGIN get_fattime */
+  return 0;
+  /* USER CODE END get_fattime */  
+}
 
-/**
-  * @}
-*/ 
+/* USER CODE BEGIN Application */
+     
+/* USER CODE END Application */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
