@@ -450,8 +450,10 @@ static void send_http_response_body(uint8_t s, uint8_t * uri_name, uint8_t * buf
 	printf("> HTTPSocket[%d] : [Send] HTTP Response body [ %ld ]byte\r\n", s, send_len);
 #endif
 
+#if defined(_USE_SDCARD_) || defined(OS_USE_SEMIHOSTING)
 	if(blocklen)
 	  send(s, buf, blocklen);
+#endif
 
   HTTPSock_Status[get_seqnum].file_offset += send_len;
 
