@@ -1,11 +1,9 @@
 #include "ioLibrary_Driver/Ethernet/socket.h"
 #include <nucleo_hal_bsp.h>
-//#include <string.h>
-//#include <stdlib.h>
-
 #include "stm32f4xx_hal.h"
 #include "ioLibrary_Driver/Ethernet/wizchip_conf.h"
-#include "diag/Trace.h"
+#include "retarget/retarget-tcp.h"
+
 
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
@@ -59,49 +57,29 @@ void IO_LIBRARY_Init(void) {
 
   wizchip_init(bufSize, bufSize);
   wiz_NetInfo netInfo = { .mac  = {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef}, // Mac address
-                          .ip   = {192, 168, 1, 192},         // IP address
+                          .ip   = {192, 168, 2, 192},         // IP address
                           .sn   = {255, 255, 255, 0},         // Subnet mask
-                          .gw   = {192, 168, 1, 1}};          // Gateway address
+                          .gw   = {192, 168, 2, 1}};          // Gateway address
   wizchip_setnetinfo(&netInfo);
   wizchip_setinterruptmask(IK_SOCK_0);
 }
 
 int main(void) {
-  uint8_t retVal, sockStatus;
+  char buf[20];
 
   HAL_Init();
   Nucleo_BSP_Init();
-
   MX_SPI1_Init();
-  SD_SPI_Configure(SD_CS_GPIO_Port, SD_CS_Pin, &hspi1);
 
   IO_LIBRARY_Init();
-
-  if((retVal = socket(0, Sn_MR_TCP, 5000, 0)) == 0) {
-    /* Put socket in LISTEN mode. This means we are creating a TCP server */
-    if((retVal = listen(0)) == SOCK_OK) {
-      /* While socket is in LISTEN mode we wait for a remote connection */
-      while(sockStatus = getSn_SR(0) == SOCK_LISTEN)
-        HAL_Delay(100);
-      uint8_t buf;
-      setSn_IMR(0, 0x4);
-      buf = getSn_IR(0);
-      setSn_IR(0, buf);
-      buf = getSn_IR(0);
-      while(1) {
-        recv(0, &buf, 1);
-        buf = getSIR();
-        buf = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5);
-        HAL_UART_Transmit(&huart2, &buf, 1, HAL_MAX_DELAY);
-        buf = getSn_IR(0);
-        setSn_IR(0, buf);
-        buf = getSIR();
-        buf = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5);
-      }
-    }
-  }
+  RetargetInit(0);
 
   while(1) {
+    if(printf("Write your name: ")) {
+      scanf("%s", buf);
+      printf("\r\nYou wrote: %s\r\n", buf);
+    }
+    HAL_Delay(1000);
   }
 }
 
@@ -175,13 +153,6 @@ static void MX_SPI1_Init(void) {
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : SD_CS_Pin */
-  GPIO_InitStruct.Pin = SD_CS_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(SD_CS_GPIO_Port, &GPIO_InitStruct);
 
   /* Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(SD_CS_GPIO_Port, SD_CS_Pin, GPIO_PIN_SET);

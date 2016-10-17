@@ -98,18 +98,17 @@ void IO_LIBRARY_Init(void) {
 
   reg_wizchip_cs_cbfunc(cs_sel, cs_desel);
   reg_wizchip_spi_cbfunc(spi_rb, spi_wb);
-//  reg_wizchip_spiburst_cbfunc(spi_rb_burst, spi_wb_burst);
+  reg_wizchip_spiburst_cbfunc(spi_rb_burst, spi_wb_burst);
 
   wizchip_init(bufSize, bufSize);
   wiz_NetInfo netInfo = { .mac  = {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef}, // Mac address
-                          .ip   = {192, 168, 1, 192},         // IP address
+                          .ip   = {192, 168, 2, 192},         // IP address
                           .sn   = {255, 255, 255, 0},         // Subnet mask
-                          .gw   = {192, 168, 1, 1}};          // Gateway address
+                          .gw   = {192, 168, 2, 1}};          // Gateway address
   wizchip_setnetinfo(&netInfo);
 
   httpServer_init(TX_BUF, RX_BUF, MAX_HTTPSOCK, socknumlist);   // Tx/Rx buffers (1kB) / The number of W5500 chip H/W sockets in use
   reg_httpServer_cbfunc(NVIC_SystemReset, NULL);          // Callback: NXP MCU Reset
-
 }
 
 int main(void) {

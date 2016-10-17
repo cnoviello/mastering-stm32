@@ -4,7 +4,7 @@
 #include "stm32f4xx_hal.h"
 #include <sys/stat.h>
 
-void RetargetInit(int8_t sn);
+uint8_t RetargetInit(int8_t sn);
 int _isatty(int fd);
 int _write(int fd, char* ptr, int len);
 int _close(int fd);

@@ -21,7 +21,7 @@
 
 int8_t gSock = -1;
 
-void RetargetInit(int8_t sn) {
+uint8_t RetargetInit(int8_t sn) {
   gSock = sn;
 
   /* Disable I/O buffering for STDOUT stream, so that
@@ -31,8 +31,10 @@ void RetargetInit(int8_t sn) {
   /* Open 'sn' socket in TCP mode with a port number equal
    * to the value of RETARGET_PORT macro */
   if(socket(sn, Sn_MR_TCP, RETARGET_PORT, 0) == sn) {
-
+    if(listen(sn) == SOCK_OK)
+      return 1;
   }
+  return 0;
 }
 
 int _isatty(int fd) {
@@ -44,15 +46,29 @@ int _isatty(int fd) {
 }
 
 int _write(int fd, char* ptr, int len) {
-  HAL_StatusTypeDef hstatus;
+  int sentlen = 0;
+  int buflen = len;
 
-  if (fd == STDOUT_FILENO || fd == STDERR_FILENO) {
-//    hstatus = HAL_UART_Transmit(gHuart, (uint8_t *) ptr, len, HAL_MAX_DELAY);
-    if (hstatus == HAL_OK)
-      return len;
-    else
-      return EIO;
+  if(getSn_SR(gSock) == SOCK_ESTABLISHED) {
+    if (fd == STDOUT_FILENO || fd == STDERR_FILENO) {
+      while(1) {
+        sentlen = send(gSock, (void*) ptr, buflen);
+        if (sentlen == buflen)
+          return len;
+        else if (sentlen > 0 && sentlen < buflen) {
+          buflen -= sentlen;
+          ptr += (len - buflen);
+        }
+        else if (sentlen < 0)
+          return EIO;
+      }
+    }
+  } else if(getSn_SR(gSock) != SOCK_LISTEN) {
+    /* Remote peer close the connection? */
+    close(gSock);
+    RetargetInit(gSock);
   }
+
   errno = EBADF;
   return -1;
 }
@@ -75,15 +91,22 @@ int _lseek(int fd, int ptr, int dir) {
 }
 
 int _read(int fd, char* ptr, int len) {
-  HAL_StatusTypeDef hstatus;
-
-  if (fd == STDIN_FILENO) {
-//    hstatus = HAL_UART_Receive(gHuart, (uint8_t *) ptr, 1, HAL_MAX_DELAY);
-    if (hstatus == HAL_OK)
-      return 1;
-    else
-      return EIO;
+  if(getSn_SR(gSock) == SOCK_ESTABLISHED) {
+    if (fd == STDIN_FILENO) {
+      while(1) {
+        len = recv(gSock, (void*) ptr, len);
+        if (len > 0)
+          return len;
+        else
+          return EIO;
+      }
+    }
+  } else if(getSn_SR(gSock) != SOCK_LISTEN) {
+    /* Remote peer close the connection? */
+    close(gSock);
+    RetargetInit(gSock);
   }
+
   errno = EBADF;
   return -1;
 }
