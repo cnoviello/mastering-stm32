@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_hal_smartcard.h
   * @author  MCD Application Team
-  * @version V1.5.1
-  * @date    01-July-2016
+  * @version V1.5.2
+  * @date    22-September-2016
   * @brief   Header file of SMARTCARD HAL module.
   ******************************************************************************
   * @attention
@@ -179,13 +179,13 @@ typedef struct
 
   uint16_t                         TxXferSize;       /* SmartCard Tx Transfer size */
 
-  uint16_t                         TxXferCount;      /* SmartCard Tx Transfer Counter */
+  __IO uint16_t                    TxXferCount;      /* SmartCard Tx Transfer Counter */
 
   uint8_t                          *pRxBuffPtr;      /* Pointer to SmartCard Rx transfer Buffer */
 
   uint16_t                         RxXferSize;       /* SmartCard Rx Transfer size */
 
-  uint16_t                         RxXferCount;      /* SmartCard Rx Transfer Counter */
+  __IO uint16_t                    RxXferCount;      /* SmartCard Rx Transfer Counter */
 
   DMA_HandleTypeDef                *hdmatx;          /* SmartCard Tx DMA Handle parameters */
 

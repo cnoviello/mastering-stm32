@@ -73,13 +73,13 @@ static const char 	ERROR_REQUEST_PAGE[] = "HTTP/1.1 400 OK\r\nContent-Type: text
 #define RES_TEXTHEAD_OK	"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: "
 
 /* Response head for GIF */
-#define RES_GIFHEAD_OK	"HTTP/1.1 200 OK\r\nContent-Type: image/gif\r\nContent-Length: "
+#define RES_GIFHEAD_OK	"HTTP/1.1 200 OK\r\nCache-Control: no-transform,public,max-age=300,s-maxage=900\r\nContent-Type: image/gif\r\nContent-Length: "
 
 /* Response head for JPEG */
-#define RES_JPEGHEAD_OK	"HTTP/1.1 200 OK\r\nContent-Type: image/jpeg\r\nContent-Length: "
+#define RES_JPEGHEAD_OK	"HTTP/1.1 200 OK\r\nCache-Control: no-transform,public,max-age=300,s-maxage=900\r\nContent-Type: image/jpeg\r\nContent-Length: "
 
 /* Response head for PNG */
-#define RES_PNGHEAD_OK	"HTTP/1.1 200 OK\r\nContent-Type: image/png\r\nContent-Length: "
+#define RES_PNGHEAD_OK	"HTTP/1.1 200 OK\r\nCache-Control: no-transform,public,max-age=300,s-maxage=900\r\nContent-Type: image/png\r\nContent-Length: "
 
 /* Response head for FLASH */
 #define RES_FLASHHEAD_OK "HTTP/1.1 200 OK\r\nContent-Type: application/x-shockwave-flash\r\nContent-Length: "
@@ -88,10 +88,10 @@ static const char 	ERROR_REQUEST_PAGE[] = "HTTP/1.1 400 OK\r\nContent-Type: text
 #define RES_XMLHEAD_OK "HTTP/1.1 200 OK\r\nContent-Type: text/xml\r\nConnection: keep-alive\r\nContent-Length: "
 
 /* Response head for CSS */
-#define RES_CSSHEAD_OK	"HTTP/1.1 200 OK\r\nContent-Type: text/css\r\nContent-Length: "		
+#define RES_CSSHEAD_OK	"HTTP/1.1 200 OK\r\nCache-Control: no-transform,public,max-age=300,s-maxage=900\r\nContent-Type: text/css\r\nContent-Length: "
 
 /* Response head for JavaScript */
-#define RES_JSHEAD_OK	"HTTP/1.1 200 OK\r\nContent-Type: application/javascript\r\nContent-Length: "
+#define RES_JSHEAD_OK	"HTTP/1.1 200 OK\r\nCache-Control: no-transform,public,max-age=300,s-maxage=900\r\nContent-Type: application/javascript\r\nContent-Length: "
 
 /* Response head for JSON */
 #define RES_JSONHEAD_OK	"HTTP/1.1 200 OK\r\nContent-Type: application/json\r\nContent-Length: "
@@ -146,5 +146,6 @@ uint8_t * get_http_uri_name(uint8_t * uri);
 uint16_t ATOI(uint8_t * str, uint8_t base);
 void mid(char* src, char* s1, char* s2, char* sub);
 void inet_addr_(uint8_t * addr, uint8_t * ip);
+void mac_addr_(uint8_t * addr, uint8_t *mac);
 
 #endif	/* end of __HTTPPARSER_H__ */

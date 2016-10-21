@@ -321,6 +321,24 @@ void inet_addr_(uint8_t * addr, uint8_t *ip)
 	}
 }
 
+void mac_addr_(uint8_t * addr, uint8_t *mac)
+{
+  uint8_t i;
+  uint8_t taddr[30];
+  uint8_t * nexttok;
+  uint8_t num;
+
+  strcpy((char *)taddr, (char *)addr);
+
+  nexttok = taddr;
+  for(i = 0; i < 6 ; i++) {
+    nexttok = (uint8_t *)strtok((char *)nexttok, ":");
+    num = ATOI(nexttok,0x10);
+    mac[i] = num;
+    nexttok = NULL;
+  }
+}
+
 
 /**
 @brief	CONVERT STRING INTO INTEGER

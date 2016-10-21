@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_hal_timebase_rtc_wakeup_template.c 
   * @author  MCD Application Team
-  * @version V1.5.1
-  * @date    01-July-2016
+  * @version V1.5.2
+  * @date    22-September-2016
   * @brief   HAL time base based on the hardware RTC_WAKEUP Template.
   *    
   *          This file overrides the native HAL time base functions (defined as weak)

@@ -5,15 +5,26 @@
 #include "stm32f4xx_hal.h"
 #include "fatfs.h"
 #include "ioLibrary_Driver/Ethernet/wizchip_conf.h"
+#include "ioLibrary_Driver/Internet/DHCP/dhcp.h"
 #include "diag/Trace.h"
 
+#include <cmsis_os.h>
+#include <task.h>
+
+#if defined(OS_USE_SEMIHOSTING) && !defined(OS_BASE_FS_PATH)
+#error "OS_BASE_FS_PATH macro not declared! You need to define it at project level"
+#endif
+
+ADC_HandleTypeDef hadc1;
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
 DMA_HandleTypeDef hdma_spi1_tx;
 UART_HandleTypeDef huart2;
 
 void Error_Handler(void);
+void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
+void ConfigureW5500Thread(void const *argument);
 
 FATFS diskHandle;
 FIL  fileHandle;
@@ -58,9 +69,11 @@ FRESULT scan_files (TCHAR* path) {
     return res;
 }
 
-#define MAX_HTTPSOCK  6
+#define MAX_HTTPSOCK  7
+#define DHCP_SOCK 0
+#define MAX_DHCP_RETRY 3
 #define DATA_BUF_SIZE 2048
-uint8_t socknumlist[] = {2, 3, 4, 5, 6, 7};
+uint8_t socknumlist[] = {0, 1, 2, 3, 4, 5, 6};
 volatile uint8_t RX_BUF[DATA_BUF_SIZE];
 volatile uint8_t TX_BUF[DATA_BUF_SIZE];
 
@@ -92,21 +105,124 @@ void spi_wb_burst(uint8_t *buf, uint16_t len) {
   while(HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_TX);
 }
 
+uint8_t ReadNetCfgFromFile(wiz_NetInfo *netInfo) {
+#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
+#else
+  FILE *cfgFile = NULL;
+  char buf[30], *p;
+
+  p = buf;
+
+  if((cfgFile = fopen(OS_BASE_FS_PATH"net.cfg","r")) != NULL) {
+    for(uint8_t i = 0; i < 6; i++) {
+      while(1) {
+        if(fread(p, sizeof(char), 1, cfgFile)) {
+          if (*p == '\r') {
+            continue;
+          }
+          else if(*p == '\n') {
+            *p = '\0';
+            break;
+          }
+          else {
+            p++;
+          }
+        } else { /* Reached the EOF */
+          break;
+        }
+      }
+
+      if(p != buf)  {
+          switch(i) {
+          case 0: //DHCP
+            if(strcmp(buf, "NODHCP") == 0)
+              netInfo->dhcp = NETINFO_STATIC;
+            else
+              netInfo->dhcp = NETINFO_DHCP;
+            break;
+          case 1: //MAC Address
+            mac_addr_(buf, netInfo->mac);
+            break;
+          case 2: //IP Address
+            inet_addr_(buf, netInfo->ip);
+            break;
+          case 3: //Netmask
+            inet_addr_(buf, netInfo->sn);
+            break;
+          case 4: //Gateway Address
+            inet_addr_(buf, netInfo->gw);
+            break;
+          case 5: //DNS Address
+            inet_addr_(buf, netInfo->dns);
+            break;
+          }
+          p = buf;
+        }
+      else {
+        return  0;
+      }
+    }
+    return 1;
+  }
+#endif
+
+  return 0;
+}
 
 void IO_LIBRARY_Init(void) {
-  uint8_t rcvBuf[20], bufSize[] = {2, 2, 2, 2};
+  uint8_t runApplication = 0, dhcpRetry = 0, phyLink = 0, bufSize[] = {2, 2, 2, 2, 2};
+  wiz_NetInfo netInfo;
 
   reg_wizchip_cs_cbfunc(cs_sel, cs_desel);
   reg_wizchip_spi_cbfunc(spi_rb, spi_wb);
   reg_wizchip_spiburst_cbfunc(spi_rb_burst, spi_wb_burst);
+  reg_wizchip_cris_cbfunc(vPortEnterCritical, vPortExitCritical);
 
   wizchip_init(bufSize, bufSize);
-  wiz_NetInfo netInfo = { .mac  = {0x00, 0x08, 0xdc, 0xab, 0xcd, 0xef}, // Mac address
-                          .ip   = {192, 168, 2, 192},         // IP address
-                          .sn   = {255, 255, 255, 0},         // Subnet mask
-                          .gw   = {192, 168, 2, 1}};          // Gateway address
-  wizchip_setnetinfo(&netInfo);
 
+  ReadNetCfgFromFile(&netInfo);
+
+  /* Wait until the ETH cable is plugged in */
+  do {
+    ctlwizchip(CW_GET_PHYLINK, (void*) &phyLink);
+    HAL_Delay(10);
+  } while(phyLink == PHY_LINK_OFF);
+
+  if(netInfo.dhcp == NETINFO_DHCP) { /* DHCP Mode */
+    DHCP_init(DHCP_SOCK, RX_BUF);
+
+    while(!runApplication) {
+      switch(DHCP_run()) {
+      case DHCP_IP_LEASED:
+      case DHCP_IP_ASSIGN:
+      case DHCP_IP_CHANGED:
+        getIPfromDHCP(netInfo.ip);
+        getGWfromDHCP(netInfo.gw);
+        getSNfromDHCP(netInfo.sn);
+        getDNSfromDHCP(netInfo.dns);
+        runApplication = 1;
+        break;
+      case DHCP_FAILED:
+        dhcpRetry++;
+        if(dhcpRetry > MAX_DHCP_RETRY)
+        {
+          netInfo.dhcp = NETINFO_STATIC;
+          DHCP_stop();      // if restart, recall DHCP_init()
+#ifdef _MAIN_DEBUG_
+          printf(">> DHCP %d Failed\r\n", my_dhcp_retry);
+          Net_Conf();
+          Display_Net_Conf();   // print out static netinfo to serial
+#endif
+          dhcpRetry = 0;
+          asm("BKPT #0");
+        }
+        break;
+      default:
+        break;
+      }
+    }
+  }
+  wizchip_setnetinfo(&netInfo);
   httpServer_init(TX_BUF, RX_BUF, MAX_HTTPSOCK, socknumlist);   // Tx/Rx buffers (1kB) / The number of W5500 chip H/W sockets in use
   reg_httpServer_cbfunc(NVIC_SystemReset, NULL);          // Callback: NXP MCU Reset
 }
@@ -115,9 +231,15 @@ int main(void) {
   HAL_Init();
   Nucleo_BSP_Init();
 
-  MX_SPI1_Init();
-  SD_SPI_Configure(SD_CS_GPIO_Port, SD_CS_Pin, &hspi1);
+//  RetargetInit(&huart2);
 
+  MX_ADC1_Init();
+  HAL_ADC_Start(&hadc1);
+
+  MX_SPI1_Init();
+
+#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
+  SD_SPI_Configure(SD_CS_GPIO_Port, SD_CS_Pin, &hspi1);
   MX_FATFS_Init();
 
   FRESULT res;
@@ -131,7 +253,7 @@ int main(void) {
   if(res != FR_OK)
     asm("BKPT #0");
 
-  IO_LIBRARY_Init();
+
 //  RetargetInit(&huart2);
 
   //
@@ -155,13 +277,56 @@ int main(void) {
 //      buf[2047] = '\0';
 //      trace_printf("%s", buf);
 //  }
+#endif
 
+  osThreadId w5500TID;
+  osThreadDef(w5500, ConfigureW5500Thread, osPriorityNormal, 0, 2048);
+  w5500TID = osThreadCreate(osThread(w5500), NULL);
 
-  while(1) {
-    for(uint8_t i = 0; i < MAX_HTTPSOCK; i++)
-      httpServer_run(i);  // HTTP Server handler
-  }
+  osKernelStart();
+
+//  ConfigureW5500Thread(0);
+
+  while(1);
 }
+
+void ConfigureW5500Thread(void const *argument) {
+  IO_LIBRARY_Init();
+
+  while(1)
+    for(uint8_t i = 0; i < MAX_HTTPSOCK; i++)
+      httpServer_run(i);
+}
+
+/* ADC1 init function */
+void MX_ADC1_Init(void) {
+  ADC_ChannelConfTypeDef sConfig;
+
+  /* Enable ADC peripheral */
+  __HAL_RCC_ADC1_CLK_ENABLE();
+
+  /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
+   */
+  hadc1.Instance = ADC1;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc1.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc1.Init.ScanConvMode = DISABLE;
+  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc1.Init.NbrOfConversion = 1;
+  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
+  HAL_ADC_Init(&hadc1);
+
+  /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
+   */
+  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+  sConfig.Rank = 1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+  HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+}
+
 
 /* SPI1 init function */
 static void MX_SPI1_Init(void) {
@@ -177,7 +342,7 @@ static void MX_SPI1_Init(void) {
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi1.Init.NSS = SPI_NSS_SOFT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_256;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
@@ -258,6 +423,14 @@ static void MX_SPI1_Init(void) {
 void Error_Handler(void) {
   asm("BKPT #0");
 }
+
+#ifdef DEBUG
+
+void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName ) {
+  Error_Handler();
+}
+
+#endif
 
 
 #ifdef USE_FULL_ASSERT

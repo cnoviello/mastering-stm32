@@ -147,7 +147,7 @@ void httpServer_run(uint8_t seqnum)
 			{
 
 				case STATE_HTTP_IDLE :
-					if ((len = getSn_RX_RSR(s)) > 0)
+					if ((len = getSn_RX_RSR(s)) > 1)
 					{
 						if (len > DATA_BUF_SIZE) len = DATA_BUF_SIZE;
 						len = recv(s, (uint8_t *)http_request, len);
@@ -582,7 +582,7 @@ static void http_process_handler(uint8_t s, st_http_request * p_http_request)
 					HTTPSock_Status[get_seqnum].storage_type = SDCARD;
 				}
 #elif defined(OS_USE_SEMIHOSTING)
-        char *base_path = "/Users/cnoviello/Downloads/webpages/";
+        char *base_path = OS_BASE_FS_PATH;
         char *path;
         path = malloc(sizeof(char)*strlen(base_path)+strlen(uri_name));
         strcpy(path, base_path);

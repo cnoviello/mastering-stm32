@@ -7859,7 +7859,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FatFs/src/option/ccsbcs.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver/Internet/TFTP|ioLibrary_Driver/Internet/SNTP|ioLibrary_Driver/Internet/SNMP|ioLibrary_Driver/Internet/FTPServer|ioLibrary_Driver/Internet/FTPClient|ioLibrary_Driver/Internet/DNS|FatFs/src/option/ccsbcs.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch25"/>
 						<entry excluding="src/retarget/retarget.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f4xx/stm32f4xx_hal_msp_template.c|src/stm32f4xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f4xx/stm32f4xx_hal_flash_ex.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
@@ -7922,6 +7922,8 @@
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm.2034019755" name="Remove command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm" useByScannerDiscovery="false" value="rm" valueType="string"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.1273205414" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.442702258" name="Print size" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.abi.2011526770" name="Float ABI" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.abi" useByScannerDiscovery="false" value="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.abi.hard" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit.612464713" name="FPU Type" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit" useByScannerDiscovery="false" value="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.fpu.unit.fpv4spd16" valueType="enumerated"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform.263335408" isAbstract="false" osList="all" superClass="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform"/>
 							<builder buildPath="${workspace_loc:/nucleo-f401RE}/Debug" id="ilg.gnuarmeclipse.managedbuild.cross.builder.93333696" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnuarmeclipse.managedbuild.cross.builder">
 								<outputEntries>
@@ -7975,6 +7977,12 @@
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.325188085" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.414958067" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/RingBuffer&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM4F&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch25/include/&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
@@ -7987,11 +7995,14 @@
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.952764995" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="_USE_SDCARD_"/>
-									<listOptionValue builtIn="false" value="_x_OS_USE_SEMIHOSTING"/>
+									<listOptionValue builtIn="false" value="USE_FREE_RTOS"/>
+									<listOptionValue builtIn="false" value="OS_USE_SEMIHOSTING"/>
+									<listOptionValue builtIn="false" value="OS_BASE_FS_PATH=\&quot;/Users/cnoviello/STM32Toolchain/mastering-stm32/nucleo-f401RE/src/ch25/webpages/\&quot;"/>
 									<listOptionValue builtIn="false" value="OS_USE_TRACE_ITM"/>
 									<listOptionValue builtIn="false" value="DEBUG"/>
 									<listOptionValue builtIn="false" value="TRACE"/>
 									<listOptionValue builtIn="false" value="STM32F401xE"/>
+									<listOptionValue builtIn="false" value="_HTTPSERVER_DEBUG_"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1241548795" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -8062,9 +8073,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FatFs/src/option/ccsbcs.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver/Internet/TFTP|ioLibrary_Driver/Internet/SNTP|ioLibrary_Driver/Internet/SNMP|ioLibrary_Driver/Internet/FTPServer|ioLibrary_Driver/Internet/FTPClient|ioLibrary_Driver/Internet/DNS|FatFs/src/option/ccsbcs.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch25"/>
-						<entry excluding="src/retarget/retarget.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f4xx/stm32f4xx_hal_msp_template.c|src/stm32f4xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f4xx/stm32f4xx_hal_flash_ex.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f4xx/stm32f4xx_hal_msp_template.c|src/stm32f4xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f4xx/stm32f4xx_hal_flash_ex.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -8095,10 +8106,12 @@
 		<configuration configurationName="CH11-EX7"/>
 		<configuration configurationName="CH11-EX8"/>
 		<configuration configurationName="CH11-EX9"/>
+		<configuration configurationName="CH20-BOOTLOADER"/>
 		<configuration configurationName="CH8-EX2">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
 		<configuration configurationName="CH11-EX3"/>
+		<configuration configurationName="CH20-APP1"/>
 		<configuration configurationName="CH8-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
@@ -8120,24 +8133,42 @@
 		<configuration configurationName="CH9-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
-		<configuration configurationName="CH11-EX11"/>
-		<configuration configurationName="CH11-EX10"/>
+		<configuration configurationName="CH14-EX2-SLAVE"/>
 		<configuration configurationName="CH19-EX2">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
 		<configuration configurationName="CH19-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
+		<configuration configurationName="CH11-EX11"/>
+		<configuration configurationName="CH5-EX2"/>
+		<configuration configurationName="CH11-EX10"/>
+		<configuration configurationName="CH5-EX3"/>
+		<configuration configurationName="CH5-EX1"/>
+		<configuration configurationName="CH22-EX2"/>
+		<configuration configurationName="CH22-EX1"/>
 		<configuration configurationName="CH19-EX4"/>
 		<configuration configurationName="CH19-EX3"/>
+		<configuration configurationName="CH14-EX1"/>
 		<configuration configurationName="CH19-EX5"/>
 		<configuration configurationName="CH18-EX1"/>
+		<configuration configurationName="CH22-EX7"/>
+		<configuration configurationName="CH22-EX6"/>
+		<configuration configurationName="CH22-EX5"/>
+		<configuration configurationName="CH22-EX4"/>
+		<configuration configurationName="CH22-EX3"/>
+		<configuration configurationName="CH12-EX1"/>
 		<configuration configurationName="CH9-MEM2MEM">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
+		<configuration configurationName="CH25-EX2"/>
 		<configuration configurationName="CH7-EX1">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
+		<configuration configurationName="CH12-EX2"/>
+		<configuration configurationName="CH14-EX2-MASTER"/>
+		<configuration configurationName="CH12-EX3"/>
+		<configuration configurationName="CH25-EX1"/>
 		<configuration configurationName="CH7-EX2">
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f401RE"/>
 		</configuration>
@@ -8166,4 +8197,5 @@
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

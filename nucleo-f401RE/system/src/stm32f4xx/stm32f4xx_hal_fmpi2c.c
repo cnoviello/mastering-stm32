@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_hal_fmpi2c.c
   * @author  MCD Application Team
-  * @version V1.5.1
-  * @date    01-July-2016
+  * @version V1.5.2
+  * @date    22-September-2016
   * @brief   FMPI2C HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Inter Integrated Circuit (FMPI2C) peripheral:
@@ -296,6 +296,9 @@
 #define FMPI2C_XFER_ERROR_IT       ((uint32_t)0x00000011U)
 #define FMPI2C_XFER_CPLT_IT        ((uint32_t)0x00000012U)
 #define FMPI2C_XFER_RELOAD_IT      ((uint32_t)0x00000012U)
+
+/* Private define Sequential Transfer Options default/reset value */
+#define FMPI2C_NO_OPTION_FRAME     ((uint32_t)0xFFFF0000U)
 /**
   * @}
   */
@@ -439,8 +442,10 @@ HAL_StatusTypeDef HAL_FMPI2C_Init(FMPI2C_HandleTypeDef *hfmpi2c)
   hfmpi2c->Instance->TIMINGR = hfmpi2c->Init.Timing & TIMING_CLEAR_MASK;
 
   /*---------------------------- FMPI2Cx OAR1 Configuration ---------------------*/
-  /* Configure FMPI2Cx: Own Address1 and ack own address1 mode */
+  /* Disable Own Address1 before set the Own Address1 configuration */
   hfmpi2c->Instance->OAR1 &= ~FMPI2C_OAR1_OA1EN;
+
+  /* Configure FMPI2Cx: Own Address1 and ack own address1 mode */
   if(hfmpi2c->Init.OwnAddress1 != 0U)
   {
     if(hfmpi2c->Init.AddressingMode == FMPI2C_ADDRESSINGMODE_7BIT)
@@ -463,6 +468,9 @@ HAL_StatusTypeDef HAL_FMPI2C_Init(FMPI2C_HandleTypeDef *hfmpi2c)
   hfmpi2c->Instance->CR2 |= (FMPI2C_CR2_AUTOEND | FMPI2C_CR2_NACK);
 
   /*---------------------------- FMPI2Cx OAR2 Configuration ---------------------*/
+  /* Disable Own Address2 before set the Own Address2 configuration */
+  hfmpi2c->Instance->OAR2 &= ~FMPI2C_DUALADDRESS_ENABLE;
+
   /* Configure FMPI2Cx: Dual mode and Own Address2 */
   hfmpi2c->Instance->OAR2 = (hfmpi2c->Init.DualAddressMode | hfmpi2c->Init.OwnAddress2 | (hfmpi2c->Init.OwnAddress2Masks << 8));
 
