@@ -2,13 +2,13 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_adc_ex.h
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   Header file containing functions prototypes of ADC HAL library.
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -1296,65 +1296,6 @@ typedef struct
 #define ADC_FLAG_JQOVF         ADC_ISR_JQOVF    /*!< ADC Injected Context Queue Overflow flag */
 
 #define ADC_FLAG_AWD           ADC_FLAG_AWD1    /* ADC Analog watchdog 1 flag: Alternate naming for compatibility with other STM32 devices having only 1 analog watchdog */
-/**
-  * @}
-  */
-
-/** @defgroup ADC_multimode_bits ADC Multimode Bits
-  * @{
-  */
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx) || \
-    defined(STM32F302xC) || defined(STM32F303xC) || defined(STM32F358xx) || \
-    defined(STM32F303x8) || defined(STM32F334x8) || defined(STM32F328xx)
-#define ADC_CCR_MULTI             ADC12_CCR_MULTI        /*!< Multi ADC mode selection */
-#define ADC_CCR_MULTI_0           ADC12_CCR_MULTI_0      /*!< MULTI bit 0 */
-#define ADC_CCR_MULTI_1           ADC12_CCR_MULTI_1      /*!< MULTI bit 1 */
-#define ADC_CCR_MULTI_2           ADC12_CCR_MULTI_2      /*!< MULTI bit 2 */
-#define ADC_CCR_MULTI_3           ADC12_CCR_MULTI_3      /*!< MULTI bit 3 */
-#define ADC_CCR_MULTI_4           ADC12_CCR_MULTI_4      /*!< MULTI bit 4 */
-#define ADC_CCR_DELAY             ADC12_CCR_DELAY        /*!< Delay between 2 sampling phases */
-#define ADC_CCR_DELAY_0           ADC12_CCR_DELAY_0      /*!< DELAY bit 0 */
-#define ADC_CCR_DELAY_1           ADC12_CCR_DELAY_1      /*!< DELAY bit 1 */
-#define ADC_CCR_DELAY_2           ADC12_CCR_DELAY_2      /*!< DELAY bit 2 */
-#define ADC_CCR_DELAY_3           ADC12_CCR_DELAY_3      /*!< DELAY bit 3 */
-#define ADC_CCR_DMACFG            ADC12_CCR_DMACFG       /*!< DMA configuration for multi-ADC mode */
-#define ADC_CCR_MDMA              ADC12_CCR_MDMA         /*!< DMA mode for multi-ADC mode */
-#define ADC_CCR_MDMA_0            ADC12_CCR_MDMA_0       /*!< MDMA bit 0 */
-#define ADC_CCR_MDMA_1            ADC12_CCR_MDMA_1       /*!< MDMA bit 1 */
-#define ADC_CCR_CKMODE            ADC12_CCR_CKMODE       /*!< ADC clock mode */
-#define ADC_CCR_CKMODE_0          ADC12_CCR_CKMODE_0     /*!< CKMODE bit 0 */
-#define ADC_CCR_CKMODE_1          ADC12_CCR_CKMODE_1     /*!< CKMODE bit 1 */
-#define ADC_CCR_VREFEN            ADC12_CCR_VREFEN       /*!< VREFINT enable */
-#define ADC_CCR_TSEN              ADC12_CCR_TSEN         /*!< Temperature sensor enable */
-#define ADC_CCR_VBATEN            ADC12_CCR_VBATEN       /*!< VBAT enable */
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx || */
-       /* STM32F302xC || STM32F303xC || STM32F358xx || */
-       /* STM32F303x8 || STM32F334x8 || STM32F328xx    */
-
-#if defined(STM32F301x8) || defined(STM32F302x8) || defined(STM32F318xx)
-#define ADC_CCR_MULTI             ADC1_CCR_MULTI        /*!< Multi ADC mode selection */
-#define ADC_CCR_MULTI_0           ADC1_CCR_MULTI_0      /*!< MULTI bit 0 */
-#define ADC_CCR_MULTI_1           ADC1_CCR_MULTI_1      /*!< MULTI bit 1 */
-#define ADC_CCR_MULTI_2           ADC1_CCR_MULTI_2      /*!< MULTI bit 2 */
-#define ADC_CCR_MULTI_3           ADC1_CCR_MULTI_3      /*!< MULTI bit 3 */
-#define ADC_CCR_MULTI_4           ADC1_CCR_MULTI_4      /*!< MULTI bit 4 */
-#define ADC_CCR_DELAY             ADC1_CCR_DELAY        /*!< Delay between 2 sampling phases */
-#define ADC_CCR_DELAY_0           ADC1_CCR_DELAY_0      /*!< DELAY bit 0 */
-#define ADC_CCR_DELAY_1           ADC1_CCR_DELAY_1      /*!< DELAY bit 1 */
-#define ADC_CCR_DELAY_2           ADC1_CCR_DELAY_2      /*!< DELAY bit 2 */
-#define ADC_CCR_DELAY_3           ADC1_CCR_DELAY_3      /*!< DELAY bit 3 */
-#define ADC_CCR_DMACFG            ADC1_CCR_DMACFG       /*!< DMA configuration for multi-ADC mode */
-#define ADC_CCR_MDMA              ADC1_CCR_MDMA         /*!< DMA mode for multi-ADC mode */
-#define ADC_CCR_MDMA_0            ADC1_CCR_MDMA_0       /*!< MDMA bit 0 */
-#define ADC_CCR_MDMA_1            ADC1_CCR_MDMA_1       /*!< MDMA bit 1 */
-#define ADC_CCR_CKMODE            ADC1_CCR_CKMODE       /*!< ADC clock mode */
-#define ADC_CCR_CKMODE_0          ADC1_CCR_CKMODE_0     /*!< CKMODE bit 0 */
-#define ADC_CCR_CKMODE_1          ADC1_CCR_CKMODE_1     /*!< CKMODE bit 1 */
-#define ADC_CCR_VREFEN            ADC1_CCR_VREFEN       /*!< VREFINT enable */
-#define ADC_CCR_TSEN              ADC1_CCR_TSEN         /*!< Temperature sensor enable */
-#define ADC_CCR_VBATEN            ADC1_CCR_VBATEN       /*!< VBAT enable */
-#endif /* STM32F301x8 || STM32F302x8 || STM32F318xx */
-
 /**
   * @}
   */

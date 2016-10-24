@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_adc.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   This file provides firmware functions to manage the following 
   *          functionalities of the Analog to Digital Convertor (ADC)
   *          peripheral:
@@ -322,7 +322,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -421,6 +421,9 @@
   */
 __weak HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -449,6 +452,9 @@ __weak HAL_StatusTypeDef HAL_ADC_Init(ADC_HandleTypeDef* hadc)
   */
 __weak HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -463,6 +469,9 @@ __weak HAL_StatusTypeDef HAL_ADC_DeInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspInit must be implemented in the user file.
    */ 
@@ -475,6 +484,9 @@ __weak void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_MspDeInit must be implemented in the user file.
    */ 
@@ -518,6 +530,9 @@ __weak void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
   */
 __weak HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Return function status */
   return HAL_ERROR;
 }
@@ -538,6 +553,9 @@ __weak HAL_StatusTypeDef HAL_ADC_Start(ADC_HandleTypeDef* hadc)
   */
 __weak HAL_StatusTypeDef HAL_ADC_Stop(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -553,6 +571,10 @@ __weak HAL_StatusTypeDef HAL_ADC_Stop(ADC_HandleTypeDef* hadc)
   */
 __weak HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef* hadc, uint32_t Timeout)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+  UNUSED(Timeout);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -575,6 +597,11 @@ __weak HAL_StatusTypeDef HAL_ADC_PollForConversion(ADC_HandleTypeDef* hadc, uint
   */
 __weak HAL_StatusTypeDef HAL_ADC_PollForEvent(ADC_HandleTypeDef* hadc, uint32_t EventType, uint32_t Timeout)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+  UNUSED(EventType);
+  UNUSED(Timeout);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -599,6 +626,9 @@ __weak HAL_StatusTypeDef HAL_ADC_PollForEvent(ADC_HandleTypeDef* hadc, uint32_t 
   */
 __weak HAL_StatusTypeDef HAL_ADC_Start_IT(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -623,6 +653,9 @@ __weak HAL_StatusTypeDef HAL_ADC_Start_IT(ADC_HandleTypeDef* hadc)
   */
 __weak HAL_StatusTypeDef HAL_ADC_Stop_IT(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -648,6 +681,11 @@ __weak HAL_StatusTypeDef HAL_ADC_Stop_IT(ADC_HandleTypeDef* hadc)
   */
 __weak HAL_StatusTypeDef HAL_ADC_Start_DMA(ADC_HandleTypeDef* hadc, uint32_t* pData, uint32_t Length)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+  UNUSED(pData);
+  UNUSED(Length);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -670,6 +708,9 @@ __weak HAL_StatusTypeDef HAL_ADC_Start_DMA(ADC_HandleTypeDef* hadc, uint32_t* pD
   */
 __weak HAL_StatusTypeDef HAL_ADC_Stop_DMA(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -702,6 +743,9 @@ __weak uint32_t HAL_ADC_GetValue(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
 }
@@ -713,6 +757,9 @@ __weak void HAL_ADC_IRQHandler(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvCpltCallback must be implemented in the user file.
    */
@@ -725,6 +772,9 @@ __weak void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ConvHalfCpltCallback must be implemented in the user file.
   */
@@ -737,6 +787,9 @@ __weak void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_LevelOoutOfWindowCallback must be implemented in the user file.
   */
@@ -750,6 +803,9 @@ __weak void HAL_ADC_LevelOutOfWindowCallback(ADC_HandleTypeDef* hadc)
   */
 __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+
   /* NOTE : This function should not be modified. When the callback is needed,
             function HAL_ADC_ErrorCallback must be implemented in the user file.
   */
@@ -799,6 +855,10 @@ __weak void HAL_ADC_ErrorCallback(ADC_HandleTypeDef *hadc)
   */
 __weak HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_ChannelConfTypeDef* sConfig)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+  UNUSED(sConfig);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   
@@ -822,6 +882,10 @@ __weak HAL_StatusTypeDef HAL_ADC_ConfigChannel(ADC_HandleTypeDef* hadc, ADC_Chan
   */
 __weak HAL_StatusTypeDef HAL_ADC_AnalogWDGConfig(ADC_HandleTypeDef* hadc, ADC_AnalogWDGConfTypeDef* AnalogWDGConfig)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hadc);
+  UNUSED(AnalogWDGConfig);
+
   /* Note : This function is defined into this file for library reference. */
   /*        Function content is located into file stm32f3xx_hal_adc_ex.c   */
   

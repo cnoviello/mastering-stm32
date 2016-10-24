@@ -1,168 +1,118 @@
 #include "stm32f1xx_hal.h"
 #include <nucleo_hal_bsp.h>
 #include <string.h>
+#include <stdlib.h>
 
-extern UART_HandleTypeDef huart2;
+I2C_HandleTypeDef hi2c1;
+UART_HandleTypeDef huart2;
 
-void SleepMode(void);
-void StandbyMode(void);
-void StopMode(void);
-void MX_GPIO_Deinit(void);
-void MX_GPIO_Init(void);
-void MX_USART2_UART_Init(void);
+static void MX_I2C1_Init(void);
+
+HAL_StatusTypeDef Write_To_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len);
+HAL_StatusTypeDef Read_From_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len);
 
 int main(void) {
-  char msg[20];
+  const char wmsg[] = "We love STM32!";
+  char rmsg[20];
 
   HAL_Init();
   Nucleo_BSP_Init();
 
-  /* Before we can access to every register of the PWR peripheral we must enable it */
-  __HAL_RCC_PWR_CLK_ENABLE();
+  MX_I2C1_Init();
 
-  while (1) {
-    if(__HAL_PWR_GET_FLAG(PWR_FLAG_SB)) {
-      /* If standby flag set in PWR->CSR, then the reset is generated from
-       * the exit of the standby mode */
-      sprintf(msg, "RESET after STANDBY mode\r\n");
-      HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-      /* We have to explicitly clear the flag */
-      __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU|PWR_FLAG_SB);
-    }
+  Write_To_24LCxx(&hi2c1, 0xA0, 0x1AAA, (uint8_t*)wmsg, strlen(wmsg)+1);
+  Read_From_24LCxx(&hi2c1, 0xA0, 0x1AAA, (uint8_t*)rmsg, strlen(wmsg)+1);
 
-    sprintf(msg, "MCU in run mode\r\n");
-    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-    while(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET) {
+  if(strcmp(wmsg, rmsg) == 0) {
+    while(1) {
       HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
       HAL_Delay(100);
     }
-
-    HAL_Delay(200);
-
-    sprintf(msg, "Entering in SLEEP mode\r\n");
-    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-
-    SleepMode();
-
-    sprintf(msg, "Exiting from SLEEP mode\r\n");
-    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-
-    while(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET);
-    HAL_Delay(200);
-
-    sprintf(msg, "Entering in STOP mode\r\n");
-    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-
-    StopMode();
-
-    sprintf(msg, "Exiting from STOP mode\r\n");
-    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-
-    while(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET);
-    HAL_Delay(200);
-
-    sprintf(msg, "Entering in STANDBY mode\r\n");
-    HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-
-    StandbyMode();
-
-    while(1); //Never arrives here, since MCU is reset when exiting from STANDBY
   }
+
+  while(1);
 }
 
-
-void SleepMode(void)
-{
+/* I2C1 init function */
+static void MX_I2C1_Init(void) {
   GPIO_InitTypeDef GPIO_InitStruct;
 
-  /* Disable all GPIOs to reduce power */
-  MX_GPIO_Deinit();
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 400000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
 
-  /* Configure User push-button as external interrupt generator */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  HAL_UART_DeInit(&huart2);
+  __HAL_AFIO_REMAP_I2C1_ENABLE();
+  /* Peripheral clock enable */
+  __HAL_RCC_I2C1_CLK_ENABLE();
 
-  /* Suspend Tick increment to prevent wakeup by Systick interrupt.
-     Otherwise the Systick interrupt will wake up the device within 1ms (HAL time base) */
-  HAL_SuspendTick();
+  /* This is also required before configuring the I2C peripheral
+   * in STM32F1xx devices */
+  __HAL_RCC_I2C1_FORCE_RESET();
+  __HAL_RCC_I2C1_RELEASE_RESET();
 
-  __HAL_RCC_PWR_CLK_ENABLE();
-  /* Request to enter SLEEP mode */
-  HAL_PWR_EnterSLEEPMode(0, PWR_SLEEPENTRY_WFI);
-
-  /* Resume Tick interrupt if disabled prior to sleep mode entry*/
-  HAL_ResumeTick();
-
-  /* Reinitialize GPIOs */
-  MX_GPIO_Init();
-
-  /* Reinitialize UART2 */
-  MX_USART2_UART_Init();
+  HAL_I2C_Init(&hi2c1);
 }
 
-void StopMode(void)
-{
-  GPIO_InitTypeDef GPIO_InitStruct;
+HAL_StatusTypeDef Read_From_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len) {
+  HAL_StatusTypeDef returnValue;
+  uint8_t addr[2];
 
-  /* Disable all GPIOs to reduce power */
-  MX_GPIO_Deinit();
+  /* We compute the MSB and LSB parts of the memory address */
+  addr[0] = (uint8_t) ((MemAddress & 0xFF00) >> 8);
+  addr[1] = (uint8_t) (MemAddress & 0xFF);
 
-  /* Configure User push-button as external interrupt generator */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
+  /* First we send the memory location address where start reading data */
+  returnValue = HAL_I2C_Master_Transmit(hi2c, DevAddress, addr, 2, HAL_MAX_DELAY);
+  if(returnValue != HAL_OK)
+    return returnValue;
 
-  HAL_UART_DeInit(&huart2);
+  /* Next we can retrieve the data from EEPROM */
+  returnValue = HAL_I2C_Master_Receive(hi2c, DevAddress, pData, len, HAL_MAX_DELAY);
 
-  /* Suspend Tick increment to prevent wakeup by Systick interrupt.
-     Otherwise the Systick interrupt will wake up the device within 1ms (HAL time base) */
-  HAL_SuspendTick();
-
-  /* We enable again the PWR peripheral */
-  __HAL_RCC_PWR_CLK_ENABLE();
-  /* Request to enter SLEEP mode */
-  HAL_PWR_EnterSTOPMode(PWR_LOWPOWERREGULATOR_ON, PWR_SLEEPENTRY_WFI);
-
-  /* Resume Tick interrupt if disabled prior to sleep mode entry*/
-  HAL_ResumeTick();
-
-  /* Reinitialize GPIOs */
-  MX_GPIO_Init();
-
-  /* Reinitialize UART2 */
-  MX_USART2_UART_Init();
+  return returnValue;
 }
 
+HAL_StatusTypeDef Write_To_24LCxx(I2C_HandleTypeDef *hi2c, uint16_t DevAddress, uint16_t MemAddress, uint8_t *pData, uint16_t len) {
+  HAL_StatusTypeDef returnValue;
+  uint8_t *data;
 
-void StandbyMode(void) {
-  MX_GPIO_Deinit();
+  /* First we allocate a temporary buffer to store the destination memory
+   * address and the data to store */
+  data = (uint8_t*)malloc(sizeof(uint8_t)*(len+2));
 
-  /* This procedure come from the STM32F030 Errata sheet*/
-  __HAL_RCC_PWR_CLK_ENABLE();
+  /* We compute the MSB and LSB parts of the memory address */
+  data[0] = (uint8_t) ((MemAddress & 0xFF00) >> 8);
+  data[1] = (uint8_t) (MemAddress & 0xFF);
 
-  HAL_PWR_DisableWakeUpPin(PWR_WAKEUP_PIN1);
+  /* And copy the content of the pData array in the temporary buffer */
+  memcpy(data+2, pData, len);
 
-  /* Clear PWR wake up Flag */
-  __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+  /* We are now ready to transfer the buffer over the I2C bus */
+  returnValue = HAL_I2C_Master_Transmit(hi2c, DevAddress, data, len + 2, HAL_MAX_DELAY);
+  if(returnValue != HAL_OK)
+    return returnValue;
 
-  /* Enable WKUP pin */
-  HAL_PWR_EnableWakeUpPin(PWR_WAKEUP_PIN1);
+  free(data);
 
-  /* Enter STANDBY mode */
-  HAL_PWR_EnterSTANDBYMode();
-}
+  /* We wait until the EEPROM effectively stores data in memory.
+   * The technique shown in the book doesn't work here, due some
+   * limitations of the I2C peripheral in STM32F1 devices. We
+   * so use the dedicated HAL routine.
+   */
+  while(HAL_I2C_IsDeviceReady(hi2c, DevAddress, 1, HAL_MAX_DELAY) != HAL_OK);
 
-void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
-  if(GPIO_Pin == B1_Pin) {
-    while(HAL_GPIO_ReadPin(B1_GPIO_Port, B1_Pin) == GPIO_PIN_RESET);
-  }
+  return HAL_OK;
 }
 
 #ifdef USE_FULL_ASSERT

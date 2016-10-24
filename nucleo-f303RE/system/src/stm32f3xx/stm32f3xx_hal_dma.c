@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_dma.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   DMA HAL module driver.
   *    
   *         This file provides firmware functions to manage the following 
@@ -73,7 +73,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -235,28 +235,22 @@ HAL_StatusTypeDef HAL_DMA_DeInit(DMA_HandleTypeDef *hdma)
   {
     return HAL_ERROR;
   }
-  
+
   /* Check the parameters */
   assert_param(IS_DMA_ALL_INSTANCE(hdma->Instance));
 
-  /* Check the DMA peripheral state */
-  if(hdma->State == HAL_DMA_STATE_BUSY)
-  {
-     return HAL_ERROR;
-  }
-
   /* Disable the selected DMA Channelx */
   __HAL_DMA_DISABLE(hdma);
-  
+
   /* Reset DMA Channel control register */
   hdma->Instance->CCR  = 0;
-  
+
   /* Reset DMA Channel Number of Data to Transfer register */
   hdma->Instance->CNDTR = 0;
-  
+
   /* Reset DMA Channel peripheral address register */
   hdma->Instance->CPAR  = 0;
-  
+
   /* Reset DMA Channel memory address register */
   hdma->Instance->CMAR = 0;
 
@@ -264,8 +258,8 @@ HAL_StatusTypeDef HAL_DMA_DeInit(DMA_HandleTypeDef *hdma)
   __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TC_FLAG_INDEX(hdma));
   __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_TE_FLAG_INDEX(hdma));
   __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_HT_FLAG_INDEX(hdma));
-  
-  /* Initialise the error code */
+
+  /* Initialize the error code */
   hdma->ErrorCode = HAL_DMA_ERROR_NONE;
 
   /* Initialize the DMA state */
@@ -420,6 +414,49 @@ HAL_StatusTypeDef HAL_DMA_Abort(DMA_HandleTypeDef *hdma)
   __HAL_UNLOCK(hdma);
   
   return HAL_OK; 
+}
+
+/**
+  * @brief  Aborts the DMA Transfer in Interrupt mode.
+  * @param  hdma  : pointer to a DMA_HandleTypeDef structure that contains
+  *                 the configuration information for the specified DMA Stream.
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_DMA_Abort_IT(DMA_HandleTypeDef *hdma)
+{  
+  HAL_StatusTypeDef status = HAL_OK;
+  
+  if(HAL_DMA_STATE_BUSY != hdma->State)
+  {
+    /* no transfer ongoing */
+    hdma->ErrorCode = HAL_DMA_ERROR_NO_XFER;
+        
+    status = HAL_ERROR;
+  }
+  else
+  { 
+    /* Disable DMA IT */
+    __HAL_DMA_DISABLE_IT(hdma, (DMA_IT_TC | DMA_IT_HT | DMA_IT_TE));
+    
+    /* Disable the channel */
+    __HAL_DMA_DISABLE(hdma);
+    
+    /* Clear all flags */
+    __HAL_DMA_CLEAR_FLAG(hdma, __HAL_DMA_GET_GI_FLAG_INDEX(hdma));
+    
+    /* Change the DMA state */
+    hdma->State = HAL_DMA_STATE_READY;
+    
+    /* Process Unlocked */
+    __HAL_UNLOCK(hdma);
+    
+    /* Call User Abort callback */ 
+    if(hdma->XferAbortCallback != NULL)
+    {
+      hdma->XferAbortCallback(hdma);
+    } 
+  }
+  return status;
 }
 
 /**

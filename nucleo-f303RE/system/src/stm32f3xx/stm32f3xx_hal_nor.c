@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_nor.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   NOR HAL module driver.
   *          This file provides a generic firmware to drive NOR memories mounted 
   *          as external device.
@@ -55,7 +55,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -85,13 +85,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f3xx_hal.h"
 
+#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
+
 /** @addtogroup STM32F3xx_HAL_Driver
   * @{
   */
 
 #ifdef HAL_NOR_MODULE_ENABLED
-#if defined(STM32F302xE) || defined(STM32F303xE) || defined(STM32F398xx)
-
 /** @defgroup NOR NOR
   * @brief NOR HAL module driver
   * @{
@@ -261,6 +261,9 @@ HAL_StatusTypeDef HAL_NOR_DeInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspInit(NOR_HandleTypeDef *hnor)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NOR_MspInit could be implemented in the user file
    */ 
@@ -274,6 +277,9 @@ __weak void HAL_NOR_MspInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspDeInit(NOR_HandleTypeDef *hnor)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NOR_MspDeInit could be implemented in the user file
    */ 
@@ -288,6 +294,10 @@ __weak void HAL_NOR_MspDeInit(NOR_HandleTypeDef *hnor)
   */
 __weak void HAL_NOR_MspWait(NOR_HandleTypeDef *hnor, uint32_t Timeout)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hnor);
+  UNUSED(Timeout);
+
   /* NOTE : This function Should not be modified, when the callback is needed,
             the HAL_NOR_MspWait could be implemented in the user file
    */ 
@@ -1039,11 +1049,11 @@ HAL_NOR_StatusTypeDef HAL_NOR_GetStatus(NOR_HandleTypeDef *hnor, uint32_t Addres
 /**
   * @}
   */
-#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 #endif /* HAL_NOR_MODULE_ENABLED */
 
 /**
   * @}
   */
+#endif /* STM32F302xE || STM32F303xE || STM32F398xx */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

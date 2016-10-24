@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_hrtim.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   TIM HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the High Resolution Timer (HRTIM) peripheral:
@@ -289,7 +289,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -606,6 +606,9 @@ HAL_StatusTypeDef HAL_HRTIM_DeInit (HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_MspInit(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_HRTIM_MspInit could be implemented in the user file
    */ 
@@ -618,6 +621,9 @@ __weak void HAL_HRTIM_MspInit(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_MspDeInit(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE: This function should not be modified, when the callback is needed,
            the HAL_HRTIM_MspDeInit could be implemented in the user file
    */ 
@@ -1213,7 +1219,7 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOCChannelConfig(HRTIM_HandleTypeDef * hhrtim,
                                                  uint32_t OCChannel,
                                                  HRTIM_SimpleOCChannelCfgTypeDef* pSimpleOCChannelCfg)
 {
-  uint32_t CompareUnit = 0xFFFFFFFF;
+  uint32_t CompareUnit = 0xFFFFFFFFU;
   HRTIM_CompareCfgTypeDef CompareCfg = {0};
   HRTIM_OutputCfgTypeDef OutputCfg = {0};
   
@@ -1251,6 +1257,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOCChannelConfig(HRTIM_HandleTypeDef * hhrtim,
     {
       CompareUnit = HRTIM_COMPAREUNIT_2;
     }
+    break;
+  default:
     break;
   }
   
@@ -1311,6 +1319,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOCChannelConfig(HRTIM_HandleTypeDef * hhrtim,
       }
       OutputCfg.SetSource = HRTIM_OUTPUTSET_NONE;
     }
+    break;
+  default:
     break;
   }
   
@@ -1777,7 +1787,7 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMChannelConfig(HRTIM_HandleTypeDef * hhrtim,
                                                   uint32_t PWMChannel,
                                                   HRTIM_SimplePWMChannelCfgTypeDef* pSimplePWMChannelCfg)
 {
-  uint32_t CompareUnit = 0xFFFFFFFF;
+  uint32_t CompareUnit = 0xFFFFFFFFU;
   HRTIM_CompareCfgTypeDef CompareCfg;
   HRTIM_OutputCfgTypeDef OutputCfg;
   uint32_t hrtim_timcr;
@@ -1815,6 +1825,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMChannelConfig(HRTIM_HandleTypeDef * hhrtim,
     {
       CompareUnit = HRTIM_COMPAREUNIT_2;
     }
+    break;
+  default:
     break;
   }
   
@@ -2024,6 +2036,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMStart_IT(HRTIM_HandleTypeDef * hhrtim,
       __HAL_HRTIM_TIMER_ENABLE_IT(hhrtim, TimerIdx, HRTIM_TIM_IT_CMP2);
     }
     break;
+  default:
+    break;
   }
   
   /* Enable the timer counter */
@@ -2097,6 +2111,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMStop_IT(HRTIM_HandleTypeDef * hhrtim,
     {
       __HAL_HRTIM_TIMER_DISABLE_IT(hhrtim, TimerIdx, HRTIM_TIM_IT_CMP2);
     }
+    break;
+  default:
     break;
   }
   
@@ -2207,6 +2223,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMStart_DMA(HRTIM_HandleTypeDef * hhrtim,
       __HAL_HRTIM_TIMER_ENABLE_DMA(hhrtim, TimerIdx, HRTIM_TIM_DMA_CMP2);      
     }
     break;
+  default:
+    break;
   }
    
   /* Enable the timer counter */
@@ -2288,6 +2306,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimplePWMStop_DMA(HRTIM_HandleTypeDef * hhrtim,
     {
       __HAL_HRTIM_TIMER_DISABLE_DMA(hhrtim, TimerIdx, HRTIM_TIM_DMA_CMP2);
     }
+    break;
+  default:
     break;
   }
   
@@ -2446,6 +2466,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleCaptureStart(HRTIM_HandleTypeDef * hhrtim,
       hhrtim->Instance->sTimerxRegs[TimerIdx].CPT2xCR = hhrtim->TimerParam[TimerIdx].CaptureTrigger2;
     }
     break;
+  default:
+    break;
   }
   
   /* Enable the timer counter */
@@ -2500,6 +2522,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleCaptureStop(HRTIM_HandleTypeDef * hhrtim,
     {
       hhrtim->Instance->sTimerxRegs[TimerIdx].CPT2xCR = HRTIM_CAPTURETRIGGER_NONE;
     }
+    break;
+  default:
     break;
   }
   
@@ -2567,6 +2591,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleCaptureStart_IT(HRTIM_HandleTypeDef * hhrtim,
       __HAL_HRTIM_TIMER_ENABLE_IT(hhrtim, TimerIdx, HRTIM_TIM_IT_CPT2);
     }
     break;
+  default:
+    break;
   }
   
   /* Enable the timer counter */
@@ -2628,6 +2654,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleCaptureStop_IT(HRTIM_HandleTypeDef * hhrtim,
       /* Disable the capture unit 2 interrupt */
       __HAL_HRTIM_TIMER_DISABLE_IT(hhrtim, TimerIdx, HRTIM_TIM_IT_CPT2);
     }
+    break;
+  default:
     break;
   }
   
@@ -2716,7 +2744,9 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleCaptureStart_DMA(HRTIM_HandleTypeDef * hhrtim,
       __HAL_HRTIM_TIMER_ENABLE_DMA(hhrtim, TimerIdx, HRTIM_TIM_DMA_CPT2);      
     }
     break;
-  }
+   default:
+    break;
+ }
   
   /* Enable the timer counter */
   __HAL_HRTIM_ENABLE(hhrtim, TimerIdxToTimerId[TimerIdx]);
@@ -2786,6 +2816,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleCaptureStop_DMA(HRTIM_HandleTypeDef * hhrtim,
       /* Disable the capture unit 2 DMA request */
       __HAL_HRTIM_TIMER_DISABLE_DMA(hhrtim, TimerIdx, HRTIM_TIM_DMA_CPT2);
     }
+    break;
+  default:
     break;
   }
   
@@ -2871,7 +2903,7 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOnePulseChannelConfig(HRTIM_HandleTypeDef * hh
                                                        uint32_t OnePulseChannel,
                                                        HRTIM_SimpleOnePulseChannelCfgTypeDef* pSimpleOnePulseChannelCfg)
 {
-  uint32_t CompareUnit = 0xFFFFFFFF;
+  uint32_t CompareUnit = 0xFFFFFFFFU;
   HRTIM_CompareCfgTypeDef CompareCfg;
   HRTIM_OutputCfgTypeDef OutputCfg;
   HRTIM_EventCfgTypeDef EventCfg;
@@ -2917,6 +2949,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOnePulseChannelConfig(HRTIM_HandleTypeDef * hh
     {
       CompareUnit = HRTIM_COMPAREUNIT_2;
     }
+    break;
+  default:
     break;
   }
   
@@ -3137,6 +3171,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOnePulseStart_IT(HRTIM_HandleTypeDef * hhrtim,
       __HAL_HRTIM_TIMER_ENABLE_IT(hhrtim, TimerIdx, HRTIM_TIM_IT_CMP2);
     }
     break;
+  default:
+    break;
   }
   
   /* Enable the timer counter */
@@ -3210,6 +3246,8 @@ HAL_StatusTypeDef HAL_HRTIM_SimpleOnePulseStop_IT(HRTIM_HandleTypeDef * hhrtim,
     {
       __HAL_HRTIM_TIMER_DISABLE_IT(hhrtim, TimerIdx, HRTIM_TIM_IT_CMP2);
     }
+    break;
+  default:
     break;
   }
   
@@ -3703,6 +3741,8 @@ HAL_StatusTypeDef HAL_HRTIM_ADCTriggerConfig(HRTIM_HandleTypeDef * hhrtim,
       hhrtim->Instance->sCommonRegs.ADC4R = pADCTriggerCfg->Trigger;
     }
     break;
+  default:
+    break;
   }
   
   /* Update the HRTIM registers */
@@ -3989,6 +4029,8 @@ HAL_StatusTypeDef HAL_HRTIM_TimerEventFilteringConfig(HRTIM_HandleTypeDef * hhrt
       hhrtim->Instance->sTimerxRegs[TimerIdx].EEFxR2 = hrtim_eefr;
     }
     break;
+  default:
+    break;
   }
   
   hhrtim->State = HAL_HRTIM_STATE_READY;
@@ -4212,6 +4254,8 @@ HAL_StatusTypeDef HAL_HRTIM_BurstDMAConfig(HRTIM_HandleTypeDef * hhrtim,
       hhrtim->Instance->sCommonRegs.BDMUPR = RegistersToUpdate;
     }
     break;
+  default:
+    break;
   }
   
   hhrtim->State = HAL_HRTIM_STATE_READY;
@@ -4292,6 +4336,8 @@ HAL_StatusTypeDef HAL_HRTIM_WaveformCompareConfig(HRTIM_HandleTypeDef * hhrtim,
         hhrtim->Instance->sMasterRegs.MCMP4R = pCompareCfg->CompareValue;
         }
         break;
+    default:
+      break;
     }
   }
   else
@@ -4366,6 +4412,8 @@ HAL_StatusTypeDef HAL_HRTIM_WaveformCompareConfig(HRTIM_HandleTypeDef * hhrtim,
         }
       }
       break;
+    default:
+      break;
     }
   }
   hhrtim->State = HAL_HRTIM_STATE_READY;
@@ -4424,6 +4472,8 @@ HAL_StatusTypeDef HAL_HRTIM_WaveformCaptureConfig(HRTIM_HandleTypeDef * hhrtim,
     {
       hhrtim->Instance->sTimerxRegs[TimerIdx].CPT2xCR = pCaptureCfg->Trigger;
     }
+    break;
+  default:
     break;
   }
   
@@ -4587,6 +4637,8 @@ HAL_StatusTypeDef HAL_HRTIM_WaveformSetOutputLevel(HRTIM_HandleTypeDef * hhrtim,
         hhrtim->Instance->sTimerxRegs[TimerIdx].RSTx2R |= HRTIM_RST2R_SRT;
       }
     }
+    break;
+  default:
     break;
   }
   
@@ -5169,6 +5221,8 @@ HAL_StatusTypeDef HAL_HRTIM_SoftwareCapture(HRTIM_HandleTypeDef * hhrtim,
       hhrtim->Instance->sTimerxRegs[TimerIdx].CPT2xCR |= HRTIM_CPT2CR_SWCPT;
     }
     break;
+  default:
+    break;
   }
   
   hhrtim->State = HAL_HRTIM_STATE_READY;
@@ -5486,6 +5540,8 @@ uint32_t HAL_HRTIM_GetCapturedValue(HRTIM_HandleTypeDef * hhrtim,
       captured_value = hhrtim->Instance->sTimerxRegs[TimerIdx].CPT2xR;
     }
     break;
+  default:
+    break;
   }
   
   return captured_value; 
@@ -5560,6 +5616,8 @@ uint32_t HAL_HRTIM_WaveformGetOutputLevel(HRTIM_HandleTypeDef * hhrtim,
         output_level = HRTIM_OUTPUTLEVEL_INACTIVE;
       }
     }
+    break;
+  default:
     break;
   }
   
@@ -5652,6 +5710,8 @@ uint32_t HAL_HRTIM_WaveformGetOutputState(HRTIM_HandleTypeDef * hhrtim,
     {
       output_bit = HRTIM_OENR_TE2OEN;
     }
+    break;
+  default:
     break;
   }
   
@@ -5749,6 +5809,8 @@ uint32_t HAL_HRTIM_GetDelayedProtectionStatus(HRTIM_HandleTypeDef * hhrtim,
         delayed_protection_status = HRTIM_OUTPUTLEVEL_INACTIVE;
       }
     }
+    break;
+  default:
     break;
   }
   
@@ -5922,6 +5984,9 @@ void HAL_HRTIM_IRQHandler(HRTIM_HandleTypeDef * hhrtim,
   */
 __weak void HAL_HRTIM_Fault1Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault1Callback could be implenetd in the user file
    */ 
@@ -5934,6 +5999,9 @@ __weak void HAL_HRTIM_Fault1Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault2Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault2Callback could be implenetd in the user file
    */ 
@@ -5946,6 +6014,9 @@ __weak void HAL_HRTIM_Fault2Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault3Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault3Callback could be implenetd in the user file
    */ 
@@ -5958,6 +6029,9 @@ __weak void HAL_HRTIM_Fault3Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault4Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault4Callback could be implenetd in the user file
    */ 
@@ -5970,6 +6044,9 @@ __weak void HAL_HRTIM_Fault4Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_Fault5Callback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Fault5Callback could be implenetd in the user file
    */ 
@@ -5982,6 +6059,9 @@ __weak void HAL_HRTIM_Fault5Callback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_SystemFaultCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_SystemFaultCallback could be implenetd in the user file
    */ 
@@ -5994,6 +6074,9 @@ __weak void HAL_HRTIM_SystemFaultCallback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_DLLCalbrationReadyCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_DLLCalbrationCallback could be implenetd in the user file
    */ 
@@ -6006,6 +6089,9 @@ __weak void HAL_HRTIM_DLLCalbrationReadyCallback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_BurstModePeriodCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_BurstModeCallback could be implenetd in the user file
    */ 
@@ -6018,6 +6104,9 @@ __weak void HAL_HRTIM_BurstModePeriodCallback(HRTIM_HandleTypeDef * hhrtim)
   */
 __weak void HAL_HRTIM_SynchronizationEventCallback(HRTIM_HandleTypeDef * hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_SynchronizationEventCallback could be implenetd in the user file
    */ 
@@ -6039,6 +6128,10 @@ __weak void HAL_HRTIM_SynchronizationEventCallback(HRTIM_HandleTypeDef * hhrtim)
 __weak void HAL_HRTIM_RegistersUpdateCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_RegistersUpdateCallback could be implenetd in the user file
    */ 
@@ -6060,6 +6153,10 @@ __weak void HAL_HRTIM_RegistersUpdateCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_RepetitionEventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_RepetitionEventCallback could be implenetd in the user file
    */ 
@@ -6082,6 +6179,10 @@ __weak void HAL_HRTIM_RepetitionEventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare1EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare1EventCallback could be implenetd in the user file
    */ 
@@ -6104,6 +6205,10 @@ __weak void HAL_HRTIM_Compare1EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare2EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare2EventCallback could be implenetd in the user file
    */ 
@@ -6126,6 +6231,10 @@ __weak void HAL_HRTIM_Compare2EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare3EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare3EventCallback could be implenetd in the user file
    */ 
@@ -6148,6 +6257,10 @@ __weak void HAL_HRTIM_Compare3EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Compare4EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Master_Compare4EventCallback could be implenetd in the user file
    */ 
@@ -6168,6 +6281,10 @@ __weak void HAL_HRTIM_Compare4EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Capture1EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Capture1EventCallback could be implenetd in the user file
    */ 
@@ -6188,6 +6305,10 @@ __weak void HAL_HRTIM_Capture1EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Capture2EventCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Capture2EventCallback could be implenetd in the user file
    */ 
@@ -6209,6 +6330,10 @@ __weak void HAL_HRTIM_Capture2EventCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_DelayedProtectionCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_DelayedProtectionCallback could be implenetd in the user file
    */ 
@@ -6230,6 +6355,10 @@ __weak void HAL_HRTIM_DelayedProtectionCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_CounterResetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_CounterResetCallback could be implenetd in the user file
    */ 
@@ -6250,6 +6379,10 @@ __weak void HAL_HRTIM_CounterResetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output1SetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output1SetCallback could be implenetd in the user file
    */ 
@@ -6270,6 +6403,10 @@ __weak void HAL_HRTIM_Output1SetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output1ResetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output1ResetCallback could be implenetd in the user file
    */ 
@@ -6290,6 +6427,10 @@ __weak void HAL_HRTIM_Output1ResetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output2SetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output2SetCallback could be implenetd in the user file
    */ 
@@ -6310,6 +6451,10 @@ __weak void HAL_HRTIM_Output2SetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_Output2ResetCallback(HRTIM_HandleTypeDef * hhrtim,
                                               uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_Timer_Output2ResetCallback could be implenetd in the user file
    */ 
@@ -6331,6 +6476,10 @@ __weak void HAL_HRTIM_Output2ResetCallback(HRTIM_HandleTypeDef * hhrtim,
 __weak void HAL_HRTIM_BurstDMATransferCallback(HRTIM_HandleTypeDef * hhrtim,
                                                uint32_t TimerIdx)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+  UNUSED(TimerIdx);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_BurstDMATransferCallback could be implenetd in the user file
    */ 
@@ -6343,6 +6492,9 @@ __weak void HAL_HRTIM_BurstDMATransferCallback(HRTIM_HandleTypeDef * hhrtim,
   */
 __weak void HAL_HRTIM_ErrorCallback(HRTIM_HandleTypeDef *hhrtim)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hhrtim);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_HRTIM_ErrorCallback could be implenetd in the user file
    */ 
@@ -6606,6 +6758,8 @@ static void  HRTIM_TimingUnitWaveform_Config(HRTIM_HandleTypeDef * hhrtim,
       hrtim_bmcr |= ( pTimerCfg->BurstMode << 5);
     }
     break;
+  default:
+    break;
   }
 
   /* Update the HRTIM registers */
@@ -6654,6 +6808,8 @@ static void  HRTIM_CompareUnitConfig(HRTIM_HandleTypeDef * hhrtim,
         hhrtim->Instance->sMasterRegs.MCMP4R = pCompareCfg->CompareValue;
       }
       break;
+    default:
+      break;
     }
   }
   else
@@ -6681,6 +6837,8 @@ static void  HRTIM_CompareUnitConfig(HRTIM_HandleTypeDef * hhrtim,
         hhrtim->Instance->sTimerxRegs[TimerIdx].CMP4xR = pCompareCfg->CompareValue;
       }
       break;
+    default:
+      break;
     }    
   }
 }
@@ -6698,7 +6856,7 @@ static void HRTIM_CaptureUnitConfig(HRTIM_HandleTypeDef * hhrtim,
                                     uint32_t CaptureUnit,
                                     uint32_t Event)
 {
-  uint32_t CaptureTrigger = 0xFFFFFFFF;
+  uint32_t CaptureTrigger = 0xFFFFFFFFU;
   
   switch (Event)
   {
@@ -6752,6 +6910,8 @@ static void HRTIM_CaptureUnitConfig(HRTIM_HandleTypeDef * hhrtim,
       CaptureTrigger = HRTIM_CAPTURETRIGGER_EEV_10;
     }
     break;
+  default:
+    break;
   }
   
   switch (CaptureUnit)
@@ -6765,6 +6925,8 @@ static void HRTIM_CaptureUnitConfig(HRTIM_HandleTypeDef * hhrtim,
     {
       hhrtim->TimerParam[TimerIdx].CaptureTrigger2 = CaptureTrigger;
     }
+    break;
+  default:
     break;
   }
 }
@@ -6785,7 +6947,7 @@ static void  HRTIM_OutputConfig(HRTIM_HandleTypeDef * hhrtim,
   uint32_t hrtim_outr;
   uint32_t hrtim_dtr;
   
-  uint32_t shift = 0xFFFFFFFF;
+  uint32_t shift = 0xFFFFFFFFU;
   
   hrtim_outr = hhrtim->Instance->sTimerxRegs[TimerIdx].OUTxR;
   hrtim_dtr = hhrtim->Instance->sTimerxRegs[TimerIdx].DTxR;
@@ -6817,6 +6979,8 @@ static void  HRTIM_OutputConfig(HRTIM_HandleTypeDef * hhrtim,
 
       shift = 16;
     }
+    break;
+  default:
     break;
   }
   
@@ -7080,6 +7244,8 @@ static void HRTIM_TIM_ResetConfig(HRTIM_HandleTypeDef * hhrtim,
       hhrtim->Instance->sTimerxRegs[TimerIdx].RSTxR = HRTIM_TIMRESETTRIGGER_EEV_10;
     }
     break;
+  default:
+    break;
   }
 }
 
@@ -7171,6 +7337,8 @@ static uint32_t HRTIM_GetITFromOCMode(HRTIM_HandleTypeDef * hhrtim,
         interrupt = HRTIM_TIM_IT_RST2;
       }
     }
+    break;
+  default:
     break;
   }
   
@@ -7266,6 +7434,8 @@ static uint32_t HRTIM_GetDMAFromOCMode(HRTIM_HandleTypeDef * hhrtim,
       }
     }
     break;
+  default:
+    break;
   }
   
   return dma_request;
@@ -7308,6 +7478,8 @@ static DMA_HandleTypeDef * HRTIM_GetDMAHandleFromTimerIdx(HRTIM_HandleTypeDef * 
       hdma = hhrtim->hdmaTimerE;
     }
     break;
+  default:
+    break;
   }
   
   return hdma;
@@ -7315,7 +7487,7 @@ static DMA_HandleTypeDef * HRTIM_GetDMAHandleFromTimerIdx(HRTIM_HandleTypeDef * 
 
 static uint32_t GetTimerIdxFromDMAHandle(DMA_HandleTypeDef *hdma)
 {
-  uint32_t timed_idx = 0xFFFFFFFF;
+  uint32_t timed_idx = 0xFFFFFFFFU;
   
   if (hdma->Instance ==  DMA1_Channel2)
   {
@@ -7386,6 +7558,8 @@ static void HRTIM_ForceRegistersUpdate(HRTIM_HandleTypeDef * hhrtim,
     {
       hhrtim->Instance->sCommonRegs.CR2 |= HRTIM_CR2_TESWU;
     }
+    break;
+  default:
     break;
   }
 }

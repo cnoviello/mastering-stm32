@@ -3,14 +3,10 @@
 
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart2;
-CRC_HandleTypeDef hcrc;
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void MX_CRC_Init(void);
 void MX_GPIO_Init(void);
-void MX_GPIO_Deinit(void);
-static void MX_DMA_Init(void);
 void MX_USART2_UART_Init(void);
 
 void Nucleo_BSP_Init() {
@@ -18,9 +14,7 @@ void Nucleo_BSP_Init() {
   SystemClock_Config();
 
   /* Initialize all configured peripherals */
-  MX_CRC_Init();
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_USART2_UART_Init();
 }
 
@@ -28,6 +22,7 @@ void Nucleo_BSP_Init() {
 */
 void SystemClock_Config(void)
 {
+
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
 
@@ -53,10 +48,8 @@ void SystemClock_Config(void)
 
   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
 
-  __HAL_RCC_PWR_CLK_ENABLE();
-
   /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0);
+  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
 /* USART2 init function */
@@ -83,6 +76,7 @@ void MX_USART2_UART_Init(void)
 */
 void MX_GPIO_Init(void)
 {
+
   GPIO_InitTypeDef GPIO_InitStruct;
 
   /* GPIO Ports Clock Enable */
@@ -91,9 +85,9 @@ void MX_GPIO_Init(void)
   __GPIOA_CLK_ENABLE();
   __GPIOB_CLK_ENABLE();
 
-  /*Configure GPIO pin : B1_Pin */
-  GPIO_InitStruct.Pin = B1_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  /*Configure GPIO pin : PC13 */
+  GPIO_InitStruct.Pin = GPIO_PIN_13;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
@@ -103,6 +97,9 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_LOW;
   HAL_GPIO_Init(LD2_GPIO_Port, &GPIO_InitStruct);
+
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 1, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 }
 
 void MX_GPIO_Deinit(void)
@@ -118,7 +115,7 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Pin = GPIO_PIN_All;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -133,26 +130,6 @@ void MX_GPIO_Deinit(void)
   __HAL_RCC_GPIOD_CLK_DISABLE();
 }
 
-/**
-  * Enable DMA controller clock
-  */
-void MX_DMA_Init(void)
-{
-  /* DMA controller clock enable */
-  __DMA1_CLK_ENABLE();
-}
-
-void MX_CRC_Init(void)
-{
-  __HAL_RCC_CRC_CLK_ENABLE();
-
-  hcrc.Instance = CRC;
-  HAL_CRC_Init(&hcrc);
-}
-
-/* USER CODE BEGIN 4 */
-
-/* USER CODE END 4 */
 
 #ifdef USE_FULL_ASSERT
 

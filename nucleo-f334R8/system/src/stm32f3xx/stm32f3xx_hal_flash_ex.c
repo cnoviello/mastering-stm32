@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_flash_ex.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   Extended FLASH HAL module driver.
   *    
   *          This file provides firmware functions to manage the following 
@@ -30,7 +30,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -113,6 +113,7 @@ extern FLASH_ProcessTypeDef pFlash;
  */
 /* Erase operations */
 static void              FLASH_MassErase(void);
+void    FLASH_PageErase(uint32_t PageAddress);
 
 /* Option bytes control */
 static HAL_StatusTypeDef FLASH_OB_EnableWRP(uint32_t WriteProtectPage);
@@ -212,7 +213,7 @@ HAL_StatusTypeDef HAL_FLASHEx_Erase(FLASH_EraseInitTypeDef *pEraseInit, uint32_t
       if (FLASH_WaitForLastOperation((uint32_t)FLASH_TIMEOUT_VALUE) == HAL_OK)
       {
         /*Initialization of PageError variable*/
-        *PageError = 0xFFFFFFFF;
+        *PageError = 0xFFFFFFFFU;
         
         /* Erase page by page to be done*/
         for(address = pEraseInit->PageAddress;
@@ -903,7 +904,7 @@ static uint32_t FLASH_OB_GetWRP(void)
 
 /**
   * @brief  Returns the FLASH Read Protection level.
-  * @retval FLASH ReadOut Protection Status:
+  * @retval FLASH RDP level
   *         This parameter can be one of the following values:
   *            @arg @ref OB_RDP_LEVEL_0 No protection
   *            @arg @ref OB_RDP_LEVEL_1 Read protection of the memory

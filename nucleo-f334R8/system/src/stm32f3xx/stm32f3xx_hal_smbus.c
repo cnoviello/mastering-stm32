@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f3xx_hal_smbus.c
   * @author  MCD Application Team
-  * @version V1.2.0
-  * @date    13-November-2015
+  * @version V1.3.0
+  * @date    01-July-2016
   * @brief   SMBUS HAL module driver.
   *          This file provides firmware functions to manage the following 
   *          functionalities of the System Management Bus (SMBus) peripheral,
@@ -97,7 +97,7 @@
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; COPYRIGHT(c) 2015 STMicroelectronics</center></h2>
+  * <h2><center>&copy; COPYRIGHT(c) 2016 STMicroelectronics</center></h2>
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -143,7 +143,7 @@
 /** @defgroup SMBUS_Private_Define SMBUS Private Constants
  * @{
  */
-#define TIMING_CLEAR_MASK   ((uint32_t)0xF0FFFFFF)      /*!< SMBUS TIMING clear register Mask */
+#define TIMING_CLEAR_MASK   ((uint32_t)0xF0FFFFFFU)      /*!< SMBUS TIMING clear register Mask */
 #define HAL_TIMEOUT_ADDR    ((uint32_t)10000)           /*!< 10 s  */
 #define HAL_TIMEOUT_BUSY    ((uint32_t)25)              /*!< 25 ms */
 #define HAL_TIMEOUT_DIR     ((uint32_t)25)              /*!< 25 ms */
@@ -363,6 +363,9 @@ HAL_StatusTypeDef HAL_SMBUS_DeInit(SMBUS_HandleTypeDef *hsmbus)
   */
  __weak void HAL_SMBUS_MspInit(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_MspInit could be implemented in the user file
    */ 
@@ -376,6 +379,9 @@ HAL_StatusTypeDef HAL_SMBUS_DeInit(SMBUS_HandleTypeDef *hsmbus)
   */
  __weak void HAL_SMBUS_MspDeInit(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_MspDeInit could be implemented in the user file
    */ 
@@ -432,7 +438,8 @@ HAL_StatusTypeDef HAL_SMBUS_DeInit(SMBUS_HandleTypeDef *hsmbus)
   * @brief  Transmit in master/host SMBUS mode an amount of data in non-blocking mode with Interrupt.
   * @param  hsmbus Pointer to a SMBUS_HandleTypeDef structure that contains
   *                the configuration information for the specified SMBUS.
-  * @param  DevAddress Target device address
+  * @param  DevAddress Target device address: The device 7 bits address value
+  *         in datasheet must be shift at right before call interface
   * @param  pData Pointer to data buffer
   * @param  Size Amount of data to be sent
   * @param  XferOptions Options of Transfer, value of @ref SMBUS_XferOptions_definition
@@ -520,7 +527,8 @@ HAL_StatusTypeDef HAL_SMBUS_Master_Transmit_IT(SMBUS_HandleTypeDef *hsmbus, uint
   * @brief  Receive in master/host SMBUS mode an amount of data in non-blocking mode with Interrupt.
   * @param  hsmbus Pointer to a SMBUS_HandleTypeDef structure that contains
   *                the configuration information for the specified SMBUS.
-  * @param  DevAddress Target device address
+  * @param  DevAddress Target device address: The device 7 bits address value
+  *         in datasheet must be shift at right before call interface
   * @param  pData Pointer to data buffer
   * @param  Size Amount of data to be sent
   * @param  XferOptions Options of Transfer, value of @ref SMBUS_XferOptions_definition
@@ -602,7 +610,8 @@ HAL_StatusTypeDef HAL_SMBUS_Master_Receive_IT(SMBUS_HandleTypeDef *hsmbus, uint1
   * @note   This abort can be called only if state is ready
   * @param  hsmbus Pointer to a SMBUS_HandleTypeDef structure that contains
   *                the configuration information for the specified SMBUS.
-  * @param  DevAddress Target device address
+  * @param  DevAddress Target device address: The device 7 bits address value
+  *         in datasheet must be shift at right before call interface
   * @retval HAL status
   */
 HAL_StatusTypeDef HAL_SMBUS_Master_Abort_IT(SMBUS_HandleTypeDef *hsmbus, uint16_t DevAddress)
@@ -905,7 +914,8 @@ HAL_StatusTypeDef HAL_SMBUS_DisableAlert_IT(SMBUS_HandleTypeDef *hsmbus)
   * @brief  Check if target device is ready for communication. 
   * @param  hsmbus Pointer to a SMBUS_HandleTypeDef structure that contains
   *                the configuration information for the specified SMBUS.
-  * @param  DevAddress Target device address
+  * @param  DevAddress Target device address: The device 7 bits address value
+  *         in datasheet must be shift at right before call interface
   * @param  Trials Number of trials
   * @param  Timeout Timeout duration
   * @retval HAL status
@@ -1171,6 +1181,9 @@ void HAL_SMBUS_ER_IRQHandler(SMBUS_HandleTypeDef *hsmbus)
   */
  __weak void HAL_SMBUS_MasterTxCpltCallback(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_TxCpltCallback() could be implemented in the user file
    */ 
@@ -1184,6 +1197,9 @@ void HAL_SMBUS_ER_IRQHandler(SMBUS_HandleTypeDef *hsmbus)
   */
 __weak void HAL_SMBUS_MasterRxCpltCallback(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_TxCpltCallback() could be implemented in the user file
    */
@@ -1196,6 +1212,9 @@ __weak void HAL_SMBUS_MasterRxCpltCallback(SMBUS_HandleTypeDef *hsmbus)
   */
  __weak void HAL_SMBUS_SlaveTxCpltCallback(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_TxCpltCallback() could be implemented in the user file
    */ 
@@ -1209,6 +1228,9 @@ __weak void HAL_SMBUS_MasterRxCpltCallback(SMBUS_HandleTypeDef *hsmbus)
   */
 __weak void HAL_SMBUS_SlaveRxCpltCallback(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_TxCpltCallback() could be implemented in the user file
    */
@@ -1224,6 +1246,11 @@ __weak void HAL_SMBUS_SlaveRxCpltCallback(SMBUS_HandleTypeDef *hsmbus)
   */
 __weak void HAL_SMBUS_AddrCallback(SMBUS_HandleTypeDef *hsmbus, uint8_t TransferDirection, uint16_t AddrMatchCode)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+  UNUSED(TransferDirection);
+  UNUSED(AddrMatchCode);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_AddrCallback() could be implemented in the user file
    */
@@ -1237,6 +1264,9 @@ __weak void HAL_SMBUS_AddrCallback(SMBUS_HandleTypeDef *hsmbus, uint8_t Transfer
   */
 __weak void HAL_SMBUS_ListenCpltCallback(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
     /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_ListenCpltCallback() could be implemented in the user file
    */
@@ -1250,6 +1280,9 @@ __weak void HAL_SMBUS_ListenCpltCallback(SMBUS_HandleTypeDef *hsmbus)
   */
  __weak void HAL_SMBUS_ErrorCallback(SMBUS_HandleTypeDef *hsmbus)
 {
+  /* Prevent unused argument(s) compilation warning */
+  UNUSED(hsmbus);
+
   /* NOTE : This function should not be modified, when the callback is needed,
             the HAL_SMBUS_ErrorCallback() could be implemented in the user file
    */ 

@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f1xx_hal_irda.h
   * @author  MCD Application Team
-  * @version V1.0.3
-  * @date    11-January-2016
+  * @version V1.0.4
+  * @date    29-April-2016
   * @brief   Header file of IRDA HAL module.
   ******************************************************************************
   * @attention
@@ -444,7 +444,11 @@ do{                                         \
 #define IRDA_DIV(__PCLK__, __BAUD__)                    (((__PCLK__)*25)/(4*(__BAUD__)))
 #define IRDA_DIVMANT(__PCLK__, __BAUD__)                (IRDA_DIV((__PCLK__), (__BAUD__))/100)
 #define IRDA_DIVFRAQ(__PCLK__, __BAUD__)                (((IRDA_DIV((__PCLK__), (__BAUD__)) - (IRDA_DIVMANT((__PCLK__), (__BAUD__)) * 100)) * 16 + 50) / 100)
-#define IRDA_BRR(__PCLK__, __BAUD__)                    ((IRDA_DIVMANT((__PCLK__), (__BAUD__)) << 4)|(IRDA_DIVFRAQ((__PCLK__), (__BAUD__)) & 0x0F))
+/* UART BRR = mantissa + overflow + fraction
+            = (UART DIVMANT << 4) + (UART DIVFRAQ & 0xF0) + (UART DIVFRAQ & 0x0F) */
+#define IRDA_BRR(_PCLK_, _BAUD_)            (((IRDA_DIVMANT((_PCLK_), (_BAUD_)) << 4) + \
+                                             (IRDA_DIVFRAQ((_PCLK_), (_BAUD_)) & 0xF0)) + \
+                                             (IRDA_DIVFRAQ((_PCLK_), (_BAUD_)) & 0x0F))
 
 /** Ensure that IRDA Baud rate is less or equal to maximum value
   *    __BAUDRATE__: specifies the IRDA Baudrate set by the user.
