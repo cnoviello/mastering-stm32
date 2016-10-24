@@ -11,13 +11,15 @@
 
 #include "ioLibrary_Driver/Internet/httpServer/httpUtil.h"
 #include "ioLibrary_Driver/Ethernet/wizchip_conf.h"
-
+#include <stm32f4xx_hal.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "ff.h"
 
 extern ADC_HandleTypeDef hadc1;
+extern uint16_t adcConv[200];
+extern TIM_HandleTypeDef htim2;
 
 uint8_t http_get_cgi_handler(uint8_t * uri_name, uint8_t * buf, uint32_t * file_len)
 {
@@ -27,14 +29,12 @@ uint8_t http_get_cgi_handler(uint8_t * uri_name, uint8_t * buf, uint32_t * file_
 	if(strcmp((const char*)uri_name, "temp.cgi") == 0) {
     uint16_t rawValue;
     float temp;
+    uint8_t *pbuf = buf;
 
-    HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);
-
-    rawValue = HAL_ADC_GetValue(&hadc1);
-    temp = ((float)rawValue) / 4095 * 3300;
-    temp = ((temp - 760.0) / 2.5) + 25;
-
-    sprintf(buf, "{\"temp\": %.2f}", temp);
+    pbuf += sprintf(pbuf, "[");
+    for(uint8_t i = 0; i < 200; i++)
+        pbuf += sprintf(pbuf, "%d,", adcConv[i]);
+    sprintf(--pbuf, "]");
     *file_len = strlen(buf);
     return HTTP_OK;
 
@@ -108,26 +108,34 @@ uint8_t http_post_cgi_handler(uint8_t * uri_name, st_http_request * p_http_reque
 	uint8_t ret = HTTP_OK;
 	uint16_t len = 0;
 	uint8_t val = 0;
+	uint8_t *param = p_http_request->URI;
 
 //	if(predefined_set_cgi_processor(uri_name, p_http_request->URI, buf, &len))
 //	{
 //		;
 //	}
-//	else if(strcmp((const char *)uri_name, "example.cgi") == 0)
-//	{
-//		// To do
-//		val = 1;
-//		len = sprintf((char *)buf, "%d", val);
-//	}
-//	else
-//	{
-//		// CGI file not found
-//		ret = HTTP_FAILED;
-//	}
+	  if(strcmp((const char *)uri_name, "sf.cgi") == 0) {
+	    param = get_http_param_value((char*)p_http_request->URI, "f");
+	    if(param != p_http_request->URI) {
+	      uint16_t freq = atoi(param);
+	      HAL_ADC_Stop_DMA(&hadc1);
+        HAL_TIM_Base_Stop(&htim2);
+	      memset(adcConv, 0, sizeof(uint16_t)*200);
+	      htim2.Init.Period = freq;
+	      HAL_TIM_Base_Init(&htim2);
+	      HAL_TIM_Base_Start(&htim2);
+	      HAL_ADC_Start_DMA(&hadc1, adcConv, 200);
+	      sprintf(buf, "OK");
+	      len = strlen(buf);
+	    }
 
-	uint8_t *param, ip[4];
-	param = get_http_param_value(p_http_request->URI, "ipaddr");
-	inet_addr_((u_char*)param, ip);
+    }
+	  else if(strcmp((const char *)uri_name, "network.cgi") == 0) {
+      uint8_t ip[4];
+      param = get_http_param_value((char*)p_http_request->URI, "ipaddr");
+      inet_addr_((u_char*)param, ip);
+    }
+
 
 	if(ret)	*file_len = len;
 	return ret;

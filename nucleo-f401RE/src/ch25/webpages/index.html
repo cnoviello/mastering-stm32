@@ -34,6 +34,19 @@
         width: 40px;
         margin-top: -10px;
       }      
+      .graph {
+          background: #eae8e8;
+          border-radius: 15px;
+          border: 2px solid darkgray;
+      }    
+      .grid line {
+          stroke: lightgrey; 
+          stroke-opacity: 0.7; 
+          shape-rendering: crispEdges;
+      }
+      .grid path { 
+        stroke-width: 0;
+      }
     </style>
 
   </head>
@@ -79,21 +92,22 @@
       </div><!-- /.container-fluid -->
     </nav>
 
-    <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
-      </div>
-    </div>
+   <hr><hr>
 
     <div class="container">
       <!-- Example row of columns -->
-      <span id="temperature">°C</span>
-      <div class="graph"></div>
-      <hr>
+      <div class="row">
+        <div class="graph col-md-8">
 
+        </div>
+        <div class="knobs col-md-4">
+          <p>
+            <a id="freq">Freq</a>
+            <a id="freq2">Freq2</a>
+            <a id="freq3">Freq3</a>
+          </p>
+        </div>
+      </div>
       <footer>
         <p>&copy; 2016 Company, Inc.</p>
       </footer>
@@ -116,23 +130,156 @@
 }
 
 </style>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v4.min.js"></script>
 <script>
 
-var temp = -100.0;
+var tempInfo=null;
+var freq = 1;
+var dataset = [];
+var valueline = 0;
+var x = null;
+var y = null;
+
+function setFrequency() {
+  console.log("JEEEEE");
+    freq *= 2;
+
+    $.ajax({
+          url: "sf.cgi",
+          type: "POST",
+          data: {f: freq}
+        }).done(function(data) {
+          fetchTemp2();
+        }).error(function(error) {
+          console.log(error);
+        });
+
+
+}
+
+$("#freq").click(setFrequency);
+$("#freq2").click(function(evt) {
+  freq = 1;
+  setFrequency();
+});
+$("#freq3").click(function(evt) {
+  fetchTemp2();
+});
+
+function make_x_gridlines() { 
+  return d3.axisBottom(x)
+        .ticks(18)
+}
+// gridlines in y axis function
+function make_y_gridlines() { 
+  return d3.axisLeft(y)
+        .ticks(5)
+}
+
+function fetchTemp2() {
+  $.ajax({
+          url: "temp.cgi"
+        }).success(function(data) {
+          tempInfo = JSON.parse(data);
+          for (var i = 0; i < tempInfo.length; i++) {
+            dataset[i] = {x: i, y: tempInfo[i]};
+          }
+
+            // Select the section we want to apply our changes to
+            var svg = d3.select("body").transition();
+
+            // Make the changes
+                svg.select(".line")   // change the line
+                    .duration(0)
+                    .attr("d", valueline(dataset));
+                svg.select(".x.axis") // change the x axis
+                    .duration(0)
+                    .call(x);
+                svg.select(".y.axis") // change the y axis
+                    .duration(0)
+                    .call(y);        
+
+                fetchTemp2();
+            });
+}
 
 function fetchTemp() {
   $.ajax({
           url: "temp.cgi"
         }).done(function(data) {
           tempInfo = JSON.parse(data);
-          temp = tempInfo["temp"];
           buildGraph();
-          $("#temperature").html(temp + "°C");
         }).error(fetchTemp);
 }
 
 function buildGraph() {
+  // set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = d3.select(".graph").node().getBoundingClientRect().width - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+for (var i = 0; i < 199; i++)
+  dataset.push({x: i, y: tempInfo[i]});
+
+x = d3.scaleLinear().range([0, width]);
+y = d3.scaleLinear().range([height, 0]);
+
+console.log(x);
+
+// define the line
+valueline = d3.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.y); });
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select(".graph").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+      .attr("class", "center-grid")
+      .attr("transform", "translate(0, 200)")
+      .call(d3.line(0,100).tickSize(10));
+
+svg.append("g")
+      .attr("class", "grid")
+      .attr("transform", "translate(0," + height + ")")
+      .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+      )
+
+
+// Get the data
+if(1) {
+  // Scale the range of the data
+  x.domain(d3.extent(dataset, function(d) { return d.x; }));
+  y.domain([0, d3.max(dataset, function(d) { return d.y; })]);
+
+  // Add the valueline path.
+  svg.append("path")
+      .data([dataset])
+      .attr("class", "line")
+      .attr("d", valueline);
+
+  // Add the X Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x).ticks(20));
+
+  // Add the Y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));
+
+}
+}
+
+function buildGraph2() {
   console.log("buildGraph");
 
   var n = 20,
@@ -144,7 +291,7 @@ function buildGraph() {
   scrollData = [temp]
 
   var margin = {top: 6, right: 0, bottom: 20, left: 40},
-      width = 960 - margin.right,
+      width = d3.select(".graph").width - margin.right,
       height = 220 - margin.top - margin.bottom;
 
   var x = d3.time.scale()

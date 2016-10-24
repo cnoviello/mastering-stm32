@@ -19,11 +19,14 @@ ADC_HandleTypeDef hadc1;
 SPI_HandleTypeDef hspi1;
 DMA_HandleTypeDef hdma_spi1_rx;
 DMA_HandleTypeDef hdma_spi1_tx;
+DMA_HandleTypeDef hdma_adc1;
 UART_HandleTypeDef huart2;
+TIM_HandleTypeDef htim2;
 
 void Error_Handler(void);
 void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_TIM2_Init(void);
 void ConfigureW5500Thread(void const *argument);
 
 FATFS diskHandle;
@@ -227,6 +230,8 @@ void IO_LIBRARY_Init(void) {
   reg_httpServer_cbfunc(NVIC_SystemReset, NULL);          // Callback: NXP MCU Reset
 }
 
+uint16_t adcConv[200];
+
 int main(void) {
   HAL_Init();
   Nucleo_BSP_Init();
@@ -234,7 +239,9 @@ int main(void) {
 //  RetargetInit(&huart2);
 
   MX_ADC1_Init();
-  HAL_ADC_Start(&hadc1);
+  MX_TIM2_Init();
+  HAL_TIM_Base_Start(&htim2);
+  HAL_ADC_Start_DMA(&hadc1, adcConv, 200);
 
   MX_SPI1_Init();
 
@@ -280,7 +287,7 @@ int main(void) {
 #endif
 
   osThreadId w5500TID;
-  osThreadDef(w5500, ConfigureW5500Thread, osPriorityNormal, 0, 2048);
+  osThreadDef(w5500, ConfigureW5500Thread, osPriorityNormal, 0, 6000);
   w5500TID = osThreadCreate(osThread(w5500), NULL);
 
   osKernelStart();
@@ -301,6 +308,7 @@ void ConfigureW5500Thread(void const *argument) {
 /* ADC1 init function */
 void MX_ADC1_Init(void) {
   ADC_ChannelConfTypeDef sConfig;
+  GPIO_InitTypeDef GPIO_InitStruct;
 
   /* Enable ADC peripheral */
   __HAL_RCC_ADC1_CLK_ENABLE();
@@ -308,23 +316,51 @@ void MX_ADC1_Init(void) {
   /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
    */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
-  hadc1.Init.ContinuousConvMode = ENABLE;
+  hadc1.Init.ContinuousConvMode = DISABLE;
   hadc1.Init.DiscontinuousConvMode = DISABLE;
+  hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_RISING;
+  hadc1.Init.ExternalTrigConv = ADC_EXTERNALTRIGCONV_T2_TRGO;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.NbrOfConversion = 1;
-  hadc1.Init.DMAContinuousRequests = DISABLE;
+  hadc1.Init.DMAContinuousRequests = ENABLE;
   hadc1.Init.EOCSelection = ADC_EOC_SEQ_CONV;
   HAL_ADC_Init(&hadc1);
 
   /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time.
    */
-  sConfig.Channel = ADC_CHANNEL_TEMPSENSOR;
+  sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = 1;
   sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
   HAL_ADC_ConfigChannel(&hadc1, &sConfig);
+
+  /**ADC1 GPIO Configuration
+  PA0-WKUP     ------> ADC1_IN0
+  */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* Peripheral DMA init*/
+  hdma_adc1.Instance = DMA2_Stream4;
+  hdma_adc1.Init.Channel = DMA_CHANNEL_0;
+  hdma_adc1.Init.Direction = DMA_PERIPH_TO_MEMORY;
+  hdma_adc1.Init.PeriphInc = DMA_PINC_DISABLE;
+  hdma_adc1.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+  hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+  hdma_adc1.Init.Mode = DMA_CIRCULAR;
+  hdma_adc1.Init.Priority = DMA_PRIORITY_MEDIUM;
+  hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+  if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  __HAL_LINKDMA(&hadc1,DMA_Handle,hdma_adc1);
 }
 
 
@@ -419,6 +455,38 @@ static void MX_SPI1_Init(void) {
   /* Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(W5500_CS_GPIO_Port, W5500_CS_Pin, GPIO_PIN_SET);
 }
+
+/* TIM2 init function */
+static void MX_TIM2_Init(void) {
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  __HAL_RCC_TIM2_CLK_ENABLE();
+
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 8399;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 1;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+}
+
 
 void Error_Handler(void) {
   asm("BKPT #0");

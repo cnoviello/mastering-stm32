@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style> /* set the CSS */
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 2px;
+}
+
+.center-grid {
+  fill: none;
+  stroke: black;
+  stroke-width: 6px;
+  stroke-dasharray: 2,6;
+  opacity: 0.;
+}
+
+.grid2 line {
+  fill: none;
+  stroke: black;
+  stroke-width: 1.5px;
+  stroke-dasharray: 1.5, 4;
+  opacity: 0.2;
+}
+
+.grid2 path {
+  stroke-width: 0px;
+}
+
+.graph {
+  background: lightgrey;
+}
+
+</style>
+<body>
+
+<!-- load the d3.js library -->    	
+<script src="https://d3js.org/d3.v4.js"></script>
+<script>
+
+var graphsizes = {width:960, height:500};
+
+// set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 20, left: 20},
+    width = graphsizes.width - margin.left - margin.right,
+    height = graphsizes.height - margin.top - margin.bottom;
+
+// set the ranges
+var x = d3.scaleLinear().range([0, graphsizes.width-margin.left-margin.right]);
+var y = d3.scaleLinear().range([height-margin.top-margin.bottom, 0]);
+
+// define the line
+var valueline = d3.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.y); });
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select("body").append("svg")
+    .attr("class", "graph")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom);
+
+var graphArea = svg.append("g")
+                .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+var l = d3.line()
+            .x(function(d){ console.log(d[0]); return d[0];})
+            .y(function(d){ return d[1];});
+
+     // .call(d3.axisLeft(x)
+      //           .tickSize());
+
+function make_x_gridlines() { 
+  return d3.axisBottom(x)
+        .ticks(20)
+}
+// gridlines in y axis function
+function make_y_gridlines() { 
+  return d3.axisLeft(y)
+        .ticks(10)
+}
+
+
+graphArea.append("g")
+      .attr("class", "grid2")
+      .attr("transform", "translate(0, " + (height + margin.top) + ")")
+      .call(make_x_gridlines()
+          .tickSize(-graphsizes.height)
+          .tickFormat("")
+      );
+
+// graphArea.append("g")
+//       .attr("class", "grid2")
+//       .attr("transform", "translate(" + 0 + ", 0)")
+//       .call(make_y_gridlines()
+//           .tickSize(-graphsizes.width, 0, 0)
+//           .tickFormat("")
+//       )
+
+// Get the data
+if(1) {
+  data = []
+  for(var i = 0; i < 100; i++) {
+    data.push({x: i, y:i*10});
+  }
+  // Scale the range of the data
+  x.domain([0, 100]);
+  y.domain([0, 4096]);
+
+// svg.append("path")
+//       .data([[[0, 0], [0, graphsizes.height]]])
+//       .attr("class", "center-grid")
+//       .attr("d", l);
+
+// svg.append("path")
+//       .data([[[graphsizes.width/2, 0], [graphsizes.width/2, graphsizes.height]]])
+//       .attr("class", "center-grid")
+//       .attr("d", l);
+
+// svg.append("path")
+//       .data([[[graphsizes.width, 0], [graphsizes.width, graphsizes.height]]])
+//       .attr("class", "center-grid")
+//       .attr("d", l);
+
+// svg.append("path")
+//       .data([[[0, graphsizes.height/2], [graphsizes.width, graphsizes.height/2]]])
+//       .attr("class", "center-grid")
+//       .attr("d", l);
+
+// svg.append("path")
+//       .data([[[0, 0], [graphsizes.width, 0]]])
+//       .attr("class", "center-grid")
+//       .attr("d", l);
+
+// svg.append("path")
+//       .data([[[0, graphsizes.height], [graphsizes.width, graphsizes.height]]])
+//       .attr("class", "center-grid")
+//       .attr("d", l);
+
+//   // Add the valueline path.
+//   graphArea.append("path")
+//       .data([data])
+//       .attr("class", "line")
+//       .attr("d", valueline);
+
+//   // Add the X Axis
+//   var boh = graphArea.append("g");
+//       boh.attr("transform", "translate(0," + height + ")");
+//   var bah = d3.axisBottom(x);
+//   console.log(bah(boh));
+//   // boh.call(bah);
+
+//   // Add the Y Axis
+//   graphArea.append("g")
+//       .call(d3.axisLeft(y));
+
+}
+
+</script>
+</body>
