@@ -6,6 +6,8 @@
 #include "fatfs.h"
 #include "ioLibrary_Driver/Ethernet/wizchip_conf.h"
 #include "ioLibrary_Driver/Internet/DHCP/dhcp.h"
+#include "ioLibrary_Driver/Internet/httpServer/httpParser.h"
+#include "ioLibrary_Driver/Internet/httpServer/httpServer.h"
 #include "diag/Trace.h"
 
 #include <cmsis_os.h>
@@ -74,11 +76,13 @@ FRESULT scan_files (TCHAR* path) {
 
 #define MAX_HTTPSOCK  7
 #define DHCP_SOCK 0
-#define MAX_DHCP_RETRY 3
 #define DATA_BUF_SIZE 2048
 uint8_t socknumlist[] = {0, 1, 2, 3, 4, 5, 6};
-volatile uint8_t RX_BUF[DATA_BUF_SIZE];
-volatile uint8_t TX_BUF[DATA_BUF_SIZE];
+uint8_t RX_BUF[DATA_BUF_SIZE];
+uint8_t TX_BUF[DATA_BUF_SIZE];
+uint16_t adcConv[100], adcConv_[200];
+uint8_t convComplete;
+osSemaphoreId adcSemID;
 
 void cs_sel() {
   HAL_GPIO_WritePin(W5500_CS_GPIO_Port, W5500_CS_Pin, GPIO_PIN_RESET); //CS LOW
@@ -110,16 +114,26 @@ void spi_wb_burst(uint8_t *buf, uint16_t len) {
 
 uint8_t ReadNetCfgFromFile(wiz_NetInfo *netInfo) {
 #if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
+  FIL cfgFile;
+  UINT br;
 #else
   FILE *cfgFile = NULL;
+#endif
   char buf[30], *p;
 
   p = buf;
-
+#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
+  if(f_open(&cfgFile, "0:/net.cfg",FA_READ) == F_OK) {
+#else
   if((cfgFile = fopen(OS_BASE_FS_PATH"net.cfg","r")) != NULL) {
+#endif
     for(uint8_t i = 0; i < 6; i++) {
       while(1) {
+#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
+        if(f_read(&cfgFile, p, 1, &br) == F_OK) {
+#else
         if(fread(p, sizeof(char), 1, cfgFile)) {
+#endif
           if (*p == '\r') {
             continue;
           }
@@ -144,19 +158,19 @@ uint8_t ReadNetCfgFromFile(wiz_NetInfo *netInfo) {
               netInfo->dhcp = NETINFO_DHCP;
             break;
           case 1: //MAC Address
-            mac_addr_(buf, netInfo->mac);
+            mac_addr_((uint8_t*)buf, netInfo->mac);
             break;
           case 2: //IP Address
-            inet_addr_(buf, netInfo->ip);
+            inet_addr_((uint8_t*)buf, netInfo->ip);
             break;
           case 3: //Netmask
-            inet_addr_(buf, netInfo->sn);
+            inet_addr_((uint8_t*)buf, netInfo->sn);
             break;
           case 4: //Gateway Address
-            inet_addr_(buf, netInfo->gw);
+            inet_addr_((uint8_t*)buf, netInfo->gw);
             break;
           case 5: //DNS Address
-            inet_addr_(buf, netInfo->dns);
+            inet_addr_((uint8_t*)buf, netInfo->dns);
             break;
           }
           p = buf;
@@ -167,7 +181,6 @@ uint8_t ReadNetCfgFromFile(wiz_NetInfo *netInfo) {
     }
     return 1;
   }
-#endif
 
   return 0;
 }
@@ -230,18 +243,17 @@ void IO_LIBRARY_Init(void) {
   reg_httpServer_cbfunc(NVIC_SystemReset, NULL);          // Callback: NXP MCU Reset
 }
 
-uint16_t adcConv[200];
-
 int main(void) {
   HAL_Init();
   Nucleo_BSP_Init();
 
-//  RetargetInit(&huart2);
+  osSemaphoreDef(adcSem);
+  adcSemID = osSemaphoreCreate(osSemaphore(adcSem), 1);
 
   MX_ADC1_Init();
   MX_TIM2_Init();
   HAL_TIM_Base_Start(&htim2);
-  HAL_ADC_Start_DMA(&hadc1, adcConv, 200);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcConv_, 200);
 
   MX_SPI1_Init();
 
@@ -249,55 +261,22 @@ int main(void) {
   SD_SPI_Configure(SD_CS_GPIO_Port, SD_CS_Pin, &hspi1);
   MX_FATFS_Init();
 
-  FRESULT res;
-  char buff[256];
-  UINT btr;
-
-
-
-//  while((res = f_mount(&diskHandle, "0:", 1)) != FR_OK)
-  res = f_mount(&diskHandle, "0:", 1);
-  if(res != FR_OK)
+  if(f_mount(&diskHandle, "0:", 1) != FR_OK)
     asm("BKPT #0");
 
-
-//  RetargetInit(&huart2);
-
-  //
-//  res = f_getlabel("", buff, 0);
-//  if(res != FR_OK)
-//    asm("BKPT #0");
-//
-  strcpy(buff, L"/");
-  scan_files(buff);
-//
-//  res = f_open(&fileHandle, "js/jquery.min.js", FA_READ);
-//  if(res != FR_OK)
-//    asm("BKPT #0");
-//
-//  char buf[2048];
-//
-//  while(1) {
-//      res = f_read(&fileHandle, buf, 2047, &btr);
-//      if(res != FR_OK)
-//        asm("BKPT #0");
-//      buf[2047] = '\0';
-//      trace_printf("%s", buf);
-//  }
 #endif
 
-  osThreadId w5500TID;
-  osThreadDef(w5500, ConfigureW5500Thread, osPriorityNormal, 0, 6000);
-  w5500TID = osThreadCreate(osThread(w5500), NULL);
+  osThreadDef(w5500, ConfigureW5500Thread, osPriorityNormal, 0, 10000);
+  osThreadCreate(osThread(w5500), NULL);
 
   osKernelStart();
-
-//  ConfigureW5500Thread(0);
 
   while(1);
 }
 
 void ConfigureW5500Thread(void const *argument) {
+  UNUSED(argument);
+
   IO_LIBRARY_Init();
 
   while(1)
@@ -316,7 +295,7 @@ void MX_ADC1_Init(void) {
   /**Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)
    */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV8;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.ScanConvMode = DISABLE;
   hadc1.Init.ContinuousConvMode = DISABLE;
@@ -333,7 +312,7 @@ void MX_ADC1_Init(void) {
    */
   sConfig.Channel = ADC_CHANNEL_0;
   sConfig.Rank = 1;
-  sConfig.SamplingTime = ADC_SAMPLETIME_480CYCLES;
+  sConfig.SamplingTime = ADC_SAMPLETIME_3CYCLES;
   HAL_ADC_ConfigChannel(&hadc1, &sConfig);
 
   /**ADC1 GPIO Configuration
@@ -353,7 +332,7 @@ void MX_ADC1_Init(void) {
   hdma_adc1.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
   hdma_adc1.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
   hdma_adc1.Init.Mode = DMA_CIRCULAR;
-  hdma_adc1.Init.Priority = DMA_PRIORITY_MEDIUM;
+  hdma_adc1.Init.Priority = DMA_PRIORITY_HIGH;
   hdma_adc1.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
   if (HAL_DMA_Init(&hdma_adc1) != HAL_OK)
   {
@@ -363,6 +342,27 @@ void MX_ADC1_Init(void) {
   __HAL_LINKDMA(&hadc1,DMA_Handle,hdma_adc1);
 }
 
+void Error_Handler(void) {
+  asm("BKPT #0");
+}
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
+  UNUSED(hadc);
+
+  if(osSemaphoreWait(adcSemID, 0) == osOK) {
+      memcpy(adcConv, adcConv_, sizeof(uint16_t)*100);
+      osSemaphoreRelease(adcSemID);
+  }
+}
+
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
+  UNUSED(hadc);
+
+  if(osSemaphoreWait(adcSemID, 0) == osOK) {
+      memcpy(adcConv, adcConv_+100, sizeof(uint16_t)*100);
+      osSemaphoreRelease(adcSemID);
+  }
+}
 
 /* SPI1 init function */
 static void MX_SPI1_Init(void) {
@@ -460,13 +460,15 @@ static void MX_SPI1_Init(void) {
 static void MX_TIM2_Init(void) {
   TIM_ClockConfigTypeDef sClockSourceConfig;
   TIM_MasterConfigTypeDef sMasterConfig;
+  TIM_IC_InitTypeDef sConfigIC;
+  GPIO_InitTypeDef GPIO_InitStruct;
 
   __HAL_RCC_TIM2_CLK_ENABLE();
 
   htim2.Instance = TIM2;
-  htim2.Init.Prescaler = 8399;
+  htim2.Init.Prescaler = 0;
   htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim2.Init.Period = 1;
+  htim2.Init.Period = 4199;
   htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
   {
@@ -485,16 +487,34 @@ static void MX_TIM2_Init(void) {
   {
     Error_Handler();
   }
+
+  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
+  sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+  sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+  sConfigIC.ICFilter = 0;
+  if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  GPIO_InitStruct.Pin = GPIO_PIN_1;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /* Peripheral interrupt init */
+  HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(TIM2_IRQn);
 }
 
-
-void Error_Handler(void) {
-  asm("BKPT #0");
-}
 
 #ifdef DEBUG
 
 void vApplicationStackOverflowHook( xTaskHandle *pxTask, signed portCHAR *pcTaskName ) {
+  UNUSED(pxTask);UNUSED(pcTaskName);
+
   Error_Handler();
 }
 

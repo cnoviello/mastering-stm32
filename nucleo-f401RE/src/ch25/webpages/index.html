@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>STM32 WebScope</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -34,19 +34,63 @@
         width: 40px;
         margin-top: -10px;
       }      
-      .graph {
-          background: #eae8e8;
-          border-radius: 15px;
-          border: 2px solid darkgray;
-      }    
+
+      .grapharea {
+
+      }
+
+      .grapharea .line {
+        fill: none;
+        stroke: #d4c64a;
+        stroke-width: 2px;
+      }
+
+      .center-grid {
+        fill: none;
+        stroke: #6a6a6a;
+        stroke-width: 6px;
+        stroke-dasharray: 1.5,7;
+      }
+
       .grid line {
-          stroke: lightgrey; 
-          stroke-opacity: 0.7; 
-          shape-rendering: crispEdges;
+        fill: #6a6a6a;
+        stroke: #6a6a6a;
+        stroke-width: 1.5px;
+        stroke-dasharray: 1.5, 4;
       }
-      .grid path { 
-        stroke-width: 0;
+
+      .grid path {
+        stroke-width: 0px;
       }
+
+      .grid-area {
+        fill: black;
+        opacity: 0.3;
+      }
+
+      .graph {
+        background: #373737;
+      }
+
+      .axisBottom path {
+          stroke-width: 0;
+      }
+
+      .axisBottom text {
+        stroke: #e0e0e0;
+        fill: #e0e0e0;
+        font-weight: lighter;
+      }
+
+      .frequency-rect  {
+        fill:#3f3f3f;
+        stroke: #6b6b6b;
+      }
+
+      .frequency-rect text {
+        fill:yellow;
+        font-size: 1.2em;
+        stroke: none
     </style>
 
   </head>
@@ -79,14 +123,14 @@
               </ul>
             </li>
           </ul>
-          <form class="navbar-form navbar-left">
+<!--           <form class="navbar-form navbar-left">
             <div class="form-group">
               <input type="text" class="form-control" placeholder="Search">
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
-          </form>
+          </form> -->
           <ul class="nav navbar-nav navbar-right">
-            <li><a class="navbar-brand">STM32 Nucleo Console</a></li>
+            <li><a class="navbar-brand">STM32 Nucleo Oscilloscope</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
@@ -97,19 +141,28 @@
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
-        <div class="graph col-md-8">
-
-        </div>
-        <div class="knobs col-md-4">
-          <p>
-            <a id="freq">Freq</a>
-            <a id="freq2">Freq2</a>
-            <a id="freq3">Freq3</a>
-          </p>
+        <div id="grapharea" class="grapharea col-md-9"></div>
+        <div class="knobs col-md-2">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Commands</h3>
+            </div>
+            <div class="panel-body">
+              <button type="button" class="btn btn-default" aria-label="Left Align" id="freqIncrease">
+                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="btn btn-default" aria-label="Left Align" id="graphRefresh">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="btn btn-default" aria-label="Left Align" id="freqDecrease">
+                <span class="glyphicon glyphicon-zoom-out" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>          
         </div>
       </div>
       <footer>
-        <p>&copy; 2016 Company, Inc.</p>
+        <p>&copy; 2015-2016 Mastering STM32 book by Carmine Noviello</p>
       </footer>
 
     </div> <!-- /container -->
@@ -131,258 +184,278 @@
 
 </style>
 <script src="http://d3js.org/d3.v4.min.js"></script>
-<script>
+<script type="text/javascript">
 
-var tempInfo=null;
-var freq = 1;
-var dataset = [];
-var valueline = 0;
-var x = null;
-var y = null;
+function DrawArea(width, height, margins) {
+  function Margins(top, bottom, left, right) {
+    this.top = top,
+    this.bottom = bottom,
+    this.left = left,
+    this.right = right;
+  }
 
-function setFrequency() {
-  console.log("JEEEEE");
-    freq *= 2;
+  this._buildAxisReferences = function(width, height, margins) {
+    this.width = width - (margins.left + margins.right);
+    this.height = height - (margins.top + margins.bottom);
+    this.margins = margins;
 
-    $.ajax({
-          url: "sf.cgi",
-          type: "POST",
-          data: {f: freq}
-        }).done(function(data) {
-          fetchTemp2();
-        }).error(function(error) {
-          console.log(error);
-        });
+    this.x = new Object();
+    this.x.left  = this.margins.left;
+    this.x.right = this.margins.left + this.width;
+    this.x.center = this.x.left + (this.width / 2);
 
+    this.y = new Object();
+    this.y.top = this.margins.top;
+    this.y.bottom = this.margins.top + this.height;
+    this.y.center = this.y.top + (this.height / 2);
+  }
 
+  this.fromDrawAreaUsingMargin = function(drawArea, margins) {
+    margins = new Margins(margins[0], margins[1], margins[2], margins[3]);
+    this._buildAxisReferences(drawArea.width, drawArea.height, margins);
+
+    return this;
+  }
+
+  if(margins != undefined)
+    margins = new Margins(margins[0], margins[1], margins[2], margins[3]);
+  else
+    margins = new Margins(0, 0, 0, 0);
+
+  if(width == undefined && height == undefined)
+    width = height = 0;
+
+  this._buildAxisReferences(width, height, margins);
 }
 
-$("#freq").click(setFrequency);
-$("#freq2").click(function(evt) {
-  freq = 1;
-  setFrequency();
-});
-$("#freq3").click(function(evt) {
-  fetchTemp2();
-});
+function ScopeView(container, dataset) {
+  this.container = container;
+  this.containerWidth = container.node().getBoundingClientRect().width - 10;
 
-function make_x_gridlines() { 
-  return d3.axisBottom(x)
-        .ticks(18)
-}
-// gridlines in y axis function
-function make_y_gridlines() { 
-  return d3.axisLeft(y)
-        .ticks(5)
-}
+  /* Set the dimensions and margins of the grid */
+  this.drawArea = new DrawArea(this.containerWidth, 500);
+  this.gridArea = new DrawArea().fromDrawAreaUsingMargin(drawArea, [30, 50, 50, 30]);
 
-function fetchTemp2() {
-  $.ajax({
-          url: "temp.cgi"
-        }).success(function(data) {
-          tempInfo = JSON.parse(data);
-          for (var i = 0; i < tempInfo.length; i++) {
-            dataset[i] = {x: i, y: tempInfo[i]};
-          }
+  /* Set the scale ranges */
+  this.scaleX = d3.scaleLinear().range([0, this.gridArea.width]);
+  this.scaleY = d3.scaleLinear().range([this.gridArea.height, 0]);
 
-            // Select the section we want to apply our changes to
-            var svg = d3.select("body").transition();
+  scaleX.domain([0, 100]);
+  scaleY.domain([-5.0, 5.0]);
 
-            // Make the changes
-                svg.select(".line")   // change the line
-                    .duration(0)
-                    .attr("d", valueline(dataset));
-                svg.select(".x.axis") // change the x axis
-                    .duration(0)
-                    .call(x);
-                svg.select(".y.axis") // change the y axis
-                    .duration(0)
-                    .call(y);        
+  // append the svg obgect to the body of the page
+  // appends a 'group' element to 'svg'
+  // moves the 'group' element to the top left margin
+  this.svg = this.container.append("svg")
+      .attr("class", "graph")
+      .attr("width", drawArea.width)
+      .attr("height", drawArea.height);
 
-                fetchTemp2();
-            });
-}
+  this.graphArea = this.svg.append("g")
+      .attr("transform", "translate(" + this.gridArea.x.left + "," + this.gridArea.y.top + ")");
 
-function fetchTemp() {
-  $.ajax({
-          url: "temp.cgi"
-        }).done(function(data) {
-          tempInfo = JSON.parse(data);
-          buildGraph();
-        }).error(fetchTemp);
-}
+  this.grid = this.graphArea.append("g");
 
-function buildGraph() {
-  // set the dimensions and margins of the graph
-var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = d3.select(".graph").node().getBoundingClientRect().width - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  this.grid.append("rect")
+      .attr("x", "0")
+      .attr("y", "0")
+      .attr("width", gridArea.width)
+      .attr("height", gridArea.height)
+      .attr("class", "grid-area");
 
-for (var i = 0; i < 199; i++)
-  dataset.push({x: i, y: tempInfo[i]});
 
-x = d3.scaleLinear().range([0, width]);
-y = d3.scaleLinear().range([height, 0]);
-
-console.log(x);
-
-// define the line
-valueline = d3.line()
-    .x(function(d) { return x(d.x); })
-    .y(function(d) { return y(d.y); });
-
-// append the svg obgect to the body of the page
-// appends a 'group' element to 'svg'
-// moves the 'group' element to the top left margin
-var svg = d3.select(".graph").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform",
-          "translate(" + margin.left + "," + margin.top + ")");
-
-svg.append("g")
-      .attr("class", "center-grid")
-      .attr("transform", "translate(0, 200)")
-      .call(d3.line(0,100).tickSize(10));
-
-svg.append("g")
+  this.grid.append("g")
       .attr("class", "grid")
-      .attr("transform", "translate(0," + height + ")")
-      .call(make_x_gridlines()
-          .tickSize(-height)
+      .attr("transform", "translate(0, " + (this.gridArea.height) + ")")
+      .call(make_x_gridlines(this)
+          .tickSize(-gridArea.height)
           .tickFormat("")
-      )
+      );
 
+  this.grid.append("g")
+      .attr("class", "grid")
+      .attr("transform", "translate(" + 0 + ", 0)")
+      .call(make_y_gridlines(this)
+          .tickSize(-gridArea.width, 0, 0)
+          .tickFormat("")
+      );
 
-// Get the data
-if(1) {
-  // Scale the range of the data
-  x.domain(d3.extent(dataset, function(d) { return d.x; }));
-  y.domain([0, d3.max(dataset, function(d) { return d.y; })]);
+  var l = d3.line()
+       .x(function(d){ return d[0];})
+       .y(function(d){ return d[1];});
 
-  // Add the valueline path.
+  /* Left-vertical grid side */
   svg.append("path")
-      .data([dataset])
-      .attr("class", "line")
-      .attr("d", valueline);
+        .data([[[gridArea.x.left, gridArea.y.top], [gridArea.x.left, gridArea.y.bottom]]])
+        .attr("class", "center-grid")
+        .attr("d", l);
+
+  /* Center-vertical grid side */
+  svg.append("path")
+        .data([[[gridArea.x.center, gridArea.y.top], [gridArea.x.center, gridArea.y.bottom]]])
+        .attr("class", "center-grid")
+        .attr("d", l);
+
+  /* Right-vertical grid side */
+  svg.append("path")
+        .data([[[gridArea.x.right, gridArea.y.top], [gridArea.x.right, gridArea.y.bottom]]])
+        .attr("class", "center-grid")
+        .attr("d", l);
+
+  /* Center-horizontal grid side */
+  svg.append("path")
+        .data([[[gridArea.x.left, gridArea.y.center], [gridArea.x.right, gridArea.y.center]]])
+        .attr("class", "center-grid")
+        .attr("d", l);
+
+  /* Top-horizontal grid side */
+  svg.append("path")
+        .data([[[gridArea.x.left, gridArea.y.top], [gridArea.x.right, gridArea.y.top]]])
+        .attr("class", "center-grid")
+        .attr("d", l);
+
+  /* Bottom-horizontal grid side */
+  svg.append("path")
+        .data([[[gridArea.x.left, gridArea.y.bottom], [gridArea.x.right, gridArea.y.bottom]]])
+        .attr("class", "center-grid")
+        .attr("d", l);
 
   // Add the X Axis
-  svg.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x).ticks(20));
+  graphArea.append("g")
+      .attr("transform", "translate(0," + (gridArea.height+10) + ")")
+      .attr("class", "axisBottom")
+      .call(d3.axisBottom(scaleX)
+              .tickSize(0));
 
   // Add the Y Axis
-  svg.append("g")
-      .call(d3.axisLeft(y));
+  graphArea.append("g")
+      .attr("transform", "translate(-5," + (0) + ")")
+      .attr("class", "axisBottom")
+      .call(d3.axisLeft(scaleY)
+            .tickSize(0)
+            .tickFormat(d3.format(".1f"))
+            // .tickValues(d3.range(-5, 6, 1))
+      );
 
-}
-}
+  var freqencyArea = graphArea.append("g")
+      .attr("transform", "translate(" + (gridArea.x.right -220) + ", " + (gridArea.y.bottom - 80) + ")")
+      .attr("class", "frequency-rect");
 
-function buildGraph2() {
-  console.log("buildGraph");
+      freqencyArea.append("rect")
+      .attr("width", 150)
+      .attr("height", 20)
+      .attr("rx", 10);
 
-  var n = 20,
-      duration = 1750,
-      now = new Date(Date.now() - duration),
-      count = 0,
-      scrollData = d3.range(n).map(function() { return temp; });
+  var frequencyText = freqencyArea.append("text")
+      .attr("id", "frequencyText")
+      .attr("x", 10)
+      .attr("y", 20 / 2)
+      .attr("dy", ".35em")
+      .attr("fill", "black")
+      .text("f⎓100MHz");
 
-  scrollData = [temp]
+  valueline = d3.line()
+      .x(function(d) { return scaleX(d.x); })
+      .y(function(d) { return scaleY(d.y); });
 
-  var margin = {top: 6, right: 0, bottom: 20, left: 40},
-      width = d3.select(".graph").width - margin.right,
-      height = 220 - margin.top - margin.bottom;
+  graphArea.append("path")
+      .data([dataset])
+      .attr("class", "line")
+      .attr("d", valueline)
 
-  var x = d3.time.scale()
-      .domain([now - (n - 2) * duration, now - duration])
-      .range([0, width]);
-
-  var y = d3.scale.linear()
-      .range([height, d3.max(scrollData)-2.0]);
-
-  var line = d3.svg.line()
-      .interpolate("basis")
-      .x(function(d, i) { return x(now - (n - 1 - i) * duration); })
-      .y(function(d, i) { return y(d); });
-
-  var svg = d3.select(".graph").append("p").append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .style("margin-left", -margin.left + "px")
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("defs").append("clipPath")
-      .attr("id", "clip")
-    .append("rect")
-      .attr("width", width)
-      .attr("height", height);
-
-  // var axis = svg.append("g")
-  //     .attr("class", "x axis")
-  //     .attr("transform", "translate(0," + height + ")")
-  //     .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
-
-  var path = svg.append("g")
-      .attr("clip-path", "url(#clip)")
-    .append("path")
-      .datum(scrollData)
-      .attr("class", "line");
-
-  var transition = d3.select({}).transition()
-      .duration(duration)
-      .ease("linear");
-
-  d3.select(window)
-      .on("scroll", function() { ++count; });
-
-  (function tick() {
-    $.ajax({
-            url: "temp.cgi",
-            async: false
-          }).success(function(data) {
-            tempInfo = JSON.parse(data);
-            temp = tempInfo["temp"];
-            $("#temperature").html(temp + "°C");
-          });
-
-    transition = transition.each(function() {
-
-      // update the domains
-      now = new Date();
-      x.domain([now - (n - 2) * duration, now - duration]);
-      console.log(x(now));
-      y.domain([d3.max(scrollData)-2.0, d3.max(scrollData)]);
-
-      // push the accumulated count onto the back, and reset the count
-      scrollData.push(temp);
-      count = 0;
-
-      // redraw the line
-      svg.select(".line")
-          .attr("d", line)
-          .attr("transform", null);
-
-
-      // pop the old data point off the front
-      if(scrollData.length > n) {
-         // slide the x-axis left
-        // axis.call(x.axis);
-         // slide the line left
-        path.transition()
-          .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
-        scrollData.shift();
-
-      }
-
-    }).transition().each("start", tick);
-  })();
+  function make_x_gridlines(sview) { 
+    return d3.axisBottom(sview.scaleX)
+          .ticks(20)
+  }
+  // gridlines in y axis function
+  function make_y_gridlines(sview) { 
+    return d3.axisLeft(sview.scaleY)
+          .ticks(10)
+  }      
 }
 
-fetchTemp();
+var freqDone = 0
 
-</script>    
+function FetchData() {
+  $.ajax({
+          url: "http://192.168.1.165/adc.cgi"
+        }).success(function(data) {
+          adcData = JSON.parse(data);
+          console.log(data);
+          for (var i = 0; i < adcData["d"].length; i++)
+            dataset[i] = {x: i, y: adcData["d"][i]/1000};
+            // dataset.shift();
+          d3.select(".line").transition().duration(500).attr("d", valueline(dataset));
+          val = 610;
+          tol = 10;
+          v1 = 0;
+          v2 = 0;
+
+          for(i = 0; i < 100; i++) {
+            if((v1 == 0 && i > 0) && (adcData["d"][i] <= 2500 && adcData["d"][i] >= 2200 && adcData["d"][i] < adcData["d"][i-1])) {
+              v1 = i;
+              val = adcData["d"][v1];
+            } else if(v1 != 0 && adcData["d"][i] >= val && adcData["d"][i] > adcData["d"][i-1]) {
+              v2 = i;
+              break;
+            }
+          }
+          freq = adcData["f"]/((v2-v1)*2);
+          if(!freqDone) {
+            d3.select("#frequencyText").text("ƒ ≃ " + freq.toFixed(2) + "Hz");
+            freqDone = 1;
+          }
+        }).error(function() {
+          console.log("ERROR");
+        });
+}
+
+function IncreaseFrequency(evt) {
+  console.log(evt.currentTarget.id);
+
+  if(evt.currentTarget.id == "freqIncrease")
+    f = 1;
+  else
+    f = 0;
+  $.ajax({
+          url: "http://192.168.1.165/sf.cgi",
+          method: "POST",
+          data: {"f": f.toString()}
+        }).success(function(data) {
+          FetchData();
+        }).error(function() {
+          console.log("ERROR");
+        });
+}
+
+Array.prototype.max = function() {
+  return Math.max.apply(null, this);
+};
+
+Array.prototype.min = function() {
+  return Math.min.apply(null, this);
+};
+
+
+var dataset = Array();
+for (var i = 0; i < 100; i++)
+  dataset.push({x: i, y: 0});
+
+scope = ScopeView(d3.select("#grapharea"), dataset);
+
+
+function updateData() {
+  console.log(window.scope);
+}
+
+
+$("#graphRefresh").click(FetchData);
+$("#freqIncrease").click(IncreaseFrequency);
+$("#freqDecrease").click(IncreaseFrequency);
+
+FetchData();
+
+</script> 
 <!--     
     <script src="js/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>

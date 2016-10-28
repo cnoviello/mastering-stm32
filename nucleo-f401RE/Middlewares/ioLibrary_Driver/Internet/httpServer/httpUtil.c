@@ -15,27 +15,43 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <cmsis_os.h>
 #include "ff.h"
 
 extern ADC_HandleTypeDef hadc1;
-extern uint16_t adcConv[200];
+extern uint16_t adcConv[100], adcConv_[200];
+extern uint8_t convComplete;
 extern TIM_HandleTypeDef htim2;
+extern osSemaphoreId adcSemID;
 
 uint8_t http_get_cgi_handler(uint8_t * uri_name, uint8_t * buf, uint32_t * file_len)
 {
 	uint8_t ret = HTTP_FAILED;
 	uint16_t len = 0;
 
-	if(strcmp((const char*)uri_name, "temp.cgi") == 0) {
+	if(strcmp((const char*)uri_name, "adc.cgi") == 0) {
     uint16_t rawValue;
     float temp;
     uint8_t *pbuf = buf;
 
-    pbuf += sprintf(pbuf, "[");
-    for(uint8_t i = 0; i < 200; i++)
-        pbuf += sprintf(pbuf, "%d,", adcConv[i]);
-    sprintf(--pbuf, "]");
+    uint32_t freq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1)));
+
+    pbuf += sprintf(pbuf, "{\"f\":%d,\"d\":[", freq);
+
+    osSemaphoreWait(adcSemID, osWaitForever);
+
+    for(uint8_t i = 0; i < 100; i++)
+        pbuf += sprintf(pbuf, "%.2f,", adcConv[i]*0.805);
+
+    osSemaphoreRelease(adcSemID);
+
+    sprintf(--pbuf, "]}");
     *file_len = strlen(buf);
+
+
+    convComplete = 0;
+//    HAL_ADC_Start_DMA(&hadc1, adcConv, 100);
+
     return HTTP_OK;
 
 	} else if(strcmp((const char*)uri_name, "network.cgi") == 0) {
@@ -52,34 +68,6 @@ uint8_t http_get_cgi_handler(uint8_t * uri_name, uint8_t * buf, uint32_t * file_
 	                                           netInfo.dhcp);
 	  *file_len = strlen((char*)buf);
 	  return HTTP_OK;
-	} else if(strcmp((const char*)uri_name, "listdirs.cgi") == 0) {
-    FRESULT res;
-    DIR dir;
-    UINT i;
-    FILINFO fno;
-    char *rbuf = buf;
-    static TCHAR lfname[_MAX_LFN];
-    TCHAR *fname;
-
-    res = f_opendir(&dir, "/");                       /* Open the directory */
-    fno.lfname = lfname;
-    fno.lfsize = _MAX_LFN;
-    while(1) {
-      res = f_readdir(&dir, &fno);
-      if (res != FR_OK || fno.fname[0] == 0) break;
-
-      if(fno.fattrib & AM_DIR)
-          sprintf(rbuf, "%s:D", *fno.lfname ? fno.lfname : fno.fname);
-      else
-          sprintf(rbuf, "%s:F", *fno.lfname ? fno.lfname : fno.fname);
-
-      rbuf+=strlen(fno.fname);
-      *(rbuf++) = ',';
-    }
-    *(rbuf++) = '\0';
-
-	  *file_len = strlen((char*)buf);
-    return HTTP_OK;
 	}
 
 
@@ -117,14 +105,31 @@ uint8_t http_post_cgi_handler(uint8_t * uri_name, st_http_request * p_http_reque
 	  if(strcmp((const char *)uri_name, "sf.cgi") == 0) {
 	    param = get_http_param_value((char*)p_http_request->URI, "f");
 	    if(param != p_http_request->URI) {
-	      uint16_t freq = atoi(param);
-	      HAL_ADC_Stop_DMA(&hadc1);
+        HAL_ADC_Stop_DMA(&hadc1);
         HAL_TIM_Base_Stop(&htim2);
-	      memset(adcConv, 0, sizeof(uint16_t)*200);
-	      htim2.Init.Period = freq;
-	      HAL_TIM_Base_Init(&htim2);
+        uint32_t cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1))), nfreq = 0;
+
+        if(*param == '1')
+          nfreq = cfreq * 2;
+        else
+          nfreq = cfreq / 2;
+
+        htim2.Init.Prescaler = 0;
+        htim2.Init.Period = 1;
+        while(1) {
+          cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1)));
+          if (nfreq < cfreq) {
+            if(++htim2.Init.Period == 0) {
+              htim2.Init.Prescaler++;
+              htim2.Init.Period++;
+            }
+          } else {
+              break;
+          }
+        }
+        HAL_TIM_Base_Init(&htim2);
 	      HAL_TIM_Base_Start(&htim2);
-	      HAL_ADC_Start_DMA(&hadc1, adcConv, 200);
+	      HAL_ADC_Start_DMA(&hadc1, adcConv_, 200);
 	      sprintf(buf, "OK");
 	      len = strlen(buf);
 	    }
@@ -135,6 +140,13 @@ uint8_t http_post_cgi_handler(uint8_t * uri_name, st_http_request * p_http_reque
       param = get_http_param_value((char*)p_http_request->URI, "ipaddr");
       inet_addr_((u_char*)param, ip);
     }
+
+    else if(strcmp((const char *)uri_name, "sync.cgi") == 0) {
+
+      sprintf(buf, "OK");
+      len = strlen(buf);
+    }
+
 
 
 	if(ret)	*file_len = len;
