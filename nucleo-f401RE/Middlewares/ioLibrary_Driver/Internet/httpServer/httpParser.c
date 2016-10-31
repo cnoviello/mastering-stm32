@@ -238,9 +238,6 @@ uint8_t * get_http_param_value(char* uri, char* param_name)
 			strncpy((char*)ret,(char*)name, len);
 			unescape_http_url((char *)ret);
 			replacetochar(ret, '+' ,' ');
-			//ret[len] = 0;
-			//ret[strlen((int8*)ret)] = 0;
-			//printf("len=%d\r\n",len);
 		}
 		else
 		{

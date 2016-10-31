@@ -20,7 +20,6 @@
 
 extern ADC_HandleTypeDef hadc1;
 extern uint16_t adcConv[100], adcConv_[200];
-extern uint8_t convComplete;
 extern TIM_HandleTypeDef htim2;
 extern osSemaphoreId adcSemID;
 
@@ -30,27 +29,20 @@ uint8_t http_get_cgi_handler(uint8_t * uri_name, uint8_t * buf, uint32_t * file_
 	uint16_t len = 0;
 
 	if(strcmp((const char*)uri_name, "adc.cgi") == 0) {
-    uint16_t rawValue;
-    float temp;
-    uint8_t *pbuf = buf;
+    char *pbuf = (char*)buf;
 
+    /* Compute the current TIM2 frequency */
     uint32_t freq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1)));
+    pbuf += sprintf(pbuf, "{\"f\":%lu,\"d\":[", freq);
 
-    pbuf += sprintf(pbuf, "{\"f\":%d,\"d\":[", freq);
-
+    /* Wait until the HAL_ADC_ConvCpltCallback() or HAL_ADC_HalfConvCpltCallback() finish */
     osSemaphoreWait(adcSemID, osWaitForever);
-
     for(uint8_t i = 0; i < 100; i++)
         pbuf += sprintf(pbuf, "%.2f,", adcConv[i]*0.805);
-
     osSemaphoreRelease(adcSemID);
 
     sprintf(--pbuf, "]}");
-    *file_len = strlen(buf);
-
-
-    convComplete = 0;
-//    HAL_ADC_Start_DMA(&hadc1, adcConv, 100);
+    *file_len = strlen((char*)buf);
 
     return HTTP_OK;
 
@@ -70,23 +62,6 @@ uint8_t http_get_cgi_handler(uint8_t * uri_name, uint8_t * buf, uint32_t * file_
 	  return HTTP_OK;
 	}
 
-
-
-//	if(predefined_get_cgi_processor(uri_name, buf, &len))
-//	{
-//		;
-//	}
-//	else if(strcmp((const char *)uri_name, "example.cgi") == 0)
-//	{
-//		// To do
-//		;
-//	}
-//	else
-//	{
-//		// CGI file not found
-//		ret = HTTP_FAILED;
-//	}
-
 	if(ret)	*file_len = len;
 	return ret;
 }
@@ -95,59 +70,90 @@ uint8_t http_post_cgi_handler(uint8_t * uri_name, st_http_request * p_http_reque
 {
 	uint8_t ret = HTTP_OK;
 	uint16_t len = 0;
-	uint8_t val = 0;
 	uint8_t *param = p_http_request->URI;
 
-//	if(predefined_set_cgi_processor(uri_name, p_http_request->URI, buf, &len))
-//	{
-//		;
-//	}
-	  if(strcmp((const char *)uri_name, "sf.cgi") == 0) {
-	    param = get_http_param_value((char*)p_http_request->URI, "f");
-	    if(param != p_http_request->URI) {
-        HAL_ADC_Stop_DMA(&hadc1);
-        HAL_TIM_Base_Stop(&htim2);
-        uint32_t cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1))), nfreq = 0;
+  if(strcmp((const char *)uri_name, "sf.cgi") == 0) {
+    param = get_http_param_value((char*)p_http_request->URI, "f");
+    if(param != p_http_request->URI) {
+      /* User wants to change ADC sampling frequency. We so stop conversion */
+      HAL_ADC_Stop_DMA(&hadc1);
+      HAL_TIM_Base_Stop(&htim2);
 
-        if(*param == '1')
-          nfreq = cfreq * 2;
-        else
-          nfreq = cfreq / 2;
+      /* Obtain the current TIM2 frequncy */
+      uint32_t cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1))), nfreq = 0;
 
-        htim2.Init.Prescaler = 0;
-        htim2.Init.Period = 1;
-        while(1) {
-          cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1)));
-          if (nfreq < cfreq) {
-            if(++htim2.Init.Period == 0) {
-              htim2.Init.Prescaler++;
-              htim2.Init.Period++;
-            }
-          } else {
-              break;
+      if(*param == '1')
+        nfreq = cfreq * 2;
+      else
+        nfreq = cfreq / 2;
+
+      htim2.Init.Prescaler = 0;
+      htim2.Init.Period = 1;
+      /* We cycle until we reach the wanted freqyency. At freqyencyes below 30Hz, this algorithm is
+       * largely inefficient */
+      while(1) {
+        cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1)));
+        if (nfreq < cfreq) {
+          if(++htim2.Init.Period == 0) {
+            htim2.Init.Prescaler++;
+            htim2.Init.Period++;
           }
+        } else {
+            break;
         }
-        HAL_TIM_Base_Init(&htim2);
-	      HAL_TIM_Base_Start(&htim2);
-	      HAL_ADC_Start_DMA(&hadc1, adcConv_, 200);
-	      sprintf(buf, "OK");
-	      len = strlen(buf);
-	    }
+      }
+      HAL_TIM_Base_Init(&htim2);
+      HAL_TIM_Base_Start(&htim2);
+      HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcConv_, 200);
 
-    }
-	  else if(strcmp((const char *)uri_name, "network.cgi") == 0) {
-      uint8_t ip[4];
-      param = get_http_param_value((char*)p_http_request->URI, "ipaddr");
-      inet_addr_((u_char*)param, ip);
+      sprintf((char*)buf, "OK");
+      len = strlen((char*)buf);
     }
 
-    else if(strcmp((const char *)uri_name, "sync.cgi") == 0) {
+  }
+  else if(strcmp((const char *)uri_name, "network.cgi") == 0) {
+    wiz_NetInfo netInfo;
+    wizchip_getnetinfo(&netInfo);
 
-      sprintf(buf, "OK");
-      len = strlen(buf);
+    param = get_http_param_value((char*)p_http_request->URI, "dhcp");
+    if(param != 0) {
+      netInfo.dhcp = NETINFO_DHCP;
+    } else {
+      netInfo.dhcp = NETINFO_STATIC;
+
+      param = get_http_param_value((char*)p_http_request->URI, "ip");
+      if(param != 0)
+        inet_addr_((u_char*)param, netInfo.ip);
+      else
+        return HTTP_FAILED;
+
+      param = get_http_param_value((char*)p_http_request->URI, "sn");
+      if(param != 0)
+        inet_addr_((u_char*)param, netInfo.sn);
+      else
+        return HTTP_FAILED;
+
+      param = get_http_param_value((char*)p_http_request->URI, "gw");
+      if(param != 0)
+        inet_addr_((u_char*)param, netInfo.gw);
+      else
+        return HTTP_FAILED;
+
+      param = get_http_param_value((char*)p_http_request->URI, "dns");
+      if(param != 0)
+        inet_addr_((u_char*)param, netInfo.dns);
+      else
+        return HTTP_FAILED;
     }
+    if(!WriteNetCfgInFile(&netInfo))
+      sprintf((char*)buf, "FAILED");
+    else
+      sprintf((char*)buf, "OK");
 
-
+    /* Change network parameters */
+    wizchip_setnetinfo(&netInfo);
+    len = strlen((char*)buf);
+  }
 
 	if(ret)	*file_len = len;
 	return ret;

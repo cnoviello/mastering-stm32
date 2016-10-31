@@ -9,6 +9,7 @@
 #include "ioLibrary_Driver/Internet/httpServer/httpParser.h"
 #include "ioLibrary_Driver/Internet/httpServer/httpServer.h"
 #include "diag/Trace.h"
+#include "config.h"
 
 #include <cmsis_os.h>
 #include <task.h>
@@ -16,6 +17,10 @@
 #if defined(OS_USE_SEMIHOSTING) && !defined(OS_BASE_FS_PATH)
 #error "OS_BASE_FS_PATH macro not declared! You need to define it at project level"
 #endif
+
+#define MAX_HTTPSOCK  7
+#define DHCP_SOCK 0
+#define DATA_BUF_SIZE 2048
 
 ADC_HandleTypeDef hadc1;
 SPI_HandleTypeDef hspi1;
@@ -29,60 +34,19 @@ void Error_Handler(void);
 void MX_ADC1_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_TIM2_Init(void);
-void ConfigureW5500Thread(void const *argument);
+void SetupW5500Thread(void const *argument);
+FRESULT scan_files (TCHAR* path);
 
-FATFS diskHandle;
-FIL  fileHandle;
-char  diskPath = 0;
-
-FRESULT scan_files (TCHAR* path) {
-    FRESULT res;
-    DIR dir;
-    UINT i;
-    static FILINFO fno;
-    static TCHAR lfname[_MAX_LFN];
-    TCHAR *fname;
-
-    res = f_opendir(&dir, path); /* Open the directory */
-    if (res == FR_OK) {
-        for (;;) {
-#if _USE_LFN > 0
-            fno.lfname = lfname;
-            fno.lfsize = _MAX_LFN - 1;
-#endif
-            /* Read a directory item */
-            res = f_readdir(&dir, &fno);
-            /* Break on error or end of directory */
-            if (res != FR_OK || fno.fname[0] == 0) break;
-#if _USE_LFN > 0
-            fname = *fno.lfname ? fno.lfname : fno.fname;
-#endif
-            if (fno.fattrib & AM_DIR) { /* It is a directory */
-                i = strlen(path);
-                sprintf(&path[i], "/%s", fname);
-                /* Scan directory recursively */
-                res = scan_files(path);
-                if (res != FR_OK) break;
-                path[i] = 0;
-            } else { /* It is a file. */
-                trace_printf("%s/%s\n", path, fname);
-            }
-        }
-        f_closedir(&dir);
-    }
-
-    return res;
-}
-
-#define MAX_HTTPSOCK  7
-#define DHCP_SOCK 0
-#define DATA_BUF_SIZE 2048
-uint8_t socknumlist[] = {0, 1, 2, 3, 4, 5, 6};
+uint8_t socknumlist[] = {0, 1, 2, 3, 4, 5, 6, 8};
 uint8_t RX_BUF[DATA_BUF_SIZE];
 uint8_t TX_BUF[DATA_BUF_SIZE];
 uint16_t adcConv[100], adcConv_[200];
 uint8_t convComplete;
 osSemaphoreId adcSemID;
+
+#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
+FATFS diskHandle;
+#endif
 
 void cs_sel() {
   HAL_GPIO_WritePin(W5500_CS_GPIO_Port, W5500_CS_Pin, GPIO_PIN_RESET); //CS LOW
@@ -110,79 +74,6 @@ void spi_rb_burst(uint8_t *buf, uint16_t len) {
 void spi_wb_burst(uint8_t *buf, uint16_t len) {
   HAL_SPI_Transmit_DMA(&hspi1, buf, len);
   while(HAL_SPI_GetState(&hspi1) == HAL_SPI_STATE_BUSY_TX);
-}
-
-uint8_t ReadNetCfgFromFile(wiz_NetInfo *netInfo) {
-#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
-  FIL cfgFile;
-  UINT br;
-#else
-  FILE *cfgFile = NULL;
-#endif
-  char buf[30], *p;
-
-  p = buf;
-#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
-  if(f_open(&cfgFile, "0:/net.cfg",FA_READ) == F_OK) {
-#else
-  if((cfgFile = fopen(OS_BASE_FS_PATH"net.cfg","r")) != NULL) {
-#endif
-    for(uint8_t i = 0; i < 6; i++) {
-      while(1) {
-#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
-        if(f_read(&cfgFile, p, 1, &br) == F_OK) {
-#else
-        if(fread(p, sizeof(char), 1, cfgFile)) {
-#endif
-          if (*p == '\r') {
-            continue;
-          }
-          else if(*p == '\n') {
-            *p = '\0';
-            break;
-          }
-          else {
-            p++;
-          }
-        } else { /* Reached the EOF */
-          break;
-        }
-      }
-
-      if(p != buf)  {
-          switch(i) {
-          case 0: //DHCP
-            if(strcmp(buf, "NODHCP") == 0)
-              netInfo->dhcp = NETINFO_STATIC;
-            else
-              netInfo->dhcp = NETINFO_DHCP;
-            break;
-          case 1: //MAC Address
-            mac_addr_((uint8_t*)buf, netInfo->mac);
-            break;
-          case 2: //IP Address
-            inet_addr_((uint8_t*)buf, netInfo->ip);
-            break;
-          case 3: //Netmask
-            inet_addr_((uint8_t*)buf, netInfo->sn);
-            break;
-          case 4: //Gateway Address
-            inet_addr_((uint8_t*)buf, netInfo->gw);
-            break;
-          case 5: //DNS Address
-            inet_addr_((uint8_t*)buf, netInfo->dns);
-            break;
-          }
-          p = buf;
-        }
-      else {
-        return  0;
-      }
-    }
-    return 1;
-  }
-
-  return 0;
 }
 
 void IO_LIBRARY_Init(void) {
@@ -239,8 +130,6 @@ void IO_LIBRARY_Init(void) {
     }
   }
   wizchip_setnetinfo(&netInfo);
-  httpServer_init(TX_BUF, RX_BUF, MAX_HTTPSOCK, socknumlist);   // Tx/Rx buffers (1kB) / The number of W5500 chip H/W sockets in use
-  reg_httpServer_cbfunc(NVIC_SystemReset, NULL);          // Callback: NXP MCU Reset
 }
 
 int main(void) {
@@ -261,27 +150,52 @@ int main(void) {
   SD_SPI_Configure(SD_CS_GPIO_Port, SD_CS_Pin, &hspi1);
   MX_FATFS_Init();
 
-  if(f_mount(&diskHandle, "0:", 1) != FR_OK)
+  if(f_mount(&diskHandle, "0:", 1) != FR_OK) {
+#ifdef DEBUG
     asm("BKPT #0");
+#else
+    while(1) {
+      HAL_Delay(500);
+      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+    }
+#endif
+  }
+
+  #ifdef OS_USE_TRACE_ITM
+  /* Prints the SD content over the ITM port */
+  TCHAR buff[256];
+  strcpy(buff, (char*)L"/");
+  scan_files(buff);
+#endif
 
 #endif
 
-  osThreadDef(w5500, ConfigureW5500Thread, osPriorityNormal, 0, 10000);
+  osThreadDef(w5500, SetupW5500Thread, osPriorityNormal, 0, 10000);
   osThreadCreate(osThread(w5500), NULL);
 
   osKernelStart();
-
+  /* Never coming here, but just in case... */
   while(1);
 }
 
-void ConfigureW5500Thread(void const *argument) {
+void SetupW5500Thread(void const *argument) {
   UNUSED(argument);
 
+  /* Configure the W5500 module */
   IO_LIBRARY_Init();
 
-  while(1)
+  /* Configure the HTTP server */
+  httpServer_init(TX_BUF, RX_BUF, MAX_HTTPSOCK, socknumlist);
+  reg_httpServer_cbfunc(NVIC_SystemReset, NULL);
+
+  /* Start processing sockets */
+  while(1) {
     for(uint8_t i = 0; i < MAX_HTTPSOCK; i++)
       httpServer_run(i);
+    /* We just delay for 1ms so that other threads with the same
+     * or lower priority can be executed */
+    osDelay(1);
+  }
 }
 
 /* ADC1 init function */
@@ -340,10 +254,6 @@ void MX_ADC1_Init(void) {
   }
 
   __HAL_LINKDMA(&hadc1,DMA_Handle,hdma_adc1);
-}
-
-void Error_Handler(void) {
-  asm("BKPT #0");
 }
 
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
@@ -507,6 +417,59 @@ static void MX_TIM2_Init(void) {
   /* Peripheral interrupt init */
   HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(TIM2_IRQn);
+}
+
+#ifdef OS_USE_TRACE_ITM
+FRESULT scan_files (TCHAR* path) {
+    FRESULT res;
+    DIR dir;
+    UINT i;
+    static FILINFO fno;
+    static TCHAR lfname[_MAX_LFN];
+    TCHAR *fname;
+
+    res = f_opendir(&dir, path); /* Open the directory */
+    if (res == FR_OK) {
+        for (;;) {
+#if _USE_LFN > 0
+            fno.lfname = lfname;
+            fno.lfsize = _MAX_LFN - 1;
+#endif
+            /* Read a directory item */
+            res = f_readdir(&dir, &fno);
+            /* Break on error or end of directory */
+            if (res != FR_OK || fno.fname[0] == 0) break;
+#if _USE_LFN > 0
+            fname = *fno.lfname ? fno.lfname : fno.fname;
+#endif
+            if (fno.fattrib & AM_DIR) { /* It is a directory */
+                i = strlen(path);
+                sprintf(&path[i], "/%s", fname);
+                /* Scan directory recursively */
+                res = scan_files(path);
+                if (res != FR_OK) break;
+                path[i] = 0;
+            } else { /* It is a file. */
+                trace_printf("%s/%s\n", path, fname);
+            }
+        }
+        f_closedir(&dir);
+    }
+
+    return res;
+}
+#endif
+
+
+void Error_Handler(void) {
+#ifdef DEBUG
+  asm("BKPT #0");
+#else
+  while(1) {
+    HAL_Delay(250);
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+  }
+#endif
 }
 
 

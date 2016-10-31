@@ -374,23 +374,21 @@ function ScopeView(container, dataset) {
   }      
 }
 
-var freqDone = 0
+function FetchData(tries) {
+  if(tries >= 3)
+    return;
 
-function FetchData() {
   $.ajax({
           url: "http://192.168.1.165/adc.cgi"
         }).success(function(data) {
           adcData = JSON.parse(data);
-          console.log(data);
           for (var i = 0; i < adcData["d"].length; i++)
             dataset[i] = {x: i, y: adcData["d"][i]/1000};
-            // dataset.shift();
+
           d3.select(".line").transition().duration(500).attr("d", valueline(dataset));
-          val = 610;
-          tol = 10;
+
           v1 = 0;
           v2 = 0;
-
           for(i = 0; i < 100; i++) {
             if((v1 == 0 && i > 0) && (adcData["d"][i] <= 2500 && adcData["d"][i] >= 2200 && adcData["d"][i] < adcData["d"][i-1])) {
               v1 = i;
@@ -401,18 +399,15 @@ function FetchData() {
             }
           }
           freq = adcData["f"]/((v2-v1)*2);
-          if(!freqDone) {
-            d3.select("#frequencyText").text("ƒ ≃ " + freq.toFixed(2) + "Hz");
-            freqDone = 1;
-          }
+          d3.select("#frequencyText").text("ƒ ≃ " + freq.toFixed(2) + "Hz");
+          
         }).error(function() {
-          console.log("ERROR");
+          console.log("FetchData::ERROR -- ", tries);
+          FetchData(++tries);
         });
 }
 
 function IncreaseFrequency(evt) {
-  console.log(evt.currentTarget.id);
-
   if(evt.currentTarget.id == "freqIncrease")
     f = 1;
   else
@@ -422,9 +417,9 @@ function IncreaseFrequency(evt) {
           method: "POST",
           data: {"f": f.toString()}
         }).success(function(data) {
-          FetchData();
+          FetchData(0);
         }).error(function() {
-          console.log("ERROR");
+          console.log("IncreaseFrequency::ERROR");
         });
 }
 
@@ -444,16 +439,11 @@ for (var i = 0; i < 100; i++)
 scope = ScopeView(d3.select("#grapharea"), dataset);
 
 
-function updateData() {
-  console.log(window.scope);
-}
-
-
-$("#graphRefresh").click(FetchData);
+$("#graphRefresh").click(function() { FetchData(0);});
 $("#freqIncrease").click(IncreaseFrequency);
 $("#freqDecrease").click(IncreaseFrequency);
 
-FetchData();
+FetchData(0);
 
 </script> 
 <!--     

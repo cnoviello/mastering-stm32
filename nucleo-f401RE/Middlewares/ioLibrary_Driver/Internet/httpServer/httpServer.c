@@ -401,8 +401,6 @@ static void send_http_response_body(uint8_t s, uint8_t * uri_name, uint8_t * buf
 	else if(HTTPSock_Status[get_seqnum].storage_type == SDCARD)
 	{
 		// Data read from SD Card
-//	  volatile uint8_t olds = get_seqnum;
-//	  trace_printf("SEQ1: %d\n", get_seqnum);
 #if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
 	  FIL *f = &(HTTPSock_Status[get_seqnum].fs);
 		fr = f_read(f, buf, send_len, (void *)&blocklen);
@@ -420,6 +418,7 @@ static void send_http_response_body(uint8_t s, uint8_t * uri_name, uint8_t * buf
     }
 
 #else
+		// Data read through ARM Semihosting
 		FILE *f = HTTPSock_Status[get_seqnum].fs;
 		blocklen = fread(buf, sizeof(uint8_t), send_len, f);
 		if(!blocklen) {
@@ -428,8 +427,6 @@ static void send_http_response_body(uint8_t s, uint8_t * uri_name, uint8_t * buf
 		  *(buf+blocklen+1) = 0;
 		}
 #endif
-		//get_seqnum = olds;
-//    trace_printf("SEQ2: %d\n", get_seqnum);
 	}
 #endif
 
@@ -582,6 +579,7 @@ static void http_process_handler(uint8_t s, st_http_request * p_http_request)
 					HTTPSock_Status[get_seqnum].storage_type = SDCARD;
 				}
 #elif defined(OS_USE_SEMIHOSTING)
+				// Not CGI request, Web content retrieved through ARM Semihosting
         char *base_path = OS_BASE_FS_PATH;
         char *path;
         path = malloc(sizeof(char)*strlen(base_path)+strlen(uri_name));

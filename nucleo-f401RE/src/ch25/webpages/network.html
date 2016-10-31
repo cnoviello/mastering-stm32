@@ -81,29 +81,29 @@
         <div class="panel-body">
           <form action="network.cgi" method="POST">
             <div class="radio">
-              <label><input type="radio" id="dhcpip" name="dhcpip" disabled="true">Use DHCP</label>
+              <label><input type="radio" id="dhcpip" name="dhcp" disabled="true">Use DHCP</label>
             </div>
             <div class="radio">
-              <label><input type="radio" id="staticip" name="dhcpip" disabled="true">Static network configuration</label>
+              <label><input type="radio" id="staticip" name="shcp" disabled="true">Static network configuration</label>
             </div>
             <div class="form-group">
               <label for="ipaddr" class="full-width">IP Address</span>
-              <input type="text" class="form-control" id="ipaddr" name="ipaddr" placeholder="loading..." aria-describedby="ipaddrHelp" disabled="true">
+              <input type="text" class="form-control" id="ipaddr" name="ip" placeholder="loading..." aria-describedby="ipaddrHelp" disabled="true">
               <small id="ipaddrHelp" class="form-text text-muted">The IP address associated to this device</small>
             </div>
             <div class="form-group">
               <label for="ipaddr" class="full-width">Netmask</span>
-              <input type="text" class="form-control" id="netmask" placeholder="loading..." aria-describedby="netmaskHelp" disabled="true">
+              <input type="text" class="form-control" id="netmask" name="sn" placeholder="loading..." aria-describedby="netmaskHelp" disabled="true">
               <small id="netmaskHelp" class="form-text text-muted">Netmask corresponding to subnet</small>
             </div>
             <div class="form-group">
               <label for="ipaddr" class="full-width">Gateway</span>
-              <input type="text" class="form-control" id="gwaddr" placeholder="loading..." aria-describedby="gatewayHelp" disabled="true">
+              <input type="text" class="form-control" id="gwaddr" name="gw" placeholder="loading..." aria-describedby="gatewayHelp" disabled="true">
               <small id="gatewayHelp" class="form-text text-muted">IP address of network gateway</small>
             </div>
             <div class="form-group">
               <label for="dns" class="full-width">DNS</span>
-              <input type="text" class="form-control" id="dnsaddr" placeholder="loading..." aria-describedby="dnsHelp" disabled="true">
+              <input type="text" class="form-control" id="dnsaddr" name="dns" placeholder="loading..." aria-describedby="dnsHelp" disabled="true">
               <small id="dnsHelp" class="form-text text-muted">IP address of primary DNS</small>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -162,13 +162,14 @@
         $("#netmask").prop("disabled", false);
         $("#gwaddr").prop("disabled", false);
         $("#dnsaddr").prop("disabled", false);
+        $("#dhcpip").prop("checked", false);        
     });
     $("#dhcpip").click(function() {
         $("#ipaddr").prop("disabled", true);
         $("#netmask").prop("disabled", true);
         $("#gwaddr").prop("disabled", true);
         $("#dnsaddr").prop("disabled", true);        
-     
+        $("#staticip").prop("checked", false);     
     });
 
     fetchNetworkConfig();
