@@ -17,9 +17,10 @@
 #include <stdlib.h>
 #include <cmsis_os.h>
 #include "ff.h"
+#include "config.h"
 
 extern ADC_HandleTypeDef hadc1;
-extern uint16_t adcConv[100], adcConv_[200];
+extern uint16_t adcConv[100], _adcConv[200];
 extern TIM_HandleTypeDef htim2;
 extern osSemaphoreId adcSemID;
 
@@ -79,7 +80,7 @@ uint8_t http_post_cgi_handler(uint8_t * uri_name, st_http_request * p_http_reque
       HAL_ADC_Stop_DMA(&hadc1);
       HAL_TIM_Base_Stop(&htim2);
 
-      /* Obtain the current TIM2 frequncy */
+      /* Obtain the current TIM2 frequency */
       uint32_t cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1))), nfreq = 0;
 
       if(*param == '1')
@@ -89,7 +90,7 @@ uint8_t http_post_cgi_handler(uint8_t * uri_name, st_http_request * p_http_reque
 
       htim2.Init.Prescaler = 0;
       htim2.Init.Period = 1;
-      /* We cycle until we reach the wanted freqyency. At freqyencyes below 30Hz, this algorithm is
+      /* We cycle until we reach the wanted frequency. At frequencies below 30Hz, this algorithm is
        * largely inefficient */
       while(1) {
         cfreq = HAL_RCC_GetPCLK2Freq() / (((htim2.Init.Prescaler + 1) * (htim2.Init.Period + 1)));
@@ -104,7 +105,7 @@ uint8_t http_post_cgi_handler(uint8_t * uri_name, st_http_request * p_http_reque
       }
       HAL_TIM_Base_Init(&htim2);
       HAL_TIM_Base_Start(&htim2);
-      HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcConv_, 200);
+      HAL_ADC_Start_DMA(&hadc1, (uint32_t*)_adcConv, 200);
 
       sprintf((char*)buf, "OK");
       len = strlen((char*)buf);

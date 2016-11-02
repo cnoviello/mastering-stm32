@@ -40,7 +40,7 @@ FRESULT scan_files (TCHAR* path);
 uint8_t socknumlist[] = {0, 1, 2, 3, 4, 5, 6, 8};
 uint8_t RX_BUF[DATA_BUF_SIZE];
 uint8_t TX_BUF[DATA_BUF_SIZE];
-uint16_t adcConv[100], adcConv_[200];
+uint16_t adcConv[100], _adcConv[200];
 uint8_t convComplete;
 osSemaphoreId adcSemID;
 
@@ -92,7 +92,7 @@ void IO_LIBRARY_Init(void) {
   /* Wait until the ETH cable is plugged in */
   do {
     ctlwizchip(CW_GET_PHYLINK, (void*) &phyLink);
-    HAL_Delay(10);
+    osDelay(10);
   } while(phyLink == PHY_LINK_OFF);
 
   if(netInfo.dhcp == NETINFO_DHCP) { /* DHCP Mode */
@@ -142,7 +142,7 @@ int main(void) {
   MX_ADC1_Init();
   MX_TIM2_Init();
   HAL_TIM_Base_Start(&htim2);
-  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)adcConv_, 200);
+  HAL_ADC_Start_DMA(&hadc1, (uint32_t*)_adcConv, 200);
 
   MX_SPI1_Init();
 
@@ -158,19 +158,19 @@ int main(void) {
       HAL_Delay(500);
       HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     }
-#endif
+#endif //#ifdef DEBUG
   }
 
-  #ifdef OS_USE_TRACE_ITM
+#ifdef OS_USE_TRACE_ITM
   /* Prints the SD content over the ITM port */
   TCHAR buff[256];
   strcpy(buff, (char*)L"/");
   scan_files(buff);
-#endif
+#endif //#ifdef OS_USE_TRACE_ITM
 
-#endif
+#endif //#if defined(_USE_SDCARD_) && !defined(OS_USE_SEMIHOSTING)
 
-  osThreadDef(w5500, SetupW5500Thread, osPriorityNormal, 0, 10000);
+  osThreadDef(w5500, SetupW5500Thread, osPriorityNormal, 0, 512);
   osThreadCreate(osThread(w5500), NULL);
 
   osKernelStart();
@@ -260,7 +260,7 @@ void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
   UNUSED(hadc);
 
   if(osSemaphoreWait(adcSemID, 0) == osOK) {
-      memcpy(adcConv, adcConv_, sizeof(uint16_t)*100);
+      memcpy(adcConv, _adcConv, sizeof(uint16_t)*100);
       osSemaphoreRelease(adcSemID);
   }
 }
@@ -269,7 +269,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
   UNUSED(hadc);
 
   if(osSemaphoreWait(adcSemID, 0) == osOK) {
-      memcpy(adcConv, adcConv_+100, sizeof(uint16_t)*100);
+      memcpy(adcConv, _adcConv+100, sizeof(uint16_t)*100);
       osSemaphoreRelease(adcSemID);
   }
 }
