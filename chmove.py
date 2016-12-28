@@ -6,8 +6,8 @@ import sys, os
 
 DRYRUN = 0
 
-start = 16
-end = 20
+start = 17
+end = 21
 
 print "Retrieving projects list...."
 projectDirs = [d for d in os.listdir(os.getcwd()) if d.startswith("nucleo-")]
