@@ -7783,9 +7783,14 @@
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FatFs/src/drivers&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../src/ch25&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM4F&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch25/include/&quot;"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.2059673154" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="RETARGET_TCP"/>
+									<listOptionValue builtIn="false" value="CH25_EX1"/>
 									<listOptionValue builtIn="false" value="DEBUG"/>
 									<listOptionValue builtIn="false" value="TRACE"/>
 									<listOptionValue builtIn="false" value="STM32F401xE"/>
@@ -7860,7 +7865,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="ioLibrary_Driver/Internet/TFTP|ioLibrary_Driver/Internet/SNTP|ioLibrary_Driver/Internet/SNMP|ioLibrary_Driver/Internet/FTPServer|ioLibrary_Driver/Internet/FTPClient|ioLibrary_Driver/Internet/DNS|FatFs/src/option/ccsbcs.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
-						<entry excluding="main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch25"/>
+						<entry excluding="fatfs.c|config.c|main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch25"/>
 						<entry excluding="src/retarget/retarget.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f4xx/stm32f4xx_hal_msp_template.c|src/stm32f4xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f4xx/stm32f4xx_hal_flash_ex.c|src/stm32f4xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
@@ -7978,7 +7983,6 @@
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.325188085" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.414958067" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/RingBuffer&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM4F&quot;"/>
