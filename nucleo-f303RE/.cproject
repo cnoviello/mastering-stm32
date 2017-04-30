@@ -190,9 +190,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -349,7 +349,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
 						<entry excluding="main-ex3.c|main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch5"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -506,7 +506,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
 						<entry excluding="main-ex3.c|main-ex1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch5"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -664,7 +664,7 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
 						<entry excluding="main-ex2.c|main-ex1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch5"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -859,9 +859,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9|ch7/main-ex3.c|ch7/main-ex2.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1056,9 +1056,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9|ch7/main-ex1.c|ch7/main-ex3.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1253,9 +1253,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1450,9 +1450,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9|ch8/main-ex3.c|ch8/main-ex2.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1647,9 +1647,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9|ch8/main-ex1.c|ch8/main-ex3.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -1845,9 +1845,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9|ch8/main-ex2.c|ch8/main-ex1.c|ch7|ch7/main-ex2.c|ch7/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2042,9 +2042,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch4|ch9/mem2mem.c|ch9/main-ex3.c|ch9/main-ex2.c|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2239,9 +2239,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9/main-ex1.c|ch4|ch9/mem2mem.c|ch9/main-ex3.c|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2437,9 +2437,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch4|ch9/mem2mem.c|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2636,9 +2636,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19|ch9/main-ex3.c|ch9/main-ex2.c|ch9/main-ex1.c|ch4|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -2820,9 +2820,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex3.c|main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch12"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3019,9 +3019,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex3.c|main-ex1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch12"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3218,9 +3218,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex2.c|main-ex1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch12"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3416,9 +3416,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex3.c|main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch13"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3615,9 +3615,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex1.c|main-ex3.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch13"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -3812,9 +3812,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch14"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -4011,9 +4011,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch14"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -4210,9 +4210,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="main-ex1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch14"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -4374,9 +4374,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch5|ch9|ch22|ch11|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -5579,9 +5579,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11|ch19/main-ex1.c|ch9|ch19/main-ex5.c|ch19/main-ex4.c|ch19/main-ex3.c|ch19/main-ex2.c|ch9/main-ex2.c|ch9/main-ex1.c|ch4|ch9/mem2mem.c|stm32f3xx_it.c|stm32f3xx_hal_msp.c|main.c|ch8|ch7" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/diag|src/newlib|src/newlib/_syscalls.c|src/cortexm|src/newlib/_sbrk.c|src/cmsis/startup_stm32f303xe.S|src/newlib/_startup.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/diag|src/newlib|src/newlib/_syscalls.c|src/cortexm|src/newlib/_sbrk.c|src/cmsis/startup_stm32f303xe.S|src/newlib/_startup.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -5766,7 +5766,7 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry excluding="main-bootloader-f0.c|main-bootloader-orig.c|main-app1.c|main-ex3.c|main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch20"/>
-						<entry excluding="src/cmsis/startup_stm32f303xe.S|src/stm32f3xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f4xx_hal_msp_template.c|src/stm32f3xx/stm32f4xx_hal_flash_ramfunc.c|src/cmsis/startup_STM32F303xE.S|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/cortexm|src/diag|src/newlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/cmsis/startup_stm32f303xe.S|src/stm32f3xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f4xx_hal_msp_template.c|src/stm32f3xx/stm32f4xx_hal_flash_ramfunc.c|src/cmsis/startup_STM32F303xE.S|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/cortexm|src/diag|src/newlib" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -5935,10 +5935,10 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS|src/ch11" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS|src/ch11" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="include"/>
 						<entry excluding="main-bootloader-f0.c|main-bootloader-orig.c|main-bootloader.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch20"/>
-						<entry excluding="src/stm32f3xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f4xx_hal_msp_template.c|src/stm32f3xx/stm32f4xx_hal_flash_ramfunc.c|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f4xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f4xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f4xx_hal_msp_template.c|src/stm32f3xx/stm32f4xx_hal_flash_ramfunc.c|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -6098,9 +6098,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22/main-ex7.c|ch22/tickless-mode.c|ch22/main-ex6.c|ch5|ch18|ch22/main-ex5.c|ch22/main-ex4.c|ch22/main-ex3.c|ch22/main-ex2.c|ch9|ch11|ch19|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -6260,9 +6260,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22/main-ex7.c|ch22/tickless-mode.c|ch22/main-ex6.c|ch5|ch18|ch22/main-ex5.c|ch22/main-ex4.c|ch22/main-ex3.c|ch22/main-ex1.c|ch9|ch11|ch19|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -6422,9 +6422,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22/main-ex7.c|ch22/tickless-mode.c|ch22/main-ex6.c|ch5|ch18|ch22/main-ex5.c|ch22/main-ex4.c|ch22/main-ex2.c|ch22/main-ex1.c|ch9|ch11|ch19|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -6584,9 +6584,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22/main-ex7.c|ch22/tickless-mode.c|ch22/main-ex6.c|ch5|ch18|ch22/main-ex5.c|ch22/main-ex3.c|ch22/main-ex2.c|ch22/main-ex1.c|ch9|ch11|ch19|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -6746,9 +6746,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22/main-ex7.c|ch22/tickless-mode.c|ch22/main-ex6.c|ch5|ch18|ch22/main-ex4.c|ch22/main-ex3.c|ch22/main-ex2.c|ch22/main-ex1.c|ch9|ch11|ch19|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -6909,9 +6909,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22/main-ex7.c|ch22/main-ex5.c|ch5|ch18|ch22/main-ex4.c|ch22/main-ex3.c|ch22/main-ex2.c|ch22/main-ex1.c|ch9|ch11|ch19|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -7085,9 +7085,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS/FreeRTOS-openocd.c|FreeRTOS/portable/MemMang/heap_5.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22/tickless-mode.c|ch22/main-ex6.c|ch22/main-ex5.c|ch5|ch18|ch22/main-ex4.c|ch22/main-ex3.c|ch22/main-ex2.c|ch22/main-ex1.c|ch9|ch11|ch19|ch9/main-ex2.c|ch9/main-ex3.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -7105,6 +7105,212 @@
 				<option id="cmsis.compiler.define" value="STM32F030"/>
 				<memory section="IRAM1" size="0x2000" start="0x20000000" startup="0"/>
 				<memory section="IROM1" size="0x10000" start="0x08000000" startup="1"/>
+			</storageModule>
+		</cconfiguration>
+		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1133344436.1031881401.1579839756">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1133344436.1031881401.1579839756" moduleId="org.eclipse.cdt.core.settings" name="CH25-EX1">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="${cross_rm} -rf" description="Chapter 25 Example 1" id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1133344436.1031881401.1579839756" name="CH25-EX1" parent="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug">
+					<folderInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.1133344436.1031881401.1579839756." name="/" resourcePath="">
+						<toolChain id="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug.2090426435" name="Cross ARM GCC" superClass="ilg.gnuarmeclipse.managedbuild.cross.toolchain.elf.debug">
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.559614820" name="Optimization Level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.level.none" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength.1678335618" name="Message length (-fmessage-length=0)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.messagelength" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar.218113395" name="'char' is signed (-fsigned-char)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.signedchar" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections.963208229" name="Function sections (-ffunction-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.functionsections" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.datasections.1847503301" name="Data sections (-fdata-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.datasections" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.level.1438240266" name="Debug level" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.level" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.level.max" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.format.893631860" name="Debug format" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.debugging.format" useByScannerDiscovery="true"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.family.693590512" name="ARM family" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.family" useByScannerDiscovery="false" value="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.mcpu.cortex-m4" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.allwarn.1926424512" name="Enable all common warnings (-Wall)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.allwarn" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.extrawarn.285902605" name="Enable extra warnings (-Wextra)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.extrawarn" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.nomoveloopinvariants.1136468891" name="Disable loop invariant move (-fno-move-loop-invariants)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.nomoveloopinvariants" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.name.835308358" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.toolchain.name" useByScannerDiscovery="false" value="GNU Tools for ARM Embedded Processors" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.architecture.294908806" name="Architecture" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.architecture" useByScannerDiscovery="false" value="ilg.gnuarmeclipse.managedbuild.cross.option.architecture.arm" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset.1795857275" name="Instruction set" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset" useByScannerDiscovery="false" value="ilg.gnuarmeclipse.managedbuild.cross.option.arm.target.instructionset.thumb" valueType="enumerated"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.prefix.497741223" name="Prefix" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.prefix" useByScannerDiscovery="false" value="arm-none-eabi-" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.c.1524743758" name="C compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.c" useByScannerDiscovery="false" value="gcc" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.cpp.1033245945" name="C++ compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.cpp" useByScannerDiscovery="false" value="g++" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.ar.1993407276" name="Archiver" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.ar" useByScannerDiscovery="false" value="ar" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.objcopy.1087342265" name="Hex/Bin converter" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.objcopy" useByScannerDiscovery="false" value="objcopy" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.objdump.1359579960" name="Listing generator" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.objdump" useByScannerDiscovery="false" value="objdump" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.size.1290286997" name="Size command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.size" useByScannerDiscovery="false" value="size" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.make.1931780822" name="Build command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.make" useByScannerDiscovery="false" value="make" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm.380486952" name="Remove command" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.command.rm" useByScannerDiscovery="false" value="rm" valueType="string"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.468441613" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.1767525857" name="Print size" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform.400990833" isAbstract="false" osList="all" superClass="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform"/>
+							<builder buildPath="${workspace_loc:/nucleo-f303RE}/Debug" id="ilg.gnuarmeclipse.managedbuild.cross.builder.1058548505" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnuarmeclipse.managedbuild.cross.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH4-EX1"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH7-EX1"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH7-EX2"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH7-EX3"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH8-EX1"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH8-EX2"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH8-EX3"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH9-EX1"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH9-EX2"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH9-EX3"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH9-MEM2MEM"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH18-EX1"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH19-EX1"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH19-EX2"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH19-EX3"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH19-EX4"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH19-EX5"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX1"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX2"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX3"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX4"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX5"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX6"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX7"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX8"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX9"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX10"/>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="CH11-EX11"/>
+								</outputEntries>
+							</builder>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.557751197" name="Cross ARM GNU Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.usepreprocessor.1822281422" name="Use preprocessor" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.usepreprocessor" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths.1926364110" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/stm32f3xx&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis/device&quot;"/>
+								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs.156893589" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="DEBUG"/>
+									<listOptionValue builtIn="false" value="TRACE"/>
+									<listOptionValue builtIn="false" value="STM32F303xE"/>
+									<listOptionValue builtIn="false" value="_x_OS_USE_SEMIHOSTING"/>
+									<listOptionValue builtIn="false" value="OS_USE_TRACE_SEMIHOSTING_DEBUG"/>
+								</option>
+								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.2060169809" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
+							</tool>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1905275923" name="Cross ARM C Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths.1091912009" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/stm32f3xx&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis/device&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FatFs/src&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FatFs/src/drivers&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch25&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/CMSIS_RTOS&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../Middlewares/FreeRTOS/portable/GCC/ARM_CM4F&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../src/ch25/include/&quot;"/>
+								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.2059673154" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="RETARGET_TCP"/>
+									<listOptionValue builtIn="false" value="CH25_EX1"/>
+									<listOptionValue builtIn="false" value="DEBUG"/>
+									<listOptionValue builtIn="false" value="TRACE"/>
+									<listOptionValue builtIn="false" value="STM32F303xE"/>
+								</option>
+								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.815661511" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
+							</tool>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.479597126" name="Cross ARM C++ Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths.646111149" name="Include paths (-I)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.include.paths" useByScannerDiscovery="false" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/stm32f3xx&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;../system/include/cmsis/device&quot;"/>
+								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.defs.1038283669" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
+									<listOptionValue builtIn="false" value="DEBUG"/>
+									<listOptionValue builtIn="false" value="TRACE"/>
+									<listOptionValue builtIn="false" value="STM32F303xE"/>
+									<listOptionValue builtIn="false" value="_x_OS_USE_SEMIHOSTING"/>
+									<listOptionValue builtIn="false" value="OS_USE_TRACE_SEMIHOSTING_DEBUG"/>
+								</option>
+								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.2011483445" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
+							</tool>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.1944512077" name="Cross ARM C Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.gcsections.100291092" name="Remove unused sections (-Xlinker --gc-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.gcsections" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.paths.745793902" name="Library search path (-L)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.paths" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;../ldscripts&quot;"/>
+								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.scriptfile.1254019305" name="Script files (-T)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.scriptfile" valueType="stringList">
+									<listOptionValue builtIn="false" value="mem.ld"/>
+									<listOptionValue builtIn="false" value="libs.ld"/>
+									<listOptionValue builtIn="false" value="sections.ld"/>
+								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.nostart.1785692173" name="Do not use standard start files (-nostartfiles)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.nostart" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.usenewlibnano.1700996801" name="Use newlib-nano (--specs=nano.specs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.linker.usenewlibnano" value="true" valueType="boolean"/>
+								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.input.997039870" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.1583437897" name="Cross ARM C++ Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.gcsections.2020685267" name="Remove unused sections (-Xlinker --gc-sections)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.gcsections" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.paths.1236509295" name="Library search path (-L)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.paths" useByScannerDiscovery="false" valueType="libPaths">
+									<listOptionValue builtIn="false" value="&quot;../ldscripts&quot;"/>
+								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.scriptfile.1229331374" name="Script files (-T)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.scriptfile" useByScannerDiscovery="false" valueType="stringList">
+									<listOptionValue builtIn="false" value="mem.ld"/>
+									<listOptionValue builtIn="false" value="libs.ld"/>
+									<listOptionValue builtIn="false" value="sections.ld"/>
+								</option>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart.1452244325" name="Do not use standard start files (-nostartfiles)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.nostart" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano.1382603364" name="Use newlib-nano (--specs=nano.specs)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.usenewlibnano" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.useprintffloat.2069129184" name="Use float with nano printf (-u _printf_float)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.linker.useprintffloat" useByScannerDiscovery="false" value="true" valueType="boolean"/>
+								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input.1239466379" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.archiver.1393489856" name="Cross ARM GNU Archiver" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.archiver"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.createflash.1549094036" name="Cross ARM GNU Create Flash Image" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.createflash"/>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.createlisting.905283903" name="Cross ARM GNU Create Listing" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.createlisting">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.source.1639873787" name="Display source (--source|-S)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.source" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.allheaders.1063451221" name="Display all headers (--all-headers|-x)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.allheaders" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.demangle.1412178087" name="Demangle names (--demangle|-C)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.demangle" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.linenumbers.624254629" name="Display line numbers (--line-numbers|-l)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.linenumbers" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.wide.173953861" name="Wide lines (--wide|-w)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.createlisting.wide" value="true" valueType="boolean"/>
+							</tool>
+							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.printsize.1115766767" name="Cross ARM GNU Print Size" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.printsize">
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.printsize.format.1844955639" name="Size format" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.printsize.format" useByScannerDiscovery="false"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry excluding="ioLibrary_Driver/Internet/httpServer|ioLibrary_Driver/Internet/TFTP|ioLibrary_Driver/Internet/SNTP|ioLibrary_Driver/Internet/SNMP|ioLibrary_Driver/Internet/FTPServer|ioLibrary_Driver/Internet/FTPClient|ioLibrary_Driver/Internet/DNS|FatFs/src/option/ccsbcs.c|FreeRTOS/portable/MemMang/heap_3.c|FreeRTOS/portable/MemMang/heap_2.c|FreeRTOS/portable/MemMang/heap_1.c|FreeRTOS/portable/MemMang/heap_5.c|src|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="fatfs.c|config.c|main-ex2.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src/ch25"/>
+						<entry excluding="src/retarget/retarget.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_alarm_template.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_timebase_tim_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c|src/stm32f3xx/stm32f3xx_hal_timebase_rtc_wakeup_template.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule moduleId="ilg.gnuarmeclipse.managedbuild.packs">
+				<option id="cmsis.device.name" value="STM32F070RB"/>
+				<option id="cmsis.subfamily.name" value="STM32F070"/>
+				<option id="cmsis.family.name" value="STM32F0 Series"/>
+				<option id="cmsis.device.vendor.name" value="STMicroelectronics"/>
+				<option id="cmsis.device.vendor.id" value="13"/>
+				<option id="cmsis.device.pack.vendor" value="Keil"/>
+				<option id="cmsis.device.pack.name" value="STM32F0xx_DFP"/>
+				<option id="cmsis.device.pack.version" value="1.4.0"/>
+				<option id="cmsis.core.name" value="Cortex-M0"/>
+				<option id="cmsis.compiler.define" value="STM32F303xE"/>
+				<memory section="IRAM1" size="0x4000" start="0x20000000" startup="0"/>
+				<memory section="IROM1" size="0x20000" start="0x08000000" startup="1"/>
 			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.66944357.505277365.1196716543.1858723092.1555053682.962005152.1683545201.339583977.1517074753.879810224">
@@ -7256,9 +7462,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex2.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -7413,9 +7619,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-pro.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -7570,9 +7776,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-ms-sl.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -7741,9 +7947,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex-ms-sl1.c|ch11/main-ex-capture.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -7912,9 +8118,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex6.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -8084,9 +8290,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex7.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -8256,9 +8462,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex8.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -8428,9 +8634,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -8600,9 +8806,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex10.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -8772,9 +8978,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex8.c|ch11/main-ex11.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -8944,9 +9150,9 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry excluding="ioLibrary_Driver|FreeRTOS" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry excluding="ch14|ch20|ch13|ch12|ch22|ch5|ch18|ch11/main-ex8.c|ch11/main-ex10.c|ch11/main-ex9.c|ch11/main-ex7.c|ch11/main-ex6.c|ch11/main-pro.c|ch11/main-ex5.c|ch11/main-ex5-orig.c|ch11/main-ex4.c|ch11/main-ex-ms-sl1.c|ch11/main-ex2.c|ch11/main-ex3.c|ch11/main-ex1.c|ch9|ch19|ch9/main-ex2.c|ch9/main-ex1.c|ch9/mem2mem.c|ch8|ch8/main-ex2.c|ch7|ch8/main-ex1.c|ch7/main-ex2.c|ch7/main-ex1.c|ch4|ch4-ex1-main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
-						<entry excluding="src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
+						<entry excluding="src/retarget/retarget-tcp.c|src/stm32f3xx/stm32f3xx_hal_msp_template.c|src/stm32f3xx/stm32f3xx_hal_flash_ex.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="system"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -9099,4 +9305,5 @@
 			<resource resourceType="PROJECT" workspacePath="/nucleo-f303RE"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .navbar-brand>img {
+        width: 40px;
+        margin-top: -10px;
+      }      
+      body { 
+        padding-top: 70px; 
+      }      
+      .full-width {
+        display:block;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <img alt="Brand" src="images/stm32-logo.png"/>
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class><a href="/">Home<span class="sr-only">(current)</span></a></li>
+            <li class="dropdown active">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setup <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li class="active"><a href="network.html">Network</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a class="navbar-brand">STM32 Nucleo Oscilloscope</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Network setup</h3>
+        </div>
+        <div class="panel-body">
+          <form action="network.cgi" method="POST">
+            <div class="radio">
+              <label><input type="radio" id="dhcpip" name="dhcp" disabled="true">Use DHCP</label>
+            </div>
+            <div class="radio">
+              <label><input type="radio" id="staticip" name="shcp" disabled="true">Static network configuration</label>
+            </div>
+            <div class="form-group">
+              <label for="ipaddr" class="full-width">IP Address</span>
+              <input type="text" class="form-control" id="ipaddr" name="ip" placeholder="loading..." aria-describedby="ipaddrHelp" disabled="true">
+              <small id="ipaddrHelp" class="form-text text-muted">The IP address associated to this device</small>
+            </div>
+            <div class="form-group">
+              <label for="ipaddr" class="full-width">Netmask</span>
+              <input type="text" class="form-control" id="netmask" name="sn" placeholder="loading..." aria-describedby="netmaskHelp" disabled="true">
+              <small id="netmaskHelp" class="form-text text-muted">Netmask corresponding to subnet</small>
+            </div>
+            <div class="form-group">
+              <label for="ipaddr" class="full-width">Gateway</span>
+              <input type="text" class="form-control" id="gwaddr" name="gw" placeholder="loading..." aria-describedby="gatewayHelp" disabled="true">
+              <small id="gatewayHelp" class="form-text text-muted">IP address of network gateway</small>
+            </div>
+            <div class="form-group">
+              <label for="dns" class="full-width">DNS</span>
+              <input type="text" class="form-control" id="dnsaddr" name="dns" placeholder="loading..." aria-describedby="dnsHelp" disabled="true">
+              <small id="dnsHelp" class="form-text text-muted">IP address of primary DNS</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>            
+        </div>
+      </div>
+    </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2015-2017 Mastering STM32 book by Carmine Noviello</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Latest compiled and minified CSS -->
+<!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script type="text/javascript">
+
+    function fetchNetworkConfig() {
+        $.ajax({
+          url: "network.cgi"
+        }).done(function(data) {
+          netInfo = JSON.parse(data);
+          ipaddr.value = netInfo["ip"];
+          netmask.value = netInfo["nm"];
+          gwaddr.value = netInfo["gw"];
+          dnsaddr.value = netInfo["dns"]
+          if(netInfo["dhcp"] == 1) {
+            $("#staticip").prop("checked", true);
+            $("#ipaddr").prop("disabled", false);
+            $("#netmask").prop("disabled", false);
+            $("#gwaddr").prop("disabled", false);
+            $("#dnsaddr").prop("disabled", false);
+          }
+          else {
+            $("#dhcpip").prop("checked", true);
+          }
+          $("#dhcpip").prop("disabled", false);
+          $("#staticip").prop("disabled", false);
+          
+        }).error(function() {
+          fetchNetworkConfig();
+        });
+    }
+
+    $("#staticip").click(function() {
+        $("#ipaddr").prop("disabled", false);
+        $("#netmask").prop("disabled", false);
+        $("#gwaddr").prop("disabled", false);
+        $("#dnsaddr").prop("disabled", false);
+        $("#dhcpip").prop("checked", false);        
+    });
+    $("#dhcpip").click(function() {
+        $("#ipaddr").prop("disabled", true);
+        $("#netmask").prop("disabled", true);
+        $("#gwaddr").prop("disabled", true);
+        $("#dnsaddr").prop("disabled", true);        
+        $("#staticip").prop("checked", false);     
+    });
+
+    fetchNetworkConfig();
+      // 
+    </script>
+  </body>
+</html>

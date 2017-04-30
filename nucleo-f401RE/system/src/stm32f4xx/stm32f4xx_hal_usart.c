@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_hal_usart.c
   * @author  MCD Application Team
-  * @version V1.5.1
-  * @date    01-July-2016
+  * @version V1.5.2
+  * @date    22-September-2016
   * @brief   USART HAL module driver.
   *          This file provides firmware functions to manage the following
   *          functionalities of the Universal Synchronous Asynchronous Receiver Transmitter (USART) peripheral:

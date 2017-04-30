@@ -39,6 +39,8 @@
 #ifndef __STM32L1xx_HAL_CONF_H
 #define __STM32L1xx_HAL_CONF_H
 
+#include <mxconstants.h>
+
 #ifdef __cplusplus
  extern "C" {
 #endif
@@ -73,7 +75,7 @@
 /* #define HAL_RTC_MODULE_ENABLED */
 /* #define HAL_SD_MODULE_ENABLED */
 /* #define HAL_SMARTCARD_MODULE_ENABLED */
-/* #define HAL_SPI_MODULE_ENABLED */
+#define HAL_SPI_MODULE_ENABLED
 /* #define HAL_SRAM_MODULE_ENABLED */
 #define HAL_TIM_MODULE_ENABLED
 #define HAL_UART_MODULE_ENABLED

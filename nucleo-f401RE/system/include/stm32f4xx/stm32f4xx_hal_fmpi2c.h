@@ -2,8 +2,8 @@
   ******************************************************************************
   * @file    stm32f4xx_hal_fmpi2c.h
   * @author  MCD Application Team
-  * @version V1.5.1
-  * @date    01-July-2016
+  * @version V1.5.2
+  * @date    22-September-2016
   * @brief   Header file of FMPI2C HAL module.
   ******************************************************************************
   * @attention
@@ -248,7 +248,6 @@ typedef struct __FMPI2C_HandleTypeDef
 /** @defgroup FMPI2C_XFEROPTIONS  FMPI2C Sequential Transfer Options
   * @{
   */
-#define FMPI2C_NO_OPTION_FRAME             ((uint32_t)0xFFFF0000U)
 #define FMPI2C_FIRST_FRAME                 ((uint32_t)FMPI2C_SOFTEND_MODE)
 #define FMPI2C_NEXT_FRAME                  ((uint32_t)(FMPI2C_RELOAD_MODE | FMPI2C_SOFTEND_MODE))
 #define FMPI2C_FIRST_AND_LAST_FRAME        ((uint32_t)FMPI2C_AUTOEND_MODE)

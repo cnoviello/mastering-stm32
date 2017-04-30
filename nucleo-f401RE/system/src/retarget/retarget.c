@@ -8,7 +8,7 @@
 #include <../system/include/retarget/retarget.h>
 #include <stdint.h>
 
-#if !defined(OS_USE_SEMIHOSTING)
+#if !defined(OS_USE_SEMIHOSTING) && !defined(RETARGET_TCP)
 
 #define STDIN_FILENO  0
 #define STDOUT_FILENO 1

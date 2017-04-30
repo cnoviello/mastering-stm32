@@ -617,7 +617,7 @@ typedef struct __SPI_HandleTypeDef
   */
 
 /* Include SPI HAL Extended module */
-#include "stm32f3xx_hal_spi_ex.h"
+#include <stm32f3xx_hal_spi_ex.h>
 
 /* Exported functions --------------------------------------------------------*/
 /** @addtogroup SPI_Exported_Functions
