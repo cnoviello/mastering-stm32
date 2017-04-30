@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * File Name          : mxconstants.h
-  * Description        : This file contains the common defines of the application
+  * @file   fatfs.h
+  * @brief  Header for fatfs applications
   ******************************************************************************
   *
-  * COPYRIGHT(c) 2015 STMicroelectronics
+  * COPYRIGHT(c) 2016 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -30,41 +30,29 @@
   *
   ******************************************************************************
   */
-/* Includes ------------------------------------------------------------------*/
 
-/* USER CODE BEGIN Includes */
+/* Define to prevent recursive inclusion -------------------------------------*/
+#ifndef __fatfs_H
+#define __fatfs_H
+#ifdef __cplusplus
+ extern "C" {
+#endif
 
-/* USER CODE END Includes */
+#include "ff.h"
+#include "ff_gen_drv.h"
+#include "sd_diskio_spi.h" /* defines USER_Driver as external */
 
-/* Private define ------------------------------------------------------------*/
-#define B1_Pin GPIO_PIN_13
-#define B1_GPIO_Port GPIOC
-#define USART_TX_Pin GPIO_PIN_2
-#define USART_TX_GPIO_Port GPIOA
-#define USART_RX_Pin GPIO_PIN_3
-#define USART_RX_GPIO_Port GPIOA
-#define LD2_Pin GPIO_PIN_5
-#define LD2_GPIO_Port GPIOA
-#define TMS_Pin GPIO_PIN_13
-#define TMS_GPIO_Port GPIOA
-#define TCK_Pin GPIO_PIN_14
-#define TCK_GPIO_Port GPIOA
-#define SWO_Pin GPIO_PIN_3
-#define SWO_GPIO_Port GPIOB
-#define SD_CS_Pin GPIO_PIN_5
-#define SD_CS_GPIO_Port GPIOB
-#define W5500_CS_Pin GPIO_PIN_6
-#define W5500_CS_GPIO_Port GPIOB  
-/* USER CODE BEGIN Private defines */
+extern uint8_t retUSER; /* Return value for USER */
+extern char USER_Path[4]; /* USER logical drive path */
 
-/* USER CODE END Private defines */
+void MX_FATFS_Init(void);
 
-/**
-  * @}
-  */ 
+/* USER CODE BEGIN Prototypes */
 
-/**
-  * @}
-*/ 
+/* USER CODE END Prototypes */
+#ifdef __cplusplus
+}
+#endif
+#endif /*__fatfs_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

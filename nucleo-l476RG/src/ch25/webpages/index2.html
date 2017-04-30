@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>STM32 WebScope</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+      .navbar-brand>img {
+        display: block;
+        width: 40px;
+        margin-top: -10px;
+      }      
+      .graph {
+          background: #eae8e8;
+          border-radius: 15px;
+          border: 2px solid darkgray;
+      }    
+      .grid line {
+          stroke: lightgrey; 
+          stroke-opacity: 0.7; 
+          shape-rendering: crispEdges;
+      }
+      .grid path { 
+        stroke-width: 0;
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">
+            <img alt="Brand" src="images/stm32-logo.png"/>
+          </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home<span class="sr-only">(current)</span></a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Setup <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="network.html">Network</a></li>
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a class="navbar-brand">STM32 Nucleo Console</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+   <hr><hr>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="graph col-md-8">
+
+        </div>
+        <div class="knobs col-md-4">
+          <p>
+            <a id="freq">Freq</a>
+            <a id="freq2">Freq2</a>
+            <a id="freq3">Freq3</a>
+          </p>
+        </div>
+      </div>
+      <footer>
+        <p>&copy; 2015-2017 Mastering STM32 book by Carmine Noviello</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Latest compiled and minified CSS -->
+<!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<style>
+
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+
+</style>
+<script src="http://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var tempInfo=null;
+var freq = 1;
+var dataset = [];
+var valueline = 0;
+var x = null;
+var y = null;
+
+function setFrequency() {
+  console.log("JEEEEE");
+    freq *= 2;
+
+    $.ajax({
+          url: "sf.cgi",
+          type: "POST",
+          data: {f: freq}
+        }).done(function(data) {
+          fetchTemp2();
+        }).error(function(error) {
+          console.log(error);
+        });
+
+
+}
+
+$("#freq").click(setFrequency);
+$("#freq2").click(function(evt) {
+  freq = 1;
+  setFrequency();
+});
+$("#freq3").click(function(evt) {
+  fetchTemp2();
+});
+
+function make_x_gridlines() { 
+  return d3.axisBottom(x)
+        .ticks(18)
+}
+// gridlines in y axis function
+function make_y_gridlines() { 
+  return d3.axisLeft(y)
+        .ticks(5)
+}
+
+function fetchTemp2() {
+  $.ajax({
+          url: "temp.cgi"
+        }).success(function(data) {
+          tempInfo = JSON.parse(data);
+          for (var i = 0; i < tempInfo.length; i++) {
+            dataset[i] = {x: i, y: tempInfo[i]};
+          }
+
+            // Select the section we want to apply our changes to
+            var svg = d3.select("body").transition();
+
+            // Make the changes
+                svg.select(".line")   // change the line
+                    .duration(0)
+                    .attr("d", valueline(dataset));
+                svg.select(".x.axis") // change the x axis
+                    .duration(0)
+                    .call(x);
+                svg.select(".y.axis") // change the y axis
+                    .duration(0)
+                    .call(y);        
+
+                fetchTemp2();
+            });
+}
+
+function fetchTemp() {
+  $.ajax({
+          url: "http://192.168.1.165/temp.cgi"
+        }).done(function(data) {
+          tempInfo = JSON.parse(data);
+          buildGraph();
+        }).error(fetchTemp);
+}
+
+function buildGraph() {
+  // set the dimensions and margins of the graph
+var margin = {top: 20, right: 20, bottom: 30, left: 50},
+    width = d3.select(".graph").node().getBoundingClientRect().width - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+for (var i = 0; i < 199; i++)
+  dataset.push({x: i, y: tempInfo[i]});
+
+x = d3.scaleLinear().range([0, width]);
+y = d3.scaleLinear().range([height, 0]);
+
+console.log(x);
+
+// define the line
+valueline = d3.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.y); });
+
+// append the svg obgect to the body of the page
+// appends a 'group' element to 'svg'
+// moves the 'group' element to the top left margin
+var svg = d3.select(".graph").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+svg.append("g")
+      .attr("class", "center-grid")
+      .attr("transform", "translate(0, 200)")
+      .call(d3.line(0,100).tickSize(10));
+
+svg.append("g")
+      .attr("class", "grid")
+      .attr("transform", "translate(0," + height + ")")
+      .call(make_x_gridlines()
+          .tickSize(-height)
+          .tickFormat("")
+      )
+
+
+// Get the data
+if(1) {
+  // Scale the range of the data
+  x.domain(d3.extent(dataset, function(d) { return d.x; }));
+  y.domain([0, d3.max(dataset, function(d) { return d.y; })]);
+
+  // Add the valueline path.
+  svg.append("path")
+      .data([dataset])
+      .attr("class", "line")
+      .attr("d", valueline);
+
+  // Add the X Axis
+  svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x).ticks(20));
+
+  // Add the Y Axis
+  svg.append("g")
+      .call(d3.axisLeft(y));
+
+}
+}
+
+function buildGraph2() {
+  console.log("buildGraph");
+
+  var n = 20,
+      duration = 1750,
+      now = new Date(Date.now() - duration),
+      count = 0,
+      scrollData = d3.range(n).map(function() { return temp; });
+
+  scrollData = [temp]
+
+  var margin = {top: 6, right: 0, bottom: 20, left: 40},
+      width = d3.select(".graph").width - margin.right,
+      height = 220 - margin.top - margin.bottom;
+
+  var x = d3.time.scale()
+      .domain([now - (n - 2) * duration, now - duration])
+      .range([0, width]);
+
+  var y = d3.scale.linear()
+      .range([height, d3.max(scrollData)-2.0]);
+
+  var line = d3.svg.line()
+      .interpolate("basis")
+      .x(function(d, i) { return x(now - (n - 1 - i) * duration); })
+      .y(function(d, i) { return y(d); });
+
+  var svg = d3.select(".graph").append("p").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .style("margin-left", -margin.left + "px")
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("defs").append("clipPath")
+      .attr("id", "clip")
+    .append("rect")
+      .attr("width", width)
+      .attr("height", height);
+
+  // var axis = svg.append("g")
+  //     .attr("class", "x axis")
+  //     .attr("transform", "translate(0," + height + ")")
+  //     .call(x.axis = d3.svg.axis().scale(x).orient("bottom"));
+
+  var path = svg.append("g")
+      .attr("clip-path", "url(#clip)")
+    .append("path")
+      .datum(scrollData)
+      .attr("class", "line");
+
+  var transition = d3.select({}).transition()
+      .duration(duration)
+      .ease("linear");
+
+  d3.select(window)
+      .on("scroll", function() { ++count; });
+
+  (function tick() {
+    $.ajax({
+            url: "temp.cgi",
+            async: false
+          }).success(function(data) {
+            tempInfo = JSON.parse(data);
+            temp = tempInfo["temp"];
+            $("#temperature").html(temp + "°C");
+          });
+
+    transition = transition.each(function() {
+
+    // update the domains
+    now = new Date();
+    x.domain([now - (n - 2) * duration, now - duration]);
+    console.log(x(now));
+    y.domain([d3.max(scrollData)-2.0, d3.max(scrollData)]);
+
+    // push the accumulated count onto the back, and reset the count
+    scrollData.push(temp);
+    count = 0;
+
+    // redraw the line
+    svg.select(".line")
+        .attr("d", line)
+        .attr("transform", null);
+
+    // pop the old data point off the front
+    if(scrollData.length > n) {
+       // slide the x-axis left
+      // axis.call(x.axis);
+       // slide the line left
+      path.transition()
+        .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
+      scrollData.shift();
+
+    }
+
+    }).transition().each("start", tick);
+  })();
+}
+
+fetchTemp();
+
+</script>    
+<!--     
+    <script src="js/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/holder.min.js"></script>
+    <script src="js/ie10-viewport-bug-workaround.js"></script>
+ -->  </body>
+</html>
