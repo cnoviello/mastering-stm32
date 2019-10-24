@@ -2,6 +2,7 @@
 #include "stm32f4xx_hal.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #define WELCOME_MSG "Welcome to the Nucleo management console\r\n"
 #define MAIN_MENU   "Select the option you are interested in:\r\n\t1. Toggle LD2 LED\r\n\t2. Read USER BUTTON status\r\n\t3. Clear screen and print this message "
