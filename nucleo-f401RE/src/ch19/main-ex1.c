@@ -30,7 +30,7 @@ uint32_t *vector_table[] __attribute__((section(".isr_vector"))) = {
 
 int main() {
     /* enable clock on GPIOA peripheral */
-    *RCC_APB1ENR = 0x1;
+    *RCC_AHB1ENR = 0x1;
     *GPIOA_MODER |= 0x400; // Sets MODER[11:10] = 0x1
 
     while(1) {
